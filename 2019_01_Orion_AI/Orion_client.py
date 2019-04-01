@@ -43,7 +43,7 @@ class Controleur():
 
     def creerpartie(self):
         if self.egoserveur==0:
-            pid = Popen(["C:\\Python 36\\Python.exe", "./2018_orion_mini_serveur.py"],shell=1).pid # on lance l'application serveur
+            pid = Popen([sys.executable, "./orion_serveur.py"],shell=1).pid # on lance l'application serveur
             self.egoserveur=1 # on note que c'est soi qui, ayant demarre le serveur, aura le privilege de lancer la simulation
             self.tempo=1 # on change d'etat pour s'inscrire automatiquement 
                          # (parce que dans ce type de programme on prend pour acquis que celui qui prepare la simulation veut aussi y participer)
