@@ -9,7 +9,7 @@ class Planete():
         self.proprietaire="inconnu"
         self.x=x
         self.y=y
-        self.taille=random.randrange(4,6)
+        self.taille=random.randrange(4,7) #taille des planetes
         self.ressource=random.randrange(10)
         
 class Vaisseau():
@@ -140,9 +140,9 @@ class Modele():
                     ligne.append(0)
             self.terrain.append(ligne)
         
-    def creerplanetes(self,joueurs,ias=1):
+    def creerplanetes(self,joueurs,ias=0):
         bordure=0
-        for i in range(200):
+        for i in range(200): #Nombre de planetes
             x=random.randrange(self.largeur-(2*bordure))+bordure
             y=random.randrange(self.hauteur-(2*bordure))+bordure
             self.planetes.append(Planete(x,y))
