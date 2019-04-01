@@ -101,10 +101,15 @@ class Vue():
         self.cadrejeu.grid(row=0, column=0) # cadre jeu = la vue actuel
 
         self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
 
         #Canevas vue Galaxie
-        self.canevasGalaxie.grid(row=0, column=0)
-        self.canevasGalaxie.bind("<Button>",self.cliquecosmos)
+        #self.canevasGalaxie.grid(row=0, column=0)
+        #self.canevasGalaxie.bind("<Button>",self.cliquecosmos)
+
+        #Caneveas vue Solaire
+        self.canevasSolaire.grid(row=0, column=0)
+        self.canevasSolaire.bind("<Button>",self.cliquecosmos)
 
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreoutils.grid(row=0, column=1)
@@ -131,7 +136,8 @@ class Vue():
         self.canevasMini.grid(row=0, column=1)
         self.cadreminimap.grid(row=2, column=1)
 
-        self.afficherdecorGalaxie(mod)
+        #self.afficherdecorGalaxie(mod)
+        self.afficherdecorSolaire(mod)
 
         self.changecadre(self.cadrepartie)
 
@@ -167,6 +173,23 @@ class Vue():
                 t=j.taille
                 self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
                                      tags=(j.proprietaire,"planete",str(j.id),"possession"))
+
+        self.afficherpartie(mod)
+
+    def _create_circle(self, x, y, r):
+        return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
+
+    def afficherdecorSolaire(self,mod):
+
+        for i in range(len(mod.planetes)*3):
+            x=random.randrange(mod.largeur)
+            y=random.randrange(mod.hauteur)
+            self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=("fond"))
+
+
+        self._create_circle(self.largeur/1.5,self.hauteur/1.5,75)
+
+
 
         self.afficherpartie(mod)
 
