@@ -34,7 +34,7 @@ class Vue():
 
     def creercadresplash(self,ip,nom):
         self.cadresplash=Frame(self.cadreapp)
-        self.canevassplash=Canvas(self.cadresplash,width=640,height=480,bg="red")
+        self.canevassplash=Canvas(self.cadresplash,width=640,height=480,bg="gray38")
         self.canevassplash.grid(row=0, column=0)
         self.nomsplash=Entry(bg="pink")
         self.nomsplash.insert(0, nom)
@@ -98,10 +98,11 @@ class Vue():
         self.mod=mod
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
-        #self.scrollX=Scrollbar(self.cadrepartie,orientation=HORIZONTAL)
-        #self.scrollY=Scrollbar(self.cadrepartie,orientation=VERTICAL)
-        self.canevas=Canvas(self.cadrepartie,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-        #self.scrollX.
+
+        self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        self.cadrejeu.grid(row=0, column=0) # cadre jeu = la vue actuel
+
+
         self.canevas.grid(row=0, column=0)
         self.canevas.bind("<Button>",self.cliquecosmos)
 
@@ -247,7 +248,7 @@ class Vue():
             self.canevas.delete("marqueur")
 
     def montreplaneteselection(self):
-        self.btncreervaisseau.grid(row=1, column=0)
+        self.btncreervaisseau.grid(row=1, column=1)
     def montreflotteselection(self):
         self.lbselectecible.grid(row=0, column=0)
 
