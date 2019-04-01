@@ -99,14 +99,21 @@ class Vue():
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
 
-        self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-        #self.cadreinfojoueur=Frame(self.cadreapp,height=200, width=self.largeur, bg="violet red")
-        #self.cadreinfojoueur.grid(row=0, column=0)
         self.cadrejeu.grid(row=0, column=0) # cadre jeu = la vue actuel
+        self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+       
+        self.cadreinfojoueur=Frame(self.cadrejeu,height=100, width=800, bg="violet red")
+        self.cadreinfojoueur.grid(row=0, column=0)
+        self.labcouleur=Label(self.cadreinfojoueur,text="couleur")
+        self.labcouleur.grid(row=0,column=0)
+        self.idcouleur=Label(self.cadreinfojoueur, bg=mod.joueurs[self.nom].couleur )
+        self.idcouleur.grid(row=0,column=1)
+        
+        self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
 
-
-        self.canevas.grid(row=0, column=0)
-        self.canevas.bind("<Button>",self.cliquecosmos)
+        #Canevas vue Galaxie
+        self.canevasGalaxie.grid(row=1, column=0)
+        self.canevasGalaxie.bind("<Button>",self.cliquecosmos)
 
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreoutils.grid(row=0, column=1)
@@ -115,11 +122,14 @@ class Vue():
         self.cadreinfo.grid(row=0, column=1)
         self.cadreinfogen=Frame(self.cadreinfo,width=200,height=200,bg="grey50")
         self.cadreinfogen.grid(row=0, column=1)
+
         self.labid=Label(self.cadreinfogen,text=self.nom,fg=mod.joueurs[self.nom].couleur)
-        self.labid.bind("<Button>",self.afficherplanemetemere)
+        self.labid.bind("<Button>",self.afficherplanemetemereGalaxie)
         self.labid.grid(row=0, column=1)
+
         self.cadreinfochoix=Frame(self.cadreinfo,height=200,width=200,bg="grey30")
         self.cadreinfochoix.grid(row=0, column=1)
+
         self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
         self.lbselectecible=Label(self.cadreinfo,text="Choisir cible",bg="darkgrey")
         
@@ -131,7 +141,7 @@ class Vue():
         self.canevasMini.grid(row=0, column=1)
         self.cadreminimap.grid(row=2, column=1)
 
-        self.afficherdecor(mod)
+        self.afficherdecorGalaxie(mod)
 
         self.changecadre(self.cadrepartie)
 
@@ -140,37 +150,37 @@ class Vue():
         y=evt.y
         px=self.mod.largeur/x/100
         py=self.mod.hauteur/y/100
-        self.canevas.xview(MOVETO,px)
-        self.canevas.yview(MOVETO,py)
+        self.canevasGalaxie.xview(MOVETO,px)
+        self.canevasGalaxie.yview(MOVETO,py)
         print("SCROLL",px,py)
 
-    def afficherdecor(self,mod):
+    def afficherdecorGalaxie(self,mod):
 
         for i in range(len(mod.planetes)*3):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
-            self.canevas.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
+            self.canevasGalaxie.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
 
         for i in mod.planetes:
             t=i.taille
-            self.canevas.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
+            self.canevasGalaxie.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
                                      tags=(i.proprietaire,"planete",str(i.id)))
         for i in mod.joueurs.keys():
             for j in mod.joueurs[i].planetescontrolees:
                 t=j.taille
-                self.canevas.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
+                self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
                                      tags=(j.proprietaire,"planete",str(j.id),"possession"))
         # dessine IAs
 
         for i in mod.ias:
             for j in i.planetescontrolees:
                 t=j.taille
-                self.canevas.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
+                self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
                                      tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
         self.afficherpartie(mod)
 
-    def afficherplanemetemere(self,evt):
+    def afficherplanemetemereGalaxie(self,evt):
         j=self.mod.joueurs[self.nom]
         couleur=j.couleur
         x=j.planetemere.x
@@ -182,11 +192,11 @@ class Vue():
         print("Creer vaisseau")
         self.parent.creervaisseau()
         self.maselection=None
-        self.canevas.delete("marqueur")
+        self.canevasGalaxie.delete("marqueur")
         self.btncreervaisseau.grid_forget()
 
     def afficherpartie(self,mod):
-        self.canevas.delete("artefact")
+        self.canevasGalaxie.delete("artefact")
 
         if self.maselection!=None:
             joueur=mod.joueurs[self.maselection[0]]
@@ -196,7 +206,7 @@ class Vue():
                         x=i.x
                         y=i.y
                         t=10
-                        self.canevas.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
+                        self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
                                                  tags=("select","marqueur"))
             elif self.maselection[1]=="flotte":
                 for i in joueur.flotte:
@@ -204,7 +214,7 @@ class Vue():
                         x=i.x
                         y=i.y
                         t=10
-                        self.canevas.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
+                        self.canevasGalaxie.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
                                                  tags=("select","marqueur"))
         #else:
         #    self.canevas.delete("marqueur")
@@ -213,7 +223,7 @@ class Vue():
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
             for j in i.flotte:
-                self.canevas.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+                self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
                 #self.canevas.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
@@ -222,12 +232,12 @@ class Vue():
 
         for i in mod.ias:
             for j in i.flotte:
-                self.canevas.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+                self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
     def cliquecosmos(self,evt):
         self.btncreervaisseau.grid_forget()
-        t=self.canevas.gettags(CURRENT)
+        t=self.canevasGalaxie.gettags(CURRENT)
         if t and t[0]==self.nom:
             #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
             self.maselection=[self.nom,t[1],t[2]]  #self.canevas.find_withtag(CURRENT)#[0]
@@ -243,12 +253,12 @@ class Vue():
             print("Cette planete ne vous appartient pas - elle est a ",t[0])
             self.maselection=None
             self.lbselectecible.grid_forget()
-            self.canevas.delete("marqueur")
+            self.canevasGalaxie.delete("marqueur")
         else:
             print("Region inconnue")
             self.maselection=None
             self.lbselectecible.grid_forget()
-            self.canevas.delete("marqueur")
+            self.canevasGalaxie.delete("marqueur")
 
     def montreplaneteselection(self):
         self.btncreervaisseau.grid(row=1, column=1)

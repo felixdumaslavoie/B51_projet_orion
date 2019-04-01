@@ -41,9 +41,18 @@ class Controleur():
         monnom="jmd_"+str(random.randrange(1000))
         return monnom
 
+
+
     def creerpartie(self):
         if self.egoserveur==0:
+
             pid = Popen([sys.executable, "./Orion_serveur.py"],shell=1).pid # A changer SELON LIDE UTILISER
+
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            print("voici le directory   " + dir_path)
+            print ("voici cwd v2   " + os.getcwd())
+            pid = Popen([sys.executable, "./2019_01_Orion_AI/Orion_serveur.py"],shell=1).pid # A changer SELON L'IDE UTILISER
+
             self.egoserveur=1 # on note que c'est soi qui, ayant demarre le serveur, aura le privilege de lancer la simulation
             self.tempo=1 # on change d'etat pour s'inscrire automatiquement
                          # (parce que dans ce type de programme on prend pour acquis que celui qui prepare la simulation veut aussi y participer)
