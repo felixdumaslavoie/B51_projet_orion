@@ -100,7 +100,9 @@ class Vue():
         self.cadrejeu=Frame(self.cadrepartie)
         self.cadrejeu.grid(row=0, column=0) # cadre jeu = la vue actuel
 
+        #Canevas vue Galaxie / vue de base
         self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+<<<<<<< HEAD
         self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
 
         #Canevas vue Galaxie
@@ -110,6 +112,18 @@ class Vue():
         #Caneveas vue Solaire
         self.canevasSolaire.grid(row=0, column=0)
         self.canevasSolaire.bind("<Button>",self.cliquecosmos)
+=======
+        #self.canevasGalaxie.grid(row=0, column=0)
+        self.canevasGalaxie.bind("<Button>",self.cliquecosmos)
+>>>>>>> 1f952d21dad7a9d5ef85fc314364a0b6d021a57f
+
+        #Canevas vue Solaire
+        self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        # self.canevasSolaire.grid(row=0, column=0)
+
+        # Canevas vue Planete
+        self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="pink")
+        # self.canevasPlanete.grid(row=0, column=0)
 
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreoutils.grid(row=0, column=1)
