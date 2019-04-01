@@ -102,7 +102,7 @@ class Vue():
 
         #Canevas vue Galaxie / vue de base
         self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-        # self.canevasGalaxie.grid(row=0, column=0)
+        #self.canevasGalaxie.grid(row=0, column=0)
         self.canevasGalaxie.bind("<Button>",self.cliquecosmos)
 
         #Canevas vue Solaire
