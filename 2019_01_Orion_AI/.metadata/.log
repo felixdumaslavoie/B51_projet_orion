@@ -1,0 +1,564 @@
+!SESSION 2019-04-01 13:09:00.757 -----------------------------------------------
+eclipse.buildId=4.7.3.M20180330-0640
+java.version=1.8.0_172
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_CA
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2019-04-01 13:09:13.286
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'Y:\'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.python.pydev.shared_core 4 4 2019-04-01 13:10:37.878
+!MESSAGE Python not configured.
+!STACK 0
+org.python.pydev.core.NotConfiguredInterpreterException: Python not configured.
+	at org.python.pydev.ast.interpreter_managers.AbstractInterpreterManager.getDefaultInterpreterInfo(AbstractInterpreterManager.java:239)
+	at org.python.pydev.plugin.nature.PythonNature.getProjectInterpreter(PythonNature.java:1339)
+	at org.python.pydev.plugin.nature.PythonPathNature.getVariableSubstitution(PythonPathNature.java:520)
+	at org.python.pydev.plugin.nature.PythonPathNature.getVariableSubstitution(PythonPathNature.java:503)
+	at org.python.pydev.core.docutils.StringSubstitution.<init>(StringSubstitution.java:42)
+	at org.python.pydev.plugin.nature.PythonPathNature.getOnlyProjectPythonPathStr(PythonPathNature.java:166)
+	at org.python.pydev.plugin.nature.PythonNature$RebuildPythonNatureModules.run(PythonNature.java:134)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+
+!ENTRY org.python.pydev.shared_core 4 4 2019-04-01 13:10:37.957
+!MESSAGE Info: Rebuilding internal caches: Y:\Session 2\B51 Développement de systèmes\B51_projet_orion\2019_01_Orion_AI\.metadata\.plugins\org.eclipse.core.resources\.projects\2019_01_Orion_AI\com.python.pydev.analysis\AdditionalProjectInterpreterInfo.pydevinfo (Expected error to be provided and got no error!)
+
+!ENTRY org.python.pydev.shared_core 1 1 2019-04-01 13:10:43.386
+!MESSAGE - Ok, file is non-null. Getting info on:C:\Python 36\python.exe
+- Beggining task:Getting libs totalWork:100
+- Setting task name:Mounting executable string...
+- Setting task name:Executing:  "C:\Python 36\python.exe" -u C:\LogicielsPortables\eclipse\plugins\org.python.pydev.core_6.3.3.201805051638\pysrc\interpreterInfo.py
+- Setting task name:Making pythonpath environment... "C:\Python 36\python.exe" -u C:\LogicielsPortables\eclipse\plugins\org.python.pydev.core_6.3.3.201805051638\pysrc\interpreterInfo.py
+- Setting task name:Making exec... "C:\Python 36\python.exe" -u C:\LogicielsPortables\eclipse\plugins\org.python.pydev.core_6.3.3.201805051638\pysrc\interpreterInfo.py
+- Setting task name:Reading output...
+- Setting task name:Waiting for process to finish.
+- Setting task name:Process finished.
+- Success getting the info. Result:<xml>
+<name>python</name>
+<version>3.6</version>
+<executable>C:\Python 36\python.exe</executable>
+<lib>C:\Python 36\DLLs</lib>
+<lib>C:\Python 36\lib</lib>
+<lib>C:\Python 36</lib>
+<lib>C:\Python 36\lib\site-packages</lib>
+<forced_lib>Image</forced_lib>
+<forced_lib>OpenGL</forced_lib>
+<forced_lib>_ast</forced_lib>
+<forced_lib>_bisect</forced_lib>
+<forced_lib>_blake2</forced_lib>
+<forced_lib>_bytesio</forced_lib>
+<forced_lib>_codecs</forced_lib>
+<forced_lib>_codecs_cn</forced_lib>
+<forced_lib>_codecs_hk</forced_lib>
+<forced_lib>_codecs_iso2022</forced_lib>
+<forced_lib>_codecs_jp</forced_lib>
+<forced_lib>_codecs_kr</forced_lib>
+<forced_lib>_codecs_tw</forced_lib>
+<forced_lib>_collections</forced_lib>
+<forced_lib>_csv</forced_lib>
+<forced_lib>_datetime</forced_lib>
+<forced_lib>_fileio</forced_lib>
+<forced_lib>_functools</forced_lib>
+<forced_lib>_heapq</forced_lib>
+<forced_lib>_hotshot</forced_lib>
+<forced_lib>_imp</forced_lib>
+<forced_lib>_io</forced_lib>
+<forced_lib>_json</forced_lib>
+<forced_lib>_locale</forced_lib>
+<forced_lib>_lsprof</forced_lib>
+<forced_lib>_md5</forced_lib>
+<forced_lib>_multibytecodec</forced_lib>
+<forced_lib>_opcode</forced_lib>
+<forced_lib>_operator</forced_lib>
+<forced_lib>_pickle</forced_lib>
+<forced_lib>_random</forced_lib>
+<forced_lib>_sha</forced_lib>
+<forced_lib>_sha1</forced_lib>
+<forced_lib>_sha256</forced_lib>
+<forced_lib>_sha3</forced_lib>
+<forced_lib>_sha512</forced_lib>
+<forced_lib>_signal</forced_lib>
+<forced_lib>_sre</forced_lib>
+<forced_lib>_stat</forced_lib>
+<forced_lib>_string</forced_lib>
+<forced_lib>_struct</forced_lib>
+<forced_lib>_subprocess</forced_lib>
+<forced_lib>_symtable</forced_lib>
+<forced_lib>_thread</forced_lib>
+<forced_lib>_tracemalloc</forced_lib>
+<forced_lib>_warnings</forced_lib>
+<forced_lib>_weakref</forced_lib>
+<forced_lib>_winapi</forced_lib>
+<forced_lib>_winreg</forced_lib>
+<forced_lib>array</forced_lib>
+<forced_lib>atexit</forced_lib>
+<forced_lib>audioop</forced_lib>
+<forced_lib>binascii</forced_lib>
+<forced_lib>builtins</forced_lib>
+<forced_lib>cPickle</forced_lib>
+<forced_lib>cStringIO</forced_lib>
+<forced_lib>cmath</forced_lib>
+<forced_lib>cv2</forced_lib>
+<forced_lib>datetime</forced_lib>
+<forced_lib>email</forced_lib>
+<forced_lib>errno</forced_lib>
+<forced_lib>exceptions</forced_lib>
+<forced_lib>faulthandler</forced_lib>
+<forced_lib>future_builtins</forced_lib>
+<forced_lib>gc</forced_lib>
+<forced_lib>gi</forced_lib>
+<forced_lib>hashlib</forced_lib>
+<forced_lib>imageop</forced_lib>
+<forced_lib>imp</forced_lib>
+<forced_lib>itertools</forced_lib>
+<forced_lib>marshal</forced_lib>
+<forced_lib>math</forced_lib>
+<forced_lib>mmap</forced_lib>
+<forced_lib>mock</forced_lib>
+<forced_lib>msvcrt</forced_lib>
+<forced_lib>multiprocessing</forced_lib>
+<forced_lib>mutagen</forced_lib>
+<forced_lib>nt</forced_lib>
+<forced_lib>numpy</forced_lib>
+<forced_lib>operator</forced_lib>
+<forced_lib>os</forced_lib>
+<forced_lib>os.path</forced_lib>
+<forced_lib>parser</forced_lib>
+<forced_lib>pytest</forced_lib>
+<forced_lib>scipy</forced_lib>
+<forced_lib>signal</forced_lib>
+<forced_lib>six</forced_lib>
+<forced_lib>socket</forced_lib>
+<forced_lib>ssl</forced_lib>
+<forced_lib>strop</forced_lib>
+<forced_lib>sys</forced_lib>
+<forced_lib>thread</forced_lib>
+<forced_lib>time</forced_lib>
+<forced_lib>winreg</forced_lib>
+<forced_lib>wx</forced_lib>
+<forced_lib>wxPython</forced_lib>
+<forced_lib>xxsubtype</forced_lib>
+<forced_lib>zipimport</forced_lib>
+<forced_lib>zlib</forced_lib>
+<string_substitution_var><key>PY</key><value>36</value></string_substitution_var>
+</xml>
+
+!STACK 0
+java.lang.RuntimeException: - Ok, file is non-null. Getting info on:C:\Python 36\python.exe
+- Beggining task:Getting libs totalWork:100
+- Setting task name:Mounting executable string...
+- Setting task name:Executing:  "C:\Python 36\python.exe" -u C:\LogicielsPortables\eclipse\plugins\org.python.pydev.core_6.3.3.201805051638\pysrc\interpreterInfo.py
+- Setting task name:Making pythonpath environment... "C:\Python 36\python.exe" -u C:\LogicielsPortables\eclipse\plugins\org.python.pydev.core_6.3.3.201805051638\pysrc\interpreterInfo.py
+- Setting task name:Making exec... "C:\Python 36\python.exe" -u C:\LogicielsPortables\eclipse\plugins\org.python.pydev.core_6.3.3.201805051638\pysrc\interpreterInfo.py
+- Setting task name:Reading output...
+- Setting task name:Waiting for process to finish.
+- Setting task name:Process finished.
+- Success getting the info. Result:<xml>
+<name>python</name>
+<version>3.6</version>
+<executable>C:\Python 36\python.exe</executable>
+<lib>C:\Python 36\DLLs</lib>
+<lib>C:\Python 36\lib</lib>
+<lib>C:\Python 36</lib>
+<lib>C:\Python 36\lib\site-packages</lib>
+<forced_lib>Image</forced_lib>
+<forced_lib>OpenGL</forced_lib>
+<forced_lib>_ast</forced_lib>
+<forced_lib>_bisect</forced_lib>
+<forced_lib>_blake2</forced_lib>
+<forced_lib>_bytesio</forced_lib>
+<forced_lib>_codecs</forced_lib>
+<forced_lib>_codecs_cn</forced_lib>
+<forced_lib>_codecs_hk</forced_lib>
+<forced_lib>_codecs_iso2022</forced_lib>
+<forced_lib>_codecs_jp</forced_lib>
+<forced_lib>_codecs_kr</forced_lib>
+<forced_lib>_codecs_tw</forced_lib>
+<forced_lib>_collections</forced_lib>
+<forced_lib>_csv</forced_lib>
+<forced_lib>_datetime</forced_lib>
+<forced_lib>_fileio</forced_lib>
+<forced_lib>_functools</forced_lib>
+<forced_lib>_heapq</forced_lib>
+<forced_lib>_hotshot</forced_lib>
+<forced_lib>_imp</forced_lib>
+<forced_lib>_io</forced_lib>
+<forced_lib>_json</forced_lib>
+<forced_lib>_locale</forced_lib>
+<forced_lib>_lsprof</forced_lib>
+<forced_lib>_md5</forced_lib>
+<forced_lib>_multibytecodec</forced_lib>
+<forced_lib>_opcode</forced_lib>
+<forced_lib>_operator</forced_lib>
+<forced_lib>_pickle</forced_lib>
+<forced_lib>_random</forced_lib>
+<forced_lib>_sha</forced_lib>
+<forced_lib>_sha1</forced_lib>
+<forced_lib>_sha256</forced_lib>
+<forced_lib>_sha3</forced_lib>
+<forced_lib>_sha512</forced_lib>
+<forced_lib>_signal</forced_lib>
+<forced_lib>_sre</forced_lib>
+<forced_lib>_stat</forced_lib>
+<forced_lib>_string</forced_lib>
+<forced_lib>_struct</forced_lib>
+<forced_lib>_subprocess</forced_lib>
+<forced_lib>_symtable</forced_lib>
+<forced_lib>_thread</forced_lib>
+<forced_lib>_tracemalloc</forced_lib>
+<forced_lib>_warnings</forced_lib>
+<forced_lib>_weakref</forced_lib>
+<forced_lib>_winapi</forced_lib>
+<forced_lib>_winreg</forced_lib>
+<forced_lib>array</forced_lib>
+<forced_lib>atexit</forced_lib>
+<forced_lib>audioop</forced_lib>
+<forced_lib>binascii</forced_lib>
+<forced_lib>builtins</forced_lib>
+<forced_lib>cPickle</forced_lib>
+<forced_lib>cStringIO</forced_lib>
+<forced_lib>cmath</forced_lib>
+<forced_lib>cv2</forced_lib>
+<forced_lib>datetime</forced_lib>
+<forced_lib>email</forced_lib>
+<forced_lib>errno</forced_lib>
+<forced_lib>exceptions</forced_lib>
+<forced_lib>faulthandler</forced_lib>
+<forced_lib>future_builtins</forced_lib>
+<forced_lib>gc</forced_lib>
+<forced_lib>gi</forced_lib>
+<forced_lib>hashlib</forced_lib>
+<forced_lib>imageop</forced_lib>
+<forced_lib>imp</forced_lib>
+<forced_lib>itertools</forced_lib>
+<forced_lib>marshal</forced_lib>
+<forced_lib>math</forced_lib>
+<forced_lib>mmap</forced_lib>
+<forced_lib>mock</forced_lib>
+<forced_lib>msvcrt</forced_lib>
+<forced_lib>multiprocessing</forced_lib>
+<forced_lib>mutagen</forced_lib>
+<forced_lib>nt</forced_lib>
+<forced_lib>numpy</forced_lib>
+<forced_lib>operator</forced_lib>
+<forced_lib>os</forced_lib>
+<forced_lib>os.path</forced_lib>
+<forced_lib>parser</forced_lib>
+<forced_lib>pytest</forced_lib>
+<forced_lib>scipy</forced_lib>
+<forced_lib>signal</forced_lib>
+<forced_lib>six</forced_lib>
+<forced_lib>socket</forced_lib>
+<forced_lib>ssl</forced_lib>
+<forced_lib>strop</forced_lib>
+<forced_lib>sys</forced_lib>
+<forced_lib>thread</forced_lib>
+<forced_lib>time</forced_lib>
+<forced_lib>winreg</forced_lib>
+<forced_lib>wx</forced_lib>
+<forced_lib>wxPython</forced_lib>
+<forced_lib>xxsubtype</forced_lib>
+<forced_lib>zipimport</forced_lib>
+<forced_lib>zlib</forced_lib>
+<string_substitution_var><key>PY</key><value>36</value></string_substitution_var>
+</xml>
+
+	at org.python.pydev.core.log.Log.logInfo(Log.java:45)
+	at org.python.pydev.ui.pythonpathconf.AutoConfigMaker.autoConfigSingleApply(AutoConfigMaker.java:183)
+	at org.python.pydev.plugin.ConfigureInterpreterJob.runInUIThread(ConfigureInterpreterJob.java:62)
+	at org.eclipse.ui.progress.UIJob.lambda$0(UIJob.java:95)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:37)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:182)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4213)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3820)
+	at org.eclipse.jface.window.Window.runEventLoop(Window.java:818)
+	at org.eclipse.jface.window.Window.open(Window.java:794)
+	at org.python.pydev.plugin.preferences.CheckDefaultPreferencesDialog$1.run(CheckDefaultPreferencesDialog.java:244)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:37)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:182)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4213)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3820)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1150)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:336)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1039)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:680)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:336)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:594)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:148)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:151)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:388)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:243)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:653)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:590)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1499)
+
+!ENTRY org.python.pydev.shared_core 1 1 2019-04-01 13:10:43.396
+!MESSAGE Restoring info for: C:\Python 36\python.exe
+!STACK 0
+java.lang.RuntimeException: Restoring info for: C:\Python 36\python.exe
+	at org.python.pydev.ast.interpreter_managers.AbstractInterpreterManager.getInterpretersFromPersistedString(AbstractInterpreterManager.java:453)
+	at org.python.pydev.ast.interpreter_managers.AbstractInterpreterManager.internalRecreateCacheGetInterpreterInfos(AbstractInterpreterManager.java:279)
+	at org.python.pydev.ast.interpreter_managers.AbstractInterpreterManager.setInfos(AbstractInterpreterManager.java:576)
+	at org.python.pydev.ui.pythonpathconf.AutoConfigMaker$1.run(AutoConfigMaker.java:143)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+Caused by: java.io.IOException: Expecting: Y:\Session 2\B51 Développement de systèmes\B51_projet_orion\2019_01_Orion_AI\.metadata\.plugins\org.python.pydev\v1_d1kaavbrtqivdzqgo3plxj95o\modulesKeys to exist (and be a file).
+	at org.python.pydev.ast.codecompletion.revisited.ModulesManager.loadFromFile(ModulesManager.java:296)
+	at org.python.pydev.ast.codecompletion.revisited.SystemModulesManager.load(SystemModulesManager.java:400)
+	at org.python.pydev.ast.interpreter_managers.AbstractInterpreterManager.getInterpretersFromPersistedString(AbstractInterpreterManager.java:451)
+	... 4 more
+
+!ENTRY org.python.pydev.shared_core 1 1 2019-04-01 13:10:46.612
+!MESSAGE Finished restoring information for: C:\Python 36\python.exe at: Y:\Session 2\B51 Développement de systèmes\B51_projet_orion\2019_01_Orion_AI\.metadata\.plugins\org.python.pydev\v1_d1kaavbrtqivdzqgo3plxj95o
+!STACK 0
+java.lang.RuntimeException: Finished restoring information for: C:\Python 36\python.exe at: Y:\Session 2\B51 Développement de systèmes\B51_projet_orion\2019_01_Orion_AI\.metadata\.plugins\org.python.pydev\v1_d1kaavbrtqivdzqgo3plxj95o
+	at org.python.pydev.core.log.Log.logInfo(Log.java:45)
+	at org.python.pydev.ast.interpreter_managers.AbstractInterpreterManager.getInterpretersFromPersistedString(AbstractInterpreterManager.java:498)
+	at org.python.pydev.ast.interpreter_managers.AbstractInterpreterManager.internalRecreateCacheGetInterpreterInfos(AbstractInterpreterManager.java:279)
+	at org.python.pydev.ast.interpreter_managers.AbstractInterpreterManager.setInfos(AbstractInterpreterManager.java:576)
+	at org.python.pydev.ui.pythonpathconf.AutoConfigMaker$1.run(AutoConfigMaker.java:143)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+
+!ENTRY org.python.pydev.shared_core 4 4 2019-04-01 13:10:48.624
+!MESSAGE Info: Rebuilding internal caches: Y:\Session 2\B51 Développement de systèmes\B51_projet_orion\2019_01_Orion_AI\.metadata\.plugins\com.python.pydev.analysis\python_v1_d1kaavbrtqivdzqgo3plxj95o\python.pydevsysteminfo (Expected error to be provided and got no error!)
+
+!ENTRY org.eclipse.jface.text 2 0 2019-04-01 13:22:37.246
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2019-04-01 13:22:37.249
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-04-01 13:44:02.906
+!MESSAGE No repository found at http://download.eclipse.org/windowbuilder/WB/integration/4.7/.
+
+!ENTRY org.eclipse.egit.ui 4 0 2019-04-01 15:25:06.348
+!MESSAGE Failed to refresh projects from index changes
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Errors occurred while refreshing resources with the local file system.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.refreshResource(FileSystemResourceManager.java:974)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.refresh(FileSystemResourceManager.java:954)
+	at org.eclipse.core.internal.resources.Resource.refreshLocal(Resource.java:1560)
+	at org.eclipse.egit.ui.Activator$ResourceRefreshJob$1.run(Activator.java:531)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.egit.ui.Activator$ResourceRefreshJob.run(Activator.java:516)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+Contains: The project description file (.project) for 'RemoteSystemsTempFiles' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+!SUBENTRY 1 org.eclipse.core.resources 4 271 2019-04-01 15:25:06.348
+!MESSAGE Errors occurred while refreshing resources with the local file system.
+!SUBENTRY 2 org.eclipse.core.resources 4 567 2019-04-01 15:25:06.348
+!MESSAGE The project description file (.project) for 'RemoteSystemsTempFiles' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+
+!ENTRY org.eclipse.core.resources 2 2 2019-04-01 15:35:17.896
+!MESSAGE Save operation warnings.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2019-04-01 15:35:17.896
+!MESSAGE The project description file (.project) for 'RemoteSystemsTempFiles' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
+
+!ENTRY org.python.pydev.shared_core 4 4 2019-04-01 16:06:39.580
+!MESSAGE ERROR reading shell. Message sent: @@IMPORTS:builtins.self
+END@@
+
+ProcessInfo:
+
+ - Executed: C:\Python 36\python.exe -u C:\LogicielsPortables\eclipse\plugins\org.python.pydev.core_6.3.3.201805051638\pysrc\pycompletionserver.py 51024
+
+ - Environment:
+ALLUSERSPROFILE=C:\ProgramData
+ANDROID_SDK_HOME=C:\travail\Android\avd
+APPDATA=C:\Users\1045641\AppData\Roaming
+COMMONPROGRAMFILES(X86)=C:\Program Files (x86)\Common Files
+COMMONPROGRAMFILES=C:\Program Files\Common Files
+COMMONPROGRAMW6432=C:\Program Files\Common Files
+COMPUTERNAME=VM70035071
+COMSPEC=C:\Windows\system32\cmd.exe
+CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1
+CUDA_PATH_V9_1=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1
+DIRCMD=/a/o
+FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+FPS_BROWSER_USER_PROFILE_STRING=Default
+HOMEDRIVE=Y:
+HOMEPATH=\
+HOMESHARE=\\SFUSAGER\persoe$\1045641
+LOCALAPPDATA=C:\Users\1045641\AppData\Local
+LOGONSERVER=\\BETA
+NUMBER_OF_PROCESSORS=8
+NVCUDASAMPLES9_1_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1
+NVCUDASAMPLES_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.1
+NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
+ORACLE_SID=DECINFO
+OS=Windows_NT
+PATH=C:/Program Files/Java/jre1.8.0_172/bin/server;C:/Program Files/Java/jre1.8.0_172/bin;C:/Program Files/Java/jre1.8.0_172/lib/amd64;C:\Program Files\Java\jre1.8.0_172\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\libnvvp;C:\Oracle\client\product\12.1.0\client_1\bin;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\TortoiseGit\bin;C:\Program Files\nodejs\;C:\Python 36;C:\Python34\Lib;C:\Apache24;C:\Python34;C:\Python34\Lib;C:\PHP;C:\Apache24\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Java\jre-10\bin;C:\Program Files\Java\jdk-9\bin;C:\Program Files\Java\jdk-10\bin;C:\LogicielsPortables\Panda3D-1.9.1-x64\python;C:\LogicielsPortables\Panda3D-1.9.1-x64\bin;C:\Android;C:\AndroidSDK;C:\LogicielsPortables\eclipse;C:\Oracle;C:\MinGW\bin;C:\Users\1045641\AppData\Local\Microsoft\WindowsApps;;C:\LogicielsPortables\eclipse;
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+PHPRC=C:\PHP
+PROCESSOR_ARCHITECTURE=AMD64
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 158 Stepping 9, GenuineIntel
+PROCESSOR_LEVEL=6
+PROCESSOR_REVISION=9e09
+PROGRAMDATA=C:\ProgramData
+PROGRAMFILES(X86)=C:\Program Files (x86)
+PROGRAMFILES=C:\Program Files
+PROGRAMW6432=C:\Program Files
+PROMPT=$P$G
+PSMODULEPATH=C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+PUBLIC=C:\Users\Public
+PYTHONPATH=C:\LogicielsPortables\eclipse\plugins\org.python.pydev.core_6.3.3.201805051638\pysrc\pydev_sitecustomize;C:\Python 36\DLLs;C:\Python 36\lib;C:\Python 36;C:\Python 36\lib\site-packages
+SESSIONNAME=Console
+SQLDEVELOPER_USER_DIR=C:\travail\Oracle\SQLDeveloper
+SYSTEMDRIVE=C:
+SYSTEMROOT=C:\Windows
+TEMP=C:\Users\1045641\AppData\Local\Temp
+TMP=C:\Users\1045641\AppData\Local\Temp
+USERDNSDOMAIN=DECINFO.CVM
+USERDOMAIN=DECINFO
+USERDOMAIN_ROAMINGPROFILE=DECINFO
+USERNAME=1045641
+USERPROFILE=C:\Users\1045641
+VS100COMNTOOLS=VS140COMNTOOLS
+VS140COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
+WINDIR=C:\Windows
+
+ - Working Dir:
+C:\LogicielsPortables\eclipse\plugins\org.python.pydev.core_6.3.3.201805051638\pysrc
+
+ - OS:
+Windows 10
+
+ - Std output:
+
+
+ - Err output:
+
+!STACK 0
+java.io.IOException: Une connexion existante a dû être fermée par l’hôte distant
+	at sun.nio.ch.SocketDispatcher.write0(Native Method)
+	at sun.nio.ch.SocketDispatcher.write(Unknown Source)
+	at sun.nio.ch.IOUtil.writeFromNativeBuffer(Unknown Source)
+	at sun.nio.ch.IOUtil.write(Unknown Source)
+	at sun.nio.ch.SocketChannelImpl.write(Unknown Source)
+	at java.nio.channels.Channels.writeFullyImpl(Unknown Source)
+	at java.nio.channels.Channels.writeFully(Unknown Source)
+	at java.nio.channels.Channels.access$000(Unknown Source)
+	at java.nio.channels.Channels$1.write(Unknown Source)
+	at java.io.OutputStream.write(Unknown Source)
+	at org.python.pydev.ast.codecompletion.shell.AbstractShell.write(AbstractShell.java:545)
+	at org.python.pydev.ast.codecompletion.shell.AbstractShell.writeAndGetResults(AbstractShell.java:692)
+	at org.python.pydev.ast.codecompletion.shell.AbstractShell.getImportCompletions(AbstractShell.java:757)
+	at org.python.pydev.ast.codecompletion.revisited.modules.CompiledModule.createInnerFromServer(CompiledModule.java:345)
+	at org.python.pydev.ast.codecompletion.revisited.modules.CompiledModule.getGlobalTokens(CompiledModule.java:545)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.internalGenerateGetCompletionsForModule(AbstractASTManager.java:872)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:694)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:663)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:654)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:644)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.internalGenerateGetCompletionsForModule(AbstractASTManager.java:880)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:694)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:663)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:654)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.internalFindGlobalTokDef(SourceModule.java:1197)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.findGlobalTokDef(SourceModule.java:1165)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.findDefinitionsFromModAndTok(SourceModule.java:1108)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.findDefinition(SourceModule.java:1090)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.findDefinition(SourceModule.java:758)
+	at org.python.pydev.ast.codecompletion.revisited.AssignAnalysis.getAssignCompletions(AssignAnalysis.java:79)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getAssignCompletions(AbstractASTManager.java:1647)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.internalGenerateGetCompletionsForModule(AbstractASTManager.java:932)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:694)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:663)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:654)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:644)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.internalGenerateGetCompletionsForModule(AbstractASTManager.java:862)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:694)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:663)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:654)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:644)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.internalGenerateGetCompletionsForModule(AbstractASTManager.java:862)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:694)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:663)
+	at org.python.pydev.ast.codecompletion.revisited.AbstractASTManager.getCompletionsForModule(AbstractASTManager.java:654)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.internalFindGlobalTokDef(SourceModule.java:1197)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.findGlobalTokDef(SourceModule.java:1165)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.findDefinitionsFromModAndTok(SourceModule.java:1108)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.findDefinition(SourceModule.java:1090)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.findDefinition(SourceModule.java:758)
+	at org.python.pydev.ast.codecompletion.revisited.modules.SourceModule.findDefinition(SourceModule.java:1)
+	at org.python.pydev.ast.refactoring.PyRefactoringFindDefinition.findActualDefinition(PyRefactoringFindDefinition.java:185)
+	at org.python.pydev.ast.refactoring.PyRefactoringFindDefinition.findActualDefinition(PyRefactoringFindDefinition.java:84)
+	at com.python.pydev.analysis.refactoring.refactorer.RefactorerFindDefinition.findDefinition(RefactorerFindDefinition.java:63)
+	at com.python.pydev.analysis.refactoring.refactorer.Refactorer.findDefinition(Refactorer.java:46)
+	at com.python.pydev.analysis.refactoring.wizards.rename.PyReferenceSearcher.prepareSearch(PyReferenceSearcher.java:110)
+	at com.python.pydev.refactoring.markoccurrences.MarkOccurrencesJob.createRequest(MarkOccurrencesJob.java:147)
+	at org.python.pydev.shared_ui.mark_occurrences.BaseMarkOccurrencesJob.run(BaseMarkOccurrencesJob.java:168)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+!SESSION 2019-04-01 16:49:09.836 -----------------------------------------------
+eclipse.buildId=4.7.3.M20180330-0640
+java.version=1.8.0_172
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_CA
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2019-04-01 16:49:17.844
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'Y:\'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.python.pydev.shared_core 4 4 2019-04-01 16:49:40.621
+!MESSAGE Info: Rebuilding internal caches: Y:\Session 2\B51 Développement de systèmes\B51_projet_orion\2019_01_Orion_AI\.metadata\.plugins\org.eclipse.core.resources\.projects\petitclientserveur\com.python.pydev.analysis\AdditionalProjectInterpreterInfo.pydevinfo (Expected error to be provided and got no error!)
+
+!ENTRY org.eclipse.jface 2 0 2019-04-01 16:49:55.719
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-04-01 16:49:55.719
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@52fe7c0f,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.python.pydev.editor.actions.pyShowBrowser,Python Show Global Tokens (Editor),
+		Python Show Global Tokens (Editor),
+		Category(org.python.pydev.ui.category.source,PyDev - Editor,PyDev editor category,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@525b416f,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.python.pydev.ui.editor.scope,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(com.python.pydev.analysis.actions.pyGlobalsBrowserWorkbench,Python Show Global Tokens (Global),
+		Python Show Global Tokens (Global),
+		Category(org.python.pydev.ui.category.source,PyDev - Editor,PyDev editor category,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@ec50502,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	com.python.pydev.contexts.window,,,system)
+!SESSION 2019-04-01 16:50:54.074 -----------------------------------------------
+eclipse.buildId=4.7.3.M20180330-0640
+java.version=1.8.0_172
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_CA
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2019-04-01 16:51:02.378
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'Y:\'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.

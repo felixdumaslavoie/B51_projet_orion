@@ -100,6 +100,8 @@ class Vue():
         self.cadrejeu=Frame(self.cadrepartie)
 
         self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        #self.cadreinfojoueur=Frame(self.cadreapp,height=200, width=self.largeur, bg="violet red")
+        #self.cadreinfojoueur.grid(row=0, column=0)
         self.cadrejeu.grid(row=0, column=0) # cadre jeu = la vue actuel
 
 
@@ -120,7 +122,8 @@ class Vue():
         self.cadreinfochoix.grid(row=0, column=1)
         self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
         self.lbselectecible=Label(self.cadreinfo,text="Choisir cible",bg="darkgrey")
-
+        
+        
 
         self.cadreminimap=Frame(self.cadreoutils,height=200,width=200,bg="black")
         self.canevasMini=Canvas(self.cadreminimap,width=200,height=200,bg="pink")
