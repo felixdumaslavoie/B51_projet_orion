@@ -118,7 +118,9 @@ class Vue():
         #Canevas vue Galaxie / vue de base
         self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
 
+
         #self.canevasGalaxie.grid(row=0, column=0)
+
 
 
         self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
@@ -131,14 +133,14 @@ class Vue():
         self.canevasSolaire.grid(row=0, column=0)
         self.canevasSolaire.bind("<Button>",self.cliquecosmos)
 
+
         #self.canevasGalaxie.grid(row=0, column=0)
 
         #self.canevasGalaxie.bind("<Button>",self.cliquecosmos)
 
 
         #Canevas vue Solaire
-        self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-        # self.canevasSolaire.grid(row=0, column=0)
+      
 
         # Canevas vue Planete
         self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="pink")
