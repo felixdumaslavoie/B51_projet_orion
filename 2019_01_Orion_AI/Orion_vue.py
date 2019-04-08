@@ -209,9 +209,8 @@ class Vue():
 
     def afficherdecorGalaxie(self,mod):
 
-        self.mod=mod
-
-        for i in range(len(mod.planetes)*3):
+		self.mod=mod
+        for i in range(len(mod.Galaxie.listeSysSolaire)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
             self.canevasGalaxie.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
@@ -240,9 +239,9 @@ class Vue():
 
     def afficherdecorSolaire(self,mod):
 
-        self.mod=mod
 
-        for i in range(len(mod.planetes)*3):
+		self.mod=mod
+        for i in range(len(mod.Galaxie.listeSysSolaire)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
             self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=("fond"))
