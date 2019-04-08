@@ -30,7 +30,13 @@ class Vue():
         if self.cadreactif:
             self.cadreactif.grid_forget()
         self.cadreactif=cadre
-        self.cadreactif.grid(row=0, column=0)
+        self.cadreactif.grid(row=1, column=0)
+    def changevue(self,vue):
+        if self.vueactif:
+            self.vueactif.grid_forget()
+        self.vueactif=cadre
+        self.vueactif.grid(row=1, column=0)
+
 
     def creercadresplash(self,ip,nom):
         self.cadresplash=Frame(self.cadreapp)
@@ -92,6 +98,10 @@ class Vue():
     def affichelisteparticipants(self,lj):
         self.listelobby.delete(0,END)
         self.listelobby.insert(0,lj)
+
+    def creercadreinfojoueur(self,cadre):
+        pass
+
 
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
@@ -160,6 +170,7 @@ class Vue():
         #self.canevasGalaxie.grid(row=1, column=0)
 
         #Caneveas vue Solaire
+
         self.canevasSolaire.grid(row=1, column=0)
 
         # Canevas vue Planete
@@ -190,6 +201,11 @@ class Vue():
         self.canevasMini.bind("<Button>",self.moveCanevas)
         self.canevasMini.grid(row=0, column=1)
         self.cadreminimap.grid(row=2, column=1)
+
+        self.cadrechangervues=Frame(self.cadreoutils,height=100,width=200, bg="SeaGreen1")
+        self.cadrechangervues.grid(row=3,column=1)
+
+
 
         #self.afficherdecorGalaxie(mod)
         self.afficherdecorSolaire(mod)
@@ -335,3 +351,5 @@ class Vue():
 
     def afficherartefacts(self,joueurs):
         pass #print("ARTEFACTS de ",self.nom)
+class VueGalaxie(Vue):
+    def __init__(self,parent,nom):
