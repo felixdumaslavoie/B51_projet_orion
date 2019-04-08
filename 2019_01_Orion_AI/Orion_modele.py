@@ -7,15 +7,35 @@ from helper import Helper as hlp
 class Galaxie():
     def __init__(self,parent):
         self.bordure = 0
+        self.listeX = []
+        self.listeY = []
         self.parent = parent
-        self.listeNomEtoile = open("nom_etoiles.txt","r")
+        self.txtNomEtoile = open("nom_etoiles.txt","r")
+        self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.nbSysSolaire=200
         self.listeSysSolaire=[]
+        
+        for i in range(self.parent.largeur-2):
+            self.listeX.append(i)
+            
+        for i in range(self.parent.hauteur-2):
+            self.listeY.append(i)
+        
         for i in range(self.nbSysSolaire):
-            x=random.randrange(self.parent.largeur-(2*self.bordure))+self.bordure
-            y=random.randrange(self.parent.hauteur-(2*self.bordure))+self.bordure
-            #TODO: S'assurer que les coordonnées générées sont uniques.
-            nom = self.listeNomEtoile.readline(random.randrange(336))
+            #x=random.randrange(self.parent.largeur-(2*self.bordure))+self.bordure
+            x=self.listeX.pop(random.randrange(len(self.listeX)-1))
+            self.listeX.remove(x+1)
+            self.listeX.remove(x+2)
+            self.listeX.remove(x-1)
+            self.listeX.remove(x-2)
+            #y=random.randrange(self.parent.hauteur-(2*self.bordure))+self.bordure
+            y=self.listeY.pop(random.randrange(len(self.listeY)-1))
+            self.listeY.remove(y+1)
+            self.listeY.remove(y+2)
+            self.listeY.remove(y-1)
+            self.listeY.remove(y-2)
+            #TODO: S'assurer que les coordonnées et noms générés sont uniques.
+            nom = self.listeNomEtoile.pop(random.randrange(len(self.listeNomEtoile)-1))
             s = SystemeSolaire(self,x,y,nom)
             self.listeSysSolaire.append(s)
 
