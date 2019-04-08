@@ -17,6 +17,7 @@ class Planete():
         self.deuterium=random.randrange(10)
         self.fertile=random.randrange(1)
         self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
+        self.ressource=[self.charbon,self.zinc,self.deuterium]
 
 
     def estFertile(self):
@@ -26,11 +27,11 @@ class Planete():
         t=Structure(self,x,y,nomStructure)
 
 
-    def VendreStructure(self):
-        for i in self.listeStructure:
-            if i.select == True:
-                self.credit += ceil(i.creditTotal*)
-                self.listeStructure.remove(i)
+    #def VendreStructure(self):
+    #   for i in self.listeStructure:
+    #      if i.select == True:
+    #           self.credit += ceil(i.creditTotal*)
+    #           self.listeStructure.remove(i)
 
 class Structure():
     def __init__(self,nom,x,y,nomStructure):
@@ -80,7 +81,8 @@ class Vaisseau():
         self.cargo=0
         self.energie=100
         self.vitesse=2
-        self.cible=None 
+        self.cible=None
+     
         
     def avancer(self):
         if self.cible:
