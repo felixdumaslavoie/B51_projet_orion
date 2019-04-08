@@ -183,7 +183,7 @@ class Vue():
         self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
         self.lbselectecible=Label(self.cadreinfo,text="Choisir cible",bg="darkgrey")
 
-
+        #modif arbitraire
 
         self.cadreminimap=Frame(self.cadreoutils,height=200,width=200,bg="black")
         self.canevasMini=Canvas(self.cadreminimap,width=200,height=200,bg="pink")
