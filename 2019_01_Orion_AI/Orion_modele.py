@@ -74,6 +74,16 @@ class Planete():
         self.fertile=random.randrange(1)
         self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
         self.ressource=[self.charbon,self.zinc,self.deuterium]
+        self.viePlanete1=self.viePlanete()
+
+    def viePlanete(self):
+        if not self.listeStructure:
+            self.viePlanete1=0
+        else:
+            for i in listeStructure[i]:
+                self.viePlanete1+=self.listeStructure[i].vie
+        return self.viePlanete1
+
 
     def estFertile(self):
         return self.fertile
@@ -117,7 +127,24 @@ class Structure():
             self.vie=75
             self.cout=50
             self.maintenance=1
-            self.extraction=1
+            self.production=2
+
+        
+
+    def extractionStructure(self):
+        for i in Planete.listeStructure[i]:
+            if self.ressource[i]>0:
+                if ressource[i]<self.extraction:
+                    self.extraction==self.ressource[i]
+                self.ressource[i]-=self.extraction
+
+    def maintenanceStructure(self):
+        for i in Planete.listeStructure[i]:
+            self.credit-=self.maintenance
+
+   
+
+
 
 
 class Vaisseau():
@@ -139,7 +166,7 @@ class Vaisseau():
             x1,y1=hlp.getAngledPoint(ang,self.vitesse,self.x,self.y)
             self.x,self.y=x1,y1 #int(x1),int(y1)
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
-                print("RESSOURCES...",self.cible.id,self.cible.ressource,self.cible.proprietaire)
+                print("RESSOURCES...",self.cible.id,self.cible.ressource,self.cible.proprietaire,self.cible.viePlanete1)
                 self.cible.proprietaire=self.proprietaire
                 #tempo=input("Continuersvp")
                 self.cible=None
@@ -176,6 +203,8 @@ class Joueur():
         self.flotte=[]
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte}
+        self.credit=1000
+        self.nourriture=1000
 
     def creervaisseau(self,params):
         #planete,cible,type=params
