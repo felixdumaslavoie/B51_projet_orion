@@ -4,9 +4,40 @@ from Id import Id
 from helper import Helper as hlp
 
 #modif arbitraire
+class Galaxie():
+    def __init__(self,parent):
+        self.bordure = 0
+        self.parent = parent
+        self.listeNomEtoile = open("nom_etoiles.txt","r")
+        self.nbSysSolaire=200
+        self.listeSysSolaire=[]
+        for i in range(self.nbSysSolaire):
+            x=random.randrange(self.parent.largeur-(2*self.bordure))+self.bordure
+            y=random.randrange(self.parent.hauteur-(2*self.bordure))+self.bordure
+            #TODO: S'assurer que les coordonnées générées sont uniques.
+            nom = self.listeNomEtoile.readline(random.randrange(336))
+            s = SystemeSolaire(self,x,y,nom)
+            self.listeSysSolaire.append(s)
+			
+class SystemeSolaire():
+    def __init__(self,parent,x,y,nom):
+        self.bordure = 0
+        self.parent = parent
+        self.nometoile = nom
+        self.proprietaire="inconnu"
+        self.x=x
+        self.y=y
+        self.taille=random.randrange(4,7) #taille de l'étoile dans la vue de la galaxie
+        self.nbdeplanete=random.randrange(3, 12)
+        self.listePlanete = []
+        for i in range(self.nbdeplanete):
+            x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
+            y=random.randrange(self.parent.parent.hauteur-(2*self.bordure))+self.bordure
+            p = Planete(self,x,y)
+            self.listePlanete.append(p)			
 
 class Planete():
-    def __init__(self,x,y):
+    def __init__(self,parent,x,y):
         self.id=Id.prochainid()
         self.proprietaire="inconnu"
         self.x=x
@@ -175,10 +206,10 @@ class Modele():
         self.joueurs={}
         self.ias=[]
         self.actionsafaire={}
-        self.planetes=[]
         self.terrain=[]
-        self.creerplanetes(joueurs,2)
         self.creerterrain()
+        self.Galaxie = Galaxie(self)
+        self.assignerplanetemere(joueurs, 2)
 
     def creerterrain(self):
         self.terrain=[]
@@ -192,26 +223,22 @@ class Modele():
                     ligne.append(0)
             self.terrain.append(ligne)
 
-    def creerplanetes(self,joueurs,ias=1):
-        bordure=0
-        for i in range(200):
-            x=random.randrange(self.largeur-(2*bordure))+bordure
-            y=random.randrange(self.hauteur-(2*bordure))+bordure
-            self.planetes.append(Planete(x,y))
+    def assignerplanetemere(self,joueurs,ias=0):
         np=len(joueurs)+ias
         planes=[]
         while np:
-            p=random.choice(self.planetes)
+            s=random.choice(self.Galaxie.listeSysSolaire)
+            p=random.choice(s.listePlanete)
             if p not in planes:
                 planes.append(p)
-                self.planetes.remove(p)
+                #self.planetes.remove(p)
                 np-=1
         couleurs=["red","blue","lightgreen","yellow",
                   "lightblue","pink","gold","purple"]
         for i in joueurs:
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
-
-        # IA- creation des ias - max 2
+         
+        # IA- creation des ias - max 2 
         couleursia=["orange","green"]
         for i in range(ias):
             self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
