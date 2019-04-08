@@ -1,8 +1,8 @@
- # -*- coding: utf-8 -*-   
+ # -*- coding: utf-8 -*-
 import random
 from Id import Id
 from helper import Helper as hlp
-        
+
 class Planete():
     def __init__(self,x,y):
         self.id=Id.prochainid()
@@ -11,7 +11,7 @@ class Planete():
         self.y=y
         self.taille=random.randrange(4,6)
         self.ressource=random.randrange(10)
-        
+
 class Vaisseau():
     def __init__(self,nom,x,y):
         self.id=Id.prochainid()
@@ -21,8 +21,8 @@ class Vaisseau():
         self.cargo=0
         self.energie=100
         self.vitesse=2
-        self.cible=None 
-        
+        self.cible=None
+
     def avancer(self):
         if self.cible:
             x=self.cible.x
@@ -38,7 +38,7 @@ class Vaisseau():
                 #print("Change cible")
         else:
             print("PAS DE CIBLE")
-    
+
     def avancer1(self):
         if self.cible:
             x=self.cible.x
@@ -46,7 +46,7 @@ class Vaisseau():
                 self.x-=self.vitesse
             elif self.x<x:
                 self.x+=self.vitesse
-            
+
             y=self.cible.y
             if self.y>y:
                 self.y-=self.vitesse
@@ -54,8 +54,8 @@ class Vaisseau():
                 self.y+=self.vitesse
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
-                    
-              
+
+
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
         self.id=Id.prochainid()
@@ -68,14 +68,14 @@ class Joueur():
         self.flotte=[]
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte}
-        
+
     def creervaisseau(self,params):
         #planete,cible,type=params
         #is type=="explorer":
         v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
         print("Vaisseau",v.id)
         self.flotte.append(v)
-        
+
     def ciblerflotte(self,ids):
         idori,iddesti=ids
         for i in self.flotte:
@@ -85,36 +85,36 @@ class Joueur():
                         i.cible=j
                         print("GOT TARGET")
                         return
-        
-        
+
+
     def prochaineaction(self):
         for i in self.flotte:
             if i.cible:
                 i.avancer()
             #else:
             #    i.cible=random.choice(self.parent.planetes)
-            
+
     def prochaineaction2(self):
         for i in self.flotte:
             i.avancer()
-    
+
 
 # IA- nouvelle classe de joueur
 class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
-        Joueur.__init__(self, parent, nom, planetemere, couleur)  
+        Joueur.__init__(self, parent, nom, planetemere, couleur)
         self.tempo=random.randrange(100)+20
-        
+
     def prochaineaction(self):
         if self.flotte:
             for i in self.flotte:
                 if i.cible:
                     i.avancer()
                 else:
-                    i.cible=random.choice(self.parent.planetes)  
+                    i.cible=random.choice(self.parent.planetes)
         else:
-            self.creervaisseau(0) 
-    
+            self.creervaisseau(0)
+
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
@@ -127,7 +127,7 @@ class Modele():
         self.terrain=[]
         self.creerplanetes(joueurs,2)
         self.creerterrain()
-        
+
     def creerterrain(self):
         self.terrain=[]
         for i in range(10):
@@ -139,7 +139,7 @@ class Modele():
                 else:
                     ligne.append(0)
             self.terrain.append(ligne)
-        
+
     def creerplanetes(self,joueurs,ias=1):
         bordure=0
         for i in range(200):
@@ -158,13 +158,13 @@ class Modele():
                   "lightblue","pink","gold","purple"]
         for i in joueurs:
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
-        
-        # IA- creation des ias - max 2 
+
+        # IA- creation des ias - max 2
         couleursia=["orange","green"]
         for i in range(ias):
-            self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))  
-        
-            
+            self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
+
+
     def prochaineaction(self,cadre):
         if cadre in self.actionsafaire:
             for i in self.actionsafaire[cadre]:
@@ -180,12 +180,10 @@ class Modele():
                 print("NOTE... c'est seulement changer la position de l'auto si sa vitesse est non-nul")
                 """
             del self.actionsafaire[cadre]
-                
+
         for i in self.joueurs:
             self.joueurs[i].prochaineaction()
-            
+
         # IA- appelle prochaine action
         for i in self.ias:
             i.prochaineaction()
-            
- 
