@@ -18,7 +18,7 @@ class Galaxie():
             nom = self.listeNomEtoile.readline(random.randrange(336))
             s = SystemeSolaire(self,x,y,nom)
             self.listeSysSolaire.append(s)
-			
+
 class SystemeSolaire():
     def __init__(self,parent,x,y,nom):
         self.bordure = 0
@@ -34,7 +34,7 @@ class SystemeSolaire():
             x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
             y=random.randrange(self.parent.parent.hauteur-(2*self.bordure))+self.bordure
             p = Planete(self,x,y)
-            self.listePlanete.append(p)			
+            self.listePlanete.append(p)
 
 class Planete():
     def __init__(self,parent,x,y):
@@ -55,7 +55,7 @@ class Planete():
 
     def creerStructure(self,x,y,nomStructure):
         t=Structure(self,x,y,nomStructure)
-        
+
 class Structure():
     def __init__(self,nom,x,y,nomStructure):
         self.proprietaire=nom
@@ -237,8 +237,8 @@ class Modele():
                   "lightblue","pink","gold","purple"]
         for i in joueurs:
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
-         
-        # IA- creation des ias - max 2 
+
+        # IA- creation des ias - max 2
         couleursia=["orange","green"]
         for i in range(ias):
             self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
