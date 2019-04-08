@@ -154,16 +154,16 @@ class Vue():
         #Canevas vue Galaxie / vue de base
         self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
         self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-        self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="pink")
+        self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
 
         #Canevas vue Galaxie
         #self.canevasGalaxie.grid(row=1, column=0)
 
         #Caneveas vue Solaire
-        self.canevasSolaire.grid(row=1, column=0)
+        #self.canevasSolaire.grid(row=1, column=0)
 
         # Canevas vue Planete
-        # self.canevasPlanete.grid(row=1, column=0)
+        self.canevasPlanete.grid(row=1, column=0)
 
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreoutils.grid(row=0, column=1)
@@ -192,11 +192,13 @@ class Vue():
         self.cadreminimap.grid(row=2, column=1)
 
         #self.afficherdecorGalaxie(mod)
-        self.afficherdecorSolaire(mod)
+        #self.afficherdecorSolaire(mod)
+        self.afficherdecorPlanete(mod)
 
         self.changecadre(self.cadrepartie)
 
     def moveCanevas(self,evt):
+        self.mod=mod
         x=evt.x
         y=evt.y
         px=self.mod.largeur/x/100
@@ -206,6 +208,8 @@ class Vue():
         print("SCROLL",px,py)
 
     def afficherdecorGalaxie(self,mod):
+
+        self.mod=mod
 
         for i in range(len(mod.planetes)*3):
             x=random.randrange(mod.largeur)
@@ -236,6 +240,8 @@ class Vue():
 
     def afficherdecorSolaire(self,mod):
 
+        self.mod=mod
+
         for i in range(len(mod.planetes)*3):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
@@ -243,6 +249,25 @@ class Vue():
 
 
         self._create_circle(self.largeur/1.5,self.hauteur/1.5,75)
+
+
+
+        self.afficherpartie(mod)
+
+    def afficherdecorPlanete(self,mod):
+        self.mod = mod
+
+        for i in range(len(mod.planetes)*3):
+            x=random.randrange(mod.largeur)
+            y=random.randrange(mod.hauteur)
+            self.canevasPlanete.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
+
+        # affichage de la planete selectionner
+        x = 200
+        y = 100
+        r = 300
+        self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
+
 
 
 
