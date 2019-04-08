@@ -12,7 +12,57 @@ class Planete():
         self.x=x
         self.y=y
         self.taille=random.randrange(4,6)
-        self.ressource=random.randrange(10)
+        self.charbon=random.randrange(6)
+        self.zinc=random.randrange(5)
+        self.deuterium=random.randrange(10)
+        self.fertile=random.randrange(1)
+        self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
+        self.ressource=[self.charbon,self.zinc,self.deuterium]
+
+    def estFertile(self):
+        return self.fertile
+
+    def creerStructure(self,x,y,nomStructure):
+        t=Structure(self,x,y,nomStructure)
+        
+class Structure():
+    def __init__(self,nom,x,y,nomStructure):
+        self.proprietaire=nom
+        self.x=x
+        self.y=y
+        self.nomStructure=nomStructure
+
+        if nomStructure=="Usine_Civile":
+            self.vie=100
+            self.cout=150
+            self.maintenance=1
+            self.extraction=0
+        if nomStructure=="Usine_Militaire":
+            self.vie=200
+            self.cout=225
+            self.maintenance=2
+            self.extraction=0
+        if nomStructure=="Raffinerie_Diamant":
+            self.vie=80
+            self.cout=350
+            self.maintenance=6
+            self.extraction=2
+        if nomStructure=="Raffinerie_Charbon":
+            self.vie=50
+            self.cout=150
+            self.maintenance=2
+            self.extraction=3
+        if nomStructure=="Raffinerie_Isotope":
+            self.vie=175
+            self.cout=250
+            self.maintenance=3
+            self.extraction=2
+        if nomStructure=="Ferme":
+            self.vie=75
+            self.cout=50
+            self.maintenance=1
+            self.extraction=1
+
 
 class Vaisseau():
     def __init__(self,nom,x,y):
