@@ -100,29 +100,29 @@ class Vue():
         self.cadrejeu=Frame(self.cadrepartie)
 
 
-        
+
         self.cadrejeu.grid(row=0, column=0)
         self.cadreinfojoueur=Frame(self.cadrejeu,height=100, width=800, bg="blue",padx = 100)
         self.cadreinfojoueur.grid(row=0, column=0)
-        
+
         self.labcouleur=Label(self.cadreinfojoueur,text="couleur:",padx = 100)
         self.labcouleur.grid(row=0,column=0)
         self.idcouleur=Label(self.cadreinfojoueur, bg=mod.joueurs[self.nom].couleur )
         self.idcouleur.grid(row=0,column=1)
-        self.btndiplomatie=Button(self.cadreinfojoueur,text="Diplomatie") 
+        self.btndiplomatie=Button(self.cadreinfojoueur,text="Diplomatie")
         self.btndiplomatie.grid(row=0,column=3)
         # une fois cadre Diplomatie cree  ajouter command=self.changercadre(self.canevasDiplomatie)
-        
+
         self.labcouttotal=Label(self.cadreinfojoueur,text="cout total:")
         self.labcouttotal.grid(row=0,column=4, sticky="EW")
-        # faut creer cout de maintenance total avant bg=mod.joueurs[self.nom].cout 
+        # faut creer cout de maintenance total avant bg=mod.joueurs[self.nom].cout
         self.nbcouttotal=Label(self.cadreinfojoueur,text="-" )
         self.nbcouttotal.grid(row=0,column=5)
-       
-        self.btnarbretech=Button(self.cadreinfojoueur,text="Arbre Technologique") 
+
+        self.btnarbretech=Button(self.cadreinfojoueur,text="Arbre Technologique")
         # une fois cadre Arbre Tech cree  ajouter command=self.changercadre(self.canevasArbreTech)
         self.btnarbretech.grid(row=0,column=6)
-       
+
         self.labcredit=Label(self.cadreinfojoueur, text="credit:")
         self.labcredit.grid(row=1,column=0)
         # faut creer credits avant text=mod.joueurs[self.nom].credit
@@ -143,61 +143,27 @@ class Vue():
         # faut creer moral avant text=mod.joueurs[self.nom].moral
         self.nbmoral=Label(self.cadreinfojoueur, text="-")
         self.nbmoral.grid(row=1,column=7)
-        
+
         self.cadreinfojoueur.columnconfigure(0, weight=1)
         self.cadreinfojoueur.columnconfigure(1, weight=1)
         self.cadreinfojoueur.columnconfigure(2, weight=1)
-        
+
          # cadre jeu = la vue actuel
         self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-        
-        self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-
-        #Canevas vue Galaxie
-        #self.canevasGalaxie.grid(row=1, column=0)
 
         #Canevas vue Galaxie / vue de base
         self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-
-
-        #self.canevasGalaxie.grid(row=1, column=0)
-
-
-
         self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
         self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="pink")
 
         #Canevas vue Galaxie
-<<<<<<< HEAD
-        #self.canevasGalaxie.grid(row=0, column=0)
-
-        #Caneveas vue Solaire
-        self.canevasSolaire.grid(row=0, column=0)
-=======
         #self.canevasGalaxie.grid(row=1, column=0)
-        #self.canevasGalaxie.bind("<Button>",self.cliquecosmos)
 
         #Caneveas vue Solaire
         self.canevasSolaire.grid(row=1, column=0)
-        self.canevasSolaire.bind("<Button>",self.cliquecosmos)
->>>>>>> 258e22b2f7685f3f0e7fcac7ad826f3655a7f869
-
-
-        #self.canevasGalaxie.grid(row=1, column=0)
-
-        #self.canevasGalaxie.bind("<Button>",self.cliquecosmos)
-
-
-        #Canevas vue Solaire
-      
 
         # Canevas vue Planete
-<<<<<<< HEAD
-        # self.canevasPlanete.grid(row=0, column=0)
-=======
-        self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="pink")
         # self.canevasPlanete.grid(row=1, column=0)
->>>>>>> 258e22b2f7685f3f0e7fcac7ad826f3655a7f869
 
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreoutils.grid(row=0, column=1)
@@ -216,8 +182,8 @@ class Vue():
 
         self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
         self.lbselectecible=Label(self.cadreinfo,text="Choisir cible",bg="darkgrey")
-        
-        
+
+
 
         self.cadreminimap=Frame(self.cadreoutils,height=200,width=200,bg="black")
         self.canevasMini=Canvas(self.cadreminimap,width=200,height=200,bg="pink")
