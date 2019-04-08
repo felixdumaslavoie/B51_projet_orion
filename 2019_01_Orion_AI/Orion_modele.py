@@ -1,4 +1,5 @@
  # -*- coding: utf-8 -*-
+import os,os.path
 import random
 from Id import Id
 from helper import Helper as hlp
@@ -10,17 +11,21 @@ class Galaxie():
         self.listeX = []
         self.listeY = []
         self.parent = parent
-        self.txtNomEtoile = open("nom_etoiles.txt","r")
+
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        # needed pour compatibilité entre vscode et eclipse
+
+        self.txtNomEtoile = open(dir_path + "/nom_etoiles.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.nbSysSolaire=200
         self.listeSysSolaire=[]
-        
+
         for i in range(self.parent.largeur-2):
             self.listeX.append(i)
-            
+
         for i in range(self.parent.hauteur-2):
             self.listeY.append(i)
-        
+
         for i in range(self.nbSysSolaire):
             #x=random.randrange(self.parent.largeur-(2*self.bordure))+self.bordure
             x=self.listeX.pop(random.randrange(len(self.listeX)-1))
