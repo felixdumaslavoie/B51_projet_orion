@@ -1,17 +1,100 @@
- # -*- coding: utf-8 -*-   
+ # -*- coding: utf-8 -*-
 import random
 from Id import Id
 from helper import Helper as hlp
-        
+
+#modif arbitraire
+class Galaxie():
+    def __init__(self,parent):
+        self.bordure = 0
+        self.parent = parent
+        self.listeNomEtoile = open("nom_etoiles.txt","r")
+        self.nbSysSolaire=200
+        self.listeSysSolaire=[]
+        for i in range(self.nbSysSolaire):
+            x=random.randrange(self.parent.largeur-(2*self.bordure))+self.bordure
+            y=random.randrange(self.parent.hauteur-(2*self.bordure))+self.bordure
+            #TODO: S'assurer que les coordonnées générées sont uniques.
+            nom = self.listeNomEtoile.readline(random.randrange(336))
+            s = SystemeSolaire(self,x,y,nom)
+            self.listeSysSolaire.append(s)
+			
+class SystemeSolaire():
+    def __init__(self,parent,x,y,nom):
+        self.bordure = 0
+        self.parent = parent
+        self.nometoile = nom
+        self.proprietaire="inconnu"
+        self.x=x
+        self.y=y
+        self.taille=random.randrange(4,7) #taille de l'étoile dans la vue de la galaxie
+        self.nbdeplanete=random.randrange(3, 12)
+        self.listePlanete = []
+        for i in range(self.nbdeplanete):
+            x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
+            y=random.randrange(self.parent.parent.hauteur-(2*self.bordure))+self.bordure
+            p = Planete(self,x,y)
+            self.listePlanete.append(p)			
+
 class Planete():
-    def __init__(self,x,y):
+    def __init__(self,parent,x,y):
         self.id=Id.prochainid()
         self.proprietaire="inconnu"
         self.x=x
         self.y=y
         self.taille=random.randrange(4,6)
-        self.ressource=random.randrange(10)
+        self.charbon=random.randrange(6)
+        self.zinc=random.randrange(5)
+        self.deuterium=random.randrange(10)
+        self.fertile=random.randrange(1)
+        self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
+        self.ressource=[self.charbon,self.zinc,self.deuterium]
+
+    def estFertile(self):
+        return self.fertile
+
+    def creerStructure(self,x,y,nomStructure):
+        t=Structure(self,x,y,nomStructure)
         
+class Structure():
+    def __init__(self,nom,x,y,nomStructure):
+        self.proprietaire=nom
+        self.x=x
+        self.y=y
+        self.nomStructure=nomStructure
+
+        if nomStructure=="Usine_Civile":
+            self.vie=100
+            self.cout=150
+            self.maintenance=1
+            self.extraction=0
+        if nomStructure=="Usine_Militaire":
+            self.vie=200
+            self.cout=225
+            self.maintenance=2
+            self.extraction=0
+        if nomStructure=="Raffinerie_Diamant":
+            self.vie=80
+            self.cout=350
+            self.maintenance=6
+            self.extraction=2
+        if nomStructure=="Raffinerie_Charbon":
+            self.vie=50
+            self.cout=150
+            self.maintenance=2
+            self.extraction=3
+        if nomStructure=="Raffinerie_Isotope":
+            self.vie=175
+            self.cout=250
+            self.maintenance=3
+            self.extraction=2
+        if nomStructure=="Ferme":
+            self.vie=75
+            self.cout=50
+            self.maintenance=1
+            self.extraction=1
+
+
 class Vaisseau():
     def __init__(self,nom,x,y):
         self.id=Id.prochainid()
@@ -21,8 +104,8 @@ class Vaisseau():
         self.cargo=0
         self.energie=100
         self.vitesse=2
-        self.cible=None 
-        
+        self.cible=None
+
     def avancer(self):
         if self.cible:
             x=self.cible.x
@@ -38,7 +121,7 @@ class Vaisseau():
                 #print("Change cible")
         else:
             print("PAS DE CIBLE")
-    
+
     def avancer1(self):
         if self.cible:
             x=self.cible.x
@@ -46,7 +129,7 @@ class Vaisseau():
                 self.x-=self.vitesse
             elif self.x<x:
                 self.x+=self.vitesse
-            
+
             y=self.cible.y
             if self.y>y:
                 self.y-=self.vitesse
@@ -54,8 +137,8 @@ class Vaisseau():
                 self.y+=self.vitesse
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
-                    
-              
+
+
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
         self.id=Id.prochainid()
@@ -68,14 +151,14 @@ class Joueur():
         self.flotte=[]
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte}
-        
+
     def creervaisseau(self,params):
         #planete,cible,type=params
         #is type=="explorer":
         v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
         print("Vaisseau",v.id)
         self.flotte.append(v)
-        
+
     def ciblerflotte(self,ids):
         idori,iddesti=ids
         for i in self.flotte:
@@ -85,36 +168,36 @@ class Joueur():
                         i.cible=j
                         print("GOT TARGET")
                         return
-        
-        
+
+
     def prochaineaction(self):
         for i in self.flotte:
             if i.cible:
                 i.avancer()
             #else:
             #    i.cible=random.choice(self.parent.planetes)
-            
+
     def prochaineaction2(self):
         for i in self.flotte:
             i.avancer()
-    
+
 
 # IA- nouvelle classe de joueur
 class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
-        Joueur.__init__(self, parent, nom, planetemere, couleur)  
+        Joueur.__init__(self, parent, nom, planetemere, couleur)
         self.tempo=random.randrange(100)+20
-        
+
     def prochaineaction(self):
         if self.flotte:
             for i in self.flotte:
                 if i.cible:
                     i.avancer()
                 else:
-                    i.cible=random.choice(self.parent.planetes)  
+                    i.cible=random.choice(self.parent.planetes)
         else:
-            self.creervaisseau(0) 
-    
+            self.creervaisseau(0)
+
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
@@ -123,11 +206,11 @@ class Modele():
         self.joueurs={}
         self.ias=[]
         self.actionsafaire={}
-        self.planetes=[]
         self.terrain=[]
-        self.creerplanetes(joueurs,2)
         self.creerterrain()
-        
+        self.Galaxie = Galaxie(self)
+        self.assignerplanetemere(joueurs, 2)
+
     def creerterrain(self):
         self.terrain=[]
         for i in range(10):
@@ -139,32 +222,28 @@ class Modele():
                 else:
                     ligne.append(0)
             self.terrain.append(ligne)
-        
-    def creerplanetes(self,joueurs,ias=1):
-        bordure=0
-        for i in range(200):
-            x=random.randrange(self.largeur-(2*bordure))+bordure
-            y=random.randrange(self.hauteur-(2*bordure))+bordure
-            self.planetes.append(Planete(x,y))
+
+    def assignerplanetemere(self,joueurs,ias=0):
         np=len(joueurs)+ias
         planes=[]
         while np:
-            p=random.choice(self.planetes)
+            s=random.choice(self.Galaxie.listeSysSolaire)
+            p=random.choice(s.listePlanete)
             if p not in planes:
                 planes.append(p)
-                self.planetes.remove(p)
+                #self.planetes.remove(p)
                 np-=1
         couleurs=["red","blue","lightgreen","yellow",
                   "lightblue","pink","gold","purple"]
         for i in joueurs:
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
-        
+         
         # IA- creation des ias - max 2 
         couleursia=["orange","green"]
         for i in range(ias):
-            self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))  
-        
-            
+            self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
+
+
     def prochaineaction(self,cadre):
         if cadre in self.actionsafaire:
             for i in self.actionsafaire[cadre]:
@@ -180,12 +259,10 @@ class Modele():
                 print("NOTE... c'est seulement changer la position de l'auto si sa vitesse est non-nul")
                 """
             del self.actionsafaire[cadre]
-                
+
         for i in self.joueurs:
             self.joueurs[i].prochaineaction()
-            
+
         # IA- appelle prochaine action
         for i in self.ias:
             i.prochaineaction()
-            
- 
