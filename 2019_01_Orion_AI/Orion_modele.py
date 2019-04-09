@@ -67,6 +67,7 @@ class Galaxie():
 			
 class SystemeSolaire():
     def __init__(self,parent,x,y,nom):
+        self.id=Id.prochainid()
         self.bordure = 0
         self.parent = parent
         self.nometoile = nom
@@ -187,7 +188,7 @@ class Vaisseau():
             x1,y1=hlp.getAngledPoint(ang,self.vitesse,self.x,self.y)
             self.x,self.y=x1,y1 #int(x1),int(y1)
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
-                print("RESSOURCES...",self.cible.id,self.cible.ressource,self.cible.proprietaire,self.cible.viePlanete1)
+                print("RESSOURCES...",self.cible.id,self.cible.proprietaire)
                 self.cible.proprietaire=self.proprietaire
                 #tempo=input("Continuersvp")
                 self.cible=None
@@ -230,6 +231,7 @@ class Joueur():
     def creervaisseau(self,params):
         #planete,cible,type=params
         #is type=="explorer":
+
         v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
         print("Vaisseau",v.id)
         self.flotte.append(v)
@@ -269,7 +271,7 @@ class IA(Joueur):
                 if i.cible:
                     i.avancer()
                 else:
-                    i.cible=random.choice(self.parent.planetes)
+                    i.cible=random.choice(self.parent.Galaxie.listeSysSolaire)
         else:
             self.creervaisseau(0)
 
