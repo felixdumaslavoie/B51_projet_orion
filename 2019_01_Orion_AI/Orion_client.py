@@ -43,7 +43,6 @@ class Controleur():
         return monnom
 
 
-
     def creerpartie(self):
         if self.egoserveur==0:
 

@@ -143,22 +143,7 @@ class Structure():
             self.cout=5000
             self.maintenance=10
             self.rendement=100
-
-
-
-    def extractionStructure(self):
-        for i in self.parent.listeStructure[i]:
-            if self.parent.ressource[i]>0:
-                if self.parent.ressource[i]<self.extraction:
-                    self.extraction==self.parent.ressource[i]
-                self.parent.ressource[i]-=self.extraction
-                
-
-    def maintenanceStructure(self):
-        for i in self.parent.listeStructure[i]:
-            self.credit-=self.maintenance
-
-        
+      
 
 class Vaisseau():
     def __init__(self,nom,x,y, nomVaisseau="Vaisseau_Militaire"):
@@ -236,9 +221,17 @@ class Joueur():
         print("Vaisseau",v.id, v.nomVaisseau, v.cargo, v.energie, v.vitesse)
         self.flotte.append(v)
         
-    def creerStructure(self,nom,x,y,nomStructure):
+    def creerStructure(self,nom,x,y,nomStructure,planete):
         t=Structure(self, nom,x,y,nomStructure)
-        self.listeStructure.append(t)
+        self.planete.listeStructure.append(t)
+        
+    #===========================================================================
+    # def economie(self):
+    #     
+    #     for i in self.planetescontrolees:
+    #         for j in i.listeStructure:
+    #===========================================================================
+                
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
