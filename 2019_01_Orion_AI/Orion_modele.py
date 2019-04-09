@@ -126,6 +126,43 @@ class Structure():
         self.proprietaire=nom
         self.x=x
         self.y=y
+<<<<<<< HEAD
+=======
+        self.nomStructure=nomStructure
+
+        if nomStructure=="Usine_Civile":
+            self.vie=100
+            self.cout=150
+            self.maintenance=1
+            self.extraction=0
+        if nomStructure=="Usine_Militaire":
+            self.vie=200
+            self.cout=225
+            self.maintenance=2
+            self.extraction=0
+        if nomStructure=="Raffinerie_Diamant":
+            self.vie=80
+            self.cout=350
+            self.maintenance=6
+            self.extraction=2
+        if nomStructure=="Raffinerie_Charbon":
+            self.vie=50
+            self.cout=150
+            self.maintenance=2
+            self.extraction=3
+        if nomStructure=="Raffinerie_Isotope":
+            self.vie=175
+            self.cout=250
+            self.maintenance=3
+            self.extraction=2
+        if nomStructure=="Ferme":
+            self.vie=75
+            self.cout=50
+            self.maintenance=1
+            self.production=2
+
+
+>>>>>>> 73b4a0a697ba8ae0d87dc945ce694fb7ca8f7866
 
     def extractionStructure(self):
         for i in Planete.listeStructure[i]:
@@ -138,6 +175,7 @@ class Structure():
         for i in Planete.listeStructure[i]:
             self.credit-=self.maintenance
 
+<<<<<<< HEAD
 class UsineCivile(Structure):
     def __init__(self,nom,x,y,nomStructure):
         super().__init__(nom,x,y) # Constructeur de la classe structure
@@ -145,6 +183,9 @@ class UsineCivile(Structure):
         self.cout=Structure.Usine_Civile[1]
         self.maintenance=Structure.Usine_Civile[2]
         self.production=Structure.Usine_Civile[3]
+=======
+
+>>>>>>> 73b4a0a697ba8ae0d87dc945ce694fb7ca8f7866
 
 class UsineMilitaire(Structure):
     def __init__(self,nom,x,y,nomStructure):
@@ -188,15 +229,23 @@ class Ferme(Structure):
 
 
 class Vaisseau():
-    def __init__(self,nom,x,y):
+    def __init__(self,nom,x,y, nomVaisseau="Vaisseau_Militaire"):
         self.id=Id.prochainid()
         self.proprietaire=nom
         self.x=x
         self.y=y
-        self.cargo=0
-        self.energie=100
-        self.vitesse=2
         self.cible=None
+        self.nomVaisseau=nomVaisseau
+
+        if nomVaisseau=="Vaisseau_Militaire":
+            self.cargo=0
+            self.energie=400
+            self.vitesse=4
+
+        if nomVaisseau=="Vaisseau_Civil":
+            self.cargo=100
+            self.energie=100
+            self.vitesse=2
 
     def avancer(self):
         if self.cible:
@@ -251,7 +300,7 @@ class Joueur():
         #is type=="explorer":
 
         v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
-        print("Vaisseau",v.id)
+        print("Vaisseau",v.id, v.nomVaisseau, v.cargo, v.energie, v.vitesse)
         self.flotte.append(v)
 
     def ciblerflotte(self,ids):
