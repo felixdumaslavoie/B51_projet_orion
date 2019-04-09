@@ -377,4 +377,10 @@ class Vue():
         self.lbselectecible.grid(row=0, column=0)
 
     def afficherartefacts(self,joueurs):
+<<<<<<< HEAD
         pass #print("ARTEFACTS de ",self.nom)
+=======
+        pass #print("ARTEFACTS de ",self.nom)
+
+
+>>>>>>> 56f7fce96bfc5307f1a40ad31835087055803fb7
