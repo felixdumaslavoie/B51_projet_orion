@@ -108,13 +108,10 @@ class Vue():
         self.mod=mod
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
-        self.cadrejeu.grid(row=0, column=0)
+        self.cadrejeu.grid(row=1, column=0)
 
-        G = VueGalaxie(self,self.nom)
-        S = VueSolaire(self,self.nom)
-        P = VuePlanete(self,self.nom)
 
-        G.grid(row=1, column=0)
+        #G.grid(row=1, column=0)
         #S.grid(row=1, column=0)
         #P.grid(row=1, column=0)
 
@@ -164,15 +161,15 @@ class Vue():
         #self.cadreinfojoueur.columnconfigure(2, weight=1)
 
          # cadre jeu = la vue actuel
-        # self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11") #INUTILE
+        self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11") #INUTILE
 
         #Canevas vue Galaxie / vue de base
-        #self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
         #self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
         #self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
 
         #Canevas vue Galaxie
-        #self.canevasGalaxie.grid(row=1, column=0)
+        self.canevasGalaxie.grid(row=1, column=0)
 
         #Caneveas vue Solaire
 
@@ -229,7 +226,7 @@ class Vue():
         print("SCROLL",px,py)
 
     def afficherdecorGalaxie(self,mod):
-        
+
         self.mod=mod
 
         for i in range(len(mod.Galaxie.listeSysSolaire)):
@@ -260,9 +257,9 @@ class Vue():
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
 
     def afficherdecorSolaire(self,mod):
-        
+
         self.mod=mod
-        
+
         for i in range(len(mod.Galaxie.listeSysSolaire)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
@@ -381,36 +378,3 @@ class Vue():
 
     def afficherartefacts(self,joueurs):
         pass #print("ARTEFACTS de ",self.nom)
-
-
-class VueGalaxie(Vue):
-    def __init__(self,parent,nom):
-        Vue.__init__(self,parent,ip,nom)
-        self.parent = Vue
-        self.nom = nom
-        self.creationCanevas()
-
-    def creationCanevas(self):
-        self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-
-
-class VueSolaire(Vue):
-    def __init__(self,parent,nom):
-        Vue.__init__(self,parent,ip,nom)
-        self.parent = Vue
-        self.nom = nom
-        self.creationCanevas()
-
-    def creationCanevas(self):
-        self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-
-
-class VuePlanete(Vue):
-    def __init__(self,parent,nom):
-        Vue.__init__(self,parent,ip,nom)
-        self.parent = Vue
-        self.nom = nom
-        self.creationCanevas()
-
-    def creationCanevas(self):
-        self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
