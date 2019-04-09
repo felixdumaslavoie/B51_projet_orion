@@ -1,4 +1,5 @@
  # -*- coding: utf-8 -*-
+import os,os.path
 import random
 from Id import Id
 from helper import Helper as hlp
@@ -10,17 +11,21 @@ class Galaxie():
         self.listeX = []
         self.listeY = []
         self.parent = parent
-        self.txtNomEtoile = open("nom_etoiles.txt","r")
+
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        # needed pour compatibilité entre vscode et eclipse
+
+        self.txtNomEtoile = open(dir_path + "/nom_etoiles.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.nbSysSolaire=200
         self.listeSysSolaire=[]
-        
+
         for i in range(self.parent.largeur-2):
             self.listeX.append(i)
-            
+
         for i in range(self.parent.hauteur-2):
             self.listeY.append(i)
-        
+
         for i in range(self.nbSysSolaire):
             #x=random.randrange(self.parent.largeur-(2*self.bordure))+self.bordure
             x=random.choice(self.listeX)
@@ -75,7 +80,7 @@ class SystemeSolaire():
             x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
             y=random.randrange(self.parent.parent.hauteur-(2*self.bordure))+self.bordure
             p = Planete(self,x,y)
-            self.listePlanete.append(p)			
+            self.listePlanete.append(p)
 
 class Planete():
     def __init__(self,parent,x,y):
@@ -90,13 +95,23 @@ class Planete():
         self.fertile=random.randrange(1)
         self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
         self.ressource=[self.charbon,self.zinc,self.deuterium]
+        self.viePlanete1=self.viePlanete()
+
+    def viePlanete(self):
+        if not self.listeStructure:
+            self.viePlanete1=0
+        else:
+            for i in listeStructure[i]:
+                self.viePlanete1+=self.listeStructure[i].vie
+        return self.viePlanete1
+
 
     def estFertile(self):
         return self.fertile
 
     def creerStructure(self,x,y,nomStructure):
         t=Structure(self,x,y,nomStructure)
-        
+
 class Structure():
     def __init__(self,nom,x,y,nomStructure):
         self.proprietaire=nom
@@ -133,7 +148,24 @@ class Structure():
             self.vie=75
             self.cout=50
             self.maintenance=1
-            self.extraction=1
+            self.production=2
+
+        
+
+    def extractionStructure(self):
+        for i in Planete.listeStructure[i]:
+            if self.ressource[i]>0:
+                if ressource[i]<self.extraction:
+                    self.extraction==self.ressource[i]
+                self.ressource[i]-=self.extraction
+
+    def maintenanceStructure(self):
+        for i in Planete.listeStructure[i]:
+            self.credit-=self.maintenance
+
+   
+
+
 
 
 class Vaisseau():
@@ -155,7 +187,7 @@ class Vaisseau():
             x1,y1=hlp.getAngledPoint(ang,self.vitesse,self.x,self.y)
             self.x,self.y=x1,y1 #int(x1),int(y1)
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
-                print("RESSOURCES...",self.cible.id,self.cible.ressource,self.cible.proprietaire)
+                print("RESSOURCES...",self.cible.id,self.cible.ressource,self.cible.proprietaire,self.cible.viePlanete1)
                 self.cible.proprietaire=self.proprietaire
                 #tempo=input("Continuersvp")
                 self.cible=None
@@ -192,6 +224,8 @@ class Joueur():
         self.flotte=[]
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte}
+        self.credit=1000
+        self.nourriture=1000
 
     def creervaisseau(self,params):
         #planete,cible,type=params
@@ -278,8 +312,8 @@ class Modele():
                   "lightblue","pink","gold","purple"]
         for i in joueurs:
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
-         
-        # IA- creation des ias - max 2 
+
+        # IA- creation des ias - max 2
         couleursia=["orange","green"]
         for i in range(ias):
             self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))

@@ -30,7 +30,13 @@ class Vue():
         if self.cadreactif:
             self.cadreactif.grid_forget()
         self.cadreactif=cadre
-        self.cadreactif.grid(row=0, column=0)
+        self.cadreactif.grid(row=1, column=0)
+    def changevue(self,vue):
+        if self.vueactif:
+            self.vueactif.grid_forget()
+        self.vueactif=cadre
+        self.vueactif.grid(row=1, column=0)
+
 
     def creercadresplash(self,ip,nom):
         self.cadresplash=Frame(self.cadreapp)
@@ -93,17 +99,28 @@ class Vue():
         self.listelobby.delete(0,END)
         self.listelobby.insert(0,lj)
 
+    def creercadreinfojoueur(self,cadre):
+        pass
+
+
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
         self.mod=mod
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
-
-
-
         self.cadrejeu.grid(row=0, column=0)
+
+        G = VueGalaxie(self,self.nom)
+        S = VueSolaire(self,self.nom)
+        P = VuePlanete(self,self.nom)
+
+        G.grid(row=1, column=0)
+        #S.grid(row=1, column=0)
+        #P.grid(row=1, column=0)
+
+
         self.cadreinfojoueur=Frame(self.cadrejeu,height=100, width=800, bg="blue",padx = 100)
-        self.cadreinfojoueur.grid(row=0, column=0)
+        self.cadreinfojoueur.grid(row=0, column=0, columnspan = 2)
 
         self.labcouleur=Label(self.cadreinfojoueur,text="couleur:",padx = 100)
         self.labcouleur.grid(row=0,column=0)
@@ -112,13 +129,11 @@ class Vue():
         self.btndiplomatie=Button(self.cadreinfojoueur,text="Diplomatie")
         self.btndiplomatie.grid(row=0,column=3)
         # une fois cadre Diplomatie cree  ajouter command=self.changercadre(self.canevasDiplomatie)
-
         self.labcouttotal=Label(self.cadreinfojoueur,text="cout total:")
         self.labcouttotal.grid(row=0,column=4, sticky="EW")
         # faut creer cout de maintenance total avant bg=mod.joueurs[self.nom].cout
         self.nbcouttotal=Label(self.cadreinfojoueur,text="-" )
         self.nbcouttotal.grid(row=0,column=5)
-
         self.btnarbretech=Button(self.cadreinfojoueur,text="Arbre Technologique")
         # une fois cadre Arbre Tech cree  ajouter command=self.changercadre(self.canevasArbreTech)
         self.btnarbretech.grid(row=0,column=6)
@@ -144,29 +159,30 @@ class Vue():
         self.nbmoral=Label(self.cadreinfojoueur, text="-")
         self.nbmoral.grid(row=1,column=7)
 
-        self.cadreinfojoueur.columnconfigure(0, weight=1)
-        self.cadreinfojoueur.columnconfigure(1, weight=1)
-        self.cadreinfojoueur.columnconfigure(2, weight=1)
+        #self.cadreinfojoueur.columnconfigure(0, weight=1)
+        #self.cadreinfojoueur.columnconfigure(1, weight=1)
+        #self.cadreinfojoueur.columnconfigure(2, weight=1)
 
          # cadre jeu = la vue actuel
-        self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        # self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11") #INUTILE
 
         #Canevas vue Galaxie / vue de base
-        self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-        self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-        self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        #self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        #self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        #self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
 
         #Canevas vue Galaxie
         #self.canevasGalaxie.grid(row=1, column=0)
 
         #Caneveas vue Solaire
+
         #self.canevasSolaire.grid(row=1, column=0)
 
         # Canevas vue Planete
-        self.canevasPlanete.grid(row=1, column=0)
+        #self.canevasPlanete.grid(row=1, column=0)
 
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
-        self.cadreoutils.grid(row=0, column=1)
+        self.cadreoutils.grid(row=1, column=1)
 
         self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="darkgrey")
         self.cadreinfo.grid(row=0, column=1)
@@ -191,14 +207,19 @@ class Vue():
         self.canevasMini.grid(row=0, column=1)
         self.cadreminimap.grid(row=2, column=1)
 
+        self.cadrechangervues=Frame(self.cadreoutils,height=100,width=200, bg="SeaGreen1")
+        self.cadrechangervues.grid(row=3,column=1)
+
+
+
         #self.afficherdecorGalaxie(mod)
         #self.afficherdecorSolaire(mod)
-        self.afficherdecorPlanete(mod)
+        #self.afficherdecorPlanete(mod)
 
         self.changecadre(self.cadrepartie)
 
     def moveCanevas(self,evt):
-        self.mod=mod
+
         x=evt.x
         y=evt.y
         px=self.mod.largeur/x/100
@@ -360,3 +381,36 @@ class Vue():
 
     def afficherartefacts(self,joueurs):
         pass #print("ARTEFACTS de ",self.nom)
+
+
+class VueGalaxie(Vue):
+    def __init__(self,parent,nom):
+        Vue.__init__(self,parent,ip,nom)
+        self.parent = Vue
+        self.nom = nom
+        self.creationCanevas()
+
+    def creationCanevas(self):
+        self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+
+
+class VueSolaire(Vue):
+    def __init__(self,parent,nom):
+        Vue.__init__(self,parent,ip,nom)
+        self.parent = Vue
+        self.nom = nom
+        self.creationCanevas()
+
+    def creationCanevas(self):
+        self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+
+
+class VuePlanete(Vue):
+    def __init__(self,parent,nom):
+        Vue.__init__(self,parent,ip,nom)
+        self.parent = Vue
+        self.nom = nom
+        self.creationCanevas()
+
+    def creationCanevas(self):
+        self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
