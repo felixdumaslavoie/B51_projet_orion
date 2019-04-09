@@ -209,7 +209,7 @@ class Vue():
 
 
 
-        #self.afficherdecorGalaxie(mod)
+        self.afficherdecorGalaxie(mod)
         #self.afficherdecorSolaire(mod)
         #self.afficherdecorPlanete(mod)
 
@@ -234,7 +234,7 @@ class Vue():
             y=random.randrange(mod.hauteur)
             self.canevasGalaxie.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
 
-        for i in mod.planetes:
+        for i in mod.Galaxie.listeSysSolaire:
             t=i.taille
             self.canevasGalaxie.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
                                      tags=(i.proprietaire,"planete",str(i.id)))
@@ -377,10 +377,4 @@ class Vue():
         self.lbselectecible.grid(row=0, column=0)
 
     def afficherartefacts(self,joueurs):
-<<<<<<< HEAD
         pass #print("ARTEFACTS de ",self.nom)
-=======
-        pass #print("ARTEFACTS de ",self.nom)
-
-
->>>>>>> 56f7fce96bfc5307f1a40ad31835087055803fb7
