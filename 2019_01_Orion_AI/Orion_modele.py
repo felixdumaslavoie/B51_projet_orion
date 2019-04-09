@@ -269,7 +269,7 @@ class IA(Joueur):
                 if i.cible:
                     i.avancer()
                 else:
-                    i.cible=random.choice(self.parent.planetes)
+                    i.cible=random.choice(self.parent.Galaxie.listeSysSolaire)
         else:
             self.creervaisseau(0)
 
