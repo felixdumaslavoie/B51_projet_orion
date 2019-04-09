@@ -3,6 +3,104 @@ from tkinter import *
 import random
 import os,os.path
 
+<<<<<<< HEAD
+class VueSolaire():
+    def __init__(self,fen,parent):
+        print("In vue solaire")
+        self.cadrejeu=fen
+        self.parent=parent
+        self.cadrespatial=Frame(self.cadrejeu)
+        self.cadresolaireoutils=Frame(self.cadrespatial)
+        self.canevassolaire=Canvas(self.cadrespatial, width=800, height=600, bg="GRAY11")
+        self.labsolaire=Label(self.cadresolaireoutils, text="in solaire!")
+        self.labsolaire.grid()
+        self.canevassolaire.grid(row = 0, column =1)
+        self.cadresolaireoutils.grid(row = 0, column =1)
+
+    def afficherdecorSolaire(self,mod):
+
+        self.mod=mod
+
+        for i in range(len(mod.Galaxie.listeSysSolaire)):
+            x=random.randrange(mod.largeur)
+            y=random.randrange(mod.hauteur)
+            self.canevassolaire.create_oval(x,y,x+1,y+1,fill="white",tags=("fond"))
+
+
+        self._create_circle(self.largeur/1.5,self.hauteur/1.5,75)
+
+class VuePlanete():
+    def __init__(self,fen,parent):
+        print("In vue planete")
+        self.cadrejeu=fen
+        self.parent=parent
+        self.cadrespatial=Frame(self.cadrejeu)
+        self.cadreplaneteoutils=Frame(self.cadrespatial)
+        self.canevasplanete=Canvas(self.cadrespatial, width=800, height=600, bg="beige")
+        self.labplanete=Label(self.cadreplaneteoutils, text="in planete!")
+        self.labplanete.grid()
+        self.canevasplanete.grid(row = 0, column =1)
+        self.cadreplaneteoutils.grid(row = 0, column =1)
+
+class VueGalaxie():
+    def __init__(self,fen,parent,modele):
+        print("In vue galaxie")
+        self.cadrejeu=fen
+        self.parent=parent
+        self.mod=modele
+        self.cadrespatial=Frame(self.cadrejeu)
+        self.cadregalaxieoutils=Frame(self.cadrespatial)
+        self.canevasgalaxie=Canvas(self.cadrespatial, width=800, height=600, bg="GRAY11")
+        self.labgalaxie=Label(self.cadregalaxieoutils, text="in galaxie!")
+        self.labgalaxie.grid()
+        self.canevasgalaxie.grid(row = 0, column =0)
+        self.cadregalaxieoutils.grid(row = 0, column =0)
+
+    def afficherdecorGalaxie(self,mod):
+
+        self.mod=mod
+
+        for i in range(len(mod.Galaxie.listeSysSolaire)):
+            x=random.randrange(mod.largeur)
+            y=random.randrange(mod.hauteur)
+            self.canevasgalaxie.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
+
+        for i in mod.Galaxie.listeSysSolaire:
+            t=i.taille
+            self.canevasgalaxie.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
+                                     tags=(i.proprietaire,"planete",str(i.id)))
+        for i in mod.joueurs.keys():
+            for j in mod.joueurs[i].planetescontrolees:
+                t=j.taille
+                self.canevasgalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
+                                     tags=(j.proprietaire,"planete",str(j.id),"possession"))
+        # dessine IAs
+
+        for i in mod.ias:
+            for j in i.planetescontrolees:
+                t=j.taille
+                self.canevasgalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
+                                     tags=(j.proprietaire,"planete",str(j.id),"possession"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
+>>>>>>> 62f4709d0d18c83dcf4e9dfb7b061d903dd5a609
 
 
 class Vue():
@@ -26,14 +124,28 @@ class Vue():
         self.cadreoutilsgeneral=Frame(self.root)
         self.labgeneral=Label(self.cadreoutilsgeneral, text="menu general!")
         self.labgeneral.grid(row = 1, column =0)
+<<<<<<< HEAD
+=======
         self.ip=ip
+>>>>>>> 62f4709d0d18c83dcf4e9dfb7b061d903dd5a609
 
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
         self.cadrejeu.grid(row=1, column=0)
+<<<<<<< HEAD
+
+
+        self.cadreoutilsgeneral.grid()
+        self.vues={"Galaxie":VueGalaxie(self.cadrejeu,self,self.modele),
+					"Planete":VuePlanete(self.cadrejeu,self),
+					"Solaire":VueSolaire(self.cadrejeu,self)}
+        self.vueactive= self.vues["Galaxie"]
+        self.vueactive.cadrespatial.grid()
+=======
         self.mod=None
 
 
+>>>>>>> 62f4709d0d18c83dcf4e9dfb7b061d903dd5a609
 
 
     def changementdevue(self,evt):
@@ -133,6 +245,10 @@ class Vue():
         #self.cadrepartie=Frame(self.cadreapp)
         #self.cadrejeu=Frame(self.cadrepartie)
         #self.cadrejeu.grid(row=1, column=0)
+<<<<<<< HEAD
+
+
+=======
 
 
         #G.grid(row=1, column=0)
@@ -146,6 +262,7 @@ class Vue():
         self.vueactive.cadrespatial.grid()
 
 
+>>>>>>> 62f4709d0d18c83dcf4e9dfb7b061d903dd5a609
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="blue",padx = 200)
         self.cadreinfojoueur.grid(row=0, column=0, columnspan = 5)
 
@@ -253,10 +370,10 @@ class Vue():
         #self.afficherdecorSolaire(mod)
         #self.afficherdecorPlanete(mod)
 
+
         self.changecadre(self.cadrepartie)
 
     def moveCanevas(self,evt):
-
         x=evt.x
         y=evt.y
         px=self.mod.largeur/x/100
@@ -298,6 +415,52 @@ class Vue():
 
     def afficherdecorSolaire(self,mod):
 
+<<<<<<< HEAD
+=======
+        self.mod=mod
+
+        for i in range(len(mod.Galaxie.listeSysSolaire)):
+            x=random.randrange(mod.largeur)
+            y=random.randrange(mod.hauteur)
+            self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=("fond"))
+
+
+        self._create_circle(self.largeur/1.5,self.hauteur/1.5,75)
+
+
+    def afficherdecorGalaxie(self,mod):
+        self.mod=mod
+
+        for i in range(len(mod.Galaxie.listeSysSolaire)):
+            x=random.randrange(mod.largeur)
+            y=random.randrange(mod.hauteur)
+            self.canevasGalaxie.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
+
+        for i in mod.Galaxie.listeSysSolaire:
+            t=i.taille
+            self.canevasGalaxie.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
+                                     tags=(i.proprietaire,"planete",str(i.id)))
+        for i in mod.joueurs.keys():
+            for j in mod.joueurs[i].planetescontrolees:
+                t=j.taille
+                self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
+                                     tags=(j.proprietaire,"planete",str(j.id),"possession"))
+        # dessine IAs
+
+        for i in mod.ias:
+            for j in i.planetescontrolees:
+                t=j.taille
+                self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
+                                     tags=(j.proprietaire,"planete",str(j.id),"possession"))
+
+        self.afficherpartie(mod)
+
+    def _create_circle(self, x, y, r):
+        return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
+
+    def afficherdecorSolaire(self,mod):
+
+>>>>>>> 62f4709d0d18c83dcf4e9dfb7b061d903dd5a609
         self.mod=mod
 
         for i in range(len(mod.Galaxie.listeSysSolaire)):
@@ -418,6 +581,8 @@ class Vue():
 
     def afficherartefacts(self,joueurs):
         pass #print("ARTEFACTS de ",self.nom)
+<<<<<<< HEAD
+=======
 class VueSolaire():
     def __init__(self,fen,parent):
 
@@ -486,3 +651,4 @@ class VueGalaxie():
                                      tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
             self.afficherpartie(mod)
+>>>>>>> 62f4709d0d18c83dcf4e9dfb7b061d903dd5a609

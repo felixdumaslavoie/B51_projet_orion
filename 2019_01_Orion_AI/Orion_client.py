@@ -83,7 +83,10 @@ class Controleur():
     def initierpartie(self,rep):  # initalisation locale de la simulation, creation du modele, generation des assets et suppression du layout de lobby
         if rep[1][0][0]=="lancerpartie":
             self.modele=Modele(self,rep[1][0][1]) # on cree le modele
+            self.vue.modele = self.modele
             self.vue.creeraffichercadrepartie(self.modele)
+            self.vue.vues["Galaxie"].afficherdecorGalaxie(self.modele)
+            self.vue.vues["Solaire"].afficherdecorSolaire(self.modele)
             print(self.monnom,"LANCE PROCHAINTOUR")
             self.prochaintour()
 

@@ -40,7 +40,7 @@ class Galaxie():
                 self.listeY.remove(y-1)
             if y+1 in self.listeY:
                 self.listeY.remove(y+1)
-            
+
             #TODO: S'assurer que les coordonnées et noms générés sont uniques.
             nom = self.listeNomEtoile.pop(random.randrange(len(self.listeNomEtoile)-1))
             s = SystemeSolaire(self,x,y,nom)
@@ -88,62 +88,93 @@ class Planete():
                 self.viePlanete1+=self.listeStructure[i].vie
         return self.viePlanete1
 
-
     def estFertile(self):
         return self.fertile
- 
+
 class Structure():
-    def __init__(self,parent,nom,x,y,nomStructure):
+                #nom structure, vie, cout, maintenance, exctraction
+    Usine_Civile=["Usine_Civile",100,150,1,0]
+    Usine_Militaire=["Usine_Militaire",200,225,2,0]
+    Raffinerie_Diamant=["Raffinerie_Diamant",80,350,6,2]
+    Raffinerie_Charbon=["Raffinerie_Charbon",50,150,2,3]
+    Raffinerie_Isotope=["Raffinerie_Isotope",175,250,3,2]
+    Ferme={"Ferme",75,50,1,2}
+    Capitale={"Capitale",300,5000,10,100}
+
+    def __init__(self,nom,x,y):
+        self.nomStructure="VIDE"
         self.proprietaire=nom
         self.joueur
         self.x=x
         self.y=y
-        self.nomStructure=nomStructure        
 
-        if nomStructure=="Usine_Civile":
-            self.vie=100
-            self.cout=150
-            self.maintenance=1
-            self.extraction=0
-        if nomStructure=="Usine_Militaire":
-            self.vie=200
-            self.cout=225
-            self.maintenance=2
-            self.extraction=0
-        if nomStructure=="Raffinerie_Diamant":
-            self.vie=80
-            self.cout=350
-            self.maintenance=6
-            self.extraction=2
-            self.rendement=50
-        if nomStructure=="Raffinerie_Charbon":
-            self.vie=50
-            self.cout=150
-            self.maintenance=2
-            self.extraction=3
-            self.rendement=8
-        if nomStructure=="Raffinerie_Zinc":
-            self.vie=50
-            self.cout=200
-            self.maintenance=3
-            self.extraction=3
-            self.rendement=14
-        if nomStructure=="Raffinerie_Isotope":
-            self.vie=175
-            self.cout=250
-            self.maintenance=8
-            self.extraction=2
-        if nomStructure=="Ferme":
-            self.vie=75
-            self.cout=50
-            self.maintenance=1
-            self.rendement=2
-        if nomStructure=="Capitale":
-            self.vie=300
-            self.cout=5000
-            self.maintenance=10
-            self.rendement=100
-      
+    def extractionStructure(self):
+        for i in self.parent.listeStructure[i]:
+            if self.parent.ressource[i]>0:
+                if self.parent.ressource[i]<self.extraction:
+                    self.extraction==self.parent.ressource[i]
+                self.parent.ressource[i]-=self.extraction
+
+
+    def maintenanceStructure(self):
+        for i in self.parent.listeStructure[i]:
+            self.credit-=self.maintenance
+
+class UsineCivile(Structure):
+    def __init__(self,nom,x,y,nomStructure):
+        super().__init__(nom,x,y) # Constructeur de la classe structure
+        self.nomStructure=Structure.Usine_Civile[0]
+        self.cout=Structure.Usine_Civile[1]
+        self.maintenance=Structure.Usine_Civile[2]
+        self.production=Structure.Usine_Civile[3]
+
+class UsineMilitaire(Structure):
+    def __init__(self,nom,x,y,nomStructure):
+        super().__init__(nom,x,y) # Constructeur de la classe structure
+        self.nomStructure=Structure.Usine_Militaire[0]
+        self.cout=Structure.Usine_Militaire[1]
+        self.maintenance=Structure.Usine_Militaire[2]
+        self.production=Structure.Usine_Militaire[3]
+
+class RaffinerieDiamant(Structure):
+    def __init__(self,nom,x,y,nomStructure):
+        super().__init__(nom,x,y) # Constructeur de la classe structure
+        self.nomStructure=Structure.Raffinerie_Diamant[0]
+        self.cout=Structure.Raffinerie_Diamant[1]
+        self.maintenance=Structure.Raffinerie_Diamant[2]
+        self.production=Structure.Raffinerie_Diamant[3]
+
+class RaffinerieCharbon(Structure):
+    def __init__(self,nom,x,y,nomStructure):
+        super().__init__(nom,x,y) # Constructeur de la classe structure
+        self.nomStructure=Structure.Raffinerie_Charbon[0]
+        self.cout=Structure.Raffinerie_Charbon[1]
+        self.maintenance=Structure.Raffinerie_Charbon[2]
+        self.production=Structure.Raffinerie_Charbon[3]
+
+class RaffinerieIsotope(Structure):
+    def __init__(self,nom,x,y,nomStructure):
+        super().__init__(nom,x,y) # Constructeur de la classe structure
+        self.nomStructure=Structure.Raffinerie_Isotope[0]
+        self.cout=Structure.Raffinerie_Isotope[1]
+        self.maintenance=Structure.Raffinerie_Isotope[2]
+        self.production=Structure.Raffinerie_Isotope[3]
+
+class Ferme(Structure):
+    def __init__(self,nom,x,y,nomStructure):
+        super().__init__(nom,x,y) # Constructeur de la classe structure
+        self.nomStructure=Structure.Ferme[0]
+        self.cout=Structure.Ferme[1]
+        self.maintenance=Structure.Ferme[2]
+        self.production=Structure.Ferme[3]
+
+class Capitale(Structure):
+    def __init__(self,nom,x,y,nomStructure):
+        super().__init__(nom,x,y) # Constructeur de la classe structure
+        self.nomStructure=Structure.Capitale[0]
+        self.cout=Structure.Capitale[1]
+        self.maintenance=Structure.Capitale[2]
+        self.production=Structure.Capitale[3]
 
 class Vaisseau():
     def __init__(self,nom,x,y, nomVaisseau="Vaisseau_Militaire"):
@@ -194,8 +225,8 @@ class Vaisseau():
             elif self.y<y:
                 self.y+=self.vitesse
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
-                self.cible=None            
-    
+                self.cible=None
+
 
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
@@ -253,7 +284,7 @@ class Joueur():
 
     def prochaineaction2(self):
         for i in self.flotte:
-            i.avancer()            
+            i.avancer()
 
 # IA- nouvelle classe de joueur
 class IA(Joueur):
@@ -261,7 +292,17 @@ class IA(Joueur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)
         self.tempo=random.randrange(100)+20
 
+
+# SQUELLETTE DE L'IA PASSIVE
+
+#      ...ELLE CONSTRUIT DES BÂTIMENTS SUR SA PLANÈTE MÈRE
+#       ...Pour éventuellement construire des cargos et
+#       ...coloniser une nouvelle planète
+
     def prochaineaction(self):
+
+        # si assez d'argent
+        # construit un bâtiment sur la planète mère
         if self.flotte:
             for i in self.flotte:
                 if i.cible:
@@ -339,5 +380,3 @@ class Modele():
         # IA- appelle prochaine action
         for i in self.ias:
             i.prochaineaction()
-            
-        
