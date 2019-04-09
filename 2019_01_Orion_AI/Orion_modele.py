@@ -46,7 +46,7 @@ class Galaxie():
             s = SystemeSolaire(self,x,y,nom)
             self.listeSysSolaire.append(s)
             print("Étoile " + nom + " créée " + str(x) + " " + str(y))
-			
+
 class SystemeSolaire():
     def __init__(self,parent,x,y,nom):
         self.id=Id.prochainid()
@@ -143,7 +143,8 @@ class Structure():
             self.cout=5000
             self.maintenance=10
             self.rendement=100
-        
+
+
 
     def extractionStructure(self):
         for i in self.parent.listeStructure[i]:
@@ -160,15 +161,23 @@ class Structure():
         
 
 class Vaisseau():
-    def __init__(self,nom,x,y):
+    def __init__(self,nom,x,y, nomVaisseau="Vaisseau_Militaire"):
         self.id=Id.prochainid()
         self.proprietaire=nom
         self.x=x
         self.y=y
-        self.cargo=0
-        self.energie=100
-        self.vitesse=2
         self.cible=None
+        self.nomVaisseau=nomVaisseau
+
+        if nomVaisseau=="Vaisseau_Militaire":
+            self.cargo=0
+            self.energie=400
+            self.vitesse=4
+
+        if nomVaisseau=="Vaisseau_Civil":
+            self.cargo=100
+            self.energie=100
+            self.vitesse=2
 
     def avancer(self):
         if self.cible:
@@ -224,7 +233,7 @@ class Joueur():
         #is type=="explorer":
 
         v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
-        print("Vaisseau",v.id)
+        print("Vaisseau",v.id, v.nomVaisseau, v.cargo, v.energie, v.vitesse)
         self.flotte.append(v)
         
     def creerStructure(self,nom,x,y,nomStructure):
