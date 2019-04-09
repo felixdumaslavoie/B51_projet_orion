@@ -27,37 +27,19 @@ class Galaxie():
             self.listeY.append(i)
 
         for i in range(self.nbSysSolaire):
-            #x=random.randrange(self.parent.largeur-(2*self.bordure))+self.bordure
             x=random.choice(self.listeX)
             self.listeX.remove(x)
-            #===================================================================
-            # if x-2 in self.listeX:
-            #     self.listeX.remove(x-2)
-            #===================================================================
             if x-1 in self.listeX:
                 self.listeX.remove(x-1)
             if x+1 in self.listeX:
                 self.listeX.remove(x+1)
-            #===================================================================
-            # if x+2 in self.listeX:
-            #     self.listeX.remove(x+2)
-            #===================================================================
 
-            #y=random.randrange(self.parent.hauteur-(2*self.bordure))+self.bordure
             y=random.choice(self.listeY)
             self.listeY.remove(y)
-            #===================================================================
-            # if y-2 in self.listeY:
-            #     self.listeY.remove(y-2)
-            #===================================================================
             if y-1 in self.listeY:
                 self.listeY.remove(y-1)
             if y+1 in self.listeY:
                 self.listeY.remove(y+1)
-            #===================================================================
-            # if y+2 in self.listeY:
-            #     self.listeY.remove(y+2)
-            #===================================================================
             
             #TODO: S'assurer que les coordonnées et noms générés sont uniques.
             nom = self.listeNomEtoile.pop(random.randrange(len(self.listeNomEtoile)-1))
@@ -109,16 +91,14 @@ class Planete():
 
     def estFertile(self):
         return self.fertile
-
-    def creerStructure(self,x,y,nomStructure):
-        t=Structure(self,x,y,nomStructure)
-
+ 
 class Structure():
-    def __init__(self,nom,x,y,nomStructure):
+    def __init__(self,parent,nom,x,y,nomStructure):
         self.proprietaire=nom
+        self.joueur
         self.x=x
         self.y=y
-        self.nomStructure=nomStructure
+        self.nomStructure=nomStructure        
 
         if nomStructure=="Usine_Civile":
             self.vie=100
@@ -135,39 +115,49 @@ class Structure():
             self.cout=350
             self.maintenance=6
             self.extraction=2
+            self.rendement=50
         if nomStructure=="Raffinerie_Charbon":
             self.vie=50
             self.cout=150
             self.maintenance=2
             self.extraction=3
+            self.rendement=8
+        if nomStructure=="Raffinerie_Zinc":
+            self.vie=50
+            self.cout=200
+            self.maintenance=3
+            self.extraction=3
+            self.rendement=14
         if nomStructure=="Raffinerie_Isotope":
             self.vie=175
             self.cout=250
-            self.maintenance=3
+            self.maintenance=8
             self.extraction=2
         if nomStructure=="Ferme":
             self.vie=75
             self.cout=50
             self.maintenance=1
-            self.production=2
-
+            self.rendement=2
+        if nomStructure=="Capitale":
+            self.vie=300
+            self.cout=5000
+            self.maintenance=10
+            self.rendement=100
         
 
     def extractionStructure(self):
-        for i in Planete.listeStructure[i]:
-            if self.ressource[i]>0:
-                if ressource[i]<self.extraction:
-                    self.extraction==self.ressource[i]
-                self.ressource[i]-=self.extraction
+        for i in self.parent.listeStructure[i]:
+            if self.parent.ressource[i]>0:
+                if self.parent.ressource[i]<self.extraction:
+                    self.extraction==self.parent.ressource[i]
+                self.parent.ressource[i]-=self.extraction
+                
 
     def maintenanceStructure(self):
-        for i in Planete.listeStructure[i]:
+        for i in self.parent.listeStructure[i]:
             self.credit-=self.maintenance
 
-   
-
-
-
+        
 
 class Vaisseau():
     def __init__(self,nom,x,y):
@@ -210,8 +200,8 @@ class Vaisseau():
             elif self.y<y:
                 self.y+=self.vitesse
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
-                self.cible=None
-
+                self.cible=None            
+    
 
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
@@ -227,6 +217,7 @@ class Joueur():
                       "ciblerflotte":self.ciblerflotte}
         self.credit=1000
         self.nourriture=1000
+        self.deuterium=5
 
     def creervaisseau(self,params):
         #planete,cible,type=params
@@ -235,6 +226,10 @@ class Joueur():
         v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
         print("Vaisseau",v.id)
         self.flotte.append(v)
+        
+    def creerStructure(self,nom,x,y,nomStructure):
+        t=Structure(self, nom,x,y,nomStructure)
+        self.listeStructure.append(t)
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
@@ -256,8 +251,7 @@ class Joueur():
 
     def prochaineaction2(self):
         for i in self.flotte:
-            i.avancer()
-
+            i.avancer()            
 
 # IA- nouvelle classe de joueur
 class IA(Joueur):
@@ -343,3 +337,5 @@ class Modele():
         # IA- appelle prochaine action
         for i in self.ias:
             i.prochaineaction()
+            
+        
