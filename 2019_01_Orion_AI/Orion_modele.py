@@ -27,37 +27,19 @@ class Galaxie():
             self.listeY.append(i)
 
         for i in range(self.nbSysSolaire):
-            #x=random.randrange(self.parent.largeur-(2*self.bordure))+self.bordure
             x=random.choice(self.listeX)
             self.listeX.remove(x)
-            #===================================================================
-            # if x-2 in self.listeX:
-            #     self.listeX.remove(x-2)
-            #===================================================================
             if x-1 in self.listeX:
                 self.listeX.remove(x-1)
             if x+1 in self.listeX:
                 self.listeX.remove(x+1)
-            #===================================================================
-            # if x+2 in self.listeX:
-            #     self.listeX.remove(x+2)
-            #===================================================================
 
-            #y=random.randrange(self.parent.hauteur-(2*self.bordure))+self.bordure
             y=random.choice(self.listeY)
             self.listeY.remove(y)
-            #===================================================================
-            # if y-2 in self.listeY:
-            #     self.listeY.remove(y-2)
-            #===================================================================
             if y-1 in self.listeY:
                 self.listeY.remove(y-1)
             if y+1 in self.listeY:
                 self.listeY.remove(y+1)
-            #===================================================================
-            # if y+2 in self.listeY:
-            #     self.listeY.remove(y+2)
-            #===================================================================
 
             #TODO: S'assurer que les coordonnées et noms générés sont uniques.
             nom = self.listeNomEtoile.pop(random.randrange(len(self.listeNomEtoile)-1))
@@ -109,9 +91,6 @@ class Planete():
     def estFertile(self):
         return self.fertile
 
-    def creerStructure(self,x,y,nomStructure):
-        t=Structure(self,x,y,nomStructure)
-
 class Structure():
                 #nom structure, vie, cout, maintenance, exctraction
     Usine_Civile=["Usine_Civile",100,150,1,0]
@@ -120,62 +99,27 @@ class Structure():
     Raffinerie_Charbon=["Raffinerie_Charbon",50,150,2,3]
     Raffinerie_Isotope=["Raffinerie_Isotope",175,250,3,2]
     Ferme={"Ferme",75,50,1,2}
+    Capitale={"Capitale",300,5000,10,100}
 
     def __init__(self,nom,x,y):
         self.nomStructure="VIDE"
         self.proprietaire=nom
+        self.joueur
         self.x=x
         self.y=y
-<<<<<<< HEAD
-=======
-        self.nomStructure=nomStructure
-
-        if nomStructure=="Usine_Civile":
-            self.vie=100
-            self.cout=150
-            self.maintenance=1
-            self.extraction=0
-        if nomStructure=="Usine_Militaire":
-            self.vie=200
-            self.cout=225
-            self.maintenance=2
-            self.extraction=0
-        if nomStructure=="Raffinerie_Diamant":
-            self.vie=80
-            self.cout=350
-            self.maintenance=6
-            self.extraction=2
-        if nomStructure=="Raffinerie_Charbon":
-            self.vie=50
-            self.cout=150
-            self.maintenance=2
-            self.extraction=3
-        if nomStructure=="Raffinerie_Isotope":
-            self.vie=175
-            self.cout=250
-            self.maintenance=3
-            self.extraction=2
-        if nomStructure=="Ferme":
-            self.vie=75
-            self.cout=50
-            self.maintenance=1
-            self.production=2
-
-
->>>>>>> 73b4a0a697ba8ae0d87dc945ce694fb7ca8f7866
 
     def extractionStructure(self):
-        for i in Planete.listeStructure[i]:
-            if self.ressource[i]>0:
-                if ressource[i]<self.extraction:
-                    self.extraction=self.ressource[i]
-                self.ressource[i]-=self.extraction
+        for i in self.parent.listeStructure[i]:
+            if self.parent.ressource[i]>0:
+                if self.parent.ressource[i]<self.extraction:
+                    self.extraction==self.parent.ressource[i]
+                self.parent.ressource[i]-=self.extraction
+
 
     def maintenanceStructure(self):
-        for i in Planete.listeStructure[i]:
+        for i in self.parent.listeStructure[i]:
             self.credit-=self.maintenance
 
-<<<<<<< HEAD
 class UsineCivile(Structure):
     def __init__(self,nom,x,y,nomStructure):
         super().__init__(nom,x,y) # Constructeur de la classe structure
@@ -183,9 +127,6 @@ class UsineCivile(Structure):
         self.cout=Structure.Usine_Civile[1]
         self.maintenance=Structure.Usine_Civile[2]
         self.production=Structure.Usine_Civile[3]
-=======
-
->>>>>>> 73b4a0a697ba8ae0d87dc945ce694fb7ca8f7866
 
 class UsineMilitaire(Structure):
     def __init__(self,nom,x,y,nomStructure):
@@ -227,6 +168,13 @@ class Ferme(Structure):
         self.maintenance=Structure.Ferme[2]
         self.production=Structure.Ferme[3]
 
+class Capitale(Structure):
+    def __init__(self,nom,x,y,nomStructure):
+        super().__init__(nom,x,y) # Constructeur de la classe structure
+        self.nomStructure=Structure.Capitale[0]
+        self.cout=Structure.Capitale[1]
+        self.maintenance=Structure.Capitale[2]
+        self.production=Structure.Capitale[3]
 
 class Vaisseau():
     def __init__(self,nom,x,y, nomVaisseau="Vaisseau_Militaire"):
@@ -294,6 +242,7 @@ class Joueur():
                       "ciblerflotte":self.ciblerflotte}
         self.credit=1000
         self.nourriture=1000
+        self.deuterium=5
 
     def creervaisseau(self,params):
         #planete,cible,type=params
@@ -302,6 +251,10 @@ class Joueur():
         v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
         print("Vaisseau",v.id, v.nomVaisseau, v.cargo, v.energie, v.vitesse)
         self.flotte.append(v)
+
+    def creerStructure(self,nom,x,y,nomStructure):
+        t=Structure(self, nom,x,y,nomStructure)
+        self.listeStructure.append(t)
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
@@ -324,7 +277,6 @@ class Joueur():
     def prochaineaction2(self):
         for i in self.flotte:
             i.avancer()
-
 
 # IA- nouvelle classe de joueur
 class IA(Joueur):
