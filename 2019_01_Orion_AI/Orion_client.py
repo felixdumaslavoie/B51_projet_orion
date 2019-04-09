@@ -25,7 +25,7 @@ class Controleur():
         self.actions=[]    # la liste de mes actions a envoyer au serveur pour qu'il les redistribue a tous les participants
         self.statut=0 # etat dans le quel je me trouve : 0 -> rien, 1 -> inscrit, 2 -> demarre, 3-> joue
         self.monip=self.trouverIP() # la fonction pour retourner mon ip
-        self.monnom=self.generernom() # un generateur de nom pour faciliter le deboggage (comme il genere un nom quasi aleatoire et on peut demarrer plusieurs 'participants' sur une même machine pour tester)
+        self.monnom=self.generernom() # un generateur de nom pour facnomVaisseauiliter le deboggage (comme il genere un nom quasi aleatoire et on peut demarrer plusieurs 'participants' sur une même machine pour tester)
         self.modele=None
         self.serveur=None
         self.vue=Vue(self,self.monip,self.monnom)
