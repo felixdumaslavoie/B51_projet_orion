@@ -116,8 +116,8 @@ class Vue():
         #P.grid(row=1, column=0)
 
 
-        self.cadreinfojoueur=Frame(self.cadrejeu,height=100, width=800, bg="blue",padx = 100)
-        self.cadreinfojoueur.grid(row=0, column=0, columnspan = 2)
+        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="blue",padx = 200)
+        self.cadreinfojoueur.grid(row=0, column=0, columnspan = 5)
 
         self.labcouleur=Label(self.cadreinfojoueur,text="couleur:",padx = 100)
         self.labcouleur.grid(row=0,column=0)
