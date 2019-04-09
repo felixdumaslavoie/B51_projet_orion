@@ -23,21 +23,42 @@ class Galaxie():
         
         for i in range(self.nbSysSolaire):
             #x=random.randrange(self.parent.largeur-(2*self.bordure))+self.bordure
-            x=self.listeX.pop(random.randrange(len(self.listeX)-1))
-            self.listeX.remove(x+1)
-            self.listeX.remove(x+2)
-            self.listeX.remove(x-1)
-            self.listeX.remove(x-2)
+            x=random.choice(self.listeX)
+            self.listeX.remove(x)
+            #===================================================================
+            # if x-2 in self.listeX:
+            #     self.listeX.remove(x-2)
+            #===================================================================
+            if x-1 in self.listeX:
+                self.listeX.remove(x-1)
+            if x+1 in self.listeX:
+                self.listeX.remove(x+1)
+            #===================================================================
+            # if x+2 in self.listeX:
+            #     self.listeX.remove(x+2)
+            #===================================================================
+
             #y=random.randrange(self.parent.hauteur-(2*self.bordure))+self.bordure
-            y=self.listeY.pop(random.randrange(len(self.listeY)-1))
-            self.listeY.remove(y+1)
-            self.listeY.remove(y+2)
-            self.listeY.remove(y-1)
-            self.listeY.remove(y-2)
+            y=random.choice(self.listeY)
+            self.listeY.remove(y)
+            #===================================================================
+            # if y-2 in self.listeY:
+            #     self.listeY.remove(y-2)
+            #===================================================================
+            if y-1 in self.listeY:
+                self.listeY.remove(y-1)
+            if y+1 in self.listeY:
+                self.listeY.remove(y+1)
+            #===================================================================
+            # if y+2 in self.listeY:
+            #     self.listeY.remove(y+2)
+            #===================================================================
+            
             #TODO: S'assurer que les coordonnées et noms générés sont uniques.
             nom = self.listeNomEtoile.pop(random.randrange(len(self.listeNomEtoile)-1))
             s = SystemeSolaire(self,x,y,nom)
             self.listeSysSolaire.append(s)
+            print("Étoile " + nom + " créée " + str(x) + " " + str(y))
 			
 class SystemeSolaire():
     def __init__(self,parent,x,y,nom):

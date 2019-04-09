@@ -208,8 +208,9 @@ class Vue():
         print("SCROLL",px,py)
 
     def afficherdecorGalaxie(self,mod):
+        
+        self.mod=mod
 
-		self.mod=mod
         for i in range(len(mod.Galaxie.listeSysSolaire)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
@@ -238,9 +239,9 @@ class Vue():
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
 
     def afficherdecorSolaire(self,mod):
-
-
-		self.mod=mod
+        
+        self.mod=mod
+        
         for i in range(len(mod.Galaxie.listeSysSolaire)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
