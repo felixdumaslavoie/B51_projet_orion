@@ -87,6 +87,7 @@ class Controleur():
             self.vue.creeraffichercadrepartie(self.modele)
             self.vue.vues["Galaxie"].afficherdecorGalaxie(self.modele)
             self.vue.vues["Solaire"].afficherdecorSolaire(self.modele)
+            self.vue.vues["Planete"].afficherdecorPlanete(self.modele)
             print(self.monnom,"LANCE PROCHAINTOUR")
             self.prochaintour()
 

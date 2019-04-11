@@ -57,7 +57,7 @@ class SystemeSolaire():
         self.x=x
         self.y=y
         self.taille=random.randrange(4,7) #taille de l'étoile dans la vue de la galaxie
-        self.nbdeplanete=random.randrange(3, 12)
+        self.nbdeplanete=random.randrange(4, 12)
         self.listePlanete = []
         for i in range(self.nbdeplanete):
             x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
@@ -71,7 +71,7 @@ class Planete():
         self.proprietaire="inconnu"
         self.x=x
         self.y=y
-        self.taille=random.randrange(4,6)
+        self.taille=random.randrange(4,12)
         self.charbon=random.randrange(6)
         self.zinc=random.randrange(5)
         self.deuterium=random.randrange(10)
@@ -251,18 +251,18 @@ class Joueur():
         v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
         print("Vaisseau",v.id, v.nomVaisseau, v.cargo, v.energie, v.vitesse)
         self.flotte.append(v)
-        
+
     def creerStructure(self,nom,x,y,nomStructure,planete):
         t=Structure(self, nom,x,y,nomStructure)
         self.planete.listeStructure.append(t)
-        
+
     #===========================================================================
     # def economie(self):
-    #     
+    #
     #     for i in self.planetescontrolees:
     #         for j in i.listeStructure:
     #===========================================================================
-                
+
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
