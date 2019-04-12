@@ -123,9 +123,55 @@ class Vue():
         self.listelobby.delete(0,END)
         self.listelobby.insert(0,lj)
 
-    def creercadreinfojoueur(self,cadre):
-        pass
+    def creerCadreInfoJoueur(self,cadre,mod):
+        self.cadre = cadre
+        self.mod = mod
 
+        self.labcouleur=Label(self.cadre,text="couleur:",padx = 100)
+        self.idcouleur=Label(self.cadre, bg=self.mod.joueurs[self.nom].couleur )
+        self.btndiplomatie=Button(self.cadre,text="Diplomatie")
+        # ajouter text variable
+        self.labcouttotal=Label(self.cadre,text="cout total:")
+        self.nbcouttotal=Label(self.cadre,text="-" )
+        self.btnarbretech=Button(self.cadre,text="Arbre Technologique")
+        self.labcredit=Label(self.cadre, text="credit:")
+        self.nbcredit=Label(self.cadre, text="-")
+        self.labnourriture= Label(self.cadre, text="nourriture:")
+        self.nbnourriture=Label(self.cadre, text="-")
+        self.labdeuterium= Label(self.cadre, text="deuterium:")
+        self.nbdeuterium=Label(self.cadre, text="-")
+        self.labmoral= Label(self.cadre, text="moral:")
+        self.nbmoral=Label(self.cadre, text="-")
+        # boutons et bind
+        self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie")
+        self.bsolaire=Button(self.cadreinfojoueur,text="Solaire")
+        self.bplanete=Button(self.cadreinfojoueur,text="Planete")
+        # affichage
+        self.gridCadreInfoJoueur(self.cadre,self.mod)
+
+    def gridCadreInfoJoueur(self,cadre,mod):
+        self.cadre = cadre
+        self.mod = mod
+
+        self.labcouleur.grid(row=0,column=0)
+        self.idcouleur.grid(row=0,column=1)
+        self.btndiplomatie.grid(row=0,column=3)
+        self.labcouttotal.grid(row=0,column=4, sticky="EW")
+        self.nbcouttotal.grid(row=0,column=5)
+        self.btnarbretech.grid(row=0,column=6)
+        # ajout text var
+        self.labcredit.grid(row=1,column=0)
+        self.nbcredit.grid(row=1,column=1)
+        self.labnourriture.grid(row=1,column=2)
+        self.nbnourriture.grid(row=1,column=3)
+        self.labdeuterium.grid(row=1,column=4)
+        self.nbdeuterium.grid(row=1,column=5)
+        self.labmoral.grid(row=1,column=6)
+        self.nbmoral.grid(row=1,column=7)
+        # boutons
+        self.bgalaxie.grid(row = 1, column =9)
+        self.bsolaire.grid(row = 1, column =10)
+        self.bplanete.grid(row = 1, column =11)
 
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
@@ -144,58 +190,59 @@ class Vue():
 					"Solaire":VueSolaire(self.cadrejeu,self)}
         self.vueactive= self.vues["Galaxie"]
         self.vueactive.cadrespatial.grid()
-
-
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="blue",padx = 200)
         self.cadreinfojoueur.grid(row=0, column=0, columnspan = 5)
 
-        self.labcouleur=Label(self.cadreinfojoueur,text="couleur:",padx = 100)
-        self.labcouleur.grid(row=0,column=0)
-        self.idcouleur=Label(self.cadreinfojoueur, bg=mod.joueurs[self.nom].couleur )
-        self.idcouleur.grid(row=0,column=1)
-        self.btndiplomatie=Button(self.cadreinfojoueur,text="Diplomatie")
-        self.btndiplomatie.grid(row=0,column=3)
+        self.creerCadreInfoJoueur(self.cadreinfojoueur,self.mod)
+
+
+       #self.labcouleur=Label(self.cadreinfojoueur,text="couleur:",padx = 100)
+        #self.labcouleur.grid(row=0,column=0)
+        #self.idcouleur=Label(self.cadreinfojoueur, bg=mod.joueurs[self.nom].couleur )
+        #self.idcouleur.grid(row=0,column=1)
+        #self.btndiplomatie=Button(self.cadreinfojoueur,text="Diplomatie")
+        #self.btndiplomatie.grid(row=0,column=3)
         # une fois cadre Diplomatie cree  ajouter command=self.changercadre(self.canevasDiplomatie)
-        self.labcouttotal=Label(self.cadreinfojoueur,text="cout total:")
-        self.labcouttotal.grid(row=0,column=4, sticky="EW")
+        #self.labcouttotal=Label(self.cadreinfojoueur,text="cout total:")
+        #self.labcouttotal.grid(row=0,column=4, sticky="EW")
         # faut creer cout de maintenance total avant bg=mod.joueurs[self.nom].cout
-        self.nbcouttotal=Label(self.cadreinfojoueur,text="-" )
-        self.nbcouttotal.grid(row=0,column=5)
-        self.btnarbretech=Button(self.cadreinfojoueur,text="Arbre Technologique")
+        #self.nbcouttotal=Label(self.cadreinfojoueur,text="-" )
+        #self.nbcouttotal.grid(row=0,column=5)
+        # self.btnarbretech=Button(self.cadreinfojoueur,text="Arbre Technologique")
         # une fois cadre Arbre Tech cree  ajouter command=self.changercadre(self.canevasArbreTech)
-        self.btnarbretech.grid(row=0,column=6)
+       #self.btnarbretech.grid(row=0,column=6)
 
-        self.labcredit=Label(self.cadreinfojoueur, text="credit:")
-        self.labcredit.grid(row=1,column=0)
+        # self.labcredit=Label(self.cadreinfojoueur, text="credit:")
+        #self.labcredit.grid(row=1,column=0)
         # faut creer credits avant text=mod.joueurs[self.nom].credit
-        self.nbcredit=Label(self.cadreinfojoueur, text="-")
-        self.nbcredit.grid(row=1,column=1)
-        self.labnourriture= Label(self.cadreinfojoueur, text="nourriture:")
-        self.labnourriture.grid(row=1,column=2)
+        # self.nbcredit=Label(self.cadreinfojoueur, text="-")
+        #self.nbcredit.grid(row=1,column=1)
+        #self.labnourriture= Label(self.cadreinfojoueur, text="nourriture:")
+        #self.labnourriture.grid(row=1,column=2)
         # faut creer nourriture avant text=mod.joueurs[self.nom].nourriture
-        self.nbnourriture=Label(self.cadreinfojoueur, text="-")
-        self.nbnourriture.grid(row=1,column=3)
-        self.labdeuterium= Label(self.cadreinfojoueur, text="deuterium:")
-        self.labdeuterium.grid(row=1,column=4)
+        # self.nbnourriture=Label(self.cadreinfojoueur, text="-")
+        #self.nbnourriture.grid(row=1,column=3)
+        #self.labdeuterium= Label(self.cadreinfojoueur, text="deuterium:")
+        #self.labdeuterium.grid(row=1,column=4)
         # faut creer deuterium avant text=mod.joueurs[self.nom].deuterium
-        self.nbdeuterium=Label(self.cadreinfojoueur, text="-")
-        self.nbdeuterium.grid(row=1,column=5)
-        self.labmoral= Label(self.cadreinfojoueur, text="moral:")
-        self.labmoral.grid(row=1,column=6)
+        # self.nbdeuterium=Label(self.cadreinfojoueur, text="-")
+       #self.nbdeuterium.grid(row=1,column=5)
+        #self.labmoral= Label(self.cadreinfojoueur, text="moral:")
+        #self.labmoral.grid(row=1,column=6)
         # faut creer moral avant text=mod.joueurs[self.nom].moral
-        self.nbmoral=Label(self.cadreinfojoueur, text="-")
-        self.nbmoral.grid(row=1,column=7)
+        #self.nbmoral=Label(self.cadreinfojoueur, text="-")
+        #self.nbmoral.grid(row=1,column=7)
 
 
-        self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie")
+        #self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie")
         self.bgalaxie.bind("<Button>",self.changementdevue)
-        self.bgalaxie.grid(row = 1, column =9)
-        self.bsolaire=Button(self.cadreinfojoueur,text="Solaire")
+        #self.bgalaxie.grid(row = 1, column =9)
+       # self.bsolaire=Button(self.cadreinfojoueur,text="Solaire")
         self.bsolaire.bind("<Button>",self.changementdevue)
-        self.bsolaire.grid(row = 1, column =10)
-        self.bplanete=Button(self.cadreinfojoueur,text="Planete")
+        #self.bsolaire.grid(row = 1, column =10)
+        #self.bplanete=Button(self.cadreinfojoueur,text="Planete")
         self.bplanete.bind("<Button>",self.changementdevue)
-        self.bplanete.grid(row = 1, column =11)
+        #self.bplanete.grid(row = 1, column =11)
 
 
 
