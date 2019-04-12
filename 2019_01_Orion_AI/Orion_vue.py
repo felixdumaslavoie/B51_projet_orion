@@ -2,6 +2,7 @@
 from tkinter import *
 import random
 import os,os.path
+import time
 
 
 
@@ -24,7 +25,7 @@ class Vue():
         self.creercadrelobby()
         self.changecadre(self.cadresplash)
         self.cadreoutilsgeneral=Frame(self.root)
-        self.labgeneral=Label(self.cadreoutilsgeneral, text="menu general!")
+        self.labgeneral=Label(self.cadreoutilsgeneral)
         self.labgeneral.grid(row = 1, column =0)
         self.ip=ip
 
@@ -187,7 +188,7 @@ class Vue():
 					"Solaire":VueSolaire(self.cadrejeu,self)}
         self.vueactive= self.vues["Galaxie"]
         self.vueactive.cadrespatial.grid()
-        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="blue",padx = 200)
+        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="blue",padx =150)
         self.cadreinfojoueur.grid(row=0, column=0, columnspan = 5)
 
         # fonction création des infos joueurs
@@ -322,6 +323,9 @@ class Vue():
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
 
+    def mouseClick(self,evt):
+        pass
+
 
 
 class VueSolaire():
@@ -415,10 +419,10 @@ class VuePlanete():
 
 
         # affichage de la planete selectionner
-        # x = 200
-        # y = 100
-        # r = 300
-        # self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
+        #x = 200
+        #y = 100
+        #r = 300
+        #self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
 
 
 class VueGalaxie():
