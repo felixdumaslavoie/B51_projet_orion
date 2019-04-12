@@ -153,12 +153,13 @@ class Vue():
         self.cadre = cadre
         self.mod = mod
 
+
         self.labcouleur.grid(row=0,column=0)
         self.idcouleur.grid(row=0,column=1)
-        self.btndiplomatie.grid(row=0,column=3)
-        self.labcouttotal.grid(row=0,column=4, sticky="EW")
-        self.nbcouttotal.grid(row=0,column=5)
-        self.btnarbretech.grid(row=0,column=6)
+        self.btndiplomatie.grid(row=0,column=2)
+        self.btnarbretech.grid(row=0,column=5)
+        self.labcouttotal.grid(row=0,column=3, sticky="EW")
+        self.nbcouttotal.grid(row=0,column=4)
         # ajout text var
         self.labcredit.grid(row=1,column=0)
         self.nbcredit.grid(row=1,column=1)
@@ -169,9 +170,9 @@ class Vue():
         self.labmoral.grid(row=1,column=6)
         self.nbmoral.grid(row=1,column=7)
         # boutons
-        self.bgalaxie.grid(row = 1, column =9)
-        self.bsolaire.grid(row = 1, column =10)
-        self.bplanete.grid(row = 1, column =11)
+        self.bgalaxie.grid(row = 1, column =8)
+        self.bsolaire.grid(row = 1, column =9)
+        self.bplanete.grid(row = 1, column =10)
 
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
@@ -180,10 +181,6 @@ class Vue():
         #self.cadrejeu=Frame(self.cadrepartie)
         #self.cadrejeu.grid(row=1, column=0)
 
-
-        #G.grid(row=1, column=0)
-        #S.grid(row=1, column=0)
-        #P.grid(row=1, column=0)
         self.cadreoutilsgeneral.grid()
         self.vues={"Galaxie":VueGalaxie(self.cadrejeu,self),
 					"Planete":VuePlanete(self.cadrejeu,self),
@@ -193,59 +190,13 @@ class Vue():
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="blue",padx = 200)
         self.cadreinfojoueur.grid(row=0, column=0, columnspan = 5)
 
+        # fonction création des infos joueurs
         self.creerCadreInfoJoueur(self.cadreinfojoueur,self.mod)
 
-
-       #self.labcouleur=Label(self.cadreinfojoueur,text="couleur:",padx = 100)
-        #self.labcouleur.grid(row=0,column=0)
-        #self.idcouleur=Label(self.cadreinfojoueur, bg=mod.joueurs[self.nom].couleur )
-        #self.idcouleur.grid(row=0,column=1)
-        #self.btndiplomatie=Button(self.cadreinfojoueur,text="Diplomatie")
-        #self.btndiplomatie.grid(row=0,column=3)
-        # une fois cadre Diplomatie cree  ajouter command=self.changercadre(self.canevasDiplomatie)
-        #self.labcouttotal=Label(self.cadreinfojoueur,text="cout total:")
-        #self.labcouttotal.grid(row=0,column=4, sticky="EW")
-        # faut creer cout de maintenance total avant bg=mod.joueurs[self.nom].cout
-        #self.nbcouttotal=Label(self.cadreinfojoueur,text="-" )
-        #self.nbcouttotal.grid(row=0,column=5)
-        # self.btnarbretech=Button(self.cadreinfojoueur,text="Arbre Technologique")
-        # une fois cadre Arbre Tech cree  ajouter command=self.changercadre(self.canevasArbreTech)
-       #self.btnarbretech.grid(row=0,column=6)
-
-        # self.labcredit=Label(self.cadreinfojoueur, text="credit:")
-        #self.labcredit.grid(row=1,column=0)
-        # faut creer credits avant text=mod.joueurs[self.nom].credit
-        # self.nbcredit=Label(self.cadreinfojoueur, text="-")
-        #self.nbcredit.grid(row=1,column=1)
-        #self.labnourriture= Label(self.cadreinfojoueur, text="nourriture:")
-        #self.labnourriture.grid(row=1,column=2)
-        # faut creer nourriture avant text=mod.joueurs[self.nom].nourriture
-        # self.nbnourriture=Label(self.cadreinfojoueur, text="-")
-        #self.nbnourriture.grid(row=1,column=3)
-        #self.labdeuterium= Label(self.cadreinfojoueur, text="deuterium:")
-        #self.labdeuterium.grid(row=1,column=4)
-        # faut creer deuterium avant text=mod.joueurs[self.nom].deuterium
-        # self.nbdeuterium=Label(self.cadreinfojoueur, text="-")
-       #self.nbdeuterium.grid(row=1,column=5)
-        #self.labmoral= Label(self.cadreinfojoueur, text="moral:")
-        #self.labmoral.grid(row=1,column=6)
-        # faut creer moral avant text=mod.joueurs[self.nom].moral
-        #self.nbmoral=Label(self.cadreinfojoueur, text="-")
-        #self.nbmoral.grid(row=1,column=7)
-
-
-        #self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie")
+        # bind des boutons
         self.bgalaxie.bind("<Button>",self.changementdevue)
-        #self.bgalaxie.grid(row = 1, column =9)
-       # self.bsolaire=Button(self.cadreinfojoueur,text="Solaire")
         self.bsolaire.bind("<Button>",self.changementdevue)
-        #self.bsolaire.grid(row = 1, column =10)
-        #self.bplanete=Button(self.cadreinfojoueur,text="Planete")
         self.bplanete.bind("<Button>",self.changementdevue)
-        #self.bplanete.grid(row = 1, column =11)
-
-
-
 
         # cadre jeu = la vue actuel
         self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11") #INUTILE
@@ -316,10 +267,6 @@ class Vue():
 
     def _create_circle(self, x, y, r):
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
-
-
-
-
 
 
     def _create_circle(self, x, y, r):
