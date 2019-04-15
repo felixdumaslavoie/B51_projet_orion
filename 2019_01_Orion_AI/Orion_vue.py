@@ -65,7 +65,7 @@ class Vue():
     def changevue(self,vue):
         if self.vueactif:
             self.vueactif.grid_forget()
-        self.vueactif=cadre
+        self.vueactif=vue
         self.vueactif.grid(row=1, column=0)
 
 
@@ -160,7 +160,6 @@ class Vue():
         self.cadre = cadre
         self.mod = mod
 
-
         self.labcouleur.grid(row=0,column=0)
         self.idcouleur.grid(row=0,column=1)
         self.btndiplomatie.grid(row=0,column=2)
@@ -184,9 +183,6 @@ class Vue():
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
         self.mod=mod
-        #self.cadrepartie=Frame(self.cadreapp)
-        #self.cadrejeu=Frame(self.cadrepartie)
-        #self.cadrejeu.grid(row=1, column=0)
 
         self.cadreoutilsgeneral.grid()
         self.vues={"Galaxie":VueGalaxie(self.cadrejeu,self),
@@ -210,18 +206,6 @@ class Vue():
 
         #Canevas vue Galaxie / vue de base
         self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-        #self.canevasSolaire=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-        #self.canevasPlanete=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-
-        #Canevas vue Galaxie
-        #self.canevasGalaxie.grid(row=1, column=0)
-
-        #Caneveas vue Solaire
-
-        #self.canevasSolaire.grid(row=1, column=0)
-
-        # Canevas vue Planete
-        #self.canevasPlanete.grid(row=1, column=0)
 
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreoutils.grid(row=1, column=1)
@@ -256,8 +240,8 @@ class Vue():
 
 
         self.vues["Galaxie"].afficherdecorGalaxie(mod)
-        #self.afficherdecorSolaire(mod)
-        #self.afficherdecorPlanete(mod)
+        self.vues["Solaire"].afficherdecorSolaire(mod)
+        self.vues["Planete"].afficherdecorPlanete(mod)
 
 
         self.changecadre(self.cadrepartie)
@@ -292,6 +276,8 @@ class Vue():
     def afficherpartie(self,mod):
 
         self.vues["Galaxie"].afficherpartieGalaxie(mod)
+
+
 
         # self.canevasGalaxie.delete("artefact")
 
@@ -435,10 +421,10 @@ class VuePlanete():
 
 
         # affichage de la planete selectionner
-        #x = 200
-        #y = 100
-        #r = 300
-        #self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
+        x = 200
+        y = 100
+        r = 300
+        self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
 
 
 class VueGalaxie():
@@ -536,7 +522,6 @@ class VueGalaxie():
 
     def afficherpartieGalaxie(self,mod):
         self.canevasGalaxie.delete("artefact")
-        print ("le bon afficher partie")
 
         if self.parent.maselection!=None:
             joueur=mod.joueurs[self.parent.maselection[0]]
