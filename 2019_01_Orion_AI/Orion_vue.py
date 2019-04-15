@@ -32,16 +32,10 @@ class Vue():
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
 
-
-
+        self.couleurinfo="gray"
+        self.couleurbouton="gray33"
         self.cadrejeu.grid(row=1, column=0)
         self.mod=None
-
-
-
-
-
-
 
     def changementdevue(self,evt):
         nom=evt.widget.cget("text")
@@ -134,25 +128,25 @@ class Vue():
         self.cadre = cadre
         self.mod = mod
 
-        self.labcouleur=Label(self.cadre,text="couleur:",padx = 100)
+        self.labcouleur=Label(self.cadre,text="couleur:",bg=self.couleurinfo)
         self.idcouleur=Label(self.cadre, bg=self.mod.joueurs[self.nom].couleur )
-        self.btndiplomatie=Button(self.cadre,text="Diplomatie")
+        self.btndiplomatie=Button(self.cadre,text="Diplomatie",bg=self.couleurinfo)
         # ajouter text variable
-        self.labcouttotal=Label(self.cadre,text="cout total:")
-        self.nbcouttotal=Label(self.cadre,text="-" )
-        self.btnarbretech=Button(self.cadre,text="Arbre Technologique")
-        self.labcredit=Label(self.cadre, text="credit:")
-        self.nbcredit=Label(self.cadre, text="-")
-        self.labnourriture= Label(self.cadre, text="nourriture:")
-        self.nbnourriture=Label(self.cadre, text="-")
-        self.labdeuterium= Label(self.cadre, text="deuterium:")
-        self.nbdeuterium=Label(self.cadre, text="-")
-        self.labmoral= Label(self.cadre, text="moral:")
-        self.nbmoral=Label(self.cadre, text="-")
+        self.labcouttotal=Label(self.cadre,text="cout total:",bg=self.couleurinfo)
+        self.nbcouttotal=Label(self.cadre,text="-" ,bg=self.couleurinfo)
+        self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo)
+        self.labcredit=Label(self.cadre, text="credit:",bg=self.couleurinfo)
+        self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
+        self.labnourriture= Label(self.cadre, text="nourriture:",bg=self.couleurinfo)
+        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
+        self.labdeuterium= Label(self.cadre, text="deuterium:",bg=self.couleurinfo)
+        self.nbdeuterium=Label(self.cadre, text=self.mod.joueurs[self.nom].deuterium,bg=self.couleurinfo)
+        self.labmoral= Label(self.cadre, text="moral:",bg=self.couleurinfo)
+        self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo)
         # boutons et bind
-        self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie")
-        self.bsolaire=Button(self.cadreinfojoueur,text="Solaire")
-        self.bplanete=Button(self.cadreinfojoueur,text="Planete")
+        self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton)
+        self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton)
+        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton)
         # affichage
         self.gridCadreInfoJoueur(self.cadre,self.mod)
 
@@ -162,10 +156,8 @@ class Vue():
 
         self.labcouleur.grid(row=0,column=0)
         self.idcouleur.grid(row=0,column=1)
-        self.btndiplomatie.grid(row=0,column=2)
-        self.btnarbretech.grid(row=0,column=5)
-        self.labcouttotal.grid(row=0,column=3, sticky="EW")
-        self.nbcouttotal.grid(row=0,column=4)
+        self.labcouttotal.grid(row=0,column=2,)
+        self.nbcouttotal.grid(row=0,column=3)
         # ajout text var
         self.labcredit.grid(row=1,column=0)
         self.nbcredit.grid(row=1,column=1)
@@ -176,6 +168,8 @@ class Vue():
         self.labmoral.grid(row=1,column=6)
         self.nbmoral.grid(row=1,column=7)
         # boutons
+        self.btndiplomatie.grid(row=0,column=4)
+        self.btnarbretech.grid(row=0,column=5)
         self.bgalaxie.grid(row = 1, column =8)
         self.bsolaire.grid(row = 1, column =9)
         self.bplanete.grid(row = 1, column =10)
@@ -190,7 +184,7 @@ class Vue():
 					"Solaire":VueSolaire(self.cadrejeu,self)}
         self.vueactive= self.vues["Galaxie"]
         self.vueactive.cadrespatial.grid()
-        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="blue",padx =150)
+        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =150)
         self.cadreinfojoueur.grid(row=0, column=0, columnspan = 5)
 
         # fonction création des infos joueurs
@@ -200,6 +194,7 @@ class Vue():
         self.bgalaxie.bind("<Button>",self.changementdevue)
         self.bsolaire.bind("<Button>",self.changementdevue)
         self.bplanete.bind("<Button>",self.changementdevue)
+
 
         # cadre jeu = la vue actuel
         self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11") #INUTILE
@@ -352,6 +347,7 @@ class VueSolaire():
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
         self.unSysSolaire = random.choice(self.listeSysSolaire)
+        #self.unSysSolaire = self.listeSysSolaire[0] /TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS MODELE
 
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
@@ -370,19 +366,26 @@ class VueSolaire():
 
         for i in self.unSysSolaire.listePlanete:
             t=i.taille
-            self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags="planete")
+            if(i.proprietaire=="inconnu"):
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags="planete")
+            else:
+                player = None
+                for j in self.mod.joueurs:
+                    if(mod.joueurs[j].nom == i.proprietaire):
+                        player = j
+                        self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags="planete")
 
-        for i in mod.joueurs.keys():
-            for j in mod.joueurs[i].planetescontrolees:
-                t=j.taille
-                self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
-                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
+        # for i in mod.joueurs.keys():
+        #     for j in mod.joueurs[i].planetescontrolees:
+        #         t=j.taille
+        #         self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
+        #                             tags=(j.proprietaire,"planete",str(j.id),"possession"))
     # dessine IAs
-        for i in mod.ias:
-            for j in i.planetescontrolees:
-                t=j.taille
-                self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
-                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
+        # for i in mod.ias:
+        #     for j in i.planetescontrolees:
+        #         t=j.taille
+        #         self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
+        #                             tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
         self.parent.bindSolaire(self.canevasSolaire)
 
@@ -462,31 +465,11 @@ class VueGalaxie():
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
 
-        for i in range(random.randrange(24, 156)):
-            x=random.randrange(mod.largeur)
-            y=random.randrange(mod.hauteur)
-            self.canevasGalaxie.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
 
         for i in self.listeSysSolaire:
             t=i.taille
             self.canevasGalaxie.create_oval(i.x-t, i.y-t,i.x+t,i.y+t,fill="grey80", tags=("etoile"))
 
-        for i in mod.Galaxie.listeSysSolaire:
-            t=i.taille
-            self.canevasGalaxie.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
-                                    tags=(i.proprietaire,"planete",str(i.id)))
-        for i in mod.joueurs.keys():
-            for j in mod.joueurs[i].planetescontrolees:
-                t=j.taille
-                self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
-                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
-    # dessine IAs
-
-        for i in mod.ias:
-            for j in i.planetescontrolees:
-                t=j.taille
-                self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
-                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
         self.afficherpartieGalaxie(mod)
 
