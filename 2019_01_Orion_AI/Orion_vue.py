@@ -152,7 +152,7 @@ class Vue():
         # boutons et bind
         self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton)
         self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton)
-        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton)
+        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton, state=DISABLED)
         # affichage
         self.gridCadreInfoJoueur(self.cadre,self.mod)
 
@@ -199,7 +199,7 @@ class Vue():
         # bind des boutons
         self.bgalaxie.bind("<Button>",self.changementdevue)
         self.bsolaire.bind("<Button>",self.changementdevue)
-        self.bplanete.bind("<Button>",self.changementdevue)
+        # self.bplanete.bind("<Button>",self.changementdevue)
 
 
         # cadre jeu = la vue actuel
@@ -323,13 +323,14 @@ class Vue():
         #         self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
         #                              tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
-    def bindSolaire(self,canvas):
+    def ZoomPlanete(self,canvas):
         self.canvas = canvas
-        self.canvas.tag_bind("planete","<Button-1>", lambda event: print("c'est une planete du system solaire", self))
-        # manque la possibilité de dire quel item call ca
         # ref : http://effbot.org/tkinterbook/canvas.htm
         # ref 2 : https://effbot.org/tkinterbook/tkinter-events-and-bindings.htm
-
+        t=self.canvas.gettags(CURRENT)
+        if t:
+            if t[1] == "planeteJoueur":
+                self.bplanete.config(state=ACTIVE) #, command=afficherInfosPlanete(self.mod,t[2]))
 
 
 class VueSolaire():
@@ -342,7 +343,8 @@ class VueSolaire():
         self.cadresolaireoutils=Frame(self.cadrespatial)
         self.canevasSolaire=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
         # lambda de demo
-        #self.canevasSolaire.bind( "<Button-1>", lambda event, canvas = self.canevasSolaire : parent.getInfoObject(event, canvas))
+        self.canevasSolaire.bind( "<Button-1>", lambda event, canvas = self.canevasSolaire : self.parent.ZoomPlanete(canvas))
+
         self.labsolaire=Label(self.cadresolaireoutils, text="in solaire!")
         self.labsolaire.grid()
         self.canevasSolaire.grid(row = 0, column =1)
@@ -357,27 +359,29 @@ class VueSolaire():
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
-            self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
+            self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=(None,"fond",None,None))
+
+    #########################
         for i in self.unSysSolaire.listePlanete:
             t=i.taille
-            self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags="planete")
+            self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=(None,"planeteSeul",None,None))
 
         for i in mod.joueurs.keys():
             for j in mod.joueurs[i].planetescontrolees:
                 t=j.taille
                 self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
-                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
+                                    tags=(j.proprietaire,"planeteJoueur",str(j.id),"possession"))
     # dessine IAs
         for i in mod.ias:
             for j in i.planetescontrolees:
                 t=j.taille
                 self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
-                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
+                                    tags=(j.proprietaire,"planeteAIs",str(j.id),"possession"))
 
-        self.parent.bindSolaire(self.canevasSolaire)
+        self.parent.ZoomPlanete(self.canevasSolaire)
 
     def _create_circle(self, x, y, r):
-        return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
+        return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=(None,"soleil",None,None))
         #self.parent.afficherpartie(mod)
 
     def afficherplanemetemereSolaire(self,evt):
