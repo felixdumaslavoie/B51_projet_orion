@@ -202,10 +202,10 @@ class Vue():
         self.bplanete.bind("<Button>",self.changementdevue)
 
         # cadre jeu = la vue actuel
-        self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11") #INUTILE
+        #self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11") #INUTILE
 
         #Canevas vue Galaxie / vue de base
-        self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        #self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
 
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreoutils.grid(row=1, column=1)
@@ -357,6 +357,8 @@ class VueSolaire():
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
             self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
+
+    def systememonetoile(self,etoile):
         for i in self.unSysSolaire.listePlanete:
             t=i.taille
             self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags="planete")
@@ -390,10 +392,8 @@ class VueSolaire():
 
 
 
-
 class VuePlanete():
     def __init__(self,fen,parent):
-
         print("In vue planete")
         self.cadrejeu=fen
         self.parent=parent
@@ -408,6 +408,8 @@ class VuePlanete():
         self.canevasPlanete.grid(row = 0, column =1)
         self.cadreplaneteoutils.grid(row = 0, column =1)
 
+
+
     def afficherdecorPlanete(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
@@ -418,14 +420,32 @@ class VuePlanete():
             y=random.randrange(mod.hauteur)
             self.canevasPlanete.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
 
-
-
         # affichage de la planete selectionner
         x = 200
         y = 100
         r = 300
         self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
 
+        ##TEST
+        #self.afficherInfosPlanete(self.mod.Galaxie.listeSysSolaire[0].listePlanete[0])
+        self.afficherInfosPlanete(self.mod,2)
+        ##FINTEST
+
+    def afficherInfosPlanete(self, modele, idPlanete):
+        self.modele=modele
+
+        for i in range(len(self.modele.Galaxie.listeSysSolaire)):
+            for j in range(len(self.modele.Galaxie.listeSysSolaire[i].listePlanete)):
+                if (self.modele.Galaxie.listeSysSolaire[i].listePlanete[j].id == idPlanete):
+                    self.planete=self.modele.Galaxie.listeSysSolaire[i].listePlanete[j]
+
+
+        self.planetenom=Label(self.parent.cadreinfochoix, bg="white", text="Id: "+ str(self.planete.id))
+        self.planeteproprio=Label(self.parent.cadreinfochoix, bg="white", text="Propriétaire: "+ self.planete.proprietaire)
+        self.planetetaille=Label(self.parent.cadreinfochoix, bg="white", text="Taille: "+ str(self.planete.taille))
+        self.planetenom.grid(row=0, column=0)
+        self.planeteproprio.grid(row=1, column=0)
+        self.planetetaille.grid(row=2, column=0)
 
 class VueGalaxie():
 
