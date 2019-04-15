@@ -317,14 +317,16 @@ class Vue():
         #         self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
         #                              tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
-    def ZoomPlanete(self,canvas):
+    def ZoomPlanete(self,canvas,mod):
         self.canvas = canvas
+        self.mod = mod
         # ref : http://effbot.org/tkinterbook/canvas.htm
         # ref 2 : https://effbot.org/tkinterbook/tkinter-events-and-bindings.htm
         t=self.canvas.gettags(CURRENT)
         if t:
-            if t[1] == "planeteJoueur":
-                self.bplanete.config(state=ACTIVE) #, command=afficherInfosPlanete(self.mod,t[2]))
+            if t[1] == "planeteMere":
+                self.bplanete.config(state=ACTIVE,command= self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2])))
+                print (t[2])
 
 
 class VueSolaire():
@@ -337,7 +339,7 @@ class VueSolaire():
         self.cadresolaireoutils=Frame(self.cadrespatial)
         self.canevasSolaire=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
         # lambda de demo
-        self.canevasSolaire.bind( "<Button-1>", lambda event, canvas = self.canevasSolaire : self.parent.ZoomPlanete(canvas))
+        self.canevasSolaire.bind( "<Button-1>", lambda event, canvas = self.canevasSolaire : self.parent.ZoomPlanete(canvas,self.parent.modele))
 
         self.labsolaire=Label(self.cadresolaireoutils, text="in solaire!")
         self.labsolaire.grid()
@@ -348,8 +350,8 @@ class VueSolaire():
     def afficherdecorSolaire(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
-        self.unSysSolaire = random.choice(self.listeSysSolaire)
-        #self.unSysSolaire = self.listeSysSolaire[0] /TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS MODELE
+        # self.unSysSolaire = random.choice(self.listeSysSolaire)
+        self.unSysSolaire = self.listeSysSolaire[0] # TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS MODELE
 
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
@@ -360,7 +362,7 @@ class VueSolaire():
         for i in range(random.randrange(10,20)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
-            self.canevasSolaire.create_rectangle(x,y,x+8,y+8, fill="light gray", tags=("asteroide",))
+            self.canevasSolaire.create_rectangle(x,y,x+8,y+8, fill="light gray", tags=(None,"asteroide",None,None))
 
         self.systememonetoile(self.mod)
 
@@ -369,21 +371,21 @@ class VueSolaire():
         for i in self.unSysSolaire.listePlanete:
             t=i.taille
             if(i.proprietaire=="inconnu"):
-                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags="planete")
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=("Inconnu","planeteInconnu",None,None))
             else:
                 player = None
                 for j in self.mod.joueurs:
                     if(mod.joueurs[j].nom == i.proprietaire):
                         player = j
-                        self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags="planete")
+                        self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
 
-        for i in mod.joueurs.keys():
-            for j in mod.joueurs[i].planetescontrolees:
-                t=j.taille
-                self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
-                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
+        #for i in mod.joueurs.keys():
+        #    for j in mod.joueurs[i].planetescontrolees:
+        #        t=j.taille
+        #        self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
+        #                            tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
-        self.parent.ZoomPlanete(self.canevasSolaire)
+        self.parent.ZoomPlanete(self.canevasSolaire,mod)
     # #dessine IAs
     #     for i in mod.ias:
     #         for j in i.planetescontrolees:
@@ -416,6 +418,7 @@ class VuePlanete():
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreplaneteoutils=Frame(self.cadrespatial)
         self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
+        # self.planete = None
         # mouse click
         # self.canevasPlanete.bind( "<Button-1>", self.parent.getInfoObject )
 
@@ -444,16 +447,17 @@ class VuePlanete():
 
         ##TEST
         #self.afficherInfosPlanete(self.mod.Galaxie.listeSysSolaire[0].listePlanete[0])
-        self.afficherInfosPlanete(self.mod,2)
+        # self.afficherInfosPlanete(self.mod,2)
         ##FINTEST
 
     def afficherInfosPlanete(self, modele, idPlanete):
+        self.parent.bplanete.config(state=DISABLED)
         self.modele=modele
 
-        for i in range(len(self.modele.Galaxie.listeSysSolaire)):
-            for j in range(len(self.modele.Galaxie.listeSysSolaire[i].listePlanete)):
-                if (self.modele.Galaxie.listeSysSolaire[i].listePlanete[j].id == idPlanete):
-                    self.planete=self.modele.Galaxie.listeSysSolaire[i].listePlanete[j]
+        for i in (self.modele.Galaxie.listeSysSolaire):
+            for j in (i.listePlanete):
+                if (j.id == idPlanete):
+                    self.planete=j
 
 
         self.planetenom=Label(self.parent.cadreinfochoix, bg="white", text="Id: "+ str(self.planete.id))
