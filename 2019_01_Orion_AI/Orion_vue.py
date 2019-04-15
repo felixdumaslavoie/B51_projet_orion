@@ -356,7 +356,18 @@ class VueSolaire():
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
-            self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
+            self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=(None,"fond",None,None))
+            self.canevasSolaire.config(bg="midnight blue")
+
+        for i in range(random.randrange(10,20)):
+            x=random.randrange(mod.largeur)
+            y=random.randrange(mod.hauteur)
+            self.canevasSolaire.create_rectangle(x,y,x+8,y+8, fill="light gray", tags=("asteroide",))
+
+        self.systememonetoile(self.mod)
+
+    def systememonetoile(self,mod):
+
         for i in self.unSysSolaire.listePlanete:
             t=i.taille
             self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags="planete")

@@ -188,12 +188,12 @@ class Vaisseau():
         if nomVaisseau=="Vaisseau_Militaire":
             self.cargo=0
             self.energie=400
-            self.vitesse=4
+            self.vitesse=1
 
         if nomVaisseau=="Vaisseau_Civil":
             self.cargo=100
             self.energie=100
-            self.vitesse=2
+            self.vitesse=0
 
     def avancer(self):
         if self.cible:
@@ -207,7 +207,7 @@ class Vaisseau():
                 self.cible.proprietaire=self.proprietaire
                 #tempo=input("Continuersvp")
                 self.cible=None
-                #print("Change cible")
+                print("Change cible")
         else:
             print("PAS DE CIBLE")
 
