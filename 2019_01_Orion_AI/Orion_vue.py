@@ -514,7 +514,7 @@ class VueGalaxie():
                 self.montreflotteselection()
         elif "planete" in t and t[0]!=self.parent.nom:
             if self.parent.maselection:
-                pass # attribuer cette planete a la cible de la flotte selectionne
+                #pass # attribuer cette planete a la cible de la flotte selectionne
                 self.parent.parent.ciblerflotte(self.parent.maselection[2],t[2])
             print("Cette planete ne vous appartient pas - elle est a ",t[0])
             self.parent.maselection=None

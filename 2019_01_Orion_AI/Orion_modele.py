@@ -268,7 +268,7 @@ class Joueur():
         idori,iddesti=ids
         for i in self.flotte:
             if i.id== int(idori):
-                for j in self.parent.planetes:
+                for j in self.parent.Galaxie.listeSysSolaire:
                     if j.id== int(iddesti):
                         i.cible=j
                         print("GOT TARGET")
