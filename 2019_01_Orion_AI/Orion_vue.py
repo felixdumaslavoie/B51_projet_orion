@@ -354,7 +354,9 @@ class VueSolaire():
             y=random.randrange(mod.hauteur)
             self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
 
-    def systememonetoile(self,etoile):
+
+
+    def systememonetoile(self,mod,etoile):
         for i in self.unSysSolaire.listePlanete:
             t=i.taille
             if(i.proprietaire=="inconnu"):
@@ -366,19 +368,19 @@ class VueSolaire():
                         player = j
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags="planete")
 
-        # for i in mod.joueurs.keys():
-        #     for j in mod.joueurs[i].planetescontrolees:
-        #         t=j.taille
-        #         self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
-        #                             tags=(j.proprietaire,"planete",str(j.id),"possession"))
-    # dessine IAs
-        # for i in mod.ias:
-        #     for j in i.planetescontrolees:
-        #         t=j.taille
-        #         self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
-        #                             tags=(j.proprietaire,"planete",str(j.id),"possession"))
+        for i in mod.joueurs.keys():
+            for j in mod.joueurs[i].planetescontrolees:
+                t=j.taille
+                self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
+                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
+    # #dessine IAs
+    #     for i in mod.ias:
+    #         for j in i.planetescontrolees:
+    #             t=j.taille
+    #             self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
+    #                                 tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
-        self.parent.bindSolaire(self.canevasSolaire)
+    #     self.parent.bindSolaire(self.canevasSolaire)
 
     def _create_circle(self, x, y, r):
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
