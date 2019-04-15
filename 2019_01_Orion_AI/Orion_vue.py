@@ -31,8 +31,14 @@ class Vue():
 
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
+
+        
+
         self.cadrejeu.grid(row=1, column=0)
         self.mod=None
+
+
+
 
 
 
@@ -322,11 +328,14 @@ class Vue():
                 self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
+    def bindSolaire(self,canvas):
+        self.canvas = canvas
+        self.canvas.tag_bind("planete","<Button-1>", lambda event: print("c'est une planete du system solaire", self))<
+        # manque la possibilité de dire quel item call ca
+        # ref : http://effbot.org/tkinterbook/canvas.htm
+        # ref 2 : https://effbot.org/tkinterbook/tkinter-events-and-bindings.htm
 
-    def mouseClick(self,evt):
-        pass
-
-
+    
 
 class VueSolaire():
     def __init__(self,fen,parent):
@@ -337,6 +346,8 @@ class VueSolaire():
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadresolaireoutils=Frame(self.cadrespatial)
         self.canevasSolaire=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
+        # lambda de demo
+        #self.canevasSolaire.bind( "<Button-1>", lambda event, canvas = self.canevasSolaire : parent.getInfoObject(event, canvas))
         self.labsolaire=Label(self.cadresolaireoutils, text="in solaire!")
         self.labsolaire.grid()
         self.canevasSolaire.grid(row = 0, column =1)
@@ -344,7 +355,6 @@ class VueSolaire():
         self._create_circle(self.parent.largeur/1.5,self.parent.hauteur/1.5,75)
 
     def afficherdecorSolaire(self,mod):
-
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
         self.unSysSolaire = random.choice(self.listeSysSolaire)
@@ -353,19 +363,9 @@ class VueSolaire():
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
             self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
-
         for i in self.unSysSolaire.listePlanete:
             t=i.taille
             self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags="planete")
-
-
-        # for i in mod.Galaxie.listeSysSolaire:
-        #     if i==0:
-        #         for j in i.listePlanete:
-
-        #             t=j.taille
-        #             self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill="grey80",
-        #                                     tags=(j.proprietaire,"planete",str(j.id)))
 
         for i in mod.joueurs.keys():
             for j in mod.joueurs[i].planetescontrolees:
@@ -373,12 +373,13 @@ class VueSolaire():
                 self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
                                     tags=(j.proprietaire,"planete",str(j.id),"possession"))
     # dessine IAs
-
         for i in mod.ias:
             for j in i.planetescontrolees:
                 t=j.taille
                 self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
                                     tags=(j.proprietaire,"planete",str(j.id),"possession"))
+
+        self.parent.bindSolaire(self.canevasSolaire)
 
     def _create_circle(self, x, y, r):
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
@@ -392,6 +393,10 @@ class VueSolaire():
         t=10
         self.canevas.create_oval(x-t,y-t,x+t,y+t,dash=(3,3),width=2,outline=couleur,
                                 tags=("planetemere","marqueur"))
+
+
+
+
 class VuePlanete():
     def __init__(self,fen,parent):
 
@@ -401,6 +406,9 @@ class VuePlanete():
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreplaneteoutils=Frame(self.cadrespatial)
         self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
+        # mouse click
+        # self.canevasPlanete.bind( "<Button-1>", self.parent.getInfoObject )
+
         self.labplanete=Label(self.cadreplaneteoutils, text="in planete!")
         self.labplanete.grid()
         self.canevasPlanete.grid(row = 0, column =1)
@@ -438,6 +446,10 @@ class VueGalaxie():
         self.labgalaxie=Label(self.cadregalaxieoutils, text="in galaxie!")
         self.labgalaxie.grid()
         self.canevasGalaxie.grid(row = 0, column =0)
+
+        # mouse click
+        # self.canevasGalaxie.bind( "<Button-1>", self.parent.getInfoObject )
+
         self.cadregalaxieoutils.grid(row = 0, column =0)
         self.mod=parent.mod
 
