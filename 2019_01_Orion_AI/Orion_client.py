@@ -138,7 +138,6 @@ class Controleur():
                 self.cadre=self.cadre-1  # donc on revient au cadre initial
                 self.attente=1
                 #print("ALERTE EN ATTENTE",self.monnom)
-            else:
                 self.attente=0
             self.vue.root.after(20,self.prochaintour)
         else:

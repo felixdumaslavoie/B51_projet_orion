@@ -341,8 +341,8 @@ class Modele():
         np=len(joueurs)+ias
         planes=[]
         while np:
-            s=random.choice(self.Galaxie.listeSysSolaire)
-            #s=self.Galaxie.listeSysSolaire[0]  /TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS VUE
+            #s=random.choice(self.Galaxie.listeSysSolaire)
+            s=self.Galaxie.listeSysSolaire[0]  # TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS VUE
             p=random.choice(s.listePlanete)
             if p not in planes:
                 planes.append(p)
