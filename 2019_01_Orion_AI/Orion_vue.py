@@ -32,7 +32,7 @@ class Vue():
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
 
-        
+
 
         self.cadrejeu.grid(row=1, column=0)
         self.mod=None
@@ -239,6 +239,7 @@ class Vue():
         self.cadreinfochoix.grid(row=0, column=1)
 
         self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
+        # self.btncreervaisseau.grid(row=2, column=2)
         self.lbselectecible=Label(self.cadreinfo,text="Choisir cible",bg="darkgrey")
 
         #modif arbitraire
@@ -278,7 +279,7 @@ class Vue():
 
     def _create_circle(self, x, y, r):
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
-        self.afficherpartie(mod)
+        # self.afficherpartie(mod)
 
 
     def creervaisseau(self):
@@ -289,53 +290,60 @@ class Vue():
         self.btncreervaisseau.grid_forget()
 
     def afficherpartie(self,mod):
-        self.canevasGalaxie.delete("artefact")
 
-        if self.maselection!=None:
-            joueur=mod.joueurs[self.maselection[0]]
-            if self.maselection[1]=="planete":
-                for i in joueur.planetescontrolees:
-                    if i.id == int(self.maselection[2]):
-                        x=i.x
-                        y=i.y
-                        t=10
-                        self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
-                                                 tags=("select","marqueur"))
-            elif self.maselection[1]=="flotte":
-                for i in joueur.flotte:
-                    if i.id == int(self.maselection[2]):
-                        x=i.x
-                        y=i.y
-                        t=10
-                        self.canevasGalaxie.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
-                                                 tags=("select","marqueur"))
-        #else:
-        #    self.canevas.delete("marqueur")
+        self.vues["Galaxie"].afficherpartieGalaxie(mod)
 
+        # self.canevasGalaxie.delete("artefact")
 
-        for i in mod.joueurs.keys():
-            i=mod.joueurs[i]
-            for j in i.flotte:
-                self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+        # print ("Pas le bon afficher partie")
 
-                #self.canevas.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
-                #                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+        # if self.maselection!=None:
+        #     joueur=mod.joueurs[self.maselection[0]]
+        #     if self.maselection[1]=="planete":
+        #         for i in joueur.planetescontrolees:
+        #             if i.id == int(self.maselection[2]):
+        #                 x=i.x
+        #                 y=i.y
+        #                 t=10
+        #                 self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
+        #                                          tags=("select","marqueur"))
+        #                 print("tu te rend ici")
+
+        #     elif self.maselection[1]=="flotte":
+        #         for i in joueur.flotte:
+        #             if i.id == int(self.maselection[2]):
+        #                 x=i.x
+        #                 y=i.y
+        #                 t=10
+        #                 self.canevasGalaxie.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
+        #                                          tags=("select","marqueur"))
+        # #else:
+        # #    self.canevas.delete("marqueur")
 
 
-        for i in mod.ias:
-            for j in i.flotte:
-                self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+        # for i in mod.joueurs.keys():
+        #     i=mod.joueurs[i]
+        #     for j in i.flotte:
+        #         self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+        #                              tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+
+        #         #self.canevasGalaxie.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
+        #         #                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+
+
+        # for i in mod.ias:
+        #     for j in i.flotte:
+        #         self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+        #                              tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
     def bindSolaire(self,canvas):
         self.canvas = canvas
-        self.canvas.tag_bind("planete","<Button-1>", lambda event: print("c'est une planete du system solaire", self))<
+        self.canvas.tag_bind("planete","<Button-1>", lambda event: print("c'est une planete du system solaire", self))
         # manque la possibilité de dire quel item call ca
         # ref : http://effbot.org/tkinterbook/canvas.htm
         # ref 2 : https://effbot.org/tkinterbook/tkinter-events-and-bindings.htm
 
-    
+
 
 class VueSolaire():
     def __init__(self,fen,parent):
@@ -448,15 +456,14 @@ class VueGalaxie():
         self.canevasGalaxie.grid(row = 0, column =0)
 
         # mouse click
-        # self.canevasGalaxie.bind( "<Button-1>", self.parent.getInfoObject )
+        self.canevasGalaxie.bind( "<Button-1>", self.cliquecosmos )
 
         self.cadregalaxieoutils.grid(row = 0, column =0)
         self.mod=parent.mod
 
     def afficherdecorGalaxie(self,mod):
-        self.mod=mod
+        self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
-
 
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
@@ -467,86 +474,87 @@ class VueGalaxie():
             t=i.taille
             self.canevasGalaxie.create_oval(i.x-t, i.y-t,i.x+t,i.y+t,fill="grey80", tags=("etoile"))
 
-    #     for i in mod.Galaxie.listeSysSolaire:
-    #         t=i.taille
-    #         self.canevasGalaxie.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
-    #                                 tags=(i.proprietaire,"planete",str(i.id)))
-    #     for i in mod.joueurs.keys():
-    #         for j in mod.joueurs[i].planetescontrolees:
-    #             t=j.taille
-    #             self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
-    #                                 tags=(j.proprietaire,"planete",str(j.id),"possession"))
-    # # dessine IAs
+        for i in mod.Galaxie.listeSysSolaire:
+            t=i.taille
+            self.canevasGalaxie.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
+                                    tags=(i.proprietaire,"planete",str(i.id)))
+        for i in mod.joueurs.keys():
+            for j in mod.joueurs[i].planetescontrolees:
+                t=j.taille
+                self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
+                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
+    # dessine IAs
 
-    #     for i in mod.ias:
-    #         for j in i.planetescontrolees:
-    #             t=j.taille
-    #             self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
-    #                                 tags=(j.proprietaire,"planete",str(j.id),"possession"))
+        for i in mod.ias:
+            for j in i.planetescontrolees:
+                t=j.taille
+                self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
+                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
-        self.parent.afficherpartie(mod)
+        self.afficherpartieGalaxie(mod)
 
     def afficherplanemetemereGalaxie(self,evt):
-        j=self.mod.joueurs[self.nom]
+        j=self.mod.joueurs[self.parent.nom]
         couleur=j.couleur
         x=j.planetemere.x
         y=j.planetemere.y
         t=10
-        self.canevas.create_oval(x-t,y-t,x+t,y+t,dash=(3,3),width=2,outline=couleur,
+        self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(3,3),width=2,outline=couleur,
                                 tags=("planetemere","marqueur"))
     def cliquecosmos(self,evt):
-        self.btncreervaisseau.grid_forget()
+        self.parent.btncreervaisseau.grid_forget()
         t=self.canevasGalaxie.gettags(CURRENT)
-        if t and t[0]==self.nom:
+        if t and t[0]==self.parent.nom:
             #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
-            self.maselection=[self.nom,t[1],t[2]]  #self.canevas.find_withtag(CURRENT)#[0]
-            print(self.maselection)
+            self.parent.maselection=[self.parent.nom,t[1],t[2]]  #self.canevas.find_withtag(CURRENT)#[0]
+            print(self.parent.maselection)
             if t[1] == "planete":
                 self.montreplaneteselection()
             elif t[1] == "flotte":
                 self.montreflotteselection()
-        elif "planete" in t and t[0]!=self.nom:
-            if self.maselection:
+        elif "planete" in t and t[0]!=self.parent.nom:
+            if self.parent.maselection:
                 pass # attribuer cette planete a la cible de la flotte selectionne
-                self.parent.ciblerflotte(self.maselection[2],t[2])
+                self.parent.parent.ciblerflotte(self.parent.maselection[2],t[2])
             print("Cette planete ne vous appartient pas - elle est a ",t[0])
-            self.maselection=None
-            self.lbselectecible.grid_forget()
+            self.parent.maselection=None
+            self.parent.lbselectecible.grid_forget()
             self.canevasGalaxie.delete("marqueur")
         else:
             print("Region inconnue")
-            self.maselection=None
-            self.lbselectecible.grid_forget()
+            self.parent.maselection=None
+            self.parent.lbselectecible.grid_forget()
             self.canevasGalaxie.delete("marqueur")
 
     def montreplaneteselection(self):
-        self.btncreervaisseau.grid(row=1, column=1)
+        self.parent.btncreervaisseau.grid(row=1, column=1)
     def montreflotteselection(self):
-        self.lbselectecible.grid(row=0, column=0)
+        self.parent.lbselectecible.grid(row=0, column=0)
 
     def afficherartefacts(self,joueurs):
         pass #print("ARTEFACTS de ",self.nom)
 
-    def afficherpartie(self,mod):
+    def afficherpartieGalaxie(self,mod):
         self.canevasGalaxie.delete("artefact")
+        print ("le bon afficher partie")
 
-        if self.maselection!=None:
-            joueur=mod.joueurs[self.maselection[0]]
-            if self.maselection[1]=="planete":
+        if self.parent.maselection!=None:
+            joueur=mod.joueurs[self.parent.maselection[0]]
+            if self.parent.maselection[1]=="planete":
                 for i in joueur.planetescontrolees:
-                    if i.id == int(self.maselection[2]):
+                    if i.id == int(self.parent.maselection[2]):
                         x=i.x
                         y=i.y
                         t=10
-                        self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
+                        self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
                                                  tags=("select","marqueur"))
-            elif self.maselection[1]=="flotte":
+            elif self.parent.maselection[1]=="flotte":
                 for i in joueur.flotte:
-                    if i.id == int(self.maselection[2]):
+                    if i.id == int(self.parent.maselection[2]):
                         x=i.x
                         y=i.y
                         t=10
-                        self.canevasGalaxie.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
+                        self.canevasGalaxie.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
                                                  tags=("select","marqueur"))
         #else:
         #    self.canevas.delete("marqueur")
@@ -566,9 +574,3 @@ class VueGalaxie():
             for j in i.flotte:
                 self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
-    def creervaisseau(self):
-        print("Creer vaisseau")
-        self.parent.creervaisseau()
-        self.maselection=None
-        self.canevasGalaxie.delete("marqueur")
-        self.btncreervaisseau.grid_forget()
