@@ -17,7 +17,7 @@ class Galaxie():
 
         self.txtNomEtoile = open(dir_path + "/nom_etoiles.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
-        self.nbSysSolaire=200
+        self.nbSysSolaire=150
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
@@ -57,7 +57,7 @@ class SystemeSolaire():
         self.x=x
         self.y=y
         self.taille=random.randrange(4,7) #taille de l'étoile dans la vue de la galaxie
-        self.nbdeplanete=random.randrange(4, 12)
+        self.nbdeplanete=random.randrange(2, 12)
         self.listePlanete = []
         for i in range(self.nbdeplanete):
             x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
@@ -188,12 +188,12 @@ class Vaisseau():
         if nomVaisseau=="Vaisseau_Militaire":
             self.cargo=0
             self.energie=400
-            self.vitesse=4
+            self.vitesse=1
 
         if nomVaisseau=="Vaisseau_Civil":
             self.cargo=100
             self.energie=100
-            self.vitesse=2
+            self.vitesse=0
 
     def avancer(self):
         if self.cible:
@@ -203,11 +203,11 @@ class Vaisseau():
             x1,y1=hlp.getAngledPoint(ang,self.vitesse,self.x,self.y)
             self.x,self.y=x1,y1 #int(x1),int(y1)
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
-                print("RESSOURCES...",self.cible.id,self.cible.proprietaire)
+                print("RESSOURCES...",self.cible.id,self.proprietaire)
                 self.cible.proprietaire=self.proprietaire
                 #tempo=input("Continuersvp")
                 self.cible=None
-                #print("Change cible")
+                print("Change cible")
         else:
             print("PAS DE CIBLE")
 
@@ -342,6 +342,7 @@ class Modele():
         planes=[]
         while np:
             s=random.choice(self.Galaxie.listeSysSolaire)
+            #s=self.Galaxie.listeSysSolaire[0]  /TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS VUE
             p=random.choice(s.listePlanete)
             if p not in planes:
                 planes.append(p)

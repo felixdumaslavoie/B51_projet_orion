@@ -37,12 +37,6 @@ class Vue():
         self.cadrejeu.grid(row=1, column=0)
         self.mod=None
 
-
-
-
-
-
-
     def changementdevue(self,evt):
         nom=evt.widget.cget("text")
         print(nom)
@@ -203,10 +197,10 @@ class Vue():
 
 
         # cadre jeu = la vue actuel
-        self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11") #INUTILE
+        #self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11") #INUTILE
 
         #Canevas vue Galaxie / vue de base
-        self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
+        #self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
 
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreoutils.grid(row=1, column=1)
@@ -355,30 +349,49 @@ class VueSolaire():
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
         self.unSysSolaire = random.choice(self.listeSysSolaire)
+        #self.unSysSolaire = self.listeSysSolaire[0] /TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS MODELE
 
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
             self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=(None,"fond",None,None))
+            self.canevasSolaire.config(bg="midnight blue")
 
-    #########################
+        for i in range(random.randrange(10,20)):
+            x=random.randrange(mod.largeur)
+            y=random.randrange(mod.hauteur)
+            self.canevasSolaire.create_rectangle(x,y,x+8,y+8, fill="light gray", tags=("asteroide",))
+
+        self.systememonetoile(self.mod)
+
+    def systememonetoile(self,mod):
+
         for i in self.unSysSolaire.listePlanete:
             t=i.taille
-            self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=(None,"planeteSeul",None,None))
+            if(i.proprietaire=="inconnu"):
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags="planete")
+            else:
+                player = None
+                for j in self.mod.joueurs:
+                    if(mod.joueurs[j].nom == i.proprietaire):
+                        player = j
+                        self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags="planete")
 
         for i in mod.joueurs.keys():
             for j in mod.joueurs[i].planetescontrolees:
                 t=j.taille
                 self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
-                                    tags=(j.proprietaire,"planeteJoueur",str(j.id),"possession"))
-    # dessine IAs
-        for i in mod.ias:
-            for j in i.planetescontrolees:
-                t=j.taille
-                self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
-                                    tags=(j.proprietaire,"planeteAIs",str(j.id),"possession"))
+                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
         self.parent.ZoomPlanete(self.canevasSolaire)
+    # #dessine IAs
+    #     for i in mod.ias:
+    #         for j in i.planetescontrolees:
+    #             t=j.taille
+    #             self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
+    #                                 tags=(j.proprietaire,"planete",str(j.id),"possession"))
+
+    #     self.parent.bindSolaire(self.canevasSolaire)
 
     def _create_circle(self, x, y, r):
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=(None,"soleil",None,None))
@@ -395,10 +408,8 @@ class VueSolaire():
 
 
 
-
 class VuePlanete():
     def __init__(self,fen,parent):
-
         print("In vue planete")
         self.cadrejeu=fen
         self.parent=parent
@@ -413,6 +424,8 @@ class VuePlanete():
         self.canevasPlanete.grid(row = 0, column =1)
         self.cadreplaneteoutils.grid(row = 0, column =1)
 
+
+
     def afficherdecorPlanete(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
@@ -423,14 +436,32 @@ class VuePlanete():
             y=random.randrange(mod.hauteur)
             self.canevasPlanete.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
 
-
-
         # affichage de la planete selectionner
         x = 200
         y = 100
         r = 300
         self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
 
+        ##TEST
+        #self.afficherInfosPlanete(self.mod.Galaxie.listeSysSolaire[0].listePlanete[0])
+        self.afficherInfosPlanete(self.mod,2)
+        ##FINTEST
+
+    def afficherInfosPlanete(self, modele, idPlanete):
+        self.modele=modele
+
+        for i in range(len(self.modele.Galaxie.listeSysSolaire)):
+            for j in range(len(self.modele.Galaxie.listeSysSolaire[i].listePlanete)):
+                if (self.modele.Galaxie.listeSysSolaire[i].listePlanete[j].id == idPlanete):
+                    self.planete=self.modele.Galaxie.listeSysSolaire[i].listePlanete[j]
+
+
+        self.planetenom=Label(self.parent.cadreinfochoix, bg="white", text="Id: "+ str(self.planete.id))
+        self.planeteproprio=Label(self.parent.cadreinfochoix, bg="white", text="Propriétaire: "+ self.planete.proprietaire)
+        self.planetetaille=Label(self.parent.cadreinfochoix, bg="white", text="Taille: "+ str(self.planete.taille))
+        self.planetenom.grid(row=0, column=0)
+        self.planeteproprio.grid(row=1, column=0)
+        self.planetetaille.grid(row=2, column=0)
 
 class VueGalaxie():
 
@@ -456,31 +487,11 @@ class VueGalaxie():
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
 
-        for i in range(random.randrange(24, 156)):
-            x=random.randrange(mod.largeur)
-            y=random.randrange(mod.hauteur)
-            self.canevasGalaxie.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
 
         for i in self.listeSysSolaire:
             t=i.taille
             self.canevasGalaxie.create_oval(i.x-t, i.y-t,i.x+t,i.y+t,fill="grey80", tags=("etoile"))
 
-        for i in mod.Galaxie.listeSysSolaire:
-            t=i.taille
-            self.canevasGalaxie.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
-                                    tags=(i.proprietaire,"planete",str(i.id)))
-        for i in mod.joueurs.keys():
-            for j in mod.joueurs[i].planetescontrolees:
-                t=j.taille
-                self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
-                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
-    # dessine IAs
-
-        for i in mod.ias:
-            for j in i.planetescontrolees:
-                t=j.taille
-                self.canevasGalaxie.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=i.couleur,
-                                    tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
         self.afficherpartieGalaxie(mod)
 
