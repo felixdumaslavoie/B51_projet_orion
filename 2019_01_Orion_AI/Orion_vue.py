@@ -268,54 +268,6 @@ class Vue():
         self.canevasGalaxie.delete("marqueur")
         self.btncreervaisseau.grid_forget()
 
-    #def afficherpartie(self,mod):
-
-        #self.vues["Galaxie"].afficherpartieGalaxie(mod)
-
-
-
-        # self.canevasGalaxie.delete("artefact")
-
-        # print ("Pas le bon afficher partie")
-
-        # if self.maselection!=None:
-        #     joueur=mod.joueurs[self.maselection[0]]
-        #     if self.maselection[1]=="planete":
-        #         for i in joueur.planetescontrolees:
-        #             if i.id == int(self.maselection[2]):
-        #                 x=i.x
-        #                 y=i.y
-        #                 t=10
-        #                 self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
-        #                                          tags=("select","marqueur"))
-        #                 print("tu te rend ici")
-
-        #     elif self.maselection[1]=="flotte":
-        #         for i in joueur.flotte:
-        #             if i.id == int(self.maselection[2]):
-        #                 x=i.x
-        #                 y=i.y
-        #                 t=10
-        #                 self.canevasGalaxie.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
-        #                                          tags=("select","marqueur"))
-        # #else:
-        # #    self.canevas.delete("marqueur")
-
-
-        # for i in mod.joueurs.keys():
-        #     i=mod.joueurs[i]
-        #     for j in i.flotte:
-        #         self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
-        #                              tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
-
-        #         #self.canevasGalaxie.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
-        #         #                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
-
-
-        # for i in mod.ias:
-        #     for j in i.flotte:
-        #         self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
-        #                              tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
     def ZoomPlanete(self,canvas,mod):
         self.canvas = canvas
