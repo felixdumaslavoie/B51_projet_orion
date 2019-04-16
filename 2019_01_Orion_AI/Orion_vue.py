@@ -325,7 +325,8 @@ class Vue():
         t=self.canvas.gettags(CURRENT)
         if t:
             if t[1] == "planeteMere":
-                self.bplanete.config(state=ACTIVE,command= self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2])))
+                self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
+                self.bplanete.config(state=ACTIVE, command = lambda event, event=self.canvas : self.vues["Planete"].changementdevue )
                 print (t[2])
 
 
@@ -459,7 +460,7 @@ class VuePlanete():
                 if (j.id == idPlanete):
                     self.planete=j
 
-
+        #planete taille
         self.planetenom=Label(self.parent.cadreinfochoix, bg="white", text="Id: "+ str(self.planete.id))
         self.planeteproprio=Label(self.parent.cadreinfochoix, bg="white", text="Propriétaire: "+ self.planete.proprietaire)
         self.planetetaille=Label(self.parent.cadreinfochoix, bg="white", text="Taille: "+ str(self.planete.taille))
