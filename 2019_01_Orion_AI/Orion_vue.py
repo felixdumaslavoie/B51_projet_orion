@@ -422,7 +422,7 @@ class VueSolaire():
         y=j.planetemere.y
         t=10
         self.canevas.create_oval(x-t,y-t,x+t,y+t,dash=(3,3),width=2,outline=couleur,
-                                tags=("planetemere","marqueur"))
+                                tags=(None,"planetemere","marqueur",None))
 
 
 
@@ -473,13 +473,33 @@ class VuePlanete():
                 if (j.id == idPlanete):
                     self.planete=j
 
+        # string variable
+        self.variationCharbon = StringVar()
+        self.variationZinc = StringVar()
+        self.variationDeuterium = StringVar()
+        self.variationFertile = StringVar()
+        # assignation des valeurs aux string variable
+        self.variationCharbon.set("Charbon : " + str(int(self.planete.charbon)))
+        self.variationZinc.set("Zinc : " + str(int(self.planete.zinc)))
+        self.variationDeuterium.set("Deuterium : " + str(int(self.planete.deuterium)))
+        self.variationFertile.set("Fertile : " + str(int(self.planete.fertile)))
+        # création des labels
+        self.planeteNom=Label(self.parent.cadreinfochoix, bg="white", text="Id: "+ str(self.planete.id))
+        self.planeteProprio=Label(self.parent.cadreinfochoix, bg="white", text="Propriétaire: "+ self.planete.proprietaire)
+        self.planeteTaille=Label(self.parent.cadreinfochoix, bg="white", text="Taille: "+ str(self.planete.taille))
+        self.planeteCharbon = Label(self.parent.cadreinfochoix, bg="white", textvariable=self.variationCharbon )
+        self.planeteZinc = Label(self.parent.cadreinfochoix, bg="white",textvariable=self.variationZinc)
+        self.planeteDeuterium = Label(self.parent.cadreinfochoix, bg="white",textvariable=self.variationDeuterium)
+        self.planeteFertile = Label(self.parent.cadreinfochoix, bg="white",textvariable=self.variationFertile)
+        # placement des labels
+        self.planeteNom.grid(row=0, column=0)
+        self.planeteProprio.grid(row=1, column=0)
+        self.planeteTaille.grid(row=2, column=0)
+        self.planeteCharbon.grid(row=3, column=0)
+        self.planeteZinc.grid(row=4, column=0)
+        self.planeteDeuterium.grid(row=5, column=0)
+        self.planeteFertile.grid(row=6, column=0)
 
-        self.planetenom=Label(self.parent.cadreinfochoix, bg="white", text="Id: "+ str(self.planete.id))
-        self.planeteproprio=Label(self.parent.cadreinfochoix, bg="white", text="Propriétaire: "+ self.planete.proprietaire)
-        self.planetetaille=Label(self.parent.cadreinfochoix, bg="white", text="Taille: "+ str(self.planete.taille))
-        self.planetenom.grid(row=0, column=0)
-        self.planeteproprio.grid(row=1, column=0)
-        self.planetetaille.grid(row=2, column=0)
 
 
     def afficherPlanete(self,modele,idPlanete):

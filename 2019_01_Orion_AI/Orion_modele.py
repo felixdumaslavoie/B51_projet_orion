@@ -186,6 +186,7 @@ class Vaisseau():
         self.proprietaire=nom
         self.x=x
         self.y=y
+        self.espaceCourant = None
         self.cible=None
         self.nomVaisseau=nomVaisseau
 
