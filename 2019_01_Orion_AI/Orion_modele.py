@@ -81,10 +81,8 @@ class Planete():
         self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
         self.ressource=[self.charbon,self.zinc,self.deuterium]
         self.viePlanete1=self.viePlanete()
-        
-        #self.couleur=self.listeNomCouleur[random.randrange(len(self.listeNomCouleur)-1)]
-
         self.couleur=random.choice(COULEURS);
+
 
     def viePlanete(self):
         if not self.listeStructure:
