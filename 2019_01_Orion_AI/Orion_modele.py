@@ -258,11 +258,10 @@ class Joueur():
 
     #===========================================================================
     # def economie(self):
-    #
     #     for i in self.planetescontrolees:
     #         for j in i.listeStructure:
+    #             j.extractionStructure
     #===========================================================================
-
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
