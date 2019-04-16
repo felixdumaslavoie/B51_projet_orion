@@ -250,6 +250,8 @@ class Vue():
         self.canevasGalaxie.yview(MOVETO,py)
         print("SCROLL",px,py)
 
+    def afficherpartie(self,mod):
+        self.vues["Galaxie"].afficherpartieGalaxie(mod)
 
 
     def _create_circle(self, x, y, r):
@@ -269,7 +271,8 @@ class Vue():
         self.btncreervaisseau.grid_forget()
 
 
-    def ZoomPlanete(self,canvas,mod):
+
+    def CliqueVueSySsolaire(self,canvas,mod):
         self.canvas = canvas
         self.mod = mod
         # ref : http://effbot.org/tkinterbook/canvas.htm
@@ -283,8 +286,11 @@ class Vue():
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     print (t[2])
 
+            #else if self.canvas == self.vues["Solaire"].canevasSolaire:
+            #    if t[1] == "vaisseau" :
 
-    def ZoomSolaire(self,canvas,mod):
+
+    def CliqueVueGalaxie(self,canvas,mod):
         self.canvas = canvas
         self.mod = mod
         s=self.canvas.gettags(CURRENT)
@@ -307,7 +313,7 @@ class VueSolaire():
         self.cadresolaireoutils=Frame(self.cadrespatial)
         self.canevasSolaire=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
         # lambda de demo
-        self.canevasSolaire.bind( "<Button-1>", lambda event, canvas = self.canevasSolaire : self.parent.ZoomPlanete(canvas,self.parent.modele))
+        self.canevasSolaire.bind( "<Button-1>", lambda event, canvas = self.canevasSolaire : self.parent.CliqueVueSySsolaire(canvas,self.parent.modele))
 
         self.labsolaire=Label(self.cadresolaireoutils, text="in solaire!")
         self.labsolaire.grid()
@@ -353,7 +359,7 @@ class VueSolaire():
         #        self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
         #                            tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
-        self.parent.ZoomPlanete(self.canevasSolaire,mod)
+        self.parent.CliqueVueSySsolaire(self.canevasSolaire,mod)
     # #dessine IAs
     #     for i in mod.ias:
     #         for j in i.planetescontrolees:
@@ -375,7 +381,6 @@ class VueSolaire():
         t=10
         self.canevas.create_oval(x-t,y-t,x+t,y+t,dash=(3,3),width=2,outline=couleur,
                                 tags=(None,"planetemere","marqueur",None))
-
 
 
 class VuePlanete():
@@ -485,7 +490,7 @@ class VueGalaxie():
         self.canevasGalaxie.grid(row = 0, column =0)
 
         # mouse click
-        self.canevasGalaxie.bind( "<Button-1>", lambda event, canvas = self.canevasGalaxie : self.parent.ZoomSolaire(canvas,self.parent.modele))
+        self.canevasGalaxie.bind( "<Button-1>", lambda event, canvas = self.canevasGalaxie : self.parent.CliqueVueGalaxie(canvas,self.parent.modele))
 
         self.cadregalaxieoutils.grid(row = 0, column =0)
         self.mod=parent.mod
