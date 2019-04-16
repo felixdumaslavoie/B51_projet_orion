@@ -147,6 +147,7 @@ class Controleur():
         if self.serveur:
             self.serveur.jequitte(self.monnom)
         self.vue.root.destroy()
+       
 
     def creervaisseau(self):
         self.actions.append([self.monnom,"creervaisseau",""])

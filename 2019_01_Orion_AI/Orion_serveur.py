@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from xmlrpc.server import SimpleXMLRPCServer
+import os,os.path
 #import os
 from threading import Timer
 import sys
@@ -13,7 +14,7 @@ monip=s.getsockname()[0]
 print("MON IP SERVEUR",monip)
 s.close()
 
-daemon=SimpleXMLRPCServer((monip, 9999)) 
+daemon=SimpleXMLRPCServer((monip, 9999))
 
 class Client(object):
     def __init__(self,nom):
@@ -21,7 +22,7 @@ class Client(object):
         self.cadreCourant=0
         self.cadreEnAttenteMax=0
         self.actionsEnAttentes={}
-        
+
 class ModeleService(object):
     def __init__(self,parent,rdseed):
         self.parent=parent
@@ -31,7 +32,7 @@ class ModeleService(object):
         self.cadreFutur=5
         self.clients={}
         self.cadreDelta={}
-        
+
     def creerclient(self,nom):
         if self.etatJeu==0:  # si le jeu n'est pas partie sinon voir else
             if nom in self.clients.keys(): # on assure un nom unique
@@ -43,7 +44,7 @@ class ModeleService(object):
             return [1,"Bienvenue",self.rdseed]
         else:
             return [0,"Simulation deja en cours"]
-    
+
     def lancerpartie(self):
         if self.etatJeu==0:
             self.etatJeu=1
@@ -56,7 +57,7 @@ class ModeleService(object):
             return 1
         else:
             return 0
-    
+
     def faitAction(self,p):
         nom=p[0]
         cadre=p[1]
@@ -70,28 +71,28 @@ class ModeleService(object):
                 if cadreVise in self.clients[i].actionsEnAttentes.keys():
                     for j in p[2]:
                         self.clients[i].actionsEnAttentes[cadreVise].append(j)
-                        
+
                 else:
                     self.clients[i].actionsEnAttentes[cadreVise]=p[2]
         rep=[]
-        
+
         self.cadreDelta[nom]=cadre
         mini=min(list(self.cadreDelta.values()))
         if cadre-5>mini:
             message="attend"
         else:
             message=""
-        
+
         if self.clients[nom].actionsEnAttentes:
             if cadre<min(self.clients[nom].actionsEnAttentes.keys()):
                 rep= self.clients[nom].actionsEnAttentes
-				
+
 				#Patch pour dico a cle str
                 cle=list(rep.keys())
                 dic={str(cle[0]):rep[cle[0]]}
                 rep=dic
 				#Patch fin
-				
+
                 self.clients[nom].actionsEnAttentes={}
                 rep= [1,message,rep]
             else:
@@ -99,21 +100,21 @@ class ModeleService(object):
         else:
             rep= [0,message,list(self.clients.keys())]
         return rep
-                
+
 class ControleurServeur(object):
     def __init__(self):
         rand=random.randrange(1000)+1000
         self.checkping=0
         self.delaitimeout=250   # delai de 5 secondes
         self.modele=ModeleService(self,rand)
-        
+
     def testPyro(self):
         return 42
-        
+
     def inscrireclient(self,nom):
         rep=self.modele.creerclient(nom)
         return rep
-    
+
     def lancerpartie(self):
         rep=self.modele.lancerpartie()
         self.checkping=int(time.time())
@@ -121,39 +122,39 @@ class ControleurServeur(object):
         print("LANCERPARTIE sur SERVEUR",rep)
         #i=input("toto")
         return rep
-    
+
     def faireaction(self,p):
         self.checkping=int(time.time())
         rep=self.modele.faitAction(p)
         return rep
-    
+
     def verifiecontinuation(self):
         t=int(time.time())
-        if (t-self.checkping) > self.delaitimeout: 
+        if (t-self.checkping) > self.delaitimeout:
             self.fermer()
         else:
             tim=Timer(1,self.verifiecontinuation)
             tim.start()
-        
+
     def quitter(self):
         t=Timer(1,self.fermer)
         t.start()
         return "ferme"
-    
+
     def jequitte(self,nom):
         del self.modele.clients[nom]
         del self.modele.cadreDelta[nom]
         if not self.modele.clients:
             self.quitter()
         return 1
-    
+
     def fermer(self):
         print("FERMETURE DU SERVEUR")
         daemon.shutdown()
+        
 
 controleurServeur=ControleurServeur()
-daemon.register_instance(controleurServeur)  
- 
+daemon.register_instance(controleurServeur)
+
 print("Serveur Pyro actif sous le nom \'controleurServeur\'")
 daemon.serve_forever()
-
