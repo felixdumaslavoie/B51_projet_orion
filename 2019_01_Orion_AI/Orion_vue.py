@@ -298,7 +298,7 @@ class Vue():
         if s:
             if self.canvas == self.vues["Galaxie"].canevasGalaxie:
                 if s[0] == "etoile":
-                    # self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,int(s[1])) # afficher infos sys solaire en passant modele et id sys solaire
+                    self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,int(s[1])) # afficher infos sys solaire en passant modele et id sys solaire
                     self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
                     print (s[1])
@@ -343,17 +343,16 @@ class VueSolaire():
         self.systememonetoile(self.mod)
 
     def systememonetoile(self,mod):
-
-        # for i in self.unSysSolaire.listePlanete:
-        #     t=i.taille
-        #     if(i.proprietaire=="inconnu"):
-        #         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=("Inconnu","planeteInconnu",None,None))
-        #     else:
-        #         player = None
-        #         for j in self.mod.joueurs:
-        #             if(mod.joueurs[j].nom == i.proprietaire):
-        #                 player = j
-        #                 self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
+        for i in self.unSysSolaire.listePlanete:
+            t=i.taille
+            if(i.proprietaire=="inconnu"):
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=("Inconnu","planeteInconnu",None,None))
+            else:
+                player = None
+                for j in self.mod.joueurs:
+                    if(mod.joueurs[j].nom == i.proprietaire):
+                        player = j
+                        self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
 
         #for i in mod.joueurs.keys():
         #    for j in mod.joueurs[i].planetescontrolees:
@@ -401,6 +400,16 @@ class VueSolaire():
                         player = k
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
 
+    def afficherInfosSystemSolaire(self, modele, idSysteme):
+        self.parent.bplanete.config(state = DISABLED) # fonctionne pas
+        self.modele=modele
+        for i in (self.modele.Galaxie.listeSysSolaire):
+            if (i.id == idSysteme):
+                self.systeme=i
+        self.systemeNom=Label(self.parent.cadreinfochoix, bg="grey", text="Nom: "+ str(self.systeme.nometoile))
+        self.systemeNom.grid(row=0,column=0)
+
+
 class VuePlanete():
     def __init__(self,fen,parent):
         print("In vue planete")
@@ -433,11 +442,6 @@ class VuePlanete():
         # affichage de la planete selectionner
 
         #self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
-
-        ##TEST
-        #self.afficherInfosPlanete(self.mod.Galaxie.listeSysSolaire[0].listePlanete[0])
-        # self.afficherInfosPlanete(self.mod,2)
-        ##FINTEST
 
     def afficherInfosPlanete(self, modele, idPlanete):
         self.parent.bplanete.config(state = DISABLED) # fonctionne pas
