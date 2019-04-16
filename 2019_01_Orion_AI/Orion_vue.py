@@ -326,7 +326,7 @@ class Vue():
         if t:
             if t[1] == "planeteMere":
                 self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
-                self.bplanete.config(state=ACTIVE, command = lambda event, event=self.canvas : self.vues["Planete"].changementdevue )
+                self.bplanete.config(state=ACTIVE, command = lambda event : self.vues["Planete"].changementdevue )
                 print (t[2])
 
 
