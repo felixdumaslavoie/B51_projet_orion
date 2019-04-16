@@ -185,7 +185,9 @@ class Vue():
         self.vueactive= self.vues["Galaxie"]
         self.vueactive.cadrespatial.grid()
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =150)
-        self.cadreinfojoueur.grid(row=0, column=0, columnspan = 5)
+        self.cadreDiplomatie=Frame(self.cadrepartie,height=100, width=800, bg="pink",padx =150)
+        self.cadreinfojoueur.grid(row=0, column=0)
+        self.cadreDiplomatie.grid(row=0, column=1)
 
         # fonction création des infos joueurs
         self.creerCadreInfoJoueur(self.cadreinfojoueur,self.mod)
