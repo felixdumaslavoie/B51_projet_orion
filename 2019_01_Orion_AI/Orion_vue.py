@@ -145,7 +145,7 @@ class Vue():
         self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo)
         # boutons et bind
         self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton)
-        self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton)
+        self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton, state=DISABLED)
         self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton, state=DISABLED)
         # affichage
         self.gridCadreInfoJoueur(self.cadre,self.mod)
@@ -192,7 +192,7 @@ class Vue():
 
         # bind des boutons
         self.bgalaxie.bind("<Button>",self.changementdevue)
-        self.bsolaire.bind("<Button>",self.changementdevue)
+        # self.bsolaire.bind("<Button>",self.changementdevue)
         # self.bplanete.bind("<Button>",self.changementdevue)
 
 
@@ -234,9 +234,9 @@ class Vue():
 
 
 
-        self.vues["Galaxie"].afficherdecorGalaxie(mod)
-        self.vues["Solaire"].afficherdecorSolaire(mod)
-        self.vues["Planete"].afficherdecorPlanete(mod)
+        #self.vues["Galaxie"].afficherdecorGalaxie(mod)
+        #self.vues["Solaire"].afficherdecorSolaire(mod)
+        #self.vues["Planete"].afficherdecorPlanete(mod)
 
 
         self.changecadre(self.cadrepartie)
@@ -324,10 +324,23 @@ class Vue():
         # ref 2 : https://effbot.org/tkinterbook/tkinter-events-and-bindings.htm
         t=self.canvas.gettags(CURRENT)
         if t:
-            if t[1] == "planeteMere":
-                self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
-                self.bplanete.config(state=ACTIVE, command = lambda event : self.vues["Planete"].changementdevue )
-                print (t[2])
+            if self.canvas == self.vues["Solaire"].canevasSolaire:
+                if t[1] == "planeteMere":
+                    self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
+                    self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
+                    print (t[2])
+
+    def ZoomSolaire(self,canvas,mod):
+        self.canvas = canvas
+        self.mod = mod
+        s=self.canvas.gettags(CURRENT)
+        if s:
+            if self.canvas == self.vues["Galaxie"].canevasGalaxie:
+                if s[0] == "etoile":
+                    # self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,int(s[1])) # afficher infos sys solaire en passant modele et id sys solaire
+                    self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
+                    print (s[1])
+
 
 
 class VueSolaire():
@@ -452,7 +465,7 @@ class VuePlanete():
         ##FINTEST
 
     def afficherInfosPlanete(self, modele, idPlanete):
-        self.parent.bplanete.config(state=DISABLED)
+        self.parent.bplanete.config(state = DISABLED) # fonctionne pas
         self.modele=modele
 
         for i in (self.modele.Galaxie.listeSysSolaire):
@@ -483,7 +496,7 @@ class VueGalaxie():
         self.canevasGalaxie.grid(row = 0, column =0)
 
         # mouse click
-        self.canevasGalaxie.bind( "<Button-1>", self.cliquecosmos )
+        self.canevasGalaxie.bind( "<Button-1>", lambda event, canvas = self.canevasGalaxie : self.parent.ZoomSolaire(canvas,self.parent.modele))
 
         self.cadregalaxieoutils.grid(row = 0, column =0)
         self.mod=parent.mod
@@ -495,7 +508,7 @@ class VueGalaxie():
 
         for i in self.listeSysSolaire:
             t=i.taille
-            self.canevasGalaxie.create_oval(i.x-t, i.y-t,i.x+t,i.y+t,fill="grey80", tags=("etoile"))
+            self.canevasGalaxie.create_oval(i.x-t, i.y-t,i.x+t,i.y+t,fill="grey80", tags=("etoile", str(i.id)))
 
 
         self.afficherpartieGalaxie(mod)
