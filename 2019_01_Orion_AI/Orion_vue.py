@@ -326,7 +326,7 @@ class Vue():
         if t:
             if t[1] == "planeteMere":
                 self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
-                self.bplanete.config(state=ACTIVE, command = lambda event, event=self.canvas : self.vues["Planete"].changementdevue )
+                #self.bplanete.config(state=ACTIVE, command = lambda event, event=self.canvas : self.vues["Planete"].changementdevue )
                 print (t[2])
 
 
@@ -438,13 +438,13 @@ class VuePlanete():
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
-            self.canevasPlanete.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
+            self.canevasPlanete.create_oval(x,y,x+1,y+1,fill="white",tags=("fond"))
 
         # affichage de la planete selectionner
         x = 200
         y = 100
         r = 300
-        self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
+        #self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
 
         ##TEST
         #self.afficherInfosPlanete(self.mod.Galaxie.listeSysSolaire[0].listePlanete[0])
@@ -452,7 +452,7 @@ class VuePlanete():
         ##FINTEST
 
     def afficherInfosPlanete(self, modele, idPlanete):
-        self.parent.bplanete.config(state=DISABLED)
+        #self.parent.bplanete.config(state=DISABLED)
         self.modele=modele
 
         for i in (self.modele.Galaxie.listeSysSolaire):
@@ -461,12 +461,27 @@ class VuePlanete():
                     self.planete=j
 
         #planete taille
+        x = 200
+        y = 100
+        r = 300
+        self.canevasPlanete.create_oval(x, y, x+r, y+r,fill=self.planete.couleur ,tags=("planeteMere"))
         self.planetenom=Label(self.parent.cadreinfochoix, bg="white", text="Id: "+ str(self.planete.id))
         self.planeteproprio=Label(self.parent.cadreinfochoix, bg="white", text="Propriétaire: "+ self.planete.proprietaire)
         self.planetetaille=Label(self.parent.cadreinfochoix, bg="white", text="Taille: "+ str(self.planete.taille))
         self.planetenom.grid(row=0, column=0)
         self.planeteproprio.grid(row=1, column=0)
         self.planetetaille.grid(row=2, column=0)
+
+    def afficherPlanete(self,modele,idPlanete):
+        self.modele=modele
+
+        for i in (self.modele.Galaxie.listeSysSolaire):
+            for j in (i.listePlanete):
+                if (j.id == idPlanete):
+                    self.planete=j
+
+
+
 
 class VueGalaxie():
 
