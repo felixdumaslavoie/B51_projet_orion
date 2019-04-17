@@ -45,7 +45,6 @@ class Vue():
     def changevueactive(self,vue):
         if self.vueactive:
             self.vueactive.cadrespatial.grid_forget()
-            # self.cadreinfo.grid_forget()
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
 
@@ -249,7 +248,7 @@ class Vue():
             if self.canvas == self.vues["Solaire"].canevasSolaire:
                 if t[1] == "planeteMere":
                     self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
-                    self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
+                    self.bplanete.config(state=NORMAL, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     print (t[2])
 
@@ -265,11 +264,9 @@ class Vue():
             if self.canvas == self.vues["Galaxie"].canevasGalaxie:
                 if s[0] == "etoile":
                     self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,int(s[1])) # afficher infos sys solaire en passant modele et id sys solaire
-                    self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
+                    self.bsolaire.config(state=NORMAL, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
                     print (s[1])
-
-
 
 class VueSolaire():
     def __init__(self,fen,parent):
@@ -376,12 +373,12 @@ class VueSolaire():
             if (i.id == idSysteme):
                 self.systeme=i
 
-        #self.variationNomSysSolaire = StringVar()
-        #self.variationNomSysSolaire.set("Nom : " + str(self.systeme.nometoile))
-        #self.systemeNom=Label(self.parent.cadreinfochoix, bg="grey", textvariable=str(self.variationNomSysSolaire))
+        self.variationNomSysSolaire = StringVar()
+        self.variationNomSysSolaire.set("Nom : " + str(self.systeme.nometoile))
+        self.systemeNom=Label(self.parent.cadreinfo, bg="grey", textvariable=str(self.variationNomSysSolaire))
 
         #if self.systemeNom:
-           # self.systemeNom.grid_forget()
+        self.systemeNom.grid_forget()
         #else :
             #self.systemeNom=Label(self.parent.cadreinfochoix, bg="grey", text="Nom: "+ str(self.systeme.nometoile))
         #self.systemeNom.grid(row=0,column=0)
