@@ -44,7 +44,8 @@ class Vue():
 
     def changevueactive(self,vue):
         if self.vueactive:
-        	self.vueactive.cadrespatial.grid_forget()
+            self.vueactive.cadrespatial.grid_forget()
+            # self.cadreinfo.grid_forget()
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
 
@@ -147,6 +148,7 @@ class Vue():
         self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton)
         self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton, state=DISABLED)
         self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton, state=DISABLED)
+        #self.bChoixBatiement=Button(self.cadreinfochoix, text="Batiment",bg=self.couleurbouton)
         # affichage
         self.gridCadreInfoJoueur(self.cadre,self.mod)
 
@@ -177,69 +179,31 @@ class Vue():
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
         self.mod=mod
-
         self.cadreoutilsgeneral.grid()
         self.vues={"Galaxie":VueGalaxie(self.cadrejeu,self),
 					"Planete":VuePlanete(self.cadrejeu,self),
 					"Solaire":VueSolaire(self.cadrejeu,self)}
         self.vueactive= self.vues["Galaxie"]
         self.vueactive.cadrespatial.grid()
-        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =150)
-        self.cadreDiplomatie=Frame(self.cadrepartie,height=100, width=800, bg="pink",padx =150)
+        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
+        self.cadreInteraction=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
         self.cadreinfojoueur.grid(row=0, column=0)
-        self.cadreDiplomatie.grid(row=0, column=1)
+        self.cadreInteraction.grid(row=0, column=1)
 
         # fonction création des infos joueurs
         self.creerCadreInfoJoueur(self.cadreinfojoueur,self.mod)
-
-        # bind des boutons
+        # bind du bouton pour retourner a la galaxie
         self.bgalaxie.bind("<Button>",self.changementdevue)
-        # self.bsolaire.bind("<Button>",self.changementdevue)
-        # self.bplanete.bind("<Button>",self.changementdevue)
-
-
-        # cadre jeu = la vue actuel
-        #self.canevas=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11") #INUTILE
-
-        #Canevas vue Galaxie / vue de base
-        #self.canevasGalaxie=Canvas(self.cadrejeu,width=800,height=600,scrollregion=(0,0,mod.largeur,mod.hauteur),bg="grey11")
-
+        # cadre générale des outils
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreoutils.grid(row=1, column=1)
-
+        # cadre des infos contextuel
         self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="darkgrey")
-        self.cadreinfo.grid(row=0, column=1)
-        self.cadreinfogen=Frame(self.cadreinfo,width=200,height=200,bg="grey50")
-        self.cadreinfogen.grid(row=0, column=1)
-
-        self.labid=Label(self.cadreinfogen,text=self.nom,fg=mod.joueurs[self.nom].couleur)
-        self.labid.bind("<Button>",self.vues["Solaire"].afficherplanemetemereSolaire)
-        self.labid.grid(row=0, column=1)
-
-        self.cadreinfochoix=Frame(self.cadreinfo,height=200,width=200,bg="grey30")
-        self.cadreinfochoix.grid(row=0, column=1)
-
+        self.cadreinfo.grid(row=0, column=0)
+        # nom et couleur du joueur : text=self.nom,fg=mod.joueurs[self.nom].couleur
         self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
         # self.btncreervaisseau.grid(row=2, column=2)
         self.lbselectecible=Label(self.cadreinfo,text="Choisir cible",bg="darkgrey")
-
-        #modif arbitraire
-
-        self.cadreminimap=Frame(self.cadreoutils,height=200,width=200,bg="black")
-        self.canevasMini=Canvas(self.cadreminimap,width=200,height=200,bg="pink")
-        self.canevasMini.bind("<Button>",self.moveCanevas)
-        self.canevasMini.grid(row=0, column=1)
-        self.cadreminimap.grid(row=2, column=1)
-
-        self.cadrechangervues=Frame(self.cadreoutils,height=100,width=200, bg="SeaGreen1")
-        self.cadrechangervues.grid(row=3,column=1)
-
-
-
-        #self.vues["Galaxie"].afficherdecorGalaxie(mod)
-        #self.vues["Solaire"].afficherdecorSolaire(mod)
-        #self.vues["Planete"].afficherdecorPlanete(mod)
-
 
         self.changecadre(self.cadrepartie)
 
@@ -312,7 +276,7 @@ class VueSolaire():
 
         print("In vue solaire")
         self.cadrejeu=fen
-        self.parent=parent
+        self.parent=parent # vue
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadresolaireoutils=Frame(self.cadrespatial)
         self.canevasSolaire=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
@@ -324,6 +288,10 @@ class VueSolaire():
         self.canevasSolaire.grid(row = 0, column =1)
         self.cadresolaireoutils.grid(row = 0, column =1)
         self._create_circle(self.parent.largeur/1.5,self.parent.hauteur/1.5,75)
+
+        #self.variationNomSysSolaire = StringVar()
+        #self.systemeNom=Label(self.parent.cadreinfo, bg="grey", textvariable=str(self.variationNomSysSolaire))
+        #self.systemeNom.grid(row=0,column=0)
 
     def afficherdecorSolaire(self,mod):
         self.mod = mod
@@ -386,12 +354,11 @@ class VueSolaire():
                                 tags=(None,"planetemere","marqueur",None))
     def afficherSystemeSolaire(self,modele,idSolaire):
         self.modele=modele
-        self.systemeSolaire
         for a in (self.modele.Galaxie.listeSysSolaire):
-            for j in (a.listeSysSolaire):
-                if (j.id == idSolaire):
-                    self.systemeSolaire=j
-        for i in self.systemeSolaire:
+            #for j in (a.listeSysSolaire):
+            if (a.id == idSolaire):
+                self.systemeSolaire=a
+        for i in self.systemeSolaire.listePlanete:
             t=i.taille
             if(i.proprietaire=="inconnu"):
                 self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=("Inconnu","planeteInconnu",None,None))
@@ -403,13 +370,21 @@ class VueSolaire():
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
 
     def afficherInfosSystemSolaire(self, modele, idSysteme):
-        self.parent.bplanete.config(state = DISABLED) # fonctionne pas
+        # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
         self.modele=modele
         for i in (self.modele.Galaxie.listeSysSolaire):
             if (i.id == idSysteme):
                 self.systeme=i
-        self.systemeNom=Label(self.parent.cadreinfochoix, bg="grey", text="Nom: "+ str(self.systeme.nometoile))
-        self.systemeNom.grid(row=0,column=0)
+
+        #self.variationNomSysSolaire = StringVar()
+        #self.variationNomSysSolaire.set("Nom : " + str(self.systeme.nometoile))
+        #self.systemeNom=Label(self.parent.cadreinfochoix, bg="grey", textvariable=str(self.variationNomSysSolaire))
+
+        #if self.systemeNom:
+           # self.systemeNom.grid_forget()
+        #else :
+            #self.systemeNom=Label(self.parent.cadreinfochoix, bg="grey", text="Nom: "+ str(self.systeme.nometoile))
+        #self.systemeNom.grid(row=0,column=0)
 
 
 class VuePlanete():
@@ -420,10 +395,6 @@ class VuePlanete():
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreplaneteoutils=Frame(self.cadrespatial)
         self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
-        # self.planete = None
-        # mouse click
-        # self.canevasPlanete.bind( "<Button-1>", self.parent.getInfoObject )
-
         self.labplanete=Label(self.cadreplaneteoutils, text="in planete!")
         self.labplanete.grid()
         self.canevasPlanete.grid(row = 0, column =1)
@@ -465,13 +436,13 @@ class VuePlanete():
         self.variationDeuterium.set("Deuterium : " + str(int(self.planete.deuterium)))
         self.variationFertile.set("Fertile : " + str(int(self.planete.fertile)))
         # création des labels
-        self.planeteNom=Label(self.parent.cadreinfochoix, bg="white", text="Id: "+ str(self.planete.id))
-        self.planeteProprio=Label(self.parent.cadreinfochoix, bg="white", text="Propriétaire: "+ self.planete.proprietaire)
-        self.planeteTaille=Label(self.parent.cadreinfochoix, bg="white", text="Taille: "+ str(self.planete.taille))
-        self.planeteCharbon = Label(self.parent.cadreinfochoix, bg="white", textvariable=self.variationCharbon )
-        self.planeteZinc = Label(self.parent.cadreinfochoix, bg="white",textvariable=self.variationZinc)
-        self.planeteDeuterium = Label(self.parent.cadreinfochoix, bg="white",textvariable=self.variationDeuterium)
-        self.planeteFertile = Label(self.parent.cadreinfochoix, bg="white",textvariable=self.variationFertile)
+        self.planeteNom=Label(self.parent.cadreinfo, bg="white", text="Id: "+ str(self.planete.id))
+        self.planeteProprio=Label(self.parent.cadreinfo, bg="white", text="Propriétaire: "+ self.planete.proprietaire)
+        self.planeteTaille=Label(self.parent.cadreinfo, bg="white", text="Taille: "+ str(self.planete.taille))
+        self.planeteCharbon = Label(self.parent.cadreinfo, bg="white", textvariable=self.variationCharbon )
+        self.planeteZinc = Label(self.parent.cadreinfo, bg="white",textvariable=self.variationZinc)
+        self.planeteDeuterium = Label(self.parent.cadreinfo, bg="white",textvariable=self.variationDeuterium)
+        self.planeteFertile = Label(self.parent.cadreinfo, bg="white",textvariable=self.variationFertile)
         # placement des labels
         self.planeteNom.grid(row=0, column=0)
         self.planeteProprio.grid(row=1, column=0)
@@ -484,6 +455,7 @@ class VuePlanete():
 
 
     def afficherPlanete(self,modele,idPlanete):
+        #self.parent.cadreinfo.grid_forget()
         self.modele=modele
         x=200
         y=100
@@ -496,6 +468,9 @@ class VuePlanete():
         taille=self.planete.taille*50
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere"))
+
+        #self.parent.bChoixBatiement.grid(row = 6, column = 0)
+
 
 
 
@@ -545,7 +520,7 @@ class VueGalaxie():
         if t and t[0]==self.parent.nom:
             #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
             self.parent.maselection=[self.parent.nom,t[1],t[2]]  #self.canevas.find_withtag(CURRENT)#[0]
-            print(self.parent.maselection)
+           # print(self.parent.maselection)
             if t[1] == "planete":
                 self.montreplaneteselection()
             elif t[1] == "flotte":
