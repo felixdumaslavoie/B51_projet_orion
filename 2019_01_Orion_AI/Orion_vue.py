@@ -45,6 +45,7 @@ class Vue():
     def changevueactive(self,vue):
         if self.vueactive:
             self.vueactive.cadrespatial.grid_forget()
+
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
 
@@ -264,8 +265,9 @@ class Vue():
             if self.canvas == self.vues["Galaxie"].canevasGalaxie:
                 if s[0] == "etoile":
                     self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,int(s[1])) # afficher infos sys solaire en passant modele et id sys solaire
-                    self.bsolaire.config(state=NORMAL, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
+                    self.bsolaire.config(state=NORMAL, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
+
                     print (s[1])
 
 class VueSolaire():
@@ -284,7 +286,7 @@ class VueSolaire():
         self.labsolaire.grid()
         self.canevasSolaire.grid(row = 0, column =1)
         self.cadresolaireoutils.grid(row = 0, column =1)
-        self._create_circle(self.parent.largeur/1.5,self.parent.hauteur/1.5,75)
+
 
         #self.variationNomSysSolaire = StringVar()
         #self.systemeNom=Label(self.parent.cadreinfo, bg="grey", textvariable=str(self.variationNomSysSolaire))
@@ -307,21 +309,22 @@ class VueSolaire():
             y=random.randrange(mod.hauteur)
             self.canevasSolaire.create_rectangle(x,y,x+8,y+8, fill="light gray", tags=(None,"asteroide",None,None))
 
-        self.systememonetoile(self.mod)
+        self._create_circle(self.parent.largeur/1.5,self.parent.hauteur/1.5,75)
+        #self.systememonetoile(self.mod)
 
-    def systememonetoile(self,mod):
-        for i in self.unSysSolaire.listePlanete:
-            t=i.taille
-            if(i.proprietaire=="inconnu"):
-                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=("Inconnu","planeteInconnu",None,None))
-            else:
-                player = None
-                for j in self.mod.joueurs:
-                    if(mod.joueurs[j].nom == i.proprietaire):
-                        player = j
-                        self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
+    # def systememonetoile(self,mod):
+    #     for i in self.unSysSolaire.listePlanete:
+    #         t=i.taille
+    #         if(i.proprietaire=="inconnu"):
+    #             self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=("Inconnu","planeteInconnu",None,None))
+    #         else:
+    #             player = None
+    #             for j in self.mod.joueurs:
+    #                 if(mod.joueurs[j].nom == i.proprietaire):
+    #                     player = j
+    #                     self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
 
-        #for i in mod.joueurs.keys():
+    #     #for i in mod.joueurs.keys():
         #    for j in mod.joueurs[i].planetescontrolees:
         #        t=j.taille
         #        self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
@@ -351,6 +354,10 @@ class VueSolaire():
                                 tags=(None,"planetemere","marqueur",None))
     def afficherSystemeSolaire(self,modele,idSolaire):
         self.modele=modele
+        self.canevasSolaire.delete("all")
+        self.cadresolaireoutils.grid_forget()
+        self.afficherdecorSolaire(self.modele)
+
         for a in (self.modele.Galaxie.listeSysSolaire):
             #for j in (a.listeSysSolaire):
             if (a.id == idSolaire):
@@ -365,7 +372,7 @@ class VueSolaire():
                     if(mod.joueurs[k].nom == i.proprietaire):
                         player = k
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
-
+        self.afficherInfosSystemSolaire(modele, idSolaire)
     def afficherInfosSystemSolaire(self, modele, idSysteme):
         # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
         self.modele=modele
@@ -375,10 +382,11 @@ class VueSolaire():
 
         self.variationNomSysSolaire = StringVar()
         self.variationNomSysSolaire.set("Nom : " + str(self.systeme.nometoile))
-        self.systemeNom=Label(self.parent.cadreinfo, bg="grey", textvariable=str(self.variationNomSysSolaire))
-
+        self.systemeNom=Label(self.cadresolaireoutils, bg="grey", textvariable=str(self.variationNomSysSolaire))
+        self.systemeNom.grid()
+        self.cadresolaireoutils.grid(row = 0, column =1)
         #if self.systemeNom:
-        self.systemeNom.grid_forget()
+        #self.systemeNom.grid_forget()
         #else :
             #self.systemeNom=Label(self.parent.cadreinfochoix, bg="grey", text="Nom: "+ str(self.systeme.nometoile))
         #self.systemeNom.grid(row=0,column=0)
