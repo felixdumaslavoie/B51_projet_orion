@@ -71,6 +71,7 @@ class Planete():
     def __init__(self,parent,x,y):
         self.id=Id.prochainid()
         self.proprietaire="inconnu"
+        self.parent=parent
         self.x=x
         self.y=y
         self.taille=random.randrange(4,12)

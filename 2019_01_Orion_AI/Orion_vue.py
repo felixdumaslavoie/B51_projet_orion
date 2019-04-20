@@ -146,8 +146,8 @@ class Vue():
         self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo)
         # boutons et bind
         self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton, state=DISABLED)
-        self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton, state=DISABLED)
-        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton)
+        self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton)
+        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton, state=DISABLED)
         #self.bChoixBatiement=Button(self.cadreinfochoix, text="Batiment",bg=self.couleurbouton)
         # affichage
         self.gridCadreInfoJoueur(self.cadre,self.mod)
@@ -183,9 +183,11 @@ class Vue():
         self.vues={"Galaxie":VueGalaxie(self.cadrejeu,self),
 					"Planete":VuePlanete(self.cadrejeu,self),
 					"Solaire":VueSolaire(self.cadrejeu,self)}
-        #self.changevueactive= 
-        self.vues["Planete"].afficherPlanete(self.mod,self.mod.joueurs[self.nom].planetemere)
-        #self.changevueactive.cadrespatial.grid()
+        self.changevueactive= self.vues["Solaire"]
+        self.changevueactive.cadrespatial.grid()
+        print(str(self.mod.joueurs[self.nom].planetemere))
+       # self.vues["Planete"].afficherPlanete(self.mod,self.mod.joueurs[self.nom].planetemere.id)
+       # self.changevueactive.cadrespatial.grid()
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
         self.cadreInteraction=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
         self.cadreinfojoueur.grid(row=0, column=0)
@@ -301,6 +303,9 @@ class VueSolaire():
         # self.unSysSolaire = random.choice(self.listeSysSolaire)
         self.unSysSolaire = self.listeSysSolaire[0] # TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS MODELE
 
+        self.planete= self.mod.joueurs[self.parent.nom].planetemere
+        self.unSysSolaire=self.planete.parent
+
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
@@ -372,9 +377,9 @@ class VueSolaire():
             else:
                 player = None
                 for k in self.mod.joueurs:
-                    if(mod.joueurs[k].nom == i.proprietaire):
+                    if(modele.joueurs[k].nom == i.proprietaire):
                         player = k
-                        self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
+                        self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=modele.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
         self.afficherInfosSystemSolaire(modele, idSolaire)
     def afficherInfosSystemSolaire(self, modele, idSysteme):
         # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
@@ -467,13 +472,12 @@ class VuePlanete():
         self.modele=modele
         x=200
         y=100
-
         for i in (self.modele.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idPlanete):
                     self.planete=j
         #planete taille
-        taille=self.taille*50
+        taille=self.planete.taille*50
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere"))
 

@@ -85,9 +85,9 @@ class Controleur():
             self.modele=Modele(self,rep[1][0][1]) # on cree le modele
             self.vue.modele = self.modele
             self.vue.creeraffichercadrepartie(self.modele)
-            self.vue.vues["Planete"].afficherPlanete(self.modele,int(self.modele.joueurs[self.monnom].idPlanete))
+            self.vue.vues["Planete"].afficherPlanete(self.modele,self.modele.joueurs[self.monnom].planetemere.id)
             self.vue.vues["Galaxie"].afficherdecorGalaxie(self.modele)
-            self.vue.vues["Solaire"].afficherdecorSolaire(self.modele)
+            self.vue.vues["Solaire"].afficherSystemeSolaire(self.modele,self.modele.joueurs[self.monnom].planetemere.parent.id)
             print(self.monnom,"LANCE PROCHAINTOUR")
             self.prochaintour()
 
