@@ -145,9 +145,9 @@ class Vue():
         self.labmoral= Label(self.cadre, text="moral:",bg=self.couleurinfo)
         self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo)
         # boutons et bind
-        self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton)
+        self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton, state=DISABLED)
         self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton, state=DISABLED)
-        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton, state=DISABLED)
+        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton)
         #self.bChoixBatiement=Button(self.cadreinfochoix, text="Batiment",bg=self.couleurbouton)
         # affichage
         self.gridCadreInfoJoueur(self.cadre,self.mod)
@@ -183,8 +183,9 @@ class Vue():
         self.vues={"Galaxie":VueGalaxie(self.cadrejeu,self),
 					"Planete":VuePlanete(self.cadrejeu,self),
 					"Solaire":VueSolaire(self.cadrejeu,self)}
-        self.vueactive= self.vues["Galaxie"]
-        self.vueactive.cadrespatial.grid()
+        #self.changevueactive= 
+        self.vues["Planete"].afficherPlanete(self.mod,self.mod.joueurs[self.nom].planetemere)
+        #self.changevueactive.cadrespatial.grid()
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
         self.cadreInteraction=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
         self.cadreinfojoueur.grid(row=0, column=0)
@@ -404,7 +405,7 @@ class VuePlanete():
         self.labplanete.grid()
         self.canevasPlanete.grid(row = 0, column =1)
         self.cadreplaneteoutils.grid(row = 0, column =1)
-
+        
 
 
     def afficherdecorPlanete(self,mod):
@@ -470,7 +471,7 @@ class VuePlanete():
                 if (j.id == idPlanete):
                     self.planete=j
         #planete taille
-        taille=self.planete.taille*50
+        taille=self.taille*50
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere"))
 
