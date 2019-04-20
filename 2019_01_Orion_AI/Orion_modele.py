@@ -243,11 +243,23 @@ class Joueur():
         self.couleur=couleur
         self.planetescontrolees=[planetemere]
         self.flotte=[]
+        self.bufferSelection = []
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte}
         self.credit=1000
         self.nourriture=1000
         self.deuterium=5
+        
+    def setbuffer(self,identificateur):
+        for i in self.parent.Galaxie.listeSysSolaire:
+            if int(i.id) == int(identificateur):
+                self.bufferSelection.insert(0, i)
+                print(type(i).__name__, i.id, "mis dans le buffer")
+                return
+            for j in i.listePlanete:
+                if int(j.id) == int(identificateur):
+                    print(type(j).__name__, j.id, "mis dans le buffer")
+                    return
 
     def creervaisseau(self,params):
         #planete,cible,type=params
@@ -322,6 +334,7 @@ class Modele():
         self.largeur=800 #self.parent.vue.root.winfo_screenwidth()
         self.hauteur=600 #self.parent.vue.root.winfo_screenheight()
         self.joueurs={}
+        self.listeObjCliquable = []
         self.ias=[]
         self.actionsafaire={}
         self.terrain=[]
@@ -355,6 +368,7 @@ class Modele():
         couleurs=["red","blue","lightgreen","yellow",
                   "lightblue","pink","gold","purple"]
         for i in joueurs:
+            planes[0].proprietaire = i
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
 
         # IA- creation des ias - max 2
