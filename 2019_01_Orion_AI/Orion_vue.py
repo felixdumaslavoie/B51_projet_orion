@@ -253,6 +253,7 @@ class Vue():
                     self.bplanete.config(state=NORMAL, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     print (t[2])
+                self.mod.joueurs[self.nom].setbuffer(t[2])
 
             #else if self.canvas == self.vues["Solaire"].canevasSolaire:
             #    if t[1] == "vaisseau" :
@@ -268,8 +269,9 @@ class Vue():
                     self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,int(s[1])) # afficher infos sys solaire en passant modele et id sys solaire
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
                     self.bsolaire.config(state=NORMAL, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
-
-                    print (s[1])
+                    print (s[1], self.nom)
+                    self.mod.joueurs[self.nom].setbuffer(s[1])
+                    #self.mod.joueurs[nom].setbuffer(s[1])
 
 class VueSolaire():
     def __init__(self,fen,parent):
@@ -366,7 +368,7 @@ class VueSolaire():
         for i in self.systemeSolaire.listePlanete:
             t=i.taille
             if(i.proprietaire=="inconnu"):
-                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=("Inconnu","planeteInconnu",None,None))
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=("Inconnu","planeteInconnu",str(i.id),None))
             else:
                 player = None
                 for k in self.mod.joueurs:
