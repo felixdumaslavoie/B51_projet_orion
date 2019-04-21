@@ -28,6 +28,7 @@ class Vue():
         self.labgeneral=Label(self.cadreoutilsgeneral)
         self.labgeneral.grid(row = 1, column =0)
         self.ip=ip
+        self.vueactive=None
 
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
@@ -45,7 +46,6 @@ class Vue():
     def changevueactive(self,vue):
         if self.vueactive:
             self.vueactive.cadrespatial.grid_forget()
-
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
 
@@ -145,9 +145,9 @@ class Vue():
         self.labmoral= Label(self.cadre, text="moral:",bg=self.couleurinfo)
         self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo)
         # boutons et bind
-        self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton, state=DISABLED)
+        self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton)
         self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton)
-        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton, state=DISABLED)
+        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton)
         #self.bChoixBatiement=Button(self.cadreinfochoix, text="Batiment",bg=self.couleurbouton)
         # affichage
         self.gridCadreInfoJoueur(self.cadre,self.mod)
@@ -183,9 +183,9 @@ class Vue():
         self.vues={"Galaxie":VueGalaxie(self.cadrejeu,self),
 					"Planete":VuePlanete(self.cadrejeu,self),
 					"Solaire":VueSolaire(self.cadrejeu,self)}
-        self.changevueactive= self.vues["Solaire"]
-        self.changevueactive.cadrespatial.grid()
-        print(str(self.mod.joueurs[self.nom].planetemere))
+        self.changevueactive(self.vues["Solaire"])
+        self.vueactive.cadrespatial.grid()
+       # print(str(self.mod.joueurs[self.nom].planetemere))
        # self.vues["Planete"].afficherPlanete(self.mod,self.mod.joueurs[self.nom].planetemere.id)
        # self.changevueactive.cadrespatial.grid()
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
@@ -240,7 +240,17 @@ class Vue():
         self.canevasGalaxie.delete("marqueur")
         self.btncreervaisseau.grid_forget()
 
-
+    def CliqueVuePlanete(self,canvas,mod,SysSolaire):
+        self.canvas = canvas
+        self.mod = mod
+        self.SystemeSolaire=SysSolaire
+        t=self.canvas.gettags(CURRENT)
+        if t:
+            if self.canvas == self.vues["Planete"].canevasPlanete:
+                self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,self.SystemeSolaire.id)
+                self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
+                self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
+                
 
     def CliqueVueSySsolaire(self,canvas,mod):
         self.canvas = canvas
@@ -252,8 +262,13 @@ class Vue():
             if self.canvas == self.vues["Solaire"].canevasSolaire:
                 if t[1] == "planeteMere":
                     self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
-                    self.bplanete.config(state=NORMAL, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
+                    self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
+                    print (t[2])
+                else:
+                    self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
+                    self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
+                    self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     print (t[2])
                 self.mod.joueurs[self.nom].setbuffer(t[2])
 
@@ -270,7 +285,7 @@ class Vue():
                 if s[0] == "etoile":
                     self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,int(s[1])) # afficher infos sys solaire en passant modele et id sys solaire
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
-                    self.bsolaire.config(state=NORMAL, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
+                    self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
                     print (s[1], self.nom)
                     self.mod.joueurs[self.nom].setbuffer(s[1])
                     #self.mod.joueurs[nom].setbuffer(s[1])
@@ -430,7 +445,7 @@ class VuePlanete():
         #self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
 
     def afficherInfosPlanete(self, modele, idPlanete):
-        self.parent.bplanete.config(state = DISABLED) # fonctionne pas
+       # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
         self.modele=modele
 
         for i in (self.modele.Galaxie.listeSysSolaire):
@@ -482,7 +497,7 @@ class VuePlanete():
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere"))
 
         #self.parent.bChoixBatiement.grid(row = 6, column = 0)
-
+        self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent))
 
 
 
