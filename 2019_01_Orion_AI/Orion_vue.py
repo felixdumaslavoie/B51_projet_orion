@@ -485,6 +485,12 @@ class VuePlanete():
     def afficherPlanete(self,modele,idPlanete):
         #self.parent.cadreinfo.grid_forget()
         self.modele=modele
+        self.id=idPlanete
+        self.canevasPlanete.delete("all")
+        self.cadreplaneteoutils.grid_forget()
+        self.afficherdecorPlanete(self.modele)
+        self.afficherInfosPlanete(self.modele,self.id)
+        self.modele=modele
         x=200
         y=100
         for i in (self.modele.Galaxie.listeSysSolaire):
