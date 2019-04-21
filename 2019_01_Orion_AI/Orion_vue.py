@@ -49,6 +49,12 @@ class Vue():
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
 
+    def combinedactions(self):
+        self.planete=self.mod.joueurs[self.nom].planetemere
+        self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,self.planete.parent.id)
+        self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.planete.parent.id)
+        self.changevueactive(self.vues["Solaire"]) 
+
     def fermerfenetre(self):
         self.parent.fermefenetre()
 
@@ -148,6 +154,7 @@ class Vue():
         self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton)
         self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton)
         self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton)
+        self.bsolairemere=Button(self.cadreinfojoueur,text="SolaireMere",bg=self.couleurbouton)
         #self.bChoixBatiement=Button(self.cadreinfochoix, text="Batiment",bg=self.couleurbouton)
         # affichage
         self.gridCadreInfoJoueur(self.cadre,self.mod)
@@ -175,7 +182,8 @@ class Vue():
         self.bgalaxie.grid(row = 1, column =8)
         self.bsolaire.grid(row = 1, column =9)
         self.bplanete.grid(row = 1, column =10)
-
+        self.bsolairemere.grid(row=1,column=11)
+        self.bsolairemere.config(state=ACTIVE, command = lambda  : self.combinedactions() )
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
         self.mod=mod
