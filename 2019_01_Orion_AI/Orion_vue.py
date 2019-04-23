@@ -202,11 +202,8 @@ class Vue():
        # print(str(self.mod.joueurs[self.nom].planetemere))
        # self.vues["Planete"].afficherPlanete(self.mod,self.mod.joueurs[self.nom].planetemere.id)
        # self.changevueactive.cadrespatial.grid()
-<<<<<<< HEAD
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
         self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
-=======
->>>>>>> 035fb55f0b00d2b6e86b749f615d7e63d8292c0b
         self.cadreinfojoueur.grid(row=0, column=0)
         self.cadreMessagerie.grid(row=0, column=1)
 
