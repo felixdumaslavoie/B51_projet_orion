@@ -53,7 +53,7 @@ class Vue():
         self.planete=self.mod.joueurs[self.nom].planetemere
         self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,self.planete.parent.id)
         self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.planete.parent.id)
-        self.changevueactive(self.vues["Solaire"]) 
+        self.changevueactive(self.vues["Solaire"])
 
     def fermerfenetre(self):
         self.parent.fermefenetre()
@@ -184,6 +184,7 @@ class Vue():
         self.bplanete.grid(row = 1, column =10)
         self.bsolairemere.grid(row=1,column=11)
         self.bsolairemere.config(state=ACTIVE, command = lambda  : self.combinedactions() )
+
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
         self.mod=mod
@@ -235,7 +236,6 @@ class Vue():
     #def _create_circle(self, x, y, r):
         #return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
 
-
     #def _create_circle(self, x, y, r):
        # return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
         # self.afficherpartie(mod)
@@ -258,7 +258,7 @@ class Vue():
                 self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,self.SystemeSolaire.id)
                 self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
                 self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
-                
+
 
     def CliqueVueSySsolaire(self,canvas,mod):
         self.canvas = canvas
@@ -297,6 +297,11 @@ class Vue():
                     print (s[1], self.nom)
                     self.mod.joueurs[self.nom].setbuffer(s[1])
                     #self.mod.joueurs[nom].setbuffer(s[1])
+
+
+    def updateInfosJoueur(self,mod):
+        pass
+
 
 class VueSolaire():
     def __init__(self,fen,parent):
@@ -435,7 +440,7 @@ class VuePlanete():
         self.labplanete.grid()
         self.canevasPlanete.grid(row = 0, column =1)
         self.cadreplaneteoutils.grid(row = 0, column =1)
-        
+
 
 
     def afficherdecorPlanete(self,mod):
@@ -612,7 +617,6 @@ class VueGalaxie():
         #else:
         #    self.canevas.delete("marqueur")
 
-
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
             for j in i.flotte:
@@ -627,3 +631,5 @@ class VueGalaxie():
             for j in i.flotte:
                 self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+
+        self.parent.updateInfosJoueur(mod)
