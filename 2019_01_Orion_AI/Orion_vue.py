@@ -562,7 +562,10 @@ class VuePlanete():
 
         if self.planete.nbEmplacementDispo > 0:
             for i in self.planete.nbEmplacementDispo:
-                pass
+                self.x = x
+                self.y = y
+                self.cadrespatial.create_rectangle(self.x, self.y, self.x + t, self.y + t, fill="white")
+
 
 class VueGalaxie():
 
