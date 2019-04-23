@@ -320,11 +320,6 @@ class VueSolaire():
         self.canevasSolaire.grid(row = 0, column =1)
         self.cadresolaireoutils.grid(row = 0, column =1)
 
-
-        #self.variationNomSysSolaire = StringVar()
-        #self.systemeNom=Label(self.parent.cadreinfo, bg="grey", textvariable=str(self.variationNomSysSolaire))
-        #self.systemeNom.grid(row=0,column=0)
-
     def afficherdecorSolaire(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
@@ -428,8 +423,6 @@ class VuePlanete():
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreplaneteoutils=Frame(self.cadrespatial)
         self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
-        self.labplanete=Label(self.cadreplaneteoutils, text="in planete!")
-        self.labplanete.grid()
         self.canevasPlanete.grid(row = 0, column =1)
         self.cadreplaneteoutils.grid(row = 0, column =1)
 
@@ -450,8 +443,6 @@ class VuePlanete():
         #self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
 
     def afficherInfosPlanete(self, modele, idPlanete):
-
-
 
        # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
         self.modele=modele
@@ -536,8 +527,6 @@ class VueGalaxie():
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadregalaxieoutils=Frame(self.cadrespatial)
         self.canevasGalaxie=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
-        self.labgalaxie=Label(self.cadregalaxieoutils, text="in galaxie!")
-        self.labgalaxie.grid()
         self.canevasGalaxie.grid(row = 0, column =0)
 
         # mouse click
