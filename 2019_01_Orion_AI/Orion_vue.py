@@ -148,13 +148,18 @@ class Vue():
         # ajouter text variable
         self.labcouttotal=Label(self.cadre,text="cout total:",bg=self.couleurinfo)
         self.nbcouttotal=Label(self.cadre,text="-" ,bg=self.couleurinfo)
+
         self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo)
+
         self.labcredit=Label(self.cadre, text="credit:",bg=self.couleurinfo)
         self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
+
         self.labnourriture= Label(self.cadre, text="nourriture:",bg=self.couleurinfo)
         self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
+
         self.labdeuterium= Label(self.cadre, text="deuterium:",bg=self.couleurinfo)
         self.nbdeuterium=Label(self.cadre, text=self.mod.joueurs[self.nom].deuterium,bg=self.couleurinfo)
+
         self.labmoral= Label(self.cadre, text="moral:",bg=self.couleurinfo)
         self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo)
         # boutons et bind
@@ -240,7 +245,6 @@ class Vue():
     #def _create_circle(self, x, y, r):
         #return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
 
-
     #def _create_circle(self, x, y, r):
        # return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
         # self.afficherpartie(mod)
@@ -312,6 +316,23 @@ class Vue():
                     print (s[1], self.nom)
                     self.mod.joueurs[self.nom].setbuffer(s[1])
                     #self.mod.joueurs[nom].setbuffer(s[1])
+
+
+    def updateInfosJoueur(self,mod):
+        self.nbnourriture.grid_forget()
+        self.nbcredit.grid_forget()
+        self.nbdeuterium.grid_forget()
+        self.nbmoral.grid_forget()
+
+        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
+        self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
+        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
+        self.nbdeuterium=Label(self.cadre, text=self.mod.joueurs[self.nom].deuterium,bg=self.couleurinfo)
+
+        self.nbcredit.grid(row=1,column=1)
+        self.nbnourriture.grid(row=1,column=3)
+        self.nbdeuterium.grid(row=1,column=5)
+        self.nbmoral.grid(row=1,column=7)
 
 class VueSolaire():
     def __init__(self,fen,parent):
@@ -611,7 +632,6 @@ class VueGalaxie():
         #else:
         #    self.canevas.delete("marqueur")
 
-
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
             for j in i.flotte:
@@ -626,3 +646,5 @@ class VueGalaxie():
             for j in i.flotte:
                 self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+
+        self.parent.updateInfosJoueur(mod)
