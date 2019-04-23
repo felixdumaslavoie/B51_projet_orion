@@ -242,6 +242,15 @@ class Vue():
     #def _create_circle(self, x, y, r):
        # return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
         # self.afficherpartie(mod)
+    def nettoyageLabelPlanete(self):
+        self.vues["Planete"].planeteNom.grid_forget()
+        self.vues["Planete"].planeteProprio.grid_forget()
+        self.vues["Planete"].planeteTaille.grid_forget()
+        self.vues["Planete"].planeteCharbon.grid_forget()
+        self.vues["Planete"].planeteZinc.grid_forget()
+        self.vues["Planete"].planeteDeuterium.grid_forget()
+        self.vues["Planete"].planeteFertile.grid_forget()
+        self.vues["Planete"].parent.cadreBouton.grid_forget()
 
 
     def creervaisseau(self):
@@ -258,6 +267,7 @@ class Vue():
         t=self.canvas.gettags(CURRENT)
         if t:
             if self.canvas == self.vues["Planete"].canevasPlanete:
+                self.cadreBouton.grid()
                 self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,self.SystemeSolaire.id)
                 self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
                 self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
@@ -294,6 +304,7 @@ class Vue():
         if s:
             if self.canvas == self.vues["Galaxie"].canevasGalaxie:
                 if s[0] == "etoile":
+                    self.cadreBouton.grid_forget()
                     self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,int(s[1])) # afficher infos sys solaire en passant modele et id sys solaire
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
                     self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
@@ -398,7 +409,7 @@ class VueSolaire():
                     if(modele.joueurs[k].nom == i.proprietaire):
                         player = k
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=modele.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
-        # self.afficherInfosSystemSolaire(modele, idSolaire)
+        self.afficherInfosSystemSolaire(modele, idSolaire)
     def afficherInfosSystemSolaire(self, modele, idSysteme):
         # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
         self.modele=modele
@@ -406,14 +417,15 @@ class VueSolaire():
             if (i.id == idSysteme):
                 self.systeme=i
         # enleve cadre inutile
-        self.parent.cadreBouton.grid_forget()
-        self.parent.cadreinfo.grid_forget()
+
+        # self.parent.cadreinfo.grid_forget()
+        # self.parent.nettoyageLabelPlanete()
         # place cadre cadreinfo
         self.parent.cadreinfo.grid(row=0,column = 0)
         self.variationNomSysSolaire = StringVar()
         self.variationNomSysSolaire.set("Nom : " + str(self.systeme.nometoile))
         self.sysSolaireNom = Label(self.parent.cadreinfo, bg="white", textvariable=self.variationNomSysSolaire )
-        self.sysSolaireNom.grid_forget()
+        # self.sysSolaireNom.grid_forget()
         self.sysSolaireNom.grid(row = 0, column =0)
 
 class VuePlanete():
@@ -473,14 +485,8 @@ class VuePlanete():
         self.planeteDeuterium = Label(self.parent.cadreinfo, bg="white",textvariable=self.variationDeuterium)
         self.planeteFertile = Label(self.parent.cadreinfo, bg="white",textvariable=self.variationFertile)
         # clear grid pour placement des labels
-        self.planeteNom.grid_forget()
-        self.planeteProprio.grid_forget()
-        self.planeteTaille.grid_forget()
-        self.planeteCharbon.grid_forget()
-        self.planeteZinc.grid_forget()
-        self.planeteDeuterium.grid_forget()
-        self.planeteFertile.grid_forget()
-        self.parent.cadreBouton.grid_forget()
+        # self.parent.vues["Solaire"].sysSolaireNom.grid_forget()
+        self.parent.nettoyageLabelPlanete()
         # placement des labels
         self.planeteNom.grid(row=0, column=0)
         self.planeteProprio.grid(row=1, column=0)
@@ -490,8 +496,6 @@ class VuePlanete():
         self.planeteDeuterium.grid(row=5, column=0)
         self.planeteFertile.grid(row=6, column=0)
         self.parent.cadreBouton.grid(row=1,column=0)
-
-
 
     def afficherPlanete(self,modele,idPlanete):
         #self.parent.cadreinfo.grid_forget()
