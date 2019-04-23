@@ -276,8 +276,9 @@ class Vue():
         t=self.canvas.gettags(CURRENT)
         if t:
             if self.canvas == self.vues["Planete"].canevasPlanete:
-                self.cadreBouton.grid()
+
                 self.vues["Planete"].afficherInfosPlanete(self.mod,int(idPlanete))
+                self.cadreBouton.grid(row = 1, column= 0)
                 self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
                 self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
 
@@ -509,7 +510,6 @@ class VuePlanete():
         self.cadreinfo=Frame(self.parent.cadreoutils)
         self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
         self.canevasPlanete.grid(row = 0, column =1)
-        self.cadreplaneteoutils.grid(row = 0, column =1)
         self.newStruct = Button(self.parent.cadreBouton,text="Nouvelle Structure",bg="DeepSkyBlue2")
         self.newStruct.pack()
 
