@@ -147,13 +147,18 @@ class Vue():
         # ajouter text variable
         self.labcouttotal=Label(self.cadre,text="cout total:",bg=self.couleurinfo)
         self.nbcouttotal=Label(self.cadre,text="-" ,bg=self.couleurinfo)
+
         self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo)
+
         self.labcredit=Label(self.cadre, text="credit:",bg=self.couleurinfo)
         self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
+
         self.labnourriture= Label(self.cadre, text="nourriture:",bg=self.couleurinfo)
         self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
+
         self.labdeuterium= Label(self.cadre, text="deuterium:",bg=self.couleurinfo)
         self.nbdeuterium=Label(self.cadre, text=self.mod.joueurs[self.nom].deuterium,bg=self.couleurinfo)
+
         self.labmoral= Label(self.cadre, text="moral:",bg=self.couleurinfo)
         self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo)
         # boutons et bind
@@ -307,8 +312,20 @@ class Vue():
 
 
     def updateInfosJoueur(self,mod):
-        pass
+        self.nbnourriture.grid_forget()
+        self.nbcredit.grid_forget()
+        self.nbdeuterium.grid_forget()
+        self.nbmoral.grid_forget()
 
+        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
+        self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
+        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
+        self.nbdeuterium=Label(self.cadre, text=self.mod.joueurs[self.nom].deuterium,bg=self.couleurinfo)
+
+        self.nbcredit.grid(row=1,column=1)
+        self.nbnourriture.grid(row=1,column=3)
+        self.nbdeuterium.grid(row=1,column=5)
+        self.nbmoral.grid(row=1,column=7)
 
 class VueSolaire():
     def __init__(self,fen,parent):
