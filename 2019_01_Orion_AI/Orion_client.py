@@ -10,8 +10,6 @@ from helper import Helper as hlp
 from Orion_modele import *
 from Orion_vue import *
 
-#modif arbitrare
-
 class Controleur():
     def __init__(self):
 
@@ -147,7 +145,7 @@ class Controleur():
         if self.serveur:
             self.serveur.jequitte(self.monnom)
         self.vue.root.destroy()
-       
+
 
     def creervaisseau(self):
         self.actions.append([self.monnom,"creervaisseau",""])
