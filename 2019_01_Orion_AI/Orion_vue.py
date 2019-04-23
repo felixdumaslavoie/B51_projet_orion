@@ -34,9 +34,11 @@ class Vue():
         self.cadrejeu=Frame(self.cadrepartie)
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
         self.cadreInteraction=Frame(self.cadrepartie,height=150, width=400, bg="pink",padx =50)
-        self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
+        self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="orange")
         self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="darkgrey")
         self.cadreBouton=Frame(self.cadreoutils,width=200,height=200,bg="medium spring green")
+
+        self.cadreinfo.grid_propagate(False)
 
 
         self.couleurinfo="gray"
@@ -273,7 +275,7 @@ class Vue():
         t=self.canvas.gettags(CURRENT)
         if t:
             if self.canvas == self.vues["Planete"].canevasPlanete:
-                self.cadreBouton.grid()
+                self.cadreBouton.grid(row = 1, column= 0)
                 self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,self.SystemeSolaire.id)
                 self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
                 self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
@@ -455,6 +457,8 @@ class VuePlanete():
         self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
         self.canevasPlanete.grid(row = 0, column =1)
         self.cadreplaneteoutils.grid(row = 0, column =1)
+        self.newStruct = Button(self.parent.cadreBouton,text="Nouvelle Structure",bg="DeepSkyBlue2")
+        self.newStruct.pack()
 
 
 
@@ -532,10 +536,33 @@ class VuePlanete():
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id))
 
-        #self.parent.bChoixBatiement.grid(row = 6, column = 0)
         self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent))
 
+    def creerStructure(self,modele,idPlanete,structType):
+        self.id = idPlanete
+        self.modele = modele
 
+        for i in (self.modele.Galaxie.listeSysSolaire):
+            for j in (i.listePlanete):
+                if (j.id == idPlanete):
+                    self.planete=j
+
+
+
+    def afficheEmplacement(self,idPlanete,modele):
+        self.id = idPlanete
+        self.modele = modele
+
+        for i in (self.modele.Galaxie.listeSysSolaire):
+            for j in (i.listePlanete):
+                if (j.id == idPlanete):
+                    self.planete=j
+
+        t=20
+
+        if self.planete.nbEmplacementDispo > 0:
+            for i in self.planete.nbEmplacementDispo:
+                pass
 
 class VueGalaxie():
 
