@@ -53,7 +53,7 @@ class Vue():
         self.planete=self.mod.joueurs[self.nom].planetemere
         self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,self.planete.parent.id)
         self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.planete.parent.id)
-        self.changevueactive(self.vues["Solaire"]) 
+        self.changevueactive(self.vues["Solaire"])
 
     def fermerfenetre(self):
         self.parent.fermefenetre()
@@ -197,9 +197,9 @@ class Vue():
        # self.vues["Planete"].afficherPlanete(self.mod,self.mod.joueurs[self.nom].planetemere.id)
        # self.changevueactive.cadrespatial.grid()
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
-        self.cadreInteraction=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
+        self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
         self.cadreinfojoueur.grid(row=0, column=0)
-        self.cadreInteraction.grid(row=0, column=1)
+        self.cadreMessagerie.grid(row=0, column=1)
 
         # fonction création des infos joueurs
         self.creerCadreInfoJoueur(self.cadreinfojoueur,self.mod)
@@ -258,7 +258,7 @@ class Vue():
                 self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,self.SystemeSolaire.id)
                 self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
                 self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
-                
+
 
     def CliqueVueSySsolaire(self,canvas,mod):
         self.canvas = canvas
@@ -435,7 +435,7 @@ class VuePlanete():
         self.labplanete.grid()
         self.canevasPlanete.grid(row = 0, column =1)
         self.cadreplaneteoutils.grid(row = 0, column =1)
-        
+
 
 
     def afficherdecorPlanete(self,mod):
