@@ -52,6 +52,7 @@ class Vue():
     def changevueactive(self,vue):
         if self.vueactive:
             self.vueactive.cadrespatial.grid_forget()
+            self.cadreBouton.grid_forget()
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
 
@@ -212,7 +213,6 @@ class Vue():
         # cadre générale des outils
         self.cadreoutils.grid(row=1, column=1)
         # cadre des infos contextuel
-        # self.cadreBouton.grid(row=1,column=0)
         self.cadreinfo.grid(row=0, column=0)
         # nom et couleur du joueur : text=self.nom,fg=mod.joueurs[self.nom].couleur
         self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
@@ -304,7 +304,6 @@ class Vue():
         if s:
             if self.canvas == self.vues["Galaxie"].canevasGalaxie:
                 if s[0] == "etoile":
-                    self.cadreBouton.grid_forget()
                     self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,int(s[1])) # afficher infos sys solaire en passant modele et id sys solaire
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
                     self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
@@ -416,16 +415,11 @@ class VueSolaire():
         for i in (self.modele.Galaxie.listeSysSolaire):
             if (i.id == idSysteme):
                 self.systeme=i
-        # enleve cadre inutile
 
-        # self.parent.cadreinfo.grid_forget()
-        # self.parent.nettoyageLabelPlanete()
-        # place cadre cadreinfo
         self.parent.cadreinfo.grid(row=0,column = 0)
         self.variationNomSysSolaire = StringVar()
         self.variationNomSysSolaire.set("Nom : " + str(self.systeme.nometoile))
         self.sysSolaireNom = Label(self.parent.cadreinfo, bg="white", textvariable=self.variationNomSysSolaire )
-        # self.sysSolaireNom.grid_forget()
         self.sysSolaireNom.grid(row = 0, column =0)
 
 class VuePlanete():
@@ -485,7 +479,6 @@ class VuePlanete():
         self.planeteDeuterium = Label(self.parent.cadreinfo, bg="white",textvariable=self.variationDeuterium)
         self.planeteFertile = Label(self.parent.cadreinfo, bg="white",textvariable=self.variationFertile)
         # clear grid pour placement des labels
-        # self.parent.vues["Solaire"].sysSolaireNom.grid_forget()
         self.parent.nettoyageLabelPlanete()
         # placement des labels
         self.planeteNom.grid(row=0, column=0)
@@ -495,7 +488,6 @@ class VuePlanete():
         self.planeteZinc.grid(row=4, column=0)
         self.planeteDeuterium.grid(row=5, column=0)
         self.planeteFertile.grid(row=6, column=0)
-        self.parent.cadreBouton.grid(row=1,column=0)
 
     def afficherPlanete(self,modele,idPlanete):
         #self.parent.cadreinfo.grid_forget()
