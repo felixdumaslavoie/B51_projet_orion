@@ -80,6 +80,7 @@ class Planete():
         self.deuterium=random.randrange(10)
         self.fertile=random.randrange(1)
         self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
+        self.nbEmplacementDispo=[]*self.taille
         self.ressource=[self.charbon,self.zinc,self.deuterium]
         self.viePlanete1=self.viePlanete()
         self.couleur=random.choice(COULEURS);
@@ -95,6 +96,14 @@ class Planete():
 
     def estFertile(self):
         return self.fertile
+
+class EmplacementDispoSurPlanete():
+
+    def _init_(self,x,y):
+        self.x = x
+        self.y = y
+
+
 
 class Structure():
                 #nom structure, vie, cout, maintenance, exctraction
@@ -250,7 +259,8 @@ class Joueur():
         self.credit=1000
         self.nourriture=1000
         self.deuterium=5
-        
+        self.timer=0
+
     def setbuffer(self,identificateur):
         for i in self.parent.Galaxie.listeSysSolaire:
             if int(i.id) == int(identificateur):
@@ -273,6 +283,19 @@ class Joueur():
     def creerStructure(self,nom,x,y,nomStructure,planete):
         t=Structure(self, nom,x,y,nomStructure)
         self.planete.listeStructure.append(t)
+
+
+    def updaterRessources(self):
+        self.timer+=1
+        if self.timer >= 100:
+            self.nourriture += 50
+            self.credit += 10
+            self.deuterium += 2
+            self.timer = 0
+            #Fonctionne!!
+        #for i in self.planetescontrolees:
+        #  for j in i.listeStructure:
+
 
     #===========================================================================
     # def economie(self):
@@ -395,6 +418,7 @@ class Modele():
             del self.actionsafaire[cadre]
 
         for i in self.joueurs:
+            self.joueurs[i].updaterRessources()
             self.joueurs[i].prochaineaction()
 
         # IA- appelle prochaine action
