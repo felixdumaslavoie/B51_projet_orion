@@ -33,7 +33,7 @@ class Vue():
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
-        self.cadreInteraction=Frame(self.cadrepartie,height=150, width=400, bg="pink",padx =50)
+        self.cadreMessagerie=Frame(self.cadrepartie,height=150, width=400, bg="pink",padx =50)
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="darkgrey")
         self.cadreBouton=Frame(self.cadreoutils,width=200,height=200,bg="medium spring green")
@@ -221,7 +221,46 @@ class Vue():
         self.btncreervaisseau.grid(row=2, column=2)
         self.lbselectecible=Label(self.cadreinfo,text="Choisir cible",bg="darkgrey")
 
+        # cadre Messagerie
+
+        # création des objets de Messagerie
+        self.labDiplomatie=Label(self.cadreMessagerie,text="Messagerie")
+        self.listeMessage=Listbox(self.cadreMessagerie)
+        self.scrollMessage=Scrollbar(self.cadreMessagerie, orient=VERTICAL)
+        self.entryMessage=Entry(self.cadreMessagerie)
+        self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.add)
+
+
+
+        # création du grid
+        self.labDiplomatie.grid(row=0, columnspan=2, sticky=W+E)
+        self.listeMessage.grid(row=1, column=0)
+        self.scrollMessage.grid(row=1, column=1, sticky=N+S)
+        self.entryMessage.grid(row=2, column=0)
+        self.envoiMessage.grid(row=2, column=1)
+
+
+
+
         self.changecadre(self.cadrepartie)
+
+
+    def add(self):
+        message = self.entryMessage.get()
+        reponse = message
+        self.listeMessage.insert(END, str(reponse))
+
+        #création objets échange
+        #self.btnEchange=Button(self.cadreMessagerie, text="Échange")
+        #self.btnConfirmer=Button(self.cadreMessagerie, text="Confirmer")
+        #self.btnAnnuler=Button(self.cadreMessagerie, text="Annuler")
+
+
+        #création des objets diplomatie
+        #self.btnAlliance=Button(self.cadreMessagerie, text="Alliance")
+        #self.btnPacteGuerre=Button(self.cadreMessagerie, text="Pacte")
+        #self.btnGuerre=Button(self.cadreMessagerie, text="Guerre")
+        #self.btnPaix=Button(self.cadreMessagerie, text="Paix")
 
 
     def moveCanevas(self,evt):
