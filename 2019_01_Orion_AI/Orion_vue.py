@@ -630,7 +630,7 @@ class VuePlanete():
                 if (j.id == idPlanete):
                     self.planete=j
         #planete taille
-        taille=self.planete.taille*50
+        taille=self.planete.taille*self.planete.tailleMulti
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id))
 
@@ -667,7 +667,8 @@ class VuePlanete():
 
     def creerStructure(self,evt):
 
-        self.afficheEmplacement(self.id,self.modele)
+        self.afficheEmplacement(self.id)
+        self.afficheStructure(self.id)
 
         nom=evt.widget.cget("text")
         self.succesful = self.modele.Planete.creerStructure(self.id,nom)
@@ -680,24 +681,37 @@ class VuePlanete():
             self.labelStructSucces.config(text="La structure na pas pu etre ajoutée")
 
 
-        #self.parent.updateInfosJoueur(self.modele)
+        self.parent.updateInfosJoueur(self.modele)
 
-    def afficheEmplacement(self,idPlanete,modele):
+    def afficheEmplacement(self,idPlanete):
         self.id = idPlanete
-        self.modele = modele
 
         for i in (self.modele.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idPlanete):
                     self.planete=j
 
-        t=20
+        if len(self.planete.nbEmplacementDispo) > 0:
+            for i in self.planete.nbEmplacementDispo:
+                self.x = i.x
+                self.y = i.y
+                self.diametre = i.taille
+                self.cadrespatial.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill="light goldenrod", tags=("Emplacement",i.proprietaire))
 
-        if self.planete.listeStructure > 0:
+    def afficheStructure(self,idplanete):
+        self.idplante = idplanete
+        for i in (self.modele.Galaxie.listeSysSolaire):
+            for j in (i.listePlanete):
+                if (j.id == self.idplante):
+                    self.planete=j
+
+
+        if len(self.planete.listeStructure) > 0:
             for i in self.planete.listeStructure:
-                self.x = x
-                self.y = y
-                self.cadrespatial.create_rectangle(self.x, self.y, self.x + t, self.y + t, fill="white")
+                self.x = i.x
+                self.y = i.y
+                self.diametre = i.taille
+                self.cadrespatial.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill="white", tags=(i.nomStructure,i.proprietaire))
 
 
 class VueGalaxie():
@@ -717,9 +731,9 @@ class VueGalaxie():
         self.sysSolaireNom = Label(self.cadreinfo)
         self.mod=parent.mod
         self.sysSolaireNom.grid(row = 0, column =0)
-              
-    def changerProprietaire(self,idsyssolaire,couleur):    
-        
+
+    def changerProprietaire(self,idsyssolaire,couleur):
+
         for i in self.canevasGalaxie.find_all():
             #print(self.canevasGalaxie.gettags(i)[1], idsyssolaire)
             if self.canevasGalaxie.gettags(i)[1] == str(idsyssolaire):
