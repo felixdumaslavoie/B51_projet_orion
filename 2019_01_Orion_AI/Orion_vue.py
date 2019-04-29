@@ -29,6 +29,11 @@ class Vue():
         self.labgeneral.grid(row = 1, column =0)
         self.ip=ip
         self.vueactive=None
+        self.vueEnFonction=0
+
+        # Variable
+        # Faire la modification
+        # Mise a jour de chaque vue
 
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
@@ -240,6 +245,10 @@ class Vue():
 
     def afficherpartie(self,mod):
         self.vues["Galaxie"].afficherpartieGalaxie(mod)
+        #elif self.vueactive == self.vues["Solaire"]:
+        #    self.vues["Solaire"].afficherdecorSolaire(mod)
+        #elif self.vueactive == self.vues["Planete"]:
+        #    self.vues["Planete"].afficherdecorPlanete(mod)
 
 
     #def _create_circle(self, x, y, r):
@@ -351,7 +360,6 @@ class VueSolaire():
     def afficherdecorSolaire(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
-        # self.unSysSolaire = random.choice(self.listeSysSolaire)
         self.unSysSolaire = self.listeSysSolaire[0] # TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS MODELE
 
         self.planete= self.mod.joueurs[self.parent.nom].planetemere
@@ -369,27 +377,10 @@ class VueSolaire():
             self.canevasSolaire.create_rectangle(x,y,x+8,y+8, fill="light gray", tags=(None,"asteroide",None,None))
 
         self._create_circle(self.parent.largeur/1.5,self.parent.hauteur/1.5,75)
-        #self.systememonetoile(self.mod)
 
-    # def systememonetoile(self,mod):
-    #     for i in self.unSysSolaire.listePlanete:
-    #         t=i.taille
-    #         if(i.proprietaire=="inconnu"):
-    #             self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=("Inconnu","planeteInconnu",None,None))
-    #         else:
-    #             player = None
-    #             for j in self.mod.joueurs:
-    #                 if(mod.joueurs[j].nom == i.proprietaire):
-    #                     player = j
-    #                     self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=mod.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
-
-    #     #for i in mod.joueurs.keys():
-        #    for j in mod.joueurs[i].planetescontrolees:
-        #        t=j.taille
-        #        self.canevasSolaire.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
-        #                            tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
         self.parent.CliqueVueSySsolaire(self.canevasSolaire,mod)
+
     # #dessine IAs
     #     for i in mod.ias:
     #         for j in i.planetescontrolees:
@@ -444,6 +435,8 @@ class VueSolaire():
         self.variationNomSysSolaire.set("Nom : " + str(self.systeme.nometoile))
         self.sysSolaireNom = Label(self.parent.cadreinfo, bg="white", textvariable=self.variationNomSysSolaire )
         self.sysSolaireNom.grid(row = 0, column =0)
+
+        self.parent.updateInfosJoueur(modele)
 
 class VuePlanete():
     def __init__(self,fen,parent):
@@ -535,7 +528,7 @@ class VuePlanete():
         #self.parent.bChoixBatiement.grid(row = 6, column = 0)
         self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent))
 
-
+        self.parent.updateInfosJoueur(modele)
 
 class VueGalaxie():
 

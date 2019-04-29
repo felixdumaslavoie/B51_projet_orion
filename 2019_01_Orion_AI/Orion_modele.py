@@ -275,7 +275,6 @@ class Joueur():
         t=Structure(self, nom,x,y,nomStructure)
         self.planete.listeStructure.append(t)
 
-
     def updaterRessources(self):
         self.timer+=1
         if self.timer >= 100:
