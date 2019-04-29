@@ -630,7 +630,7 @@ class VuePlanete():
                 if (j.id == idPlanete):
                     self.planete=j
         #planete taille
-        taille=self.planete.taille*self.planete.tailleMulti
+        taille=self.planete.taille*50 #self.planete.tailleMulti
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id))
 
@@ -638,6 +638,7 @@ class VuePlanete():
         self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
 
     def menuStructPlanete(self):
+        self.newStruct.config(state="disabled")
         self.buttonUsineCiv = Button(self.parent.cadreBouton, text = "Usine Civile",height = 2, width = 15)#, command =self.creerStructure() )
         self.buttonUsineMili = Button(self.parent.cadreBouton, text = "Usine Militaire",height = 2, width = 15)#, command =self.creerStructure())
         self.buttonRaffDia = Button(self.parent.cadreBouton, text = "Raffinerie (Diamant)",height = 2, width = 15)#, command =self.creerStructure())
@@ -667,11 +668,12 @@ class VuePlanete():
 
     def creerStructure(self,evt):
 
-        self.afficheEmplacement(self.id)
-        self.afficheStructure(self.id)
+        #self.afficheEmplacement(self.id)
+        #self.afficheStructure(self.id)
 
         nom=evt.widget.cget("text")
-        self.succesful = self.modele.Planete.creerStructure(self.id,nom)
+        #self.succesful = self.modele.Planete.creerStructure(self.id,nom)
+        self.succesfull =1
 
         if (self.succesfull == 1):
             # ajouté
@@ -679,6 +681,15 @@ class VuePlanete():
         if(self.succesfull == 0):
             # pas ajouté car pas de place
             self.labelStructSucces.config(text="La structure na pas pu etre ajoutée")
+
+        self.buttonUsineCiv.grid_forget()
+        self.buttonUsineMili.grid_forget()
+        self.buttonRaffDia.grid_forget()
+        self.buttonRaffChar.grid_forget()
+        self.buttonRaffIso.grid_forget()
+        self.buttonFerme.grid_forget()
+        self.buttonCapitale.grid_forget()
+        self.newStruct.config(state="normal")
 
 
         self.parent.updateInfosJoueur(self.modele)

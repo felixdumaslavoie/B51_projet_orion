@@ -58,7 +58,7 @@ class SystemeSolaire():
         self.proprietaire="inconnu"
         self.x=x
         self.y=y
-        self.taille=random.randrange(4,7) #taille de l'étoile dans la vue de la galaxie
+        self.taille=random.randrange(4,12) #taille de l'étoile dans la vue de la galaxie
         self.nbdeplanete=random.randrange(2, 12)
         self.listePlanete = []
         self.couleur = "grey80"
