@@ -645,6 +645,7 @@ class VuePlanete():
         self.buttonRaffIso = Button(self.parent.cadreBouton, text = "Raffinerie (Isotope)",height = 2, width = 15)#, command =self.creerStructure())
         self.buttonFerme = Button(self.parent.cadreBouton, text = "Ferme",height = 2, width = 15)#, command =self.creerStructure())
         self.buttonCapitale = Button(self.parent.cadreBouton, text = "Capitale",height = 2, width = 15)#, command =self.creerStructure())
+        self.labelStructSucces = Label(self.parent.cadreBouton, text = "",height = 2, width = 30, bg="DodgerBlue2")
         # bind for action
         self.buttonUsineCiv.bind("<Button>",self.creerStructure)
         self.buttonUsineMili.bind("<Button>",self.creerStructure)
@@ -661,22 +662,25 @@ class VuePlanete():
         self.buttonRaffIso.grid(row=3 , column = 1)
         self.buttonFerme.grid(row=3 , column = 0)
         self.buttonCapitale.grid(row=4 , column = 0, columnspan = 2)
+        self.labelStructSucces.grid(row=5,column = 0, columnspan = 2) # always lowest
         self.parent.cadreBouton.grid(row=1 , column = 0)
 
     def creerStructure(self,evt):
 
+        self.afficheEmplacement(self.id,self.modele)
+
         nom=evt.widget.cget("text")
         self.succesful = self.modele.Planete.creerStructure(self.id,nom)
 
-        if (self.succesful == 1):
-            # ca a été ajouté correctement
-            pass
-        if(self.succesful == 0):
+        if (self.succesfull == 1):
+            # ajouté
+            self.labelStructSucces.config(text="La structure a bien été ajouté!")
+        if(self.succesfull == 0):
             # pas ajouté car pas de place
-            pass
+            self.labelStructSucces.config(text="La structure na pas pu etre ajoutée")
 
 
-        self.parent.updateInfosJoueur(modele)
+        #self.parent.updateInfosJoueur(self.modele)
 
     def afficheEmplacement(self,idPlanete,modele):
         self.id = idPlanete
