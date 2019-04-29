@@ -396,7 +396,9 @@ class VueSolaire():
         # lambda de demo
         self.canevasSolaire.bind( "<Button-1>", lambda event, canvas = self.canevasSolaire : self.parent.CliqueVueSySsolaire(canvas,self.parent.modele))
         self.canevasSolaire.grid(row = 0, column =1)
-
+        self.couleurs = ["RoyalBlue3","light coral", "cadet blue", "cyan",
+                        "navajo white", "blue violet", "aquamarine2", "forest green",
+                        "SeaGreen1", "plum2" ]
         #creation des labels
         self.planeteNom=Label(self.cadreinfo)
         self.planeteId=Label(self.cadreinfo)
@@ -467,9 +469,9 @@ class VueSolaire():
             if (a.id == idSolaire):
                 self.systemeSolaire=a
         for i in self.systemeSolaire.listePlanete:
-            t=i.taille
+            t=i.taille*4
             if(i.proprietaire=="inconnu"):
-                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",tags=("Inconnu","planeteInconnu",str(i.id),None))
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=random.choice(self.couleurs),tags=("Inconnu","planeteInconnu",str(i.id),None))
             else:
                 player = None
                 for k in self.mod.joueurs:
@@ -491,11 +493,8 @@ class VueSolaire():
 
     def afficherInfosPlanete(self, modele, idPlanete):
 
-       # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
+        self.parent.bplanete.config(state = "disabled") # fonctionne pas
         self.modele=modele
-
-
-
         for i in (self.modele.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idPlanete):
@@ -634,7 +633,6 @@ class VuePlanete():
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id))
 
-        #self.parent.bChoixBatiement.grid(row = 6, column = 0)
         self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
 
     def menuStructPlanete(self):
