@@ -17,7 +17,9 @@ class Galaxie():
         # needed pour compatibilité entre vscode et eclipse
 
         self.txtNomEtoile = open(dir_path + "/nom_etoiles.txt","r")
+        self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
+        self.listeNomPlanete = self.txtNomPlanete.readlines()
         self.nbSysSolaire=150
         self.listeSysSolaire=[]
 
@@ -62,17 +64,19 @@ class SystemeSolaire():
         self.couleur = "grey80"
         print("Étoile", self.nometoile, "ID:", self.id)
         for i in range(self.nbdeplanete):
+            self.nom = self.parent.listeNomPlanete[random.randrange(len(self.parent.listeNomPlanete)-1)]+ " "+ str(random.randrange(10))
             x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
             y=random.randrange(self.parent.parent.hauteur-(2*self.bordure))+self.bordure
-            p = Planete(self,x,y)
+            p = Planete(self,x,y, self.nom)
             self.listePlanete.append(p)
 
 class Planete():
     couleurs={""}
-    def __init__(self,parent,x,y):
+    def __init__(self,parent,x,y, nom):
         self.id=Id.prochainid()
         self.proprietaire="inconnu"
         self.parent=parent
+        self.nom=nom
         self.x=x
         self.y=y
         self.taille=random.randrange(4,12)
@@ -81,10 +85,10 @@ class Planete():
         self.deuterium=random.randrange(10)
         self.fertile=random.randrange(1)
         self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
+        #self.nbEmplacementDispo=[]*self.taille
         self.ressource=[self.charbon,self.zinc,self.deuterium]
         self.viePlanete1=self.viePlanete()
         self.couleur=random.choice(COULEURS);
-
 
     def viePlanete(self):
         if not self.listeStructure:
@@ -96,6 +100,14 @@ class Planete():
 
     def estFertile(self):
         return self.fertile
+
+class EmplacementsSurPlanete():
+    def _init_(self,x,y):
+        self.x = x
+        self.y = y
+        self.structure=None
+
+
 
 class Structure():
                 #nom structure, vie, cout, maintenance, exctraction
@@ -253,7 +265,8 @@ class Joueur():
         self.credit=1000
         self.nourriture=1000
         self.deuterium=5
-        
+        self.timer=0
+
     def setbuffer(self,identificateur):
         for i in self.parent.Galaxie.listeSysSolaire:
             if int(i.id) == int(identificateur):
@@ -276,9 +289,14 @@ class Joueur():
     def creerStructure(self,nom,x,y,nomStructure,planete):
         t=Structure(self, nom,x,y,nomStructure)
         self.planete.listeStructure.append(t)
-        
-    #def reclamerPlanete(self,idEtProprietaire):
-    #    id
+
+    def updaterRessources(self):
+        self.timer+=1
+        if self.timer >= 100:
+            self.nourriture += 50
+            self.credit += 10
+            self.deuterium += 2
+            self.timer = 0
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
@@ -395,6 +413,7 @@ class Modele():
             del self.actionsafaire[cadre]
 
         for i in self.joueurs:
+            self.joueurs[i].updaterRessources()
             self.joueurs[i].prochaineaction()
 
         # IA- appelle prochaine action

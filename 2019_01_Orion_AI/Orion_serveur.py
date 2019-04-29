@@ -1,3 +1,4 @@
+
 # -*- encoding: utf-8 -*-
 from xmlrpc.server import SimpleXMLRPCServer
 import os,os.path
@@ -151,7 +152,7 @@ class ControleurServeur(object):
     def fermer(self):
         print("FERMETURE DU SERVEUR")
         daemon.shutdown()
-        
+
 
 controleurServeur=ControleurServeur()
 daemon.register_instance(controleurServeur)

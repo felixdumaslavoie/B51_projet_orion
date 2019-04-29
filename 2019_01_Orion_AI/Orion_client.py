@@ -29,7 +29,7 @@ class Controleur():
         self.vue=Vue(self,self.monip,self.monnom)
         self.vue.root.mainloop()
 
-    def trouverIP(self): # fonction pour trouver le IP en 'pignant' gmail
+    def trouverIP(self): # fonction pour trouver le IP en 'pignant' gmailcls
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # on cree un socket
         s.connect(("gmail.com",80))    # on envoie le ping
         monip=s.getsockname()[0] # on analyse la reponse qui contient l'IP en position 0
@@ -145,7 +145,6 @@ class Controleur():
         if self.serveur:
             self.serveur.jequitte(self.monnom)
         self.vue.root.destroy()
-
 
     def creervaisseau(self):
         self.actions.append([self.monnom,"creervaisseau",""])
