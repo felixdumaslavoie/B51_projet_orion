@@ -711,7 +711,7 @@ class VuePlanete():
                 self.x = i.x
                 self.y = i.y
                 self.diametre = i.taille
-                self.cadrespatial.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill="white", tags=(i.nomStructure,i.proprietaire))
+                self.cadrespatial.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill="turquoise2", tags=(i.nomStructure,i.proprietaire))
 
 
 class VueGalaxie():
