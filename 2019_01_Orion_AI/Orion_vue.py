@@ -33,7 +33,7 @@ class Vue():
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
-        self.cadreMessagerie=Frame(self.cadrepartie,height=150, width=400, bg="pink",padx =50)
+        self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="darkgrey")
         self.cadreBouton=Frame(self.cadreoutils,width=200,height=200,bg="medium spring green")
@@ -232,21 +232,48 @@ class Vue():
         # cadre Messagerie
 
         # création des objets de Messagerie
-        self.labDiplomatie=Label(self.cadreMessagerie,text="Messagerie")
+        self.labMessagerie=Label(self.cadreMessagerie,text="Messagerie")
+        self.afficherMenuJoueur()
         self.listeMessage=Listbox(self.cadreMessagerie)
         self.scrollMessage=Scrollbar(self.cadreMessagerie, orient=VERTICAL)
         self.entryMessage=Entry(self.cadreMessagerie)
         self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.add)
+        self.labDiplomatie=Label(self.cadreMessagerie, text="Diplomatie")
+        self.btnAlliance=Button(self.cadreMessagerie, text="Alliance")
+        self.btnGuerre=Button(self.cadreMessagerie, text="Guerre")
+        #self.btnAllianceGuerriere=Button(self.cadreMessagerie, text="Alliance guerrière")
+        #self.btnPaix=Button(self.cadreMessagerie, text="Paix")
 
-
+        # création de la liste de joueur
+        #print(list(self.mod.joueurs.keys()))
 
         # création du grid
-        self.labDiplomatie.grid(row=0, columnspan=2, sticky=W+E)
+        self.labMessagerie.grid(row=0, columnspan=2, sticky=W+E)
         self.listeMessage.grid(row=1, column=0)
-        self.scrollMessage.grid(row=1, column=1, sticky=N+S)
-        self.entryMessage.grid(row=2, column=0)
-        self.envoiMessage.grid(row=2, column=1)
+        self.scrollMessage.grid(row=1, column=1, sticky=W+E+N+S)
+        self.entryMessage.grid(row=3, column=0)
+        self.envoiMessage.grid(row=3, column=1)
+        self.labDiplomatie.grid(row=4, columnspan=2, sticky=W+E)
+        self.btnAlliance.grid(row=5, column=0, sticky=W+E)
+        self.btnGuerre.grid(row=5, column=1, sticky=W+E)
+        #self.btnAllianceGuerriere(row=5, column=2)
+        #self.btnPaix(row=5, column=2)
 
+
+    def choix(self, *args):
+        print(self.tkvar.get())
+
+    def afficherMenuJoueur(self):
+        self.tkvar = StringVar(self.root)
+        self.tkvar.trace("w", self.choix)
+        nomJoueur=self.tkvar.get()
+        print(nomJoueur)
+        listenomjoueur=["Tout le monde"]+ list(self.mod.joueurs.keys())
+
+        self.tkvar.set("Tout le monde")
+        self.menu = OptionMenu(self.cadreMessagerie, self.tkvar, *listenomjoueur)
+        #self.menu.bind('<')
+        self.menu.grid(row=2, columnspan=2, sticky=W+E)
 
 
 
