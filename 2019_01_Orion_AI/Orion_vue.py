@@ -500,13 +500,16 @@ class VueSolaire():
             t=i.taille*4
             if(i.proprietaire=="inconnu"):
                 self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=random.choice(self.couleurs),tags=("Inconnu","planeteInconnu",str(i.id),None))
-            else:
+            elif(i.proprietaire is not None):
                 player = None
-                for k in self.mod.joueurs:
-                    if(modele.joueurs[k].nom == i.proprietaire):
+                for k in self.mod.ias:
+                    if(k.nom == i.proprietaire):
                         player = k
+                        self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=player.couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
+                for j in self.mod.joueurs:
+                    if(modele.joueurs[j].nom == i.proprietaire):
+                        player = j
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=modele.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
-
     def afficherInfosSystemSolaire(self, modele, idSysteme):
         # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
 
@@ -685,11 +688,7 @@ class VuePlanete():
                 if (j.id == idPlanete):
                     self.planete=j
         #planete taille
-<<<<<<< HEAD
         taille=self.planete.taille*50 #self.planete.tailleMulti
-=======
-        taille=self.planete.taille*50#self.planete.tailleMulti
->>>>>>> Vaisseaux se créent et la ils sont dans un bon système solaire
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id))
 
