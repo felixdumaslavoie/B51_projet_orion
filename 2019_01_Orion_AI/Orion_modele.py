@@ -20,7 +20,7 @@ class Galaxie():
         self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.listeNomPlanete = self.txtNomPlanete.readlines()
-        self.nbSysSolaire=150
+        self.nbSysSolaire=5
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
@@ -80,9 +80,9 @@ class Planete():
         self.x=x
         self.y=y
         self.taille=random.randrange(4,12)
-        self.charbon=random.randrange(6)
-        self.zinc=random.randrange(5)
-        self.deuterium=random.randrange(10)
+        self.charbon=random.randrange(6000)
+        self.zinc=random.randrange(3000)
+        self.deuterium=random.randrange(100)
         self.fertile=random.randrange(1)
         self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
         #self.nbEmplacementDispo=[]*self.taille
@@ -343,7 +343,6 @@ class IA(Joueur):
                     i.avancer()
                 else:
                     i.cible=random.choice(self.parent.Galaxie.listeSysSolaire)
-                    print("Nouvelle cible IA:", i.cible.id)
         else:
             self.creervaisseau(0)
 
@@ -378,7 +377,7 @@ class Modele():
         planes=[]
         while np:
             #s=random.choice(self.Galaxie.listeSysSolaire)
-            s=self.Galaxie.listeSysSolaire[0]  # TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS VUE
+            s=random.choice(self.Galaxie.listeSysSolaire)  # TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS VUE
             p=random.choice(s.listePlanete)
             if p not in planes:
                 planes.append(p)
