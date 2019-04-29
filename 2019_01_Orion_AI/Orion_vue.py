@@ -630,7 +630,7 @@ class VuePlanete():
                 if (j.id == idPlanete):
                     self.planete=j
         #planete taille
-        taille=self.planete.taille*50
+        taille=self.planete.taille*self.planete.tailleMulti
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id))
 
@@ -645,6 +645,7 @@ class VuePlanete():
         self.buttonRaffIso = Button(self.parent.cadreBouton, text = "Raffinerie (Isotope)",height = 2, width = 15)#, command =self.creerStructure())
         self.buttonFerme = Button(self.parent.cadreBouton, text = "Ferme",height = 2, width = 15)#, command =self.creerStructure())
         self.buttonCapitale = Button(self.parent.cadreBouton, text = "Capitale",height = 2, width = 15)#, command =self.creerStructure())
+        self.labelStructSucces = Label(self.parent.cadreBouton, text = "",height = 2, width = 30, bg="DodgerBlue2")
         # bind for action
         self.buttonUsineCiv.bind("<Button>",self.creerStructure)
         self.buttonUsineMili.bind("<Button>",self.creerStructure)
@@ -661,39 +662,56 @@ class VuePlanete():
         self.buttonRaffIso.grid(row=3 , column = 1)
         self.buttonFerme.grid(row=3 , column = 0)
         self.buttonCapitale.grid(row=4 , column = 0, columnspan = 2)
+        self.labelStructSucces.grid(row=5,column = 0, columnspan = 2) # always lowest
         self.parent.cadreBouton.grid(row=1 , column = 0)
 
     def creerStructure(self,evt):
 
+        self.afficheEmplacement(self.id)
+        self.afficheStructure(self.id)
+
         nom=evt.widget.cget("text")
         self.succesful = self.modele.Planete.creerStructure(self.id,nom)
 
-        if (self.succesful == 1):
-            # ca a été ajouté correctement
-            pass
-        if(self.succesful == 0):
+        if (self.succesfull == 1):
+            # ajouté
+            self.labelStructSucces.config(text="La structure a bien été ajouté!")
+        if(self.succesfull == 0):
             # pas ajouté car pas de place
-            pass
+            self.labelStructSucces.config(text="La structure na pas pu etre ajoutée")
 
 
-        self.parent.updateInfosJoueur(modele)
+        self.parent.updateInfosJoueur(self.modele)
 
-    def afficheEmplacement(self,idPlanete,modele):
+    def afficheEmplacement(self,idPlanete):
         self.id = idPlanete
-        self.modele = modele
 
         for i in (self.modele.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idPlanete):
                     self.planete=j
 
-        t=20
+        if len(self.planete.nbEmplacementDispo) > 0:
+            for i in self.planete.nbEmplacementDispo:
+                self.x = i.x
+                self.y = i.y
+                self.diametre = i.taille
+                self.cadrespatial.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill="light goldenrod", tags=("Emplacement",i.proprietaire))
 
-        if self.planete.listeStructure > 0:
+    def afficheStructure(self,idplanete):
+        self.idplante = idplanete
+        for i in (self.modele.Galaxie.listeSysSolaire):
+            for j in (i.listePlanete):
+                if (j.id == self.idplante):
+                    self.planete=j
+
+
+        if len(self.planete.listeStructure) > 0:
             for i in self.planete.listeStructure:
-                self.x = x
-                self.y = y
-                self.cadrespatial.create_rectangle(self.x, self.y, self.x + t, self.y + t, fill="white")
+                self.x = i.x
+                self.y = i.y
+                self.diametre = i.taille
+                self.cadrespatial.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill="turquoise2", tags=(i.nomStructure,i.proprietaire))
 
 
 class VueGalaxie():
@@ -713,9 +731,9 @@ class VueGalaxie():
         self.sysSolaireNom = Label(self.cadreinfo)
         self.mod=parent.mod
         self.sysSolaireNom.grid(row = 0, column =0)
-              
-    def changerProprietaire(self,idsyssolaire,couleur):    
-        
+
+    def changerProprietaire(self,idsyssolaire,couleur):
+
         for i in self.canevasGalaxie.find_all():
             #print(self.canevasGalaxie.gettags(i)[1], idsyssolaire)
             if self.canevasGalaxie.gettags(i)[1] == str(idsyssolaire):
