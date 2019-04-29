@@ -46,7 +46,6 @@ class Galaxie():
             nom = self.listeNomEtoile.pop(random.randrange(len(self.listeNomEtoile)-1))
             s = SystemeSolaire(self,x,y,nom)
             self.listeSysSolaire.append(s)
-            print("Étoile " + nom + " créée " + str(x) + " " + str(y))
 
 class SystemeSolaire():
     def __init__(self,parent,x,y,nom):
@@ -60,6 +59,8 @@ class SystemeSolaire():
         self.taille=random.randrange(4,7) #taille de l'étoile dans la vue de la galaxie
         self.nbdeplanete=random.randrange(2, 12)
         self.listePlanete = []
+        self.couleur = "grey80"
+        print("Étoile", self.nometoile, "ID:", self.id)
         for i in range(self.nbdeplanete):
             x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
             y=random.randrange(self.parent.parent.hauteur-(2*self.bordure))+self.bordure
@@ -182,7 +183,8 @@ class Capitale(Structure):
         self.production=Structure.Capitale[3]
 
 class Vaisseau():
-    def __init__(self,nom,x,y, nomVaisseau="Vaisseau_Militaire"):
+    def __init__(self,parent,nom,x,y, nomVaisseau="Vaisseau_Militaire"):
+        self.parent = parent
         self.id=Id.prochainid()
         self.proprietaire=nom
         self.x=x
@@ -211,6 +213,7 @@ class Vaisseau():
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
                 print("RESSOURCES...",self.cible.id,self.proprietaire)
                 self.cible.proprietaire=self.proprietaire
+                self.parent.parent.parent.reclamersyssolaire(self.cible.id,self.proprietaire)
                 #tempo=input("Continuersvp")
                 self.cible=None
                 print("Change cible")
@@ -266,20 +269,16 @@ class Joueur():
         #planete,cible,type=params
         #is type=="explorer":
 
-        v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
+        v=Vaisseau(self,self.nom,self.planetemere.x+10,self.planetemere.y)
         print("Vaisseau",v.id, v.nomVaisseau, v.cargo, v.energie, v.vitesse)
         self.flotte.append(v)
 
     def creerStructure(self,nom,x,y,nomStructure,planete):
         t=Structure(self, nom,x,y,nomStructure)
         self.planete.listeStructure.append(t)
-
-    #===========================================================================
-    # def economie(self):
-    #     for i in self.planetescontrolees:
-    #         for j in i.listeStructure:
-    #             j.extractionStructure
-    #===========================================================================
+        
+    #def reclamerPlanete(self,idEtProprietaire):
+    #    id
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
@@ -288,7 +287,7 @@ class Joueur():
                 for j in self.parent.Galaxie.listeSysSolaire:
                     if j.id== int(iddesti):
                         i.cible=j
-                        print("GOT TARGET")
+                        print("GOT TARGET:", j.id)
                         return
 
 
@@ -326,6 +325,7 @@ class IA(Joueur):
                     i.avancer()
                 else:
                     i.cible=random.choice(self.parent.Galaxie.listeSysSolaire)
+                    print("Nouvelle cible IA:", i.cible.id)
         else:
             self.creervaisseau(0)
 

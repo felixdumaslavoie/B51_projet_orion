@@ -537,6 +537,20 @@ class VueGalaxie():
 
         self.cadregalaxieoutils.grid(row = 0, column =0)
         self.mod=parent.mod
+        
+        
+    def changerProprietaire(self,idsyssolaire,couleur):    
+        
+        for i in self.canevasGalaxie.find_all():
+            #print(self.canevasGalaxie.gettags(i)[1], idsyssolaire)
+            if self.canevasGalaxie.gettags(i)[1] == str(idsyssolaire):
+                self.canevasGalaxie.itemconfig(i, fill=couleur)
+                print("Étoile trouvée")
+                print()
+                             
+            
+              
+            
 
     def afficherdecorGalaxie(self,mod):
         self.mod = mod
@@ -545,8 +559,7 @@ class VueGalaxie():
 
         for i in self.listeSysSolaire:
             t=i.taille
-            self.canevasGalaxie.create_oval(i.x-t, i.y-t,i.x+t,i.y+t,fill="grey80", tags=("etoile", str(i.id)))
-
+            self.canevasGalaxie.create_oval(i.x-t, i.y-t,i.x+t,i.y+t,fill=i.couleur, tags=("etoile", str(i.id)))
 
         self.afficherpartieGalaxie(mod)
 
