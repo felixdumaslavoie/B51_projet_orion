@@ -401,6 +401,7 @@ class VueSolaire():
 
         #creation des labels
         self.planeteNom=Label(self.cadreinfo)
+        self.planeteId=Label(self.cadreinfo)
         self.planeteProprio=Label(self.cadreinfo)
         self.planeteTaille=Label(self.cadreinfo)
         self.planeteCharbon = Label(self.cadreinfo)
@@ -477,6 +478,7 @@ class VueSolaire():
                     if(modele.joueurs[k].nom == i.proprietaire):
                         player = k
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=modele.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
+
     def afficherInfosSystemSolaire(self, modele, idSysteme):
         # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
 
@@ -512,7 +514,10 @@ class VueSolaire():
         self.variationDeuterium.set("Deuterium : " + str(int(self.planete.deuterium)))
         self.variationFertile.set("Fertile : " + str(int(self.planete.fertile)))
 
-        self.planeteNom.config( bg="white", text="Id: "+ str(self.planete.id))
+        # TEST FDL
+        self.planeteNom.config( bg="grey", text="Nom: "+ str(self.planete.nom))
+        # FIN TEST
+        self.planeteId.config( bg="white", text="Id: "+ str(self.planete.id))
         self.planeteProprio.config( bg="white", text="Propriétaire: "+ self.planete.proprietaire)
         self.planeteTaille.config( bg="white", text="Taille: "+ str(self.planete.taille))
         self.planeteCharbon.config( bg="white", textvariable=self.variationCharbon )
@@ -522,13 +527,15 @@ class VueSolaire():
         # clear grid pour placement des labels
         #self.parent.nettoyageLabelPlanete()
         # placement des labels
-        self.planeteNom.grid(row=0, column=0)
-        self.planeteProprio.grid(row=1, column=0)
-        self.planeteTaille.grid(row=2, column=0)
-        self.planeteCharbon.grid(row=3, column=0)
-        self.planeteZinc.grid(row=4, column=0)
-        self.planeteDeuterium.grid(row=5, column=0)
-        self.planeteFertile.grid(row=6, column=0)
+
+        self.planeteNom.grid(row=1, column=0)
+        self.planeteId.grid(row=2, column=0)
+        self.planeteProprio.grid(row=11, column=0)
+        self.planeteTaille.grid(row=12, column=0)
+        self.planeteCharbon.grid(row=13, column=0)
+        self.planeteZinc.grid(row=14, column=0)
+        self.planeteDeuterium.grid(row=15, column=0)
+        self.planeteFertile.grid(row=16, column=0)
 
 
         self.parent.updateInfosJoueur(modele)
@@ -657,8 +664,8 @@ class VuePlanete():
 
         t=20
 
-        if self.planete.nbEmplacementDispo > 0:
-            for i in self.planete.nbEmplacementDispo:
+        if self.planete.listeStructure > 0:
+            for i in self.planete.listeStructure:
                 self.x = x
                 self.y = y
                 self.cadrespatial.create_rectangle(self.x, self.y, self.x + t, self.y + t, fill="white")
@@ -703,7 +710,7 @@ class VueGalaxie():
                 self.systeme=i
 
         self.variationNomSysSolaire = StringVar()
-        self.variationNomSysSolaire.set("Nom : " + str(self.systeme.nometoile))
+        self.variationNomSysSolaire.set("Système : " + str(self.systeme.nometoile))
         self.sysSolaireNom.config(bg="white", textvariable=self.variationNomSysSolaire )
 
 
