@@ -20,7 +20,7 @@ class Galaxie():
         self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.listeNomPlanete = self.txtNomPlanete.readlines()
-        self.nbSysSolaire=150
+        self.nbSysSolaire=5
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
@@ -88,7 +88,7 @@ class Planete():
         #self.nbEmplacementDispo=[]*self.taille
         self.ressource=[self.charbon,self.zinc,self.deuterium]
         self.viePlanete1=self.viePlanete()
-        self.couleur=random.choice(COULEURS);
+        self.couleur=random.choice(COULEURS)
 
     def viePlanete(self):
         if not self.listeStructure:
@@ -195,15 +195,16 @@ class Capitale(Structure):
         self.production=Structure.Capitale[3]
 
 class Vaisseau():
-    def __init__(self,parent,nom,x,y, nomVaisseau="Vaisseau_Militaire"):
-        self.parent = parent
+    def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau_Militaire"):
+        self.parent=parent
         self.id=Id.prochainid()
         self.proprietaire=nom
         self.x=x
         self.y=y
-        self.espaceCourant = None
+        self.espaceCourant = solaireMere
         self.cible=None
         self.nomVaisseau=nomVaisseau
+       
 
         if nomVaisseau=="Vaisseau_Militaire":
             self.cargo=0
@@ -223,7 +224,7 @@ class Vaisseau():
             x1,y1=hlp.getAngledPoint(ang,self.vitesse,self.x,self.y)
             self.x,self.y=x1,y1 #int(x1),int(y1)
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
-                print("RESSOURCES...",self.cible.id,self.proprietaire)
+                print("RESSOURCES...",self.cible.id,self.proprietaire,self.espaceCourant.nometoile)
                 self.cible.proprietaire=self.proprietaire
                 self.parent.parent.parent.reclamersyssolaire(self.cible.id,self.proprietaire)
                 #tempo=input("Continuersvp")
@@ -257,8 +258,11 @@ class Joueur():
         self.planetemere=planetemere
         self.planetemere.proprietaire=self.nom
         self.couleur=couleur
+        self.flotteSystemeSolaire=[]
+        self.flotteGalaxie=[]
+        self.planeteVisiter=[planetemere]
+        self.systemeVisiter=[]
         self.planetescontrolees=[planetemere]
-        self.flotte=[]
         self.bufferSelection = []
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte}
@@ -282,9 +286,9 @@ class Joueur():
         #planete,cible,type=params
         #is type=="explorer":
 
-        v=Vaisseau(self,self.nom,self.planetemere.x+10,self.planetemere.y)
+        v=Vaisseau(self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
         print("Vaisseau",v.id, v.nomVaisseau, v.cargo, v.energie, v.vitesse)
-        self.flotte.append(v)
+        self.flotteSystemeSolaire.append(v)
 
     def creerStructure(self,nom,x,y,nomStructure,planete):
         t=Structure(self, nom,x,y,nomStructure)
@@ -310,14 +314,14 @@ class Joueur():
 
 
     def prochaineaction(self):
-        for i in self.flotte:
+        for i in self.flotteSystemeSolaire:
             if i.cible:
                 i.avancer()
             #else:
             #    i.cible=random.choice(self.parent.planetes)
 
     def prochaineaction2(self):
-        for i in self.flotte:
+        for i in self.flotteSystemeSolaire:
             i.avancer()
 
 # IA- nouvelle classe de joueur
@@ -337,13 +341,14 @@ class IA(Joueur):
 
         # si assez d'argent
         # construit un bâtiment sur la planète mère
-        if self.flotte:
-            for i in self.flotte:
+        if self.flotteSystemeSolaire:
+            for i in self.flotteSystemeSolaire:
                 if i.cible:
                     i.avancer()
                 else:
-                    i.cible=random.choice(self.parent.Galaxie.listeSysSolaire)
+                    i.cible=random.choice(self.planetemere.parent.listePlanete)
                     print("Nouvelle cible IA:", i.cible.id)
+                    
         else:
             self.creervaisseau(0)
 
@@ -377,8 +382,8 @@ class Modele():
         np=len(joueurs)+ias
         planes=[]
         while np:
-            #s=random.choice(self.Galaxie.listeSysSolaire)
-            s=self.Galaxie.listeSysSolaire[0]  # TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS VUE
+            s=random.choice(self.Galaxie.listeSysSolaire)
+            #s=self.Galaxie.listeSysSolaire[0]  # TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS VUE
             p=random.choice(s.listePlanete)
             if p not in planes:
                 planes.append(p)

@@ -311,14 +311,13 @@ class Vue():
         print("SCROLL",px,py)
 
     def afficherpartie(self,mod):
+        #test quel niveaux
         self.vues["Galaxie"].afficherpartieGalaxie(mod)
-        #elif self.vueactive == self.vues["Solaire"]:
         #    self.vues["Solaire"].afficherdecorSolaire(mod)
         #elif self.vueactive == self.vues["Planete"]:
         #    self.vues["Planete"].afficherdecorPlanete(mod)
+        self.vues["Solaire"].afficherVaisseau(mod)
 
-
-    #def _create_circle(self, x, y, r):
         #return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
 
     #def _create_circle(self, x, y, r):
@@ -339,7 +338,7 @@ class Vue():
         print("Creer vaisseau")
         self.parent.creervaisseau()
         self.maselection=None
-        self.canevasGalaxie.delete("marqueur")
+        self.vues["Solaire"].canevasSolaire.delete("marqueur")
         self.btncreervaisseau.grid_forget()
 
     def CliqueVuePlanete(self,canvas,mod,SysSolaire,idPlanete):
@@ -369,7 +368,7 @@ class Vue():
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     print (t[2])
-                else:
+                elif t[1] is not None:
                     self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
@@ -438,6 +437,8 @@ class VueSolaire():
         self.sysSolaireNom = Label(self.cadreinfo)
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
+        self.newVais = Button(self.cadreinfo,text="Vaisseau",bg="DeepSkyBlue2", command=self.parent.creervaisseau)
+        
 
     def afficherdecorSolaire(self,mod):
         self.mod = mod
@@ -471,7 +472,7 @@ class VueSolaire():
     #                                 tags=(j.proprietaire,"planete",str(j.id),"possession"))
 
     #     self.parent.bindSolaire(self.canevasSolaire)
-
+        self.afficherVaisseau(mod)
     def _create_circle(self, x, y, r):
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=(None,"soleil",None,None))
         #self.parent.afficherpartie(mod)
@@ -516,7 +517,27 @@ class VueSolaire():
         self.variationNomSysSolaire.set("Nom : " + str(self.systeme.nometoile))
         self.sysSolaireNom.config(bg="white", textvariable=self.variationNomSysSolaire )
 
+    def afficherVaisseau(self,modele):
+        self.canevasSolaire.delete("artefact")
+        for i in modele.joueurs.keys():
+            i=modele.joueurs[i]
+            #for j in i.flotteSystemeSolaire:
+            for j in i.flotteSystemeSolaire:
+                if(j.espaceCourant.id==self.id):
+                    self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
+                #self.canevas.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
+                #                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+
+
+        for i in modele.ias:
+            for j in i.flotteSystemeSolaire:
+                if(j.espaceCourant.id==self.id):
+                    self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+
+        self.parent.updateInfosJoueur(modele)
 
     def afficherInfosPlanete(self, modele, idPlanete):
 
@@ -560,9 +581,17 @@ class VueSolaire():
         self.planeteZinc.grid(row=14, column=0)
         self.planeteDeuterium.grid(row=15, column=0)
         self.planeteFertile.grid(row=16, column=0)
+        self.newVais.grid(row=17,column=0)
 
-
-        self.parent.updateInfosJoueur(modele)
+        # self.parent.updateInfosJoueur(modele)
+        # self.planeteNom.grid(row=0, column=0)
+        # self.planeteProprio.grid(row=1, column=0)
+        # self.planeteTaille.grid(row=2, column=0)
+        # self.planeteCharbon.grid(row=3, column=0)
+        # self.planeteZinc.grid(row=4, column=0)
+        # self.planeteDeuterium.grid(row=5, column=0)
+        # self.planeteFertile.grid(row=6, column=0)
+        # self.newVais.grid(row=7,column=0)
 
 class VuePlanete():
     def __init__(self,fen,parent):
@@ -656,7 +685,11 @@ class VuePlanete():
                 if (j.id == idPlanete):
                     self.planete=j
         #planete taille
+<<<<<<< HEAD
         taille=self.planete.taille*50 #self.planete.tailleMulti
+=======
+        taille=self.planete.taille*50#self.planete.tailleMulti
+>>>>>>> Vaisseaux se créent et la ils sont dans un bon système solaire
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id))
 
@@ -870,7 +903,7 @@ class VueGalaxie():
 
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
-            for j in i.flotte:
+            for j in i.flotteGalaxie:
                 self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
@@ -879,7 +912,7 @@ class VueGalaxie():
 
 
         for i in mod.ias:
-            for j in i.flotte:
+            for j in i.flotteGalaxie:
                 self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
