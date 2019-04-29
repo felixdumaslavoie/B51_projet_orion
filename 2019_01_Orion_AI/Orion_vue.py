@@ -209,9 +209,7 @@ class Vue():
 					"Solaire":VueSolaire(self.cadrejeu,self)}
         self.changevueactive(self.vues["Solaire"])
         self.vueactive.cadrespatial.grid()
-       # print(str(self.mod.joueurs[self.nom].planetemere))
-       # self.vues["Planete"].afficherPlanete(self.mod,self.mod.joueurs[self.nom].planetemere.id)
-       # self.changevueactive.cadrespatial.grid()
+
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
         self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
         self.cadreinfojoueur.grid(row=0, column=0)
@@ -549,8 +547,8 @@ class VuePlanete():
         self.cadreinfo=Frame(self.parent.cadreoutils)
         self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
         self.canevasPlanete.grid(row = 0, column =1)
-        self.newStruct = Button(self.parent.cadreBouton,text="Nouvelle Structure",bg="DeepSkyBlue2")
-        self.newStruct.pack()
+        self.newStruct = Button(self.parent.cadreBouton,text="Nouvelle Structure",bg="DeepSkyBlue2" , command = lambda: self.menuStructPlanete())
+        self.newStruct.grid(row = 0, column = 0,columnspan = 2)
 
 
         self.planeteNom=Label(self.cadreinfo)
@@ -579,9 +577,6 @@ class VuePlanete():
 
        # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
         self.modele=modele
-
-
-
 
         for i in (self.modele.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
@@ -642,14 +637,44 @@ class VuePlanete():
         #self.parent.bChoixBatiement.grid(row = 6, column = 0)
         self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
 
-    def creerStructure(self,modele,idPlanete,structType):
-        self.id = idPlanete
-        self.modele = modele
+    def menuStructPlanete(self):
+        self.buttonUsineCiv = Button(self.parent.cadreBouton, text = "Usine Civile",height = 2, width = 15)#, command =self.creerStructure() )
+        self.buttonUsineMili = Button(self.parent.cadreBouton, text = "Usine Militaire",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonRaffDia = Button(self.parent.cadreBouton, text = "Raffinerie (Diamant)",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonRaffChar = Button(self.parent.cadreBouton, text = "Raffinerie (Charbon)",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonRaffIso = Button(self.parent.cadreBouton, text = "Raffinerie (Isotope)",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonFerme = Button(self.parent.cadreBouton, text = "Ferme",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonCapitale = Button(self.parent.cadreBouton, text = "Capitale",height = 2, width = 15)#, command =self.creerStructure())
+        # bind for action
+        self.buttonUsineCiv.bind("<Button>",self.creerStructure)
+        self.buttonUsineMili.bind("<Button>",self.creerStructure)
+        self.buttonRaffDia.bind("<Button>",self.creerStructure)
+        self.buttonRaffChar.bind("<Button>",self.creerStructure)
+        self.buttonRaffIso.bind("<Button>",self.creerStructure)
+        self.buttonFerme.bind("<Button>",self.creerStructure)
+        self.buttonCapitale.bind("<Button>",self.creerStructure)
 
-        for i in (self.modele.Galaxie.listeSysSolaire):
-            for j in (i.listePlanete):
-                if (j.id == idPlanete):
-                    self.planete=j
+        self.buttonUsineCiv.grid(row=1 , column = 0)
+        self.buttonUsineMili.grid(row=2 , column = 0)
+        self.buttonRaffDia.grid(row=1 , column = 1)
+        self.buttonRaffChar.grid(row=2 , column = 1)
+        self.buttonRaffIso.grid(row=3 , column = 1)
+        self.buttonFerme.grid(row=3 , column = 0)
+        self.buttonCapitale.grid(row=4 , column = 0, columnspan = 2)
+        self.parent.cadreBouton.grid(row=1 , column = 0)
+
+    def creerStructure(self,evt):
+
+        nom=evt.widget.cget("text")
+        self.succesful = self.modele.Planete.creerStructure(self.id,nom)
+
+        if (self.succesful == 1):
+            # ca a été ajouté correctement
+            pass
+        if(self.succesful == 0):
+            # pas ajouté car pas de place
+            pass
+
 
 
 
