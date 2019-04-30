@@ -277,6 +277,7 @@ class Vaisseau():
             self.energie=400
             self.vitesse=1
             self.range=200
+            self.distMax = self.getDistance()
 
         if nomVaisseau=="Vaisseau_Civil":
             self.cargo=100
@@ -296,6 +297,7 @@ class Vaisseau():
                     self.cible.proprietaire=self.proprietaire
                     self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                 #tempo=input("Continuersvp")
+                self.checkIfInRangeSolaire()
                 self.cible=None
                 print("Change cible")
         else:
@@ -317,20 +319,12 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
-    def getRange(self):
-        self.pi = math.pi
-        self.radius = math.pow(self.range,2)
-        self.area = self.radius * self.pi
-        self.maxDistX = self.x + self.area
-        self.maxDistY = self.y + self.area
-        if self.area > self.x:
-            self.minDistX = 0
-        else:
-            self.minDistX = self.x - self.area
-        if self.area > self.y:
-            self.minDistY = 0
-        else :
-            self.minDistY = self.y- self.area
+    def getDistance(self):
+        self.distanceX = self.x + self.range
+        self.distanceY = self.y + self.range
+        dist = math.sqrt((self.distanceX - self.x)**2 + (self.distanceY - self.y)**2)
+
+        return dist
 
     def checkIfInRangeSolaire(self):
         listeJoueur = list(self.parent.joueurs.keys())
@@ -339,15 +333,21 @@ class Vaisseau():
                 for j in i.flotteSystemeSolaire:
                     diffX = j.x - self.x
                     diffY = j.y - self.y
-                    if self.minDistX <= diffX <= self.maxDistX & self.minDistY <= diffY <= self.maxDistY :
+                    if diffX < self.distMax & diffY < self.distMax:
                         self.vaisseauCible = j
 
-    def creerProjectiles(self):
-        self.posFinalX = self.vaisseauCible.X
-        self.posFinalY = self.vaisseauCible.Y
-        if (self.parent.cadre % 40 == 0): # timer pour cooldown de tire
-            projectile = Projectile(self.x,self.y,self.posFinalX,self.posFinalY)
-            self.projectile.append(projectile)
+    def creerProjectiles(self,name,targetX,targetY):
+        self.monnom = name
+        self.tX = targetX
+        self.tY = targetY
+
+        listeJoueur = list(self.parent.joueurs.keys())
+        for i in listeJoueur:
+            if i.nom == self.nom:
+                pass
+
+
+
 
     def deleteProj(self):
         for i in self.projectile:

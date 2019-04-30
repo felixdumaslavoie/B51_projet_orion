@@ -156,8 +156,6 @@ class Controleur():
         if proprietaire in self.modele.joueurs.keys():
             print(idplanete,self.modele.joueurs[proprietaire])
             coul = self.modele.joueurs[proprietaire].couleur
-
-
         else:
             for i in self.modele.ias:
                 if i.nom == proprietaire:
@@ -165,6 +163,10 @@ class Controleur():
 
         print(idplanete, coul)
         self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
+
+    def creerProjectile(self,targetX,targetY):
+        self.actions.append([self.monnom,"creerProjectile",[targetX,targetY]])
+
 
 
 if __name__=="__main__":
