@@ -151,6 +151,22 @@ class Controleur():
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])
 
+    def reclamerplanete(self,idplanete,proprietaire):
+        coul = None
+        if proprietaire in self.modele.joueurs.keys():
+            print(idplanete,self.modele.joueurs[proprietaire])
+            coul = self.modele.joueurs[proprietaire].couleur
+
+
+        else:
+            for i in self.modele.ias:
+                if i.nom == proprietaire:
+                    coul = i.couleur
+
+        print(idplanete, coul)
+        self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
+
+
 if __name__=="__main__":
     c=Controleur()
     print("End Orion_mini")
