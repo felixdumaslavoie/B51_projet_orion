@@ -257,6 +257,7 @@ class Joueur():
         self.planetemere=planetemere
         self.planetemere.proprietaire=self.nom
         self.couleur=couleur
+        self.planetemere.couleur = couleur
         self.planetescontrolees=[planetemere]
         self.flotte=[]
         self.bufferSelection = []
@@ -324,6 +325,9 @@ class Joueur():
 class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)
+        #planetemere.proprietaire = nom
+        #planetemere.couleur = couleur
+        print("Planete mere", planetemere.nom, "assignee a", nom, couleur)
         self.tempo=random.randrange(100)+20
 
 
@@ -376,12 +380,10 @@ class Modele():
         np=len(joueurs)+ias
         planes=[]
         while np:
-            #s=random.choice(self.Galaxie.listeSysSolaire)
-            s=random.choice(self.Galaxie.listeSysSolaire)  # TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS VUE
+            s=random.choice(self.Galaxie.listeSysSolaire)
             p=random.choice(s.listePlanete)
             if p not in planes:
                 planes.append(p)
-                #self.planetes.remove(p)
                 np-=1
         couleurs=["red","blue","lightgreen","yellow",
                   "lightblue","pink","gold","purple"]
@@ -393,6 +395,7 @@ class Modele():
         couleursia=["orange","green"]
         for i in range(ias):
             self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
+        print()
 
 
     def prochaineaction(self,cadre):

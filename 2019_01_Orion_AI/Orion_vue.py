@@ -447,14 +447,6 @@ class VueSolaire():
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=(None,"soleil",None,None))
         #self.parent.afficherpartie(mod)
 
-    def afficherplanemetemereSolaire(self,evt):
-        j=self.mod.joueurs[self.nom]
-        couleur=j.couleur
-        x=j.planetemere.x
-        y=j.planetemere.y
-        t=10
-        self.canevas.create_oval(x-t,y-t,x+t,y+t,dash=(3,3),width=2,outline=couleur,
-                                tags=(None,"planetemere","marqueur",None))
     def afficherSystemeSolaire(self,modele,idSolaire):
         self.modele=modele
         self.id=idSolaire
@@ -630,7 +622,7 @@ class VuePlanete():
                 if (j.id == idPlanete):
                     self.planete=j
         #planete taille
-        taille=self.planete.taille*self.planete.tailleMulti
+        taille=self.planete.taille*50
         print(taille)
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id))
 
