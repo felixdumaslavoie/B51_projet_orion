@@ -363,9 +363,9 @@ class Joueur():
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
-        for i in self.flotte:
+        for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
             if i.id== int(idori):
-                for j in self.parent.Galaxie.listeSysSolaire:
+                for j in self.planetemere.parent.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE 
                     if j.id== int(iddesti):
                         i.cible=j
                         print("GOT TARGET:", j.id)

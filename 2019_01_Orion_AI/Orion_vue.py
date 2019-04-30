@@ -317,6 +317,7 @@ class Vue():
         #elif self.vueactive == self.vues["Planete"]:
         #    self.vues["Planete"].afficherdecorPlanete(mod)
         self.vues["Solaire"].afficherVaisseau(mod)
+        
 
         #return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
 
@@ -368,10 +369,16 @@ class Vue():
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     print (t[2])
+                elif t[1]=="flotte":
+                    self.vues["Solaire"].cliqueSolaire(CURRENT)
+                elif t[1]=="planete":
+                    self.vues["Solaire"].cliqueSolaire(CURRENT)
                 elif t[1] is not None:
                     self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
+                    #self.vues["Solaire"].cliqueSolaire(CURRENT)
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
+                    
                     print (t[2])
                 self.mod.joueurs[self.nom].setbuffer(t[2])
 
@@ -439,7 +446,6 @@ class VueSolaire():
         self.sysSolaireNom.grid(row = 0, column =0)
         self.newVais = Button(self.cadreinfo,text="Vaisseau",bg="DeepSkyBlue2", command=self.parent.creervaisseau)
 
-
     def afficherdecorSolaire(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
@@ -490,7 +496,7 @@ class VueSolaire():
         for i in self.systemeSolaire.listePlanete:
             t=i.taille*4
             if(i.proprietaire=="inconnu"):
-                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=random.choice(self.couleurs),tags=("Inconnu","planeteInconnu",str(i.id),None))
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=random.choice(self.couleurs),tags=("Inconnu","planete",str(i.id),None))
             elif(i.proprietaire is not None):
                 player = None
                 for k in self.mod.ias:
@@ -592,6 +598,38 @@ class VueSolaire():
         for i in self.canevasSolaire.find_all():
             if self.canevasSolaire.gettags(i)[2] == str(idplanete):
                 self.canevasSolaire.itemconfig(i, fill=couleur)
+                
+    def cliqueSolaire(self,evt):
+        #self.newVais.grid_forget()
+        t=self.canevasSolaire.gettags(CURRENT)
+        if t and t[0]==self.parent.nom:
+            #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
+            self.maselection=[self.parent.nom,t[1],t[2]]  #self.canevas.find_withtag(CURRENT)#[0]
+            print(self.maselection)
+            if t[1] == "planete":
+                self.montreplaneteselection()
+            elif t[1] == "flotte":
+                pass
+               # self.montreflotteselection()
+        elif "planete" in t and t[0]!=self.parent.nom:
+            if self.maselection:
+                pass # attribuer cette planete a la cible de la flotte selectionne
+                self.parent.parent.ciblerflotte(self.maselection[2],t[2])
+            print("Cette planete ne vous appartient pas - elle est a ",t[0])
+            self.maselection=None
+           # self.lbselectecible.pack_forget()
+            self.canevasSolaire.delete("marqueur")
+        else:
+            print("Region inconnue")
+            self.maselection=None
+            #self.lbselectecible.pack_forget()
+            self.canevasSolaire.delete("marqueur")
+
+    def montreplaneteselection(self):
+        self.newVais.grid(row=7,column=0)
+    #def montreflotteselection(self):
+       # self.lbselectecible.pack()
+
 
 class VuePlanete():
     def __init__(self,fen,parent):
