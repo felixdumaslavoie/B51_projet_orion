@@ -1,6 +1,7 @@
  # -*- coding: utf-8 -*-
 import os,os.path
 import random
+import math
 from Id import Id
 from helper import Helper as hlp
 from couleurs import *
@@ -72,6 +73,8 @@ class SystemeSolaire():
 
 class Planete():
     couleurs={""}
+    pointDepart={200,100}
+
     def __init__(self,parent,x,y, nom):
         self.id=Id.prochainid()
         self.proprietaire="inconnu"
@@ -84,11 +87,65 @@ class Planete():
         self.zinc=random.randrange(3000)
         self.deuterium=random.randrange(100)
         self.fertile=random.randrange(1)
-        self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
-        #self.nbEmplacementDispo=[]*self.taille
+        self.listeStructure=[] ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
+        self.emplacementsDispo=[]*self.taille ## Emplacement vides
+        self.tailleAffichage=50*self.taille
+
+        # On est en train de trouver des distances min entre les emplacements de bâtiments
+
+
+        largeur=self.parent.parent.parent.largeur/2
+        hauteur=self.parent.parent.parent.hauteur/2
+
+        t1=self.tailleAffichage/2
+
+        # Les 4 coordonées relatives au carré
+        x1,y1= hlp.getAngledPoint(math.radians(225),t1,largeur,hauteur)
+        x2,y2= hlp.getAngledPoint(math.radians(45),t1,largeur,hauteur)
+        #print("Carree intérieur: ", x1,y1,largeur,hauteur,x2,y2)
+        #xR1= random.randrange(int(x1),int(x2))
+        #yR1= random.randrange(int(y1),int(y2))
+
+        nPos=self.taille
+        paires=[]
+        self.distanceMinEmplacements=50
+
+        while nPos:
+            xR1 = random.randrange(int(x1),int(x2))
+            yR1 = random.randrange(int(y1),int(y2))
+            if [xR1,yR1] not in paires:
+                dist=1
+                for i in paires:
+                    d=hlp.calcDistance(xR1,yR1, i[0],i[1])
+
+                    if d < self.distanceMinEmplacements:
+                        dist=0
+                if dist:
+                    paires.append([xR1,yR1])
+                    nPos-=1
+                #print(xR1,yR1)
+        #print("Position sur planete: ",self.taille, paires)
+        self.emplacementsDispo=paires
+        #fin de sélection d'emplacement sur planète
+
         self.ressource=[self.charbon,self.zinc,self.deuterium]
         self.viePlanete1=self.viePlanete()
         self.couleur=random.choice(COULEURS)
+
+        #def paireXY(self):
+        #    x= self.taille
+
+        ## FONCTION A ECRIRE: on recoit l'id de la plantee et le nom de la structure et on doit créer cette structure (donc vérifier si l'ajouter à la liste des structure)
+        #def creerStructure(self, idPlanete, nomStructure):
+        #    if len(self.emplacementDispo) == 0:
+        #        return 0
+        #    else:
+        #        pass
+
+
+## liste avec tous les emplacements disponibles qu'on peut mettre des structures
+## pour les afficher
+## Quand j'occupe un emplacement je peux enlever cette structure de la liste
 
     def viePlanete(self):
         if not self.listeStructure:
@@ -204,7 +261,7 @@ class Vaisseau():
         self.espaceCourant = solaireMere
         self.cible=None
         self.nomVaisseau=nomVaisseau
-       
+
 
         if nomVaisseau=="Vaisseau_Militaire":
             self.cargo=0
@@ -225,7 +282,7 @@ class Vaisseau():
             self.x,self.y=x1,y1 #int(x1),int(y1)
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
                 print("RESSOURCES...",self.cible.id,self.proprietaire,self.espaceCourant.nometoile)
-                if len(self.cible.listeStructure)==0:                
+                if len(self.cible.listeStructure)==0:
                     self.cible.proprietaire=self.proprietaire
                     self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                 #tempo=input("Continuersvp")
@@ -317,9 +374,9 @@ class Joueur():
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
-        for i in self.flotte:
+        for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
             if i.id== int(idori):
-                for j in self.parent.Galaxie.listeSysSolaire:
+                for j in self.planetemere.parent.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE 
                     if j.id== int(iddesti):
                         i.cible=j
                         print("GOT TARGET:", j.id)
@@ -364,7 +421,7 @@ class IA(Joueur):
                 else:
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
                     print("Nouvelle cible IA:", i.cible.id)
-                    
+
 
         else:
             self.creervaisseau(0)
@@ -418,7 +475,7 @@ class Modele():
         couleursia=["orange","green"]
         for i in range(ias):
             self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
-            
+
         for i in self.ias:
             i.creerStructure(i.nom,100,100,"Capitale",i.planetemere)
 

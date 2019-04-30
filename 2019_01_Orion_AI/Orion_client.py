@@ -40,7 +40,6 @@ class Controleur():
         monnom="jmd_"+str(random.randrange(1000))
         return monnom
 
-
     def creerpartie(self):
         if self.egoserveur==0:
 
@@ -151,20 +150,20 @@ class Controleur():
 
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])
-        
+
     def reclamerplanete(self,idplanete,proprietaire):
         coul = None
         if proprietaire in self.modele.joueurs.keys():
             print(idplanete,self.modele.joueurs[proprietaire])
             coul = self.modele.joueurs[proprietaire].couleur
 
-            
-        else: 
+
+        else:
             for i in self.modele.ias:
                 if i.nom == proprietaire:
                     coul = i.couleur
-        
-        print(idplanete, coul)            
+
+        print(idplanete, coul)
         self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
 
     def creerStructure(self,nomstruct,idplanete,x,y):

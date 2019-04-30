@@ -317,6 +317,7 @@ class Vue():
         #elif self.vueactive == self.vues["Planete"]:
         #    self.vues["Planete"].afficherdecorPlanete(mod)
         self.vues["Solaire"].afficherVaisseau(mod)
+        
 
         #return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
 
@@ -368,10 +369,16 @@ class Vue():
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     print (t[2])
+                elif t[1]=="flotte":
+                    self.vues["Solaire"].cliqueSolaire(CURRENT)
+                elif t[1]=="planete":
+                    self.vues["Solaire"].cliqueSolaire(CURRENT)
                 elif t[1] is not None:
                     self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
+                    #self.vues["Solaire"].cliqueSolaire(CURRENT)
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
+                    
                     print (t[2])
                 self.mod.joueurs[self.nom].setbuffer(t[2])
 
@@ -438,7 +445,6 @@ class VueSolaire():
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
         self.newVais = Button(self.cadreinfo,text="Vaisseau",bg="DeepSkyBlue2", command=self.parent.creervaisseau)
-        
 
     def afficherdecorSolaire(self,mod):
         self.mod = mod
@@ -460,7 +466,6 @@ class VueSolaire():
             self.canevasSolaire.create_rectangle(x,y,x+8,y+8, fill="light gray", tags=(None,"asteroide",None,None))
 
         self._create_circle(self.parent.largeur/1.5,self.parent.hauteur/1.5,75)
-
 
         self.parent.CliqueVueSySsolaire(self.canevasSolaire,mod)
 
@@ -491,7 +496,7 @@ class VueSolaire():
         for i in self.systemeSolaire.listePlanete:
             t=i.taille*4
             if(i.proprietaire=="inconnu"):
-                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=random.choice(self.couleurs),tags=("Inconnu","planeteInconnu",str(i.id),None))
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=random.choice(self.couleurs),tags=("Inconnu","planete",str(i.id),None))
             elif(i.proprietaire is not None):
                 player = None
                 for k in self.mod.ias:
@@ -587,12 +592,44 @@ class VueSolaire():
         # self.planeteDeuterium.grid(row=5, column=0)
         # self.planeteFertile.grid(row=6, column=0)
         # self.newVais.grid(row=7,column=0)
-        
+
     def changerProprietaire(self,idplanete,couleur):
 
         for i in self.canevasSolaire.find_all():
             if self.canevasSolaire.gettags(i)[2] == str(idplanete):
                 self.canevasSolaire.itemconfig(i, fill=couleur)
+                
+    def cliqueSolaire(self,evt):
+        #self.newVais.grid_forget()
+        t=self.canevasSolaire.gettags(CURRENT)
+        if t and t[0]==self.parent.nom:
+            #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
+            self.maselection=[self.parent.nom,t[1],t[2]]  #self.canevas.find_withtag(CURRENT)#[0]
+            print(self.maselection)
+            if t[1] == "planete":
+                self.montreplaneteselection()
+            elif t[1] == "flotte":
+                pass
+               # self.montreflotteselection()
+        elif "planete" in t and t[0]!=self.parent.nom:
+            if self.maselection:
+                pass # attribuer cette planete a la cible de la flotte selectionne
+                self.parent.parent.ciblerflotte(self.maselection[2],t[2])
+            print("Cette planete ne vous appartient pas - elle est a ",t[0])
+            self.maselection=None
+           # self.lbselectecible.pack_forget()
+            self.canevasSolaire.delete("marqueur")
+        else:
+            print("Region inconnue")
+            self.maselection=None
+            #self.lbselectecible.pack_forget()
+            self.canevasSolaire.delete("marqueur")
+
+    def montreplaneteselection(self):
+        self.newVais.grid(row=7,column=0)
+    #def montreflotteselection(self):
+       # self.lbselectecible.pack()
+
 
 class VuePlanete():
     def __init__(self,fen,parent):
@@ -615,6 +652,19 @@ class VuePlanete():
         self.planeteDeuterium = Label(self.cadreinfo)
         self.planeteFertile = Label(self.cadreinfo)
 
+
+    def afficherdecorPlanete1(self,mod):
+        self.mod = mod
+        self.listeSysSolaire=mod.Galaxie.listeSysSolaire
+        self.unSysSolaire = random.choice(self.listeSysSolaire)
+        print("in vue decor planete")
+
+
+
+
+
+
+    #Fonction originale:
     def afficherdecorPlanete(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
@@ -678,6 +728,35 @@ class VuePlanete():
         self.canevasPlanete.delete("all")
         self.afficherdecorPlanete(self.modele)
         # self.afficherInfosPlanete(self.modele,self.id)
+
+        for i in (self.modele.Galaxie.listeSysSolaire):
+            for j in (i.listePlanete):
+                if (j.id == idPlanete):
+                    self.planete=j
+        #planete taille
+        demiTaille=self.planete.tailleAffichage/2
+
+        # Pour trouver le centre du canevas
+        cx=self.mod.largeur/2
+        cy=self.mod.hauteur/2
+        x1=cx - demiTaille
+        x2=cx + demiTaille
+        y1=cy - demiTaille
+        y2=cy + demiTaille
+        self.canevasPlanete.create_oval(x1, y1, x2, y2,fill=self.planete.couleur ,tags=("planeteMere",id, self.planete.taille))
+
+        #self.parent.bChoixBatiement.grid(row = 6, column = 0)
+        self.afficheEmplacement(self.planete)
+        self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
+
+
+    def afficherPlanete2(self,modele,idPlanete):
+        #self.parent.cadreinfo.grid_forget()
+        self.modele=modele
+        self.id=idPlanete
+        self.canevasPlanete.delete("all")
+        self.afficherdecorPlanete(self.modele)
+        # self.afficherInfosPlanete(self.modele,self.id)
         self.modele=modele
         x=200
         y=100
@@ -688,7 +767,7 @@ class VuePlanete():
         #planete taille
         taille=self.planete.taille*50
         print(taille)
-        self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id))
+        self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id, taille))
 
         self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
 
@@ -757,6 +836,18 @@ class VuePlanete():
                 if (j.id == idPlanete):
                     self.planete=j
 
+        self.parent.updateInfosJoueur(modele)
+
+    def afficheEmplacement(self,planete):
+
+        for i in planete.emplacementsDispo:
+            t=5
+            self.canevasPlanete.create_rectangle(i[0]-t, i[1]-t,  i[0] + t, i[1] + t, fill="red",tags=("emplacement", str(planete.id), str(i[0]),str(i[1])))
+
+
+    def afficheEmplacement2(self,idPlanete,modele):
+        self.id = idPlanete
+        self.modele = modele
         if len(self.planete.nbEmplacementDispo) > 0:
             for i in self.planete.nbEmplacementDispo:
                 self.x = i.x
@@ -798,7 +889,7 @@ class VueGalaxie():
         self.mod=parent.mod
         self.sysSolaireNom.grid(row = 0, column =0)
 
-    
+
 
     def afficherdecorGalaxie(self,mod):
         self.mod = mod
