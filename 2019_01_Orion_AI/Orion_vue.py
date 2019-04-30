@@ -323,15 +323,6 @@ class Vue():
     #def _create_circle(self, x, y, r):
        # return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
         # self.afficherpartie(mod)
-    def nettoyageLabelPlanete(self):
-        self.vues["Planete"].planeteNom.grid_forget()
-        self.vues["Planete"].planeteProprio.grid_forget()
-        self.vues["Planete"].planeteTaille.grid_forget()
-        self.vues["Planete"].planeteCharbon.grid_forget()
-        self.vues["Planete"].planeteZinc.grid_forget()
-        self.vues["Planete"].planeteDeuterium.grid_forget()
-        self.vues["Planete"].planeteFertile.grid_forget()
-        self.vues["Planete"].parent.cadreBouton.grid_forget()
 
 
     def creervaisseau(self):
@@ -438,7 +429,7 @@ class VueSolaire():
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
         self.newVais = Button(self.cadreinfo,text="Vaisseau",bg="DeepSkyBlue2", command=self.parent.creervaisseau)
-        
+
 
     def afficherdecorSolaire(self,mod):
         self.mod = mod
@@ -473,6 +464,10 @@ class VueSolaire():
 
     #     self.parent.bindSolaire(self.canevasSolaire)
         self.afficherVaisseau(mod)
+        self.afficherProjectile(mod)
+
+
+
     def _create_circle(self, x, y, r):
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=(None,"soleil",None,None))
         #self.parent.afficherpartie(mod)
@@ -542,6 +537,11 @@ class VueSolaire():
 
         self.parent.updateInfosJoueur(modele)
 
+
+    def afficherProjectile(self,modele):
+        pass
+
+
     def afficherInfosPlanete(self, modele, idPlanete):
 
         self.parent.bplanete.config(state = "disabled") # fonctionne pas
@@ -572,8 +572,6 @@ class VueSolaire():
         self.planeteZinc.config( bg="white",textvariable=self.variationZinc)
         self.planeteDeuterium.config(bg="white",textvariable=self.variationDeuterium)
         self.planeteFertile.config(bg="white",textvariable=self.variationFertile)
-        # clear grid pour placement des labels
-        #self.parent.nettoyageLabelPlanete()
         # placement des labels
 
         self.planeteNom.grid(row=1, column=0)
@@ -585,16 +583,6 @@ class VueSolaire():
         self.planeteDeuterium.grid(row=15, column=0)
         self.planeteFertile.grid(row=16, column=0)
         self.newVais.grid(row=17,column=0)
-
-        # self.parent.updateInfosJoueur(modele)
-        # self.planeteNom.grid(row=0, column=0)
-        # self.planeteProprio.grid(row=1, column=0)
-        # self.planeteTaille.grid(row=2, column=0)
-        # self.planeteCharbon.grid(row=3, column=0)
-        # self.planeteZinc.grid(row=4, column=0)
-        # self.planeteDeuterium.grid(row=5, column=0)
-        # self.planeteFertile.grid(row=6, column=0)
-        # self.newVais.grid(row=7,column=0)
 
 class VuePlanete():
     def __init__(self,fen,parent):
@@ -661,7 +649,6 @@ class VuePlanete():
         self.planeteDeuterium.config(bg="white",textvariable=self.variationDeuterium)
         self.planeteFertile.config(bg="white",textvariable=self.variationFertile)
         # clear grid pour placement des labels
-        #self.parent.nettoyageLabelPlanete()
         # placement des labels
         self.planeteNom.grid(row=0, column=0)
         self.planeteProprio.grid(row=1, column=0)

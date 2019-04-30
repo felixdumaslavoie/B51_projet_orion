@@ -4,6 +4,7 @@ import random
 from Id import Id
 from helper import Helper as hlp
 from couleurs import *
+import math
 
 #modif arbitraire
 class Galaxie():
@@ -108,7 +109,6 @@ class EmplacementsSurPlanete():
         self.structure=None
 
 
-
 class Structure():
                 #nom structure, vie, cout, maintenance, exctraction
     Usine_Civile=["Usine_Civile",100,150,1,0]
@@ -194,6 +194,13 @@ class Capitale(Structure):
         self.maintenance=Structure.Capitale[2]
         self.production=Structure.Capitale[3]
 
+class Projectile():
+    def __init__(self,x,y,targetX,targetY):
+        self.x = x
+        self.y = y
+        self.targetX = targetX
+        self.targetY = targetY
+
 class Vaisseau():
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau_Militaire"):
         self.parent=parent
@@ -203,13 +210,16 @@ class Vaisseau():
         self.y=y
         self.espaceCourant = solaireMere
         self.cible=None
+        self.vaisseauCible = None
         self.nomVaisseau=nomVaisseau
-       
+        self.projectile=[];
+
 
         if nomVaisseau=="Vaisseau_Militaire":
             self.cargo=0
             self.energie=400
             self.vitesse=1
+            self.range=200
 
         if nomVaisseau=="Vaisseau_Civil":
             self.cargo=100
@@ -248,6 +258,48 @@ class Vaisseau():
                 self.y+=self.vitesse
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
+
+    def getRange(self):
+        self.pi = math.pi
+        self.radius = math.pow(self.range,2)
+        self.area = self.radius * self.pi
+        self.maxDistX = self.x + self.area
+        self.maxDistY = self.y + self.area
+        if self.area > self.x:
+            self.minDistX = 0
+        else:
+            self.minDistX = self.x - self.area
+        if self.area > self.y:
+            self.minDistY = 0
+        else :
+            self.minDistY = self.y- self.area
+
+    def checkIfInRangeSolaire(self):
+        listeJoueur = list(self.parent.joueurs.keys())
+        for i in listeJoueur:
+            if i.nom != self.nom:
+                for j in i.flotteSystemeSolaire:
+                    diffX = j.x - self.x
+                    diffY = j.y - self.y
+                    if self.minDistX <= diffX <= self.maxDistX & self.minDistY <= diffY <= self.maxDistY :
+                        self.vaisseauCible = j
+
+    def creerProjectiles(self):
+        self.posFinalX = self.vaisseauCible.X
+        self.posFinalY = self.vaisseauCible.Y
+        if (self.parent.cadre % 40 == 0): # timer pour cooldown de tire
+            projectile = Projectile(self.x,self.y,self.posFinalX,self.posFinalY)
+            self.projectile.append(projectile)
+
+    def deleteProj(self):
+        for i in self.projectile:
+            if i.x == i.targetX & i.Y == i.targetY:
+                self.projectile.remove(i)
+
+
+
+    def checkIfInRangeGalaxie(self):
+        pass
 
 
 class Joueur():
@@ -348,7 +400,7 @@ class IA(Joueur):
                 else:
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
                     print("Nouvelle cible IA:", i.cible.id)
-                    
+
         else:
             self.creervaisseau(0)
 
