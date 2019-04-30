@@ -40,7 +40,6 @@ class Controleur():
         monnom="jmd_"+str(random.randrange(1000))
         return monnom
 
-
     def creerpartie(self):
         if self.egoserveur==0:
 
@@ -159,7 +158,7 @@ class Controleur():
     def reclamersyssolaire(self,idsyssolaire,proprietaire):
         coul = None
         if proprietaire in self.modele.joueurs.keys():
-            print(idsyssolaire,self.modele.joueurs[proprietaire])
+            print(idplanete,self.modele.joueurs[proprietaire])
             coul = self.modele.joueurs[proprietaire].couleur
 
 
