@@ -226,7 +226,7 @@ class Vaisseau():
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
                 print("RESSOURCES...",self.cible.id,self.proprietaire,self.espaceCourant.nometoile)
                 self.cible.proprietaire=self.proprietaire
-                self.parent.parent.parent.reclamersyssolaire(self.cible.id,self.proprietaire)
+                self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                 #tempo=input("Continuersvp")
                 self.cible=None
                 print("Change cible")
@@ -350,13 +350,10 @@ class IA(Joueur):
                 if i.cible:
                     i.avancer()
                 else:
-<<<<<<< HEAD
-                    i.cible=random.choice(self.parent.Galaxie.listeSysSolaire)
-=======
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
                     print("Nouvelle cible IA:", i.cible.id)
                     
->>>>>>> d72e868a3e8fbf32c4256fb38ea8c25cf6212fbf
+
         else:
             self.creervaisseau(0)
 
@@ -391,10 +388,7 @@ class Modele():
         planes=[]
         while np:
             s=random.choice(self.Galaxie.listeSysSolaire)
-<<<<<<< HEAD
-=======
             #s=self.Galaxie.listeSysSolaire[0]  # TEST SYS_SOLAIRE FAIRE MEME CHOSE DANS VUE
->>>>>>> d72e868a3e8fbf32c4256fb38ea8c25cf6212fbf
             p=random.choice(s.listePlanete)
             if p not in planes:
                 planes.append(p)

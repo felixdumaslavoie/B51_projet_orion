@@ -587,6 +587,12 @@ class VueSolaire():
         # self.planeteDeuterium.grid(row=5, column=0)
         # self.planeteFertile.grid(row=6, column=0)
         # self.newVais.grid(row=7,column=0)
+        
+    def changerProprietaire(self,idplanete,couleur):
+
+        for i in self.canevasSolaire.find_all():
+            if self.canevasSolaire.gettags(i)[2] == str(idplanete):
+                self.canevasSolaire.itemconfig(i, fill=couleur)
 
 class VuePlanete():
     def __init__(self,fen,parent):
@@ -792,14 +798,7 @@ class VueGalaxie():
         self.mod=parent.mod
         self.sysSolaireNom.grid(row = 0, column =0)
 
-    def changerProprietaire(self,idsyssolaire,couleur):
-
-        for i in self.canevasGalaxie.find_all():
-            #print(self.canevasGalaxie.gettags(i)[1], idsyssolaire)
-            if self.canevasGalaxie.gettags(i)[1] == str(idsyssolaire):
-                self.canevasGalaxie.itemconfig(i, fill=couleur)
-                print("Étoile trouvée")
-                print()
+    
 
     def afficherdecorGalaxie(self,mod):
         self.mod = mod
