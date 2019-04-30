@@ -119,10 +119,10 @@ class Structure():
     Ferme={"Ferme",75,50,1,2}
     Capitale={"Capitale",300,5000,10,100}
 
-    def __init__(self,nom,x,y):
-        self.nomStructure="VIDE"
+    def __init__(self,nom,x,y,nomstruct,joueur):
+        self.nomStructure=nomstruct
         self.proprietaire=nom
-        self.joueur
+        self.joueur=joueur
         self.x=x
         self.y=y
 
@@ -225,8 +225,9 @@ class Vaisseau():
             self.x,self.y=x1,y1 #int(x1),int(y1)
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
                 print("RESSOURCES...",self.cible.id,self.proprietaire,self.espaceCourant.nometoile)
-                self.cible.proprietaire=self.proprietaire
-                self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
+                if len(self.cible.listeStructure)==0:                
+                    self.cible.proprietaire=self.proprietaire
+                    self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                 #tempo=input("Continuersvp")
                 self.cible=None
                 print("Change cible")
@@ -293,7 +294,7 @@ class Joueur():
 
     def creerStructure(self,nom,x,y,nomStructure,planete):
         t=Structure(self, nom,x,y,nomStructure)
-        self.planete.listeStructure.append(t)
+        planete.listeStructure.append(t)
 
     def updaterRessources(self):
         self.timer+=1
@@ -397,13 +398,18 @@ class Modele():
                   "lightblue","pink","gold","purple"]
         for i in joueurs:
             planes[0].proprietaire = i
+
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
+            self.joueurs[i].creerStructure(self.joueurs[i].nom,0,0,"Capitale",self.joueurs[i].planetemere)
+            print("Capitale créée sur",self.joueurs[i].planetemere.nom,"pour le joueur",self.joueurs[i].nom)
 
         # IA- creation des ias - max 2
         couleursia=["orange","green"]
         for i in range(ias):
             self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
-        print()
+            
+        for i in self.ias:
+            i.creerStructure(i.nom,0,0,"Capitale",i.planetemere)
 
 
     def prochaineaction(self,cadre):
