@@ -1,6 +1,7 @@
  # -*- coding: utf-8 -*-
 import os,os.path
 import random
+import math
 from Id import Id
 from helper import Helper as hlp
 from couleurs import *
@@ -73,6 +74,8 @@ class SystemeSolaire():
 
 class Planete():
     couleurs={""}
+    pointDepart={200,100}
+
     def __init__(self,parent,x,y, nom):
         self.id=Id.prochainid()
         self.proprietaire="inconnu"
@@ -81,15 +84,69 @@ class Planete():
         self.x=x
         self.y=y
         self.taille=random.randrange(4,12)
-        self.charbon=random.randrange(6)
-        self.zinc=random.randrange(5)
-        self.deuterium=random.randrange(10)
+        self.charbon=random.randrange(6000)
+        self.zinc=random.randrange(3000)
+        self.deuterium=random.randrange(100)
         self.fertile=random.randrange(1)
-        self.listeStructure=[]*self.taille ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
-        #self.nbEmplacementDispo=[]*self.taille
+        self.listeStructure=[] ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
+        self.emplacementsDispo=[]*self.taille ## Emplacement vides
+        self.tailleAffichage=50*self.taille
+
+        # On est en train de trouver des distances min entre les emplacements de bâtiments
+
+
+        largeur=self.parent.parent.parent.largeur/2
+        hauteur=self.parent.parent.parent.hauteur/2
+
+        t1=self.tailleAffichage/2
+
+        # Les 4 coordonées relatives au carré
+        x1,y1= hlp.getAngledPoint(math.radians(225),t1,largeur,hauteur)
+        x2,y2= hlp.getAngledPoint(math.radians(45),t1,largeur,hauteur)
+        #print("Carree intérieur: ", x1,y1,largeur,hauteur,x2,y2)
+        #xR1= random.randrange(int(x1),int(x2))
+        #yR1= random.randrange(int(y1),int(y2))
+
+        nPos=self.taille
+        paires=[]
+        self.distanceMinEmplacements=50
+
+        while nPos:
+            xR1 = random.randrange(int(x1),int(x2))
+            yR1 = random.randrange(int(y1),int(y2))
+            if [xR1,yR1] not in paires:
+                dist=1
+                for i in paires:
+                    d=hlp.calcDistance(xR1,yR1, i[0],i[1])
+
+                    if d < self.distanceMinEmplacements:
+                        dist=0
+                if dist:
+                    paires.append([xR1,yR1])
+                    nPos-=1
+                #print(xR1,yR1)
+        #print("Position sur planete: ",self.taille, paires)
+        self.emplacementsDispo=paires
+        #fin de sélection d'emplacement sur planète
+
         self.ressource=[self.charbon,self.zinc,self.deuterium]
         self.viePlanete1=self.viePlanete()
         self.couleur=random.choice(COULEURS)
+
+        #def paireXY(self):
+        #    x= self.taille
+
+        ## FONCTION A ECRIRE: on recoit l'id de la plantee et le nom de la structure et on doit créer cette structure (donc vérifier si l'ajouter à la liste des structure)
+        #def creerStructure(self, idPlanete, nomStructure):
+        #    if len(self.emplacementDispo) == 0:
+        #        return 0
+        #    else:
+        #        pass
+
+
+## liste avec tous les emplacements disponibles qu'on peut mettre des structures
+## pour les afficher
+## Quand j'occupe un emplacement je peux enlever cette structure de la liste
 
     def viePlanete(self):
         if not self.listeStructure:
@@ -119,10 +176,10 @@ class Structure():
     Ferme={"Ferme",75,50,1,2}
     Capitale={"Capitale",300,5000,10,100}
 
-    def __init__(self,nom,x,y):
-        self.nomStructure="VIDE"
+    def __init__(self,nom,x,y,nomstruct,joueur):
+        self.nomStructure=nomstruct
         self.proprietaire=nom
-        self.joueur
+        self.joueur=joueur
         self.x=x
         self.y=y
 
@@ -235,8 +292,9 @@ class Vaisseau():
             self.x,self.y=x1,y1 #int(x1),int(y1)
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
                 print("RESSOURCES...",self.cible.id,self.proprietaire,self.espaceCourant.nometoile)
-                self.cible.proprietaire=self.proprietaire
-                self.parent.parent.parent.reclamersyssolaire(self.cible.id,self.proprietaire)
+                if len(self.cible.listeStructure)==0:
+                    self.cible.proprietaire=self.proprietaire
+                    self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                 #tempo=input("Continuersvp")
                 self.cible=None
                 print("Change cible")
@@ -310,6 +368,7 @@ class Joueur():
         self.planetemere=planetemere
         self.planetemere.proprietaire=self.nom
         self.couleur=couleur
+        self.planetemere.couleur = couleur
         self.flotteSystemeSolaire=[]
         self.flotteGalaxie=[]
         self.planeteVisiter=[planetemere]
@@ -344,7 +403,7 @@ class Joueur():
 
     def creerStructure(self,nom,x,y,nomStructure,planete):
         t=Structure(self, nom,x,y,nomStructure)
-        self.planete.listeStructure.append(t)
+        planete.listeStructure.append(t)
 
     def updaterRessources(self):
         self.timer+=1
@@ -380,6 +439,9 @@ class Joueur():
 class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)
+        #planetemere.proprietaire = nom
+        #planetemere.couleur = couleur
+        print("Planete mere", planetemere.nom, "assignee a", nom, couleur)
         self.tempo=random.randrange(100)+20
 
 
@@ -439,18 +501,23 @@ class Modele():
             p=random.choice(s.listePlanete)
             if p not in planes:
                 planes.append(p)
-                #self.planetes.remove(p)
                 np-=1
         couleurs=["red","blue","lightgreen","yellow",
                   "lightblue","pink","gold","purple"]
         for i in joueurs:
             planes[0].proprietaire = i
+
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
+            self.joueurs[i].creerStructure(self.joueurs[i].nom,0,0,"Capitale",self.joueurs[i].planetemere)
+            print("Capitale créée sur",self.joueurs[i].planetemere.nom,"pour le joueur",self.joueurs[i].nom)
 
         # IA- creation des ias - max 2
         couleursia=["orange","green"]
         for i in range(ias):
             self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
+
+        for i in self.ias:
+            i.creerStructure(i.nom,0,0,"Capitale",i.planetemere)
 
 
     def prochaineaction(self,cadre):
