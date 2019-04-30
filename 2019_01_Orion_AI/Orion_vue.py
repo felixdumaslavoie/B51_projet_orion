@@ -433,7 +433,6 @@ class VueSolaire():
 
         self._create_circle(self.parent.largeur/1.5,self.parent.hauteur/1.5,75)
 
-
         self.parent.CliqueVueSySsolaire(self.canevasSolaire,mod)
 
     # #dessine IAs
@@ -561,6 +560,19 @@ class VuePlanete():
         self.planeteDeuterium = Label(self.cadreinfo)
         self.planeteFertile = Label(self.cadreinfo)
 
+
+    def afficherdecorPlanete1(self,mod):
+        self.mod = mod
+        self.listeSysSolaire=mod.Galaxie.listeSysSolaire
+        self.unSysSolaire = random.choice(self.listeSysSolaire)
+        print("in vue decor planete")
+
+
+
+
+
+
+    #Fonction originale:
     def afficherdecorPlanete(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
@@ -627,6 +639,35 @@ class VuePlanete():
         self.canevasPlanete.delete("all")
         self.afficherdecorPlanete(self.modele)
         # self.afficherInfosPlanete(self.modele,self.id)
+
+        for i in (self.modele.Galaxie.listeSysSolaire):
+            for j in (i.listePlanete):
+                if (j.id == idPlanete):
+                    self.planete=j
+        #planete taille
+        demiTaille=self.planete.tailleAffichage/2
+
+        # Pour trouver le centre du canevas
+        cx=self.mod.largeur/2
+        cy=self.mod.hauteur/2
+        x1=cx - demiTaille
+        x2=cx + demiTaille
+        y1=cy - demiTaille
+        y2=cy + demiTaille
+        self.canevasPlanete.create_oval(x1, y1, x2, y2,fill=self.planete.couleur ,tags=("planeteMere",id, self.planete.taille))
+
+        #self.parent.bChoixBatiement.grid(row = 6, column = 0)
+        self.afficheEmplacement(self.planete)
+        self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
+
+
+    def afficherPlanete2(self,modele,idPlanete):
+        #self.parent.cadreinfo.grid_forget()
+        self.modele=modele
+        self.id=idPlanete
+        self.canevasPlanete.delete("all")
+        self.afficherdecorPlanete(self.modele)
+        # self.afficherInfosPlanete(self.modele,self.id)
         self.modele=modele
         x=200
         y=100
@@ -637,7 +678,7 @@ class VuePlanete():
         #planete taille
         taille=self.planete.taille*50
         print(taille)
-        self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id))
+        self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id, taille))
 
         #self.parent.bChoixBatiement.grid(row = 6, column = 0)
         self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
@@ -653,7 +694,17 @@ class VuePlanete():
 
         self.parent.updateInfosJoueur(modele)
 
-    def afficheEmplacement(self,idPlanete,modele):
+    def afficheEmplacement(self,planete):
+
+        for i in planete.emplacementsDispo:
+            t=5
+            self.canevasPlanete.create_rectangle(i[0]-t, i[1]-t,  i[0] + t, i[1] + t, fill="red",tags=("emplacement", str(planete.id), str(i[0]),str(i[1])))
+
+
+    def afficherStructure():
+        pass
+
+    def afficheEmplacement2(self,idPlanete,modele):
         self.id = idPlanete
         self.modele = modele
 

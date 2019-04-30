@@ -40,7 +40,6 @@ class Controleur():
         monnom="jmd_"+str(random.randrange(1000))
         return monnom
 
-
     def creerpartie(self):
         if self.egoserveur==0:
 
