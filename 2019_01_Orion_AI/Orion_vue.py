@@ -365,6 +365,7 @@ class Vue():
         if t:
             if self.canvas == self.vues["Solaire"].canevasSolaire:
                 if t[1] == "planeteMere":
+                    self.vues["Solaire"].cliqueSolaire(CURRENT)
                     self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
@@ -445,7 +446,7 @@ class VueSolaire():
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
         self.newVais = Button(self.cadreinfo,text="Vaisseau",bg="DeepSkyBlue2", command=self.parent.creervaisseau)
-
+        self.maselection2=None
     def afficherdecorSolaire(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
@@ -598,19 +599,27 @@ class VueSolaire():
         for i in self.canevasSolaire.find_all():
             if self.canevasSolaire.gettags(i)[2] == str(idplanete):
                 self.canevasSolaire.itemconfig(i, fill=couleur)
-                
+
     def cliqueSolaire(self,evt):
-        #self.newVais.grid_forget()
+        self.newVais.grid_forget()
+        
         t=self.canevasSolaire.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
             #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
             self.maselection=[self.parent.nom,t[1],t[2]]  #self.canevas.find_withtag(CURRENT)#[0]
+            
+            if "planeteMere" not in t:
+                 self.maselection2=[self.parent.nom,t[1],t[2]]
             print(self.maselection)
             if t[1] == "planete":
                 self.montreplaneteselection()
             elif t[1] == "flotte":
                 pass
+            elif "planeteMere" in t and t[0]==self.parent.nom and self.maselection2:
+                self.parent.parent.ciblerflotte(self.maselection2[2],t[2])
                # self.montreflotteselection()
+        elif "planeteMere" in t and t[0]!=self.parent.nom:
+                self.parent.parent.ciblerflotte(self.maselection[2],t[2])
         elif "planete" in t and t[0]!=self.parent.nom:
             if self.maselection:
                 pass # attribuer cette planete a la cible de la flotte selectionne
