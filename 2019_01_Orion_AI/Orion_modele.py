@@ -119,12 +119,12 @@ class Structure():
     Ferme={"Ferme",75,50,1,2}
     Capitale={"Capitale",300,5000,10,100}
 
-    def __init__(self,nom,x,y,nomstruct,joueur):
+    def __init__(self,joueur,idplanete,nomstruct,x,y):
         self.nomStructure=nomstruct
-        self.proprietaire=nom
         self.joueur=joueur
         self.x=x
         self.y=y
+        self.idplanete = idplanete
 
     def extractionStructure(self):
         for i in self.parent.listeStructure[i]:
@@ -139,56 +139,56 @@ class Structure():
             self.credit-=self.maintenance
 
 class UsineCivile(Structure):
-    def __init__(self,nom,x,y,nomStructure):
-        super().__init__(nom,x,y) # Constructeur de la classe structure
+    def __init__(self,joueur,idplanete,nomstruct,x,y):
+        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Usine_Civile[0]
         self.cout=Structure.Usine_Civile[1]
         self.maintenance=Structure.Usine_Civile[2]
         self.production=Structure.Usine_Civile[3]
 
 class UsineMilitaire(Structure):
-    def __init__(self,nom,x,y,nomStructure):
-        super().__init__(nom,x,y) # Constructeur de la classe structure
+    def __init__(self,joueur,idplanete,nomstruct,x,y):
+        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Usine_Militaire[0]
         self.cout=Structure.Usine_Militaire[1]
         self.maintenance=Structure.Usine_Militaire[2]
         self.production=Structure.Usine_Militaire[3]
 
 class RaffinerieDiamant(Structure):
-    def __init__(self,nom,x,y,nomStructure):
-        super().__init__(nom,x,y) # Constructeur de la classe structure
+    def __init__(self,joueur,idplanete,nomstruct,x,y):
+        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Diamant[0]
         self.cout=Structure.Raffinerie_Diamant[1]
         self.maintenance=Structure.Raffinerie_Diamant[2]
         self.production=Structure.Raffinerie_Diamant[3]
 
 class RaffinerieCharbon(Structure):
-    def __init__(self,nom,x,y,nomStructure):
-        super().__init__(nom,x,y) # Constructeur de la classe structure
+    def __init__(self,joueur,idplanete,nomstruct,x,y):
+        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Charbon[0]
         self.cout=Structure.Raffinerie_Charbon[1]
         self.maintenance=Structure.Raffinerie_Charbon[2]
         self.production=Structure.Raffinerie_Charbon[3]
 
 class RaffinerieIsotope(Structure):
-    def __init__(self,nom,x,y,nomStructure):
-        super().__init__(nom,x,y) # Constructeur de la classe structure
+    def __init__(self,joueur,idplanete,nomstruct,x,yure):
+        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Isotope[0]
         self.cout=Structure.Raffinerie_Isotope[1]
         self.maintenance=Structure.Raffinerie_Isotope[2]
         self.production=Structure.Raffinerie_Isotope[3]
 
 class Ferme(Structure):
-    def __init__(self,nom,x,y,nomStructure):
-        super().__init__(nom,x,y) # Constructeur de la classe structure
+    def __init__(self,joueur,idplanete,nomstruct,x,y):
+        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Ferme[0]
         self.cout=Structure.Ferme[1]
         self.maintenance=Structure.Ferme[2]
         self.production=Structure.Ferme[3]
 
 class Capitale(Structure):
-    def __init__(self,nom,x,y,nomStructure):
-        super().__init__(nom,x,y) # Constructeur de la classe structure
+    def __init__(self,joueur,idplanete,nomstruct,x,y):
+        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Capitale[0]
         self.cout=Structure.Capitale[1]
         self.maintenance=Structure.Capitale[2]
@@ -267,7 +267,17 @@ class Joueur():
         self.planetescontrolees=[planetemere]
         self.bufferSelection = []
         self.actions={"creervaisseau":self.creervaisseau,
-                      "ciblerflotte":self.ciblerflotte}
+                      "ciblerflotte":self.ciblerflotte,
+                      "creerStructure":self.creerStructure}
+                                                                                                                                                             
+        self.structures={"Usine Civile":UsineCivile,
+                         "Usine Militaire":UsineMilitaire,
+                         "Raffinerie (Diamant)":RaffinerieDiamant,
+                         "Raffinerie (Charbon)":RaffinerieCharbon,
+                         "Raffinerie (Isotope)":RaffinerieIsotope,
+                         "Ferme":Ferme,
+                         "Capitale":Capitale}
+        
         self.credit=1000
         self.nourriture=1000
         self.deuterium=5
@@ -292,8 +302,9 @@ class Joueur():
         print("Vaisseau",v.id, v.nomVaisseau, v.cargo, v.energie, v.vitesse)
         self.flotteSystemeSolaire.append(v)
 
-    def creerStructure(self,nom,x,y,nomStructure,planete):
-        t=Structure(self, nom,x,y,nomStructure)
+    def creerStructure(self,params):
+        nomstruct,idplanete,x,y=params
+        t=Structure(self,idplanete,nomStruct,x,y,)
         planete.listeStructure.append(t)
 
     def updaterRessources(self):
@@ -400,7 +411,7 @@ class Modele():
             planes[0].proprietaire = i
 
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
-            self.joueurs[i].creerStructure(self.joueurs[i].nom,0,0,"Capitale",self.joueurs[i].planetemere)
+            self.joueurs[i].creerStructure(self.joueurs[i].nom,100,100,"Capitale",self.joueurs[i].planetemere)
             print("Capitale créée sur",self.joueurs[i].planetemere.nom,"pour le joueur",self.joueurs[i].nom)
 
         # IA- creation des ias - max 2
@@ -409,7 +420,7 @@ class Modele():
             self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
             
         for i in self.ias:
-            i.creerStructure(i.nom,0,0,"Capitale",i.planetemere)
+            i.creerStructure(i.nom,100,100,"Capitale",i.planetemere)
 
 
     def prochaineaction(self,cadre):

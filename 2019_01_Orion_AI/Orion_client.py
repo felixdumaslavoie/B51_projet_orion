@@ -167,6 +167,8 @@ class Controleur():
         print(idplanete, coul)            
         self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
 
+    def creerStructure(self,nomstruct,idplanete,x,y):
+        self.actions.append([self.monnom,"creerStructure",[nomstruct,idplanete,x,y]])
 
 if __name__=="__main__":
     c=Controleur()
