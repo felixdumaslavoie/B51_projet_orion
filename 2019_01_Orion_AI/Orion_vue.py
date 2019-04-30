@@ -237,13 +237,13 @@ class Vue():
         # création des objets de Messagerie
         self.labMessagerie=Label(self.cadreMessagerie,text="Messagerie")
         self.afficherMenuJoueur()
-        self.listeMessage=Listbox(self.cadreMessagerie)
+        self.listeMessage=Listbox(self.cadreMessagerie, fg="blue")
         self.scrollMessage=Scrollbar(self.cadreMessagerie, orient=VERTICAL)
         self.entryMessage=Entry(self.cadreMessagerie)
-        self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.add)
+        self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.envoyerMessage)
         self.labDiplomatie=Label(self.cadreMessagerie, text="Diplomatie")
-        self.btnAlliance=Button(self.cadreMessagerie, text="Alliance")
-        self.btnGuerre=Button(self.cadreMessagerie, text="Guerre")
+        self.btnAlliance=Button(self.cadreMessagerie, text="Alliance", fg="blue")
+        self.btnGuerre=Button(self.cadreMessagerie, text="Guerre", bg="red")
         #self.btnAllianceGuerriere=Button(self.cadreMessagerie, text="Alliance guerrière")
         #self.btnPaix=Button(self.cadreMessagerie, text="Paix")
 
@@ -283,10 +283,12 @@ class Vue():
         self.changecadre(self.cadrepartie)
 
 
-    def add(self):
+    def envoyerMessage(self):
         message = self.entryMessage.get()
-        reponse = message
-        self.listeMessage.insert(END, str(reponse))
+        recipiendaire = self.tkvar.get()
+        if message and recipiendaire:
+            self.parent.envoyermessage(self.parent.monnom, recipiendaire, message)
+            self.tkvar.set("")
 
         #création objets échange
         #self.btnEchange=Button(self.cadreMessagerie, text="Échange")
@@ -438,7 +440,7 @@ class VueSolaire():
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
         self.newVais = Button(self.cadreinfo,text="Vaisseau",bg="DeepSkyBlue2", command=self.parent.creervaisseau)
-        
+
 
     def afficherdecorSolaire(self,mod):
         self.mod = mod

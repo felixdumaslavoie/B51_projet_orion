@@ -204,7 +204,7 @@ class Vaisseau():
         self.espaceCourant = solaireMere
         self.cible=None
         self.nomVaisseau=nomVaisseau
-       
+
 
         if nomVaisseau=="Vaisseau_Militaire":
             self.cargo=0
@@ -265,11 +265,24 @@ class Joueur():
         self.planetescontrolees=[planetemere]
         self.bufferSelection = []
         self.actions={"creervaisseau":self.creervaisseau,
-                      "ciblerflotte":self.ciblerflotte}
+                      "ciblerflotte":self.ciblerflotte,
+                      "envoyermessage":self.envoyermessage}
         self.credit=1000
         self.nourriture=1000
         self.deuterium=5
         self.timer=0
+        self.messages=[]
+
+    def envoyermessage(self, params):
+        envoyeur, recipiendaire, msg = params
+        if envoyeur:
+            self.messages.append([envoyeur,recipiendaire,msg])
+        if recipiendaire:
+            self.messages.append([envoyeur,recipiendaire,msg])
+        if recipiendaire == "Tout le monde":
+            self.messages.append([envoyeur,recipiendaire,msg])
+
+
 
     def setbuffer(self,identificateur):
         for i in self.parent.Galaxie.listeSysSolaire:
@@ -348,7 +361,7 @@ class IA(Joueur):
                 else:
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
                     print("Nouvelle cible IA:", i.cible.id)
-                    
+
         else:
             self.creervaisseau(0)
 

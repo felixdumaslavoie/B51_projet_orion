@@ -151,20 +151,24 @@ class Controleur():
 
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])
-        
+
+
+    def envoyermessage(self,envoyeur, recipiendaire,message):
+        self.actions.append([self.monnom,"envoyermessage",[envoyeur,recipiendaire,message]])
+
     def reclamersyssolaire(self,idsyssolaire,proprietaire):
         coul = None
         if proprietaire in self.modele.joueurs.keys():
             print(idsyssolaire,self.modele.joueurs[proprietaire])
             coul = self.modele.joueurs[proprietaire].couleur
 
-            
-        else: 
+
+        else:
             for i in self.modele.ias:
                 if i.nom == proprietaire:
                     coul = i.couleur
-        
-        print(idsyssolaire, coul)            
+
+        print(idsyssolaire, coul)
         self.vue.vues["Galaxie"].changerProprietaire(idsyssolaire,coul)
 
 
