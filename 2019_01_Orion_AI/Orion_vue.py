@@ -60,7 +60,7 @@ class Vue():
         if self.vueactive:
             self.vueactive.cadrespatial.grid_forget()
             self.vueactive.cadreinfo.grid_forget()
-            self.cadreBouton.grid_forget()
+            #self.cadreBouton.grid_forget()
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
         self.vueactive.cadreinfo.grid()
@@ -342,11 +342,15 @@ class Vue():
         t=self.canvas.gettags(CURRENT)
         if t:
             if self.canvas == self.vues["Planete"].canevasPlanete:
-
-                self.vues["Planete"].afficherInfosPlanete(self.mod,int(idPlanete))
-                self.cadreBouton.grid(row = 1, column= 0)
-                self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
-                self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
+            
+                if t[1] == "emplacement":
+                    #self.vues["Planete"].cadreinfo.grid_forget()
+                    self.vues["Planete"].cadreStruct.grid(row=0,column=0)
+                else:
+                    self.vues["Planete"].afficherInfosPlanete(self.mod,int(idPlanete))
+                    #self.cadreBouton.grid(row = 1, column= 0)
+                    self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
+                    self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
 
 
     def CliqueVueSySsolaire(self,canvas,mod):
@@ -359,7 +363,7 @@ class Vue():
             if self.canvas == self.vues["Solaire"].canevasSolaire:
                 if t[1] == "planeteMere":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
-                    self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
+                    self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     print (t[2])
@@ -651,7 +655,10 @@ class VuePlanete():
         self.cadreinfo=Frame(self.parent.cadreoutils)
         self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
         self.canevasPlanete.grid(row = 0, column =1)
-        self.newStruct = Button(self.parent.cadreBouton,text="Nouvelle Structure",bg="DeepSkyBlue2" , command = lambda: self.menuStructPlanete())
+        self.cadreStruct = Frame(self.parent.cadreoutils)
+        
+        
+        self.newStruct = Button(self.cadreStruct,text="Nouvelle Structure",bg="DeepSkyBlue2" , command = lambda: self.menuStructPlanete())
         self.newStruct.grid(row = 0, column = 0,columnspan = 2)
 
 
@@ -791,14 +798,14 @@ class VuePlanete():
 
     def menuStructPlanete(self):
         self.newStruct.config(state="disabled")
-        self.buttonUsineCiv = Button(self.parent.cadreBouton, text = "Usine Civile",height = 2, width = 15)#, command =self.creerStructure() )
-        self.buttonUsineMili = Button(self.parent.cadreBouton, text = "Usine Militaire",height = 2, width = 15)#, command =self.creerStructure())
-        self.buttonRaffDia = Button(self.parent.cadreBouton, text = "Raffinerie (Diamant)",height = 2, width = 15)#, command =self.creerStructure())
-        self.buttonRaffChar = Button(self.parent.cadreBouton, text = "Raffinerie (Charbon)",height = 2, width = 15)#, command =self.creerStructure())
-        self.buttonRaffIso = Button(self.parent.cadreBouton, text = "Raffinerie (Isotope)",height = 2, width = 15)#, command =self.creerStructure())
-        self.buttonFerme = Button(self.parent.cadreBouton, text = "Ferme",height = 2, width = 15)#, command =self.creerStructure())
-        self.buttonCapitale = Button(self.parent.cadreBouton, text = "Capitale",height = 2, width = 15)#, command =self.creerStructure())
-        self.labelStructSucces = Label(self.parent.cadreBouton, text = "",height = 2, width = 30, bg="DodgerBlue2")
+        self.buttonUsineCiv = Button(self.cadreStruct, text = "Usine Civile",height = 2, width = 15)#, command =self.creerStructure() )
+        self.buttonUsineMili = Button(self.cadreStruct, text = "Usine Militaire",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonRaffDia = Button(self.cadreStruct, text = "Raffinerie (Diamant)",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonRaffChar = Button(self.cadreStruct, text = "Raffinerie (Charbon)",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonRaffIso = Button(self.cadreStruct, text = "Raffinerie (Isotope)",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonFerme = Button(self.cadreStruct, text = "Ferme",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonCapitale = Button(self.cadreStruct, text = "Capitale",height = 2, width = 15)#, command =self.creerStructure())
+        self.labelStructSucces = Label(self.cadreStruct, text = "",height = 2, width = 30, bg="DodgerBlue2")
         # bind for action
         self.buttonUsineCiv.bind("<Button>",self.creerStructure)
         self.buttonUsineMili.bind("<Button>",self.creerStructure)
@@ -816,7 +823,8 @@ class VuePlanete():
         self.buttonFerme.grid(row=3 , column = 0)
         self.buttonCapitale.grid(row=4 , column = 0, columnspan = 2)
         self.labelStructSucces.grid(row=5,column = 0, columnspan = 2) # always lowest
-        self.parent.cadreBouton.grid(row=1 , column = 0)
+        #self.parent.cadreBouton.grid(row=1 , column = 0)
+        self.cadreStruct.grid(row=1, column = 0)
 
     def creerStructure(self,evt):
 
