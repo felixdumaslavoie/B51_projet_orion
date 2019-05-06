@@ -40,7 +40,9 @@ class Vue():
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
         self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
-        self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="darkgrey")
+        self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="light cyan")
+        self.cadreArbreTechno=Canvas(self.cadreoutils,width=350,height=200, bg = "green2")
+
         self.cadreBouton=Frame(self.cadreoutils,width=200,height=200,bg="medium spring green")
 
         self.cadreinfo.grid_propagate(False)
@@ -50,6 +52,13 @@ class Vue():
         self.couleurbouton="gray33"
         self.cadrejeu.grid(row=1, column=0)
         self.mod=None
+
+    def toggleBtnTechno(self,evt):
+        if self.cadreArbreTechno.winfo_ismapped():
+            self.cadreArbreTechno.grid_forget()
+        else:
+            self.cadreArbreTechno.grid(row=0, column =0, sticky=N)
+            self.createElemTech()
 
     def changementdevue(self,evt):
         nom=evt.widget.cget("text")
@@ -63,7 +72,7 @@ class Vue():
             self.cadreBouton.grid_forget()
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
-        self.vueactive.cadreinfo.grid()
+        self.vueactive.cadreinfo.grid(row = 1, column =0 )
 
     def combinedactions(self):
         self.planete=self.mod.joueurs[self.nom].planetemere
@@ -159,6 +168,7 @@ class Vue():
         self.nbcouttotal=Label(self.cadre,text="-" ,bg=self.couleurinfo)
 
         self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo)
+        self.btnarbretech.bind("<Button-1>",self.toggleBtnTechno)
 
         self.labcredit=Label(self.cadre, text="credit:",bg=self.couleurinfo)
         self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
@@ -344,9 +354,27 @@ class Vue():
             if self.canvas == self.vues["Planete"].canevasPlanete:
 
                 self.vues["Planete"].afficherInfosPlanete(self.mod,int(idPlanete))
-                self.cadreBouton.grid(row = 1, column= 0)
+                self.cadreBouton.grid(row = 2, column= 0)
                 self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
                 self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
+
+    def createElemTech(self):
+        #onglet
+        self.cadreArbreTechno.create_rectangle(0, 0, 100, 35, fill="light gray", tags=("ongletEco"))
+        self.cadreArbreTechno.create_rectangle(100, 0, 200, 35, fill="light gray", tags=("ongletMilit"))
+        self.cadreArbreTechno.create_rectangle(200, 0, 300, 35, fill="light gray",tags=("ongletScience"))
+        # boutons
+        self.cadreArbreTechno.create_rectangle(40, 90, 70, 120, fill="light gray", tags=("Avancement 1"))
+        self.cadreArbreTechno.create_rectangle(160, 60, 190, 90, fill="azure", tags=("Avancement 2"))
+        self.cadreArbreTechno.create_rectangle(160, 120, 190, 150, fill="misty rose", tags=("Avancement 3"))
+        self.cadreArbreTechno.create_rectangle(270, 60, 300, 90, fill="deep pink", tags=("Avancement 4"))
+        self.cadreArbreTechno.create_rectangle(270, 120, 300, 150, fill="plum1", tags=("Avancement 5"))
+        # lines
+        self.cadreArbreTechno.create_line(70,105,160,75)
+        self.cadreArbreTechno.create_line()
+        self.cadreArbreTechno.create_line()
+        self.cadreArbreTechno.create_line()
+
 
 
     def CliqueVueSySsolaire(self,canvas,mod):
@@ -808,7 +836,7 @@ class VuePlanete():
         self.buttonFerme.grid(row=3 , column = 0)
         self.buttonCapitale.grid(row=4 , column = 0, columnspan = 2)
         self.labelStructSucces.grid(row=5,column = 0, columnspan = 2) # always lowest
-        self.parent.cadreBouton.grid(row=1 , column = 0)
+        self.parent.cadreBouton.grid(row=2 , column = 0)
 
     def creerStructure(self,evt):
 
