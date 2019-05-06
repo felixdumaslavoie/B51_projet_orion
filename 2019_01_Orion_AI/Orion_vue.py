@@ -203,7 +203,7 @@ class Vue():
         self.bsolaire.grid(row = 1, column =9)
         self.bplanete.grid(row = 1, column =10)
         self.bsolairemere.grid(row=1,column=11)
-        self.bsolairemere.config(state=NORMAL, command = lambda  : self.combinedactions() )
+        self.bsolairemere.config(state=NORMAL, command = lambda : self.combinedactions())
 
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
@@ -400,20 +400,9 @@ class Vue():
 
 
     def updateInfosJoueur(self,mod):
-        self.nbnourriture.grid_forget()
-        self.nbcredit.grid_forget()
-        self.nbdeuterium.grid_forget()
-        self.nbmoral.grid_forget()
-
-        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
-        self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
-        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
-        self.nbdeuterium=Label(self.cadre, text=self.mod.joueurs[self.nom].deuterium,bg=self.couleurinfo)
-
-        self.nbcredit.grid(row=1,column=1)
-        self.nbnourriture.grid(row=1,column=3)
-        self.nbdeuterium.grid(row=1,column=5)
-        self.nbmoral.grid(row=1,column=7)
+        self.nbnourriture.config(text=self.mod.joueurs[self.nom].nourriture)
+        self.nbcredit.config(text=self.mod.joueurs[self.nom].credit)
+        self.nbdeuterium.config(text=self.mod.joueurs[self.nom].deuterium)
 
 class VueSolaire():
     def __init__(self,fen,parent):
@@ -897,7 +886,7 @@ class VueGalaxie():
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreinfo=Frame(self.parent.cadreoutils)
         self.canevasGalaxie=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
-        self.canevasGalaxie.grid(row = 0, column =0)
+        self.canevasGalaxie.grid(row = 0, column = 0)
 
         # mouse click
         self.canevasGalaxie.bind( "<Button-1>", lambda event, canvas = self.canevasGalaxie : self.parent.CliqueVueGalaxie(canvas,self.parent.modele))
@@ -908,7 +897,7 @@ class VueGalaxie():
 
 
     def afficherdecorGalaxie(self,mod):
-        self.mod = mod
+        self.mod =mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
 
 
@@ -928,7 +917,7 @@ class VueGalaxie():
 
         self.variationNomSysSolaire = StringVar()
         self.variationNomSysSolaire.set("Système : " + str(self.systeme.nometoile))
-        self.sysSolaireNom.config(bg="white", textvariable=self.variationNomSysSolaire )
+        self.sysSolaireNom.config(bg="white", textvariable=self.variationNomSysSolaire)
 
 
 
