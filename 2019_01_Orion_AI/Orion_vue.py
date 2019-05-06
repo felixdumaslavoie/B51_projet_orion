@@ -151,25 +151,25 @@ class Vue():
         self.cadre = cadre
         self.mod = mod
 
-        self.labcouleur=Label(self.cadre,text="couleur:",bg=self.couleurinfo)
+        self.labcouleur=Label(self.cadre,text="Couleur:",bg=self.couleurinfo)
         self.idcouleur=Label(self.cadre, bg=self.mod.joueurs[self.nom].couleur )
         self.btndiplomatie=Button(self.cadre,text="Diplomatie",bg=self.couleurinfo)
         # ajouter text variable
-        self.labcouttotal=Label(self.cadre,text="cout total:",bg=self.couleurinfo)
+        self.labcouttotal=Label(self.cadre,text="Cout Total:",bg=self.couleurinfo)
         self.nbcouttotal=Label(self.cadre,text="-" ,bg=self.couleurinfo)
 
         self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo)
 
-        self.labcredit=Label(self.cadre, text="credit:",bg=self.couleurinfo)
+        self.labcredit=Label(self.cadre, text="Credit:",bg=self.couleurinfo)
         self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
 
-        self.labnourriture= Label(self.cadre, text="nourriture:",bg=self.couleurinfo)
+        self.labnourriture= Label(self.cadre, text="Nourriture:",bg=self.couleurinfo)
         self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
 
-        self.labdeuterium= Label(self.cadre, text="deuterium:",bg=self.couleurinfo)
+        self.labdeuterium= Label(self.cadre, text="Deuterium:",bg=self.couleurinfo)
         self.nbdeuterium=Label(self.cadre, text=self.mod.joueurs[self.nom].deuterium,bg=self.couleurinfo)
 
-        self.labmoral= Label(self.cadre, text="moral:",bg=self.couleurinfo)
+        self.labmoral= Label(self.cadre, text="Moral:",bg=self.couleurinfo)
         self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo)
         # boutons et bind
         self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton)
@@ -286,8 +286,9 @@ class Vue():
     def envoyerMessage(self):
         message = self.entryMessage.get()
         recipiendaire = self.tkvar.get()
+        envoyeur=self.parent.monnom
         if message and recipiendaire:
-            self.parent.envoyermessage(self.parent.monnom, recipiendaire, message)
+            self.parent.envoyermessage(envoyeur, recipiendaire, message)
             self.tkvar.set("")
 
         #création objets échange
@@ -313,6 +314,7 @@ class Vue():
         print("SCROLL",px,py)
 
     def afficherpartie(self,mod):
+        self.afficheMessage(mod)
         #test quel niveaux
         self.vues["Galaxie"].afficherpartieGalaxie(mod)
         #    self.vues["Solaire"].afficherdecorSolaire(mod)
@@ -326,6 +328,23 @@ class Vue():
     #def _create_circle(self, x, y, r):
        # return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
         # self.afficherpartie(mod)
+
+    def afficheMessage(self,mod):
+        for i in mod.joueurs.keys():
+            print("MESSAGES",i,mod.joueurs[i].messages)
+        nom=self.parent.monnom
+        joueur = mod.joueurs[nom]
+        msgs = joueur.messages
+        #print("Affiche message", nom, msgs)
+
+        #Pour vider la ListBox
+        self.listeMessage.delete(0, END)
+        #Pour insérer un message
+        for i in msgs:
+            msg=i[0]+", "+i[1]+": "+i[2]
+            self.listeMessage.insert(END, msg)
+
+
 
 
     def creervaisseau(self):

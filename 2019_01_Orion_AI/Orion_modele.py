@@ -387,12 +387,21 @@ class Joueur():
 
     def envoyermessage(self, params):
         envoyeur, recipiendaire, msg = params
-        if envoyeur:
+        self.messages.append([envoyeur,recipiendaire,msg])
+        print(self.nom,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        """
+        if envoyeur == self.parent.parent.monnom:
             self.messages.append([envoyeur,recipiendaire,msg])
-        if recipiendaire:
+            #print("Je suis envoyeur")
+        if recipiendaire == self.parent.parent.monnom:
             self.messages.append([envoyeur,recipiendaire,msg])
-        if recipiendaire == "Tout le monde":
+            print("Je suis recipiendaire",self.messages)
+        elif recipiendaire == "Tout le monde":
             self.messages.append([envoyeur,recipiendaire,msg])
+            #print("Je suis personne")
+        print("envoyeur", envoyeur, self.messages)
+        print("recipiendaire", recipiendaire, self.messages)
+        """
 
 
 
@@ -537,7 +546,6 @@ class Modele():
     def prochaineaction(self,cadre):
         if cadre in self.actionsafaire:
             for i in self.actionsafaire[cadre]:
-                #print(i)
                 self.joueurs[i[0]].actions[i[1]](i[2])
                 """
                 print("4- le modele distribue les actions au divers participants")

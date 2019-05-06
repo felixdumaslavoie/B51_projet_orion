@@ -153,7 +153,12 @@ class Controleur():
 
 
     def envoyermessage(self,envoyeur, recipiendaire,message):
-        self.actions.append([self.monnom,"envoyermessage",[envoyeur,recipiendaire,message]])
+        if recipiendaire=="tous":
+            for i in self.modele.joueurs.keys():
+                self.actions.append([i,"envoyermessage",[envoyeur,recipiendaire,message]])
+        else:
+            self.actions.append([self.monnom,"envoyermessage",[envoyeur,recipiendaire,message]])
+            self.actions.append([recipiendaire,"envoyermessage",[envoyeur,recipiendaire,message]])
 
     def reclamersyssolaire(self,idsyssolaire,proprietaire):
         coul = None
