@@ -398,7 +398,7 @@ class Vue():
     def updateInfosJoueur(self,mod):
         self.nbnourriture.config(text=self.mod.joueurs[self.nom].nourriture)
         self.nbcredit.config(text=self.mod.joueurs[self.nom].credit)
-        self.nbdeuterium.config(text=self.mod.joueurs[self.nom].nourriture)
+        self.nbdeuterium.config(text=self.mod.joueurs[self.nom].deuterium)
 
 class VueSolaire():
     def __init__(self,fen,parent):
