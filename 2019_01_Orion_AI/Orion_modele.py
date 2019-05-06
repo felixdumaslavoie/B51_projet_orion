@@ -295,7 +295,8 @@ class Vaisseau():
                 print("RESSOURCES...",self.cible.id,self.proprietaire,self.espaceCourant.nometoile)
                 if len(self.cible.listeStructure)==0:
                     self.cible.proprietaire=self.proprietaire
-                    self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
+                    #self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
+                    self.parent.parent.parent.reclamersyssolaire(self.cible.id,self.proprietaire)
                 #tempo=input("Continuersvp")
                 self.checkIfInRangeSolaire()
                 self.cible=None

@@ -158,7 +158,7 @@ class Controleur():
     def reclamersyssolaire(self,idsyssolaire,proprietaire):
         coul = None
         if proprietaire in self.modele.joueurs.keys():
-            print(idplanete,self.modele.joueurs[proprietaire])
+#            print(idplanete,self.modele.joueurs[proprietaire])
             coul = self.modele.joueurs[proprietaire].couleur
         else:
             for i in self.modele.ias:
@@ -166,7 +166,7 @@ class Controleur():
                     coul = i.couleur
 
         print(idsyssolaire, coul)
-        self.vue.vues["Galaxie"].changerProprietaire(idsyssolaire,coul)
+        self.vue.vues["Solaire"].changerProprietaire(idsyssolaire,coul)
 
     def creerProjectile(self,targetX,targetY):
         self.actions.append([self.monnom,"creerProjectile",[targetX,targetY]])
