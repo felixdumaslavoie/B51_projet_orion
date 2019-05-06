@@ -237,13 +237,13 @@ class Vue():
         # création des objets de Messagerie
         self.labMessagerie=Label(self.cadreMessagerie,text="Messagerie")
         self.afficherMenuJoueur()
-        self.listeMessage=Listbox(self.cadreMessagerie)
+        self.listeMessage=Listbox(self.cadreMessagerie, fg="blue")
         self.scrollMessage=Scrollbar(self.cadreMessagerie, orient=VERTICAL)
         self.entryMessage=Entry(self.cadreMessagerie)
-        self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.add)
+        self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.envoyerMessage)
         self.labDiplomatie=Label(self.cadreMessagerie, text="Diplomatie")
-        self.btnAlliance=Button(self.cadreMessagerie, text="Alliance")
-        self.btnGuerre=Button(self.cadreMessagerie, text="Guerre")
+        self.btnAlliance=Button(self.cadreMessagerie, text="Alliance", fg="blue")
+        self.btnGuerre=Button(self.cadreMessagerie, text="Guerre", bg="red")
         #self.btnAllianceGuerriere=Button(self.cadreMessagerie, text="Alliance guerrière")
         #self.btnPaix=Button(self.cadreMessagerie, text="Paix")
 
@@ -283,10 +283,12 @@ class Vue():
         self.changecadre(self.cadrepartie)
 
 
-    def add(self):
+    def envoyerMessage(self):
         message = self.entryMessage.get()
-        reponse = message
-        self.listeMessage.insert(END, str(reponse))
+        recipiendaire = self.tkvar.get()
+        if message and recipiendaire:
+            self.parent.envoyermessage(self.parent.monnom, recipiendaire, message)
+            self.tkvar.set("")
 
         #création objets échange
         #self.btnEchange=Button(self.cadreMessagerie, text="Échange")
@@ -317,6 +319,7 @@ class Vue():
         #elif self.vueactive == self.vues["Planete"]:
         #    self.vues["Planete"].afficherdecorPlanete(mod)
         self.vues["Solaire"].afficherVaisseau(mod)
+
 
         #return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
 
@@ -355,14 +358,21 @@ class Vue():
         if t:
             if self.canvas == self.vues["Solaire"].canevasSolaire:
                 if t[1] == "planeteMere":
+                    self.vues["Solaire"].cliqueSolaire(CURRENT)
                     self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     print (t[2])
+                elif t[1]=="flotte":
+                    self.vues["Solaire"].cliqueSolaire(CURRENT)
+                elif t[1]=="planete":
+                    self.vues["Solaire"].cliqueSolaire(CURRENT)
                 elif t[1] is not None:
                     self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
+                    #self.vues["Solaire"].cliqueSolaire(CURRENT)
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
+
                     print (t[2])
                 self.mod.joueurs[self.nom].setbuffer(t[2])
 
@@ -429,6 +439,7 @@ class VueSolaire():
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
         self.newVais = Button(self.cadreinfo,text="Vaisseau",bg="DeepSkyBlue2", command=self.parent.creervaisseau)
+        self.maselection2=None
 
 
     def afficherdecorSolaire(self,mod):
@@ -485,7 +496,7 @@ class VueSolaire():
         for i in self.systemeSolaire.listePlanete:
             t=i.taille*4
             if(i.proprietaire=="inconnu"):
-                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=random.choice(self.couleurs),tags=("Inconnu","planeteInconnu",str(i.id),None))
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=random.choice(self.couleurs),tags=("Inconnu","planete",str(i.id),None))
             elif(i.proprietaire is not None):
                 player = None
                 for k in self.mod.ias:
@@ -590,6 +601,46 @@ class VueSolaire():
         for i in self.canevasSolaire.find_all():
             if self.canevasSolaire.gettags(i)[2] == str(idplanete):
                 self.canevasSolaire.itemconfig(i, fill=couleur)
+
+    def cliqueSolaire(self,evt):
+        self.newVais.grid_forget()
+
+        t=self.canevasSolaire.gettags(CURRENT)
+        if t and t[0]==self.parent.nom:
+            #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
+            self.maselection=[self.parent.nom,t[1],t[2]]  #self.canevas.find_withtag(CURRENT)#[0]
+
+            if "planeteMere" not in t:
+                 self.maselection2=[self.parent.nom,t[1],t[2]]
+            print(self.maselection)
+            if t[1] == "planete":
+                self.montreplaneteselection()
+            elif t[1] == "flotte":
+                pass
+            elif "planeteMere" in t and t[0]==self.parent.nom and self.maselection2:
+                self.parent.parent.ciblerflotte(self.maselection2[2],t[2])
+               # self.montreflotteselection()
+        elif "planeteMere" in t and t[0]!=self.parent.nom:
+                self.parent.parent.ciblerflotte(self.maselection[2],t[2])
+        elif "planete" in t and t[0]!=self.parent.nom:
+            if self.maselection:
+                pass # attribuer cette planete a la cible de la flotte selectionne
+                self.parent.parent.ciblerflotte(self.maselection[2],t[2])
+            print("Cette planete ne vous appartient pas - elle est a ",t[0])
+            self.maselection=None
+           # self.lbselectecible.pack_forget()
+            self.canevasSolaire.delete("marqueur")
+        else:
+            print("Region inconnue")
+            self.maselection=None
+            #self.lbselectecible.pack_forget()
+            self.canevasSolaire.delete("marqueur")
+
+    def montreplaneteselection(self):
+        self.newVais.grid(row=7,column=0)
+    #def montreflotteselection(self):
+       # self.lbselectecible.pack()
+
 
 class VuePlanete():
     def __init__(self,fen,parent):

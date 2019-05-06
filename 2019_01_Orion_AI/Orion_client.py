@@ -151,7 +151,11 @@ class Controleur():
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])
 
-    def reclamerplanete(self,idplanete,proprietaire):
+
+    def envoyermessage(self,envoyeur, recipiendaire,message):
+        self.actions.append([self.monnom,"envoyermessage",[envoyeur,recipiendaire,message]])
+
+    def reclamersyssolaire(self,idsyssolaire,proprietaire):
         coul = None
         if proprietaire in self.modele.joueurs.keys():
             print(idplanete,self.modele.joueurs[proprietaire])
@@ -161,8 +165,8 @@ class Controleur():
                 if i.nom == proprietaire:
                     coul = i.couleur
 
-        print(idplanete, coul)
-        self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
+        print(idsyssolaire, coul)
+        self.vue.vues["Galaxie"].changerProprietaire(idsyssolaire,coul)
 
     def creerProjectile(self,targetX,targetY):
         self.actions.append([self.monnom,"creerProjectile",[targetX,targetY]])

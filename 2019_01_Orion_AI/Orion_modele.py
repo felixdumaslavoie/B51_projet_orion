@@ -376,11 +376,24 @@ class Joueur():
         self.planetescontrolees=[planetemere]
         self.bufferSelection = []
         self.actions={"creervaisseau":self.creervaisseau,
-                      "ciblerflotte":self.ciblerflotte}
+                      "ciblerflotte":self.ciblerflotte,
+                      "envoyermessage":self.envoyermessage}
         self.credit=1000
         self.nourriture=1000
         self.deuterium=5
         self.timer=0
+        self.messages=[]
+
+    def envoyermessage(self, params):
+        envoyeur, recipiendaire, msg = params
+        if envoyeur:
+            self.messages.append([envoyeur,recipiendaire,msg])
+        if recipiendaire:
+            self.messages.append([envoyeur,recipiendaire,msg])
+        if recipiendaire == "Tout le monde":
+            self.messages.append([envoyeur,recipiendaire,msg])
+
+
 
     def setbuffer(self,identificateur):
         for i in self.parent.Galaxie.listeSysSolaire:
@@ -415,9 +428,9 @@ class Joueur():
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
-        for i in self.flotte:
+        for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
             if i.id== int(idori):
-                for j in self.parent.Galaxie.listeSysSolaire:
+                for j in self.planetemere.parent.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
                     if j.id== int(iddesti):
                         i.cible=j
                         print("GOT TARGET:", j.id)
