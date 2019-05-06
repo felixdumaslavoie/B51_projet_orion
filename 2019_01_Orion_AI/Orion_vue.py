@@ -360,10 +360,18 @@ class Vue():
 
     def createElemTech(self):
         #onglet
-        self.cadreArbreTechno.create_rectangle(0, 0, 100, 35, fill="light gray", tags=("onglet Eco"))
-        self.cadreArbreTechno.create_rectangle(100, 0, 200, 35, fill="light gray", tags=("onglet Milit"))
-        self.cadreArbreTechno.create_rectangle(200, 0, 300, 35, fill="light gray",tags=("onglet Science"))
-        # boutons
+        #self.cadreArbreTechno.create_rectangle(0, 0, 100, 35, fill="light gray", tags=("onglet Eco"))
+        #self.cadreArbreTechno.create_rectangle(100, 0, 200, 35, fill="light gray", tags=("onglet Milit"))
+        #self.cadreArbreTechno.create_rectangle(200, 0, 300, 35, fill="light gray",tags=("onglet Science"))
+        # buttons
+        self.btnEco=Button(self.cadreArbreTechno,text="Economie",height=1, width = 14, bg = "light gray")
+        self.btnMilit=Button(self.cadreArbreTechno,text="Militaire",height=1, width = 14, bg = "light gray")
+        self.btnScience=Button(self.cadreArbreTechno,text="Science",height=1, width = 14, bg = "light gray")
+        ## placement buttons
+        self.cadreArbreTechno.create_window(0, 0, anchor=NW, window=self.btnEco, tags=("onglet Eco"))
+        self.cadreArbreTechno.create_window(100, 0, anchor=NW, window=self.btnMilit, tags=("onglet Milit"))
+        self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet Science"))
+        # avancement
         self.cadreArbreTechno.create_rectangle(40, 90, 70, 120, fill="light gray", tags=("Avancement 1"))
         self.cadreArbreTechno.create_rectangle(160, 60, 190, 90, fill="azure", tags=("Avancement 2"))
         self.cadreArbreTechno.create_rectangle(160, 120, 190, 150, fill="misty rose", tags=("Avancement 3"))
@@ -375,18 +383,32 @@ class Vue():
         self.cadreArbreTechno.create_line(70,105,160,135) # avance 1 to 3
         self.cadreArbreTechno.create_line(190,135,270,135) #avance 3 to 5
 
-        self.cadreArbreTechno.bind( "<Button-1>",self.actionElemTech)
+        self.cadreArbreTechno.bind( "<Button>",self.actionElemTech)
+        self.btnEco.bind("<Button>", self.actionOngletEco)
+        self.btnMilit.bind("<Button>", self.actionOngletMilit)
+        self.btnScience.bind("<Button>", self.actionOngletScience)
+
         self.onglet = "ongltEco" # default
         self.avancement = 1
 
+    def actionOngletEco(self,event):
+        print("Economie")
+
+    def actionOngletMilit(self,event):
+        print("Militaire")
+
+    def actionOngletScience(self,event):
+        print("Science")
 
     def actionElemTech(self,event):
         item=self.cadreArbreTechno.gettags(CURRENT)
 
+        print(item)
+
         if item:
-            if item[0] == "onglet":
-                self.onglet = item[1]
-                print(self.onglet)
+            #if item[0] == "onglet":
+            #    self.onglet = item[1]
+            #    print(self.onglet)
 
             if item[0] == "Avancement":
                 self.avancement = item[1]
