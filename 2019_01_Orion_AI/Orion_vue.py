@@ -319,7 +319,7 @@ class Vue():
         #elif self.vueactive == self.vues["Planete"]:
         #    self.vues["Planete"].afficherdecorPlanete(mod)
         self.vues["Solaire"].afficherVaisseau(mod)
-        
+
 
         #return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
 
@@ -381,7 +381,7 @@ class Vue():
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     #self.vues["Solaire"].cliqueSolaire(CURRENT)
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
-                    
+
                     print (t[2])
                 self.mod.joueurs[self.nom].setbuffer(t[2])
 
@@ -448,15 +448,9 @@ class VueSolaire():
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
         self.newVais = Button(self.cadreinfo,text="Vaisseau",bg="DeepSkyBlue2", command=self.parent.creervaisseau)
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 35e27cfedc67a6a01783f0ad2f289ba558f82932
-
-=======
         self.maselection2=None
->>>>>>> d006cbbfcf44cf6108c76e77630ef462c044fd4e
+
+
     def afficherdecorSolaire(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
@@ -612,12 +606,12 @@ class VueSolaire():
 
     def cliqueSolaire(self,evt):
         self.newVais.grid_forget()
-        
+
         t=self.canevasSolaire.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
             #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
             self.maselection=[self.parent.nom,t[1],t[2]]  #self.canevas.find_withtag(CURRENT)#[0]
-            
+
             if "planeteMere" not in t:
                  self.maselection2=[self.parent.nom,t[1],t[2]]
             print(self.maselection)

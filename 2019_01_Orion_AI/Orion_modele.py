@@ -378,7 +378,7 @@ class Joueur():
         idori,iddesti=ids
         for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
             if i.id== int(idori):
-                for j in self.planetemere.parent.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE 
+                for j in self.planetemere.parent.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
                     if j.id== int(iddesti):
                         i.cible=j
                         print("GOT TARGET:", j.id)
@@ -424,10 +424,6 @@ class IA(Joueur):
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
                     print("Nouvelle cible IA:", i.cible.id)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 35e27cfedc67a6a01783f0ad2f289ba558f82932
         else:
             self.creervaisseau(0)
 
