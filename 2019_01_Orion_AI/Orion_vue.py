@@ -355,7 +355,7 @@ class Vue():
 
                 if t[1] == "emplacement":
                     #self.vues["Planete"].cadreinfo.grid_forget()
-                    self.vues["Planete"].cadreStruct.grid(row=0,column=0)
+                    self.vues["Planete"].cadreStruct.grid(row=2,column=0)
                 else:
                     self.vues["Planete"].afficherInfosPlanete(self.mod,int(idPlanete))
                     #self.cadreBouton.grid(row = 1, column= 0)
@@ -881,7 +881,7 @@ class VuePlanete():
         self.buttonCapitale.grid(row=4 , column = 0, columnspan = 2)
         self.labelStructSucces.grid(row=5,column = 0, columnspan = 2) # always lowest
         #self.parent.cadreBouton.grid(row=1 , column = 0)
-        self.cadreStruct.grid(row=1, column = 0)
+        self.cadreStruct.grid(row=2, column = 0)
 
     def creerStructure(self,evt):
         j = self.modele.joueurs[self.parent.parent.monnom]
