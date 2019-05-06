@@ -40,7 +40,9 @@ class Vue():
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
         self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
-        self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="darkgrey")
+        self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="light cyan")
+        self.cadreArbreTechno=Canvas(self.cadreoutils,width=350,height=200, bg = "green2")
+
         self.cadreBouton=Frame(self.cadreoutils,width=200,height=200,bg="medium spring green")
 
         self.cadreinfo.grid_propagate(False)
@@ -51,6 +53,13 @@ class Vue():
         self.cadrejeu.grid(row=1, column=0)
         self.mod=None
 
+    def toggleBtnTechno(self,evt):
+        if self.cadreArbreTechno.winfo_ismapped():
+            self.cadreArbreTechno.grid_forget()
+        else:
+            self.cadreArbreTechno.grid(row=0, column =0, sticky=N)
+            self.createElemTech()
+
     def changementdevue(self,evt):
         nom=evt.widget.cget("text")
         print(nom)
@@ -60,10 +69,10 @@ class Vue():
         if self.vueactive:
             self.vueactive.cadrespatial.grid_forget()
             self.vueactive.cadreinfo.grid_forget()
-            self.cadreBouton.grid_forget()
+            #self.cadreBouton.grid_forget()
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
-        self.vueactive.cadreinfo.grid()
+        self.vueactive.cadreinfo.grid(row = 1, column =0 )
 
     def combinedactions(self):
         self.planete=self.mod.joueurs[self.nom].planetemere
@@ -159,6 +168,7 @@ class Vue():
         self.nbcouttotal=Label(self.cadre,text="-" ,bg=self.couleurinfo)
 
         self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo)
+        self.btnarbretech.bind("<Button-1>",self.toggleBtnTechno)
 
         self.labcredit=Label(self.cadre, text="Credit:",bg=self.couleurinfo)
         self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
@@ -203,7 +213,7 @@ class Vue():
         self.bsolaire.grid(row = 1, column =9)
         self.bplanete.grid(row = 1, column =10)
         self.bsolairemere.grid(row=1,column=11)
-        self.bsolairemere.config(state=NORMAL, command = lambda  : self.combinedactions() )
+        self.bsolairemere.config(state=NORMAL, command = lambda : self.combinedactions())
 
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
@@ -362,10 +372,62 @@ class Vue():
         if t:
             if self.canvas == self.vues["Planete"].canevasPlanete:
 
-                self.vues["Planete"].afficherInfosPlanete(self.mod,int(idPlanete))
-                self.cadreBouton.grid(row = 1, column= 0)
-                self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
-                self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
+                if t[1] == "emplacement":
+                    #self.vues["Planete"].cadreinfo.grid_forget()
+                    self.vues["Planete"].cadreStruct.grid(row=2,column=0)
+                else:
+                    self.vues["Planete"].afficherInfosPlanete(self.mod,int(idPlanete))
+                    #self.cadreBouton.grid(row = 1, column= 0)
+                    self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
+                    self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
+
+    def createElemTech(self):
+        # onglet buttons
+        self.btnEco=Button(self.cadreArbreTechno,text="Economie",height=1, width = 14, bg = "light gray")
+        self.btnMilit=Button(self.cadreArbreTechno,text="Militaire",height=1, width = 14, bg = "light gray")
+        self.btnScience=Button(self.cadreArbreTechno,text="Science",height=1, width = 14, bg = "light gray")
+        ## placement buttons
+        self.cadreArbreTechno.create_window(0, 0, anchor=NW, window=self.btnEco, tags=("onglet Eco"))
+        self.cadreArbreTechno.create_window(100, 0, anchor=NW, window=self.btnMilit, tags=("onglet Milit"))
+        self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet Science"))
+        # avancement
+        self.cadreArbreTechno.create_rectangle(40, 90, 70, 120, fill="light gray", tags=("Avancement 1"))
+        self.cadreArbreTechno.create_rectangle(160, 60, 190, 90, fill="azure", tags=("Avancement 2"))
+        self.cadreArbreTechno.create_rectangle(160, 120, 190, 150, fill="misty rose", tags=("Avancement 3"))
+        self.cadreArbreTechno.create_rectangle(270, 60, 300, 90, fill="deep pink", tags=("Avancement 4"))
+        self.cadreArbreTechno.create_rectangle(270, 120, 300, 150, fill="plum1", tags=("Avancement 5"))
+        # lines
+        self.cadreArbreTechno.create_line(70,105,160,75) #  avance 1 to 2
+        self.cadreArbreTechno.create_line(190,75,270,75) #  avance 2 to 4
+        self.cadreArbreTechno.create_line(70,105,160,135) # avance 1 to 3
+        self.cadreArbreTechno.create_line(190,135,270,135) #avance 3 to 5
+
+        self.cadreArbreTechno.bind( "<Button>",self.actionElemTech)
+        self.btnEco.bind("<Button>", self.actionOngletEco)
+        self.btnMilit.bind("<Button>", self.actionOngletMilit)
+        self.btnScience.bind("<Button>", self.actionOngletScience)
+
+        self.ongletActif = "ongltEco" # default
+        self.avancement = 1
+
+    def actionOngletEco(self,event):
+        self.ongletActif = "economie"
+
+    def actionOngletMilit(self,event):
+        self.ongletActif = "Militaire"
+
+    def actionOngletScience(self,event):
+        self.ongletActif = "Science"
+
+    def actionElemTech(self,event):
+        item=self.cadreArbreTechno.gettags(CURRENT)
+
+        if item:
+            if item[0] == "Avancement":
+                self.avancement = item[1]
+                #fonctionModele(self.onglet,self.avancement)
+                print(item[1],self.ongletActif)
+
 
 
     def CliqueVueSySsolaire(self,canvas,mod):
@@ -378,7 +440,7 @@ class Vue():
             if self.canvas == self.vues["Solaire"].canevasSolaire:
                 if t[1] == "planeteMere":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
-                    self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
+                    self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     print (t[2])
@@ -415,20 +477,9 @@ class Vue():
 
 
     def updateInfosJoueur(self,mod):
-        self.nbnourriture.grid_forget()
-        self.nbcredit.grid_forget()
-        self.nbdeuterium.grid_forget()
-        self.nbmoral.grid_forget()
-
-        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
-        self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
-        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
-        self.nbdeuterium=Label(self.cadre, text=self.mod.joueurs[self.nom].deuterium,bg=self.couleurinfo)
-
-        self.nbcredit.grid(row=1,column=1)
-        self.nbnourriture.grid(row=1,column=3)
-        self.nbdeuterium.grid(row=1,column=5)
-        self.nbmoral.grid(row=1,column=7)
+        self.nbnourriture.config(text=self.mod.joueurs[self.nom].nourriture)
+        self.nbcredit.config(text=self.mod.joueurs[self.nom].credit)
+        self.nbdeuterium.config(text=self.mod.joueurs[self.nom].deuterium)
 
 class VueSolaire():
     def __init__(self,fen,parent):
@@ -670,7 +721,10 @@ class VuePlanete():
         self.cadreinfo=Frame(self.parent.cadreoutils)
         self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
         self.canevasPlanete.grid(row = 0, column =1)
-        self.newStruct = Button(self.parent.cadreBouton,text="Nouvelle Structure",bg="DeepSkyBlue2" , command = lambda: self.menuStructPlanete())
+        self.cadreStruct = Frame(self.parent.cadreoutils)
+
+
+        self.newStruct = Button(self.cadreStruct,text="Nouvelle Structure",bg="DeepSkyBlue2" , command = lambda: self.menuStructPlanete())
         self.newStruct.grid(row = 0, column = 0,columnspan = 2)
 
 
@@ -776,7 +830,15 @@ class VuePlanete():
 
         #self.parent.bChoixBatiement.grid(row = 6, column = 0)
         self.afficheEmplacement(self.planete)
-        self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
+        #self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
+        self.canevasPlanete.bind( "<Button-1>", self.cliqueEmplacement)
+
+    def cliqueEmplacement(self,evt=0):
+        tagsPlanete=self.canevasPlanete.gettags("current")
+        print(tagsPlanete)
+        if tagsPlanete:
+            if tagsPlanete[0] == "emplacement":
+                self.menuStructPlanete()
 
 
     def afficherPlanete2(self,modele,idPlanete):
@@ -802,14 +864,14 @@ class VuePlanete():
 
     def menuStructPlanete(self):
         self.newStruct.config(state="disabled")
-        self.buttonUsineCiv = Button(self.parent.cadreBouton, text = "Usine Civile",height = 2, width = 15)#, command =self.creerStructure() )
-        self.buttonUsineMili = Button(self.parent.cadreBouton, text = "Usine Militaire",height = 2, width = 15)#, command =self.creerStructure())
-        self.buttonRaffDia = Button(self.parent.cadreBouton, text = "Raffinerie (Diamant)",height = 2, width = 15)#, command =self.creerStructure())
-        self.buttonRaffChar = Button(self.parent.cadreBouton, text = "Raffinerie (Charbon)",height = 2, width = 15)#, command =self.creerStructure())
-        self.buttonRaffIso = Button(self.parent.cadreBouton, text = "Raffinerie (Isotope)",height = 2, width = 15)#, command =self.creerStructure())
-        self.buttonFerme = Button(self.parent.cadreBouton, text = "Ferme",height = 2, width = 15)#, command =self.creerStructure())
-        self.buttonCapitale = Button(self.parent.cadreBouton, text = "Capitale",height = 2, width = 15)#, command =self.creerStructure())
-        self.labelStructSucces = Label(self.parent.cadreBouton, text = "",height = 2, width = 30, bg="DodgerBlue2")
+        self.buttonUsineCiv = Button(self.cadreStruct, text = "Usine Civile",height = 2, width = 15)#, command =self.creerStructure() )
+        self.buttonUsineMili = Button(self.cadreStruct, text = "Usine Militaire",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonRaffDia = Button(self.cadreStruct, text = "Raffinerie (Diamant)",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonRaffChar = Button(self.cadreStruct, text = "Raffinerie (Charbon)",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonRaffIso = Button(self.cadreStruct, text = "Raffinerie (Isotope)",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonFerme = Button(self.cadreStruct, text = "Ferme",height = 2, width = 15)#, command =self.creerStructure())
+        self.buttonCapitale = Button(self.cadreStruct, text = "Capitale",height = 2, width = 15)#, command =self.creerStructure())
+        self.labelStructSucces = Label(self.cadreStruct, text = "",height = 2, width = 30, bg="DodgerBlue2")
         # bind for action
         self.buttonUsineCiv.bind("<Button>",self.creerStructure)
         self.buttonUsineMili.bind("<Button>",self.creerStructure)
@@ -827,15 +889,22 @@ class VuePlanete():
         self.buttonFerme.grid(row=3 , column = 0)
         self.buttonCapitale.grid(row=4 , column = 0, columnspan = 2)
         self.labelStructSucces.grid(row=5,column = 0, columnspan = 2) # always lowest
-        self.parent.cadreBouton.grid(row=1 , column = 0)
+        #self.parent.cadreBouton.grid(row=1 , column = 0)
+        self.cadreStruct.grid(row=2, column = 0)
 
     def creerStructure(self,evt):
-
+        j = self.modele.joueurs[self.parent.parent.monnom]
+        id = j.bufferSelection[0].id
+        nom=evt.widget.cget("text")
+        self.parent.parent.creerStructure(j.nom,nom,id,100,100)
         #self.afficheEmplacement(self.id)
         #self.afficheStructure(self.id)
 
-        nom=evt.widget.cget("text")
+
+        #if j.:
         #self.succesful = self.modele.Planete.creerStructure(self.id,nom)
+        print(j,nom,id)
+        """
         self.succesfull =1
 
         if (self.succesfull == 1):
@@ -856,16 +925,7 @@ class VuePlanete():
 
 
         self.parent.updateInfosJoueur(self.modele)
-
-    def afficheEmplacement(self,idPlanete):
-        self.id = idPlanete
-
-        for i in (self.modele.Galaxie.listeSysSolaire):
-            for j in (i.listePlanete):
-                if (j.id == idPlanete):
-                    self.planete=j
-
-        self.parent.updateInfosJoueur(modele)
+        """
 
     def afficheEmplacement(self,planete):
 
@@ -910,7 +970,7 @@ class VueGalaxie():
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreinfo=Frame(self.parent.cadreoutils)
         self.canevasGalaxie=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
-        self.canevasGalaxie.grid(row = 0, column =0)
+        self.canevasGalaxie.grid(row = 0, column = 0)
 
         # mouse click
         self.canevasGalaxie.bind( "<Button-1>", lambda event, canvas = self.canevasGalaxie : self.parent.CliqueVueGalaxie(canvas,self.parent.modele))
@@ -921,7 +981,7 @@ class VueGalaxie():
 
 
     def afficherdecorGalaxie(self,mod):
-        self.mod = mod
+        self.mod =mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
 
 
@@ -941,7 +1001,7 @@ class VueGalaxie():
 
         self.variationNomSysSolaire = StringVar()
         self.variationNomSysSolaire.set("Système : " + str(self.systeme.nometoile))
-        self.sysSolaireNom.config(bg="white", textvariable=self.variationNomSysSolaire )
+        self.sysSolaireNom.config(bg="white", textvariable=self.variationNomSysSolaire)
 
 
 

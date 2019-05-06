@@ -177,6 +177,8 @@ class Controleur():
         self.actions.append([self.monnom,"creerProjectile",[targetX,targetY]])
 
 
+    def creerStructure(self,joueur,nomstruct,idplanete,x,y):
+        self.actions.append([self.monnom,"creerStructure",[joueur,nomstruct,idplanete,x,y]])
 
 if __name__=="__main__":
     c=Controleur()
