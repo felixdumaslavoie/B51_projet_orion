@@ -816,12 +816,18 @@ class VuePlanete():
         self.cadreStruct.grid(row=1, column = 0)
 
     def creerStructure(self,evt):
-
+        j = self.modele.joueurs[self.parent.parent.monnom]
+        id = j.bufferSelection[0].id
+        nom=evt.widget.cget("text")
+        self.parent.parent.creerStructure(j.nom,nom,id,100,100)
         #self.afficheEmplacement(self.id)
         #self.afficheStructure(self.id)
 
-        nom=evt.widget.cget("text")
+        
+        #if j.:
         #self.succesful = self.modele.Planete.creerStructure(self.id,nom)
+        print(j,nom,id)
+        """
         self.succesfull =1
 
         if (self.succesfull == 1):
@@ -842,7 +848,8 @@ class VuePlanete():
 
 
         self.parent.updateInfosJoueur(self.modele)
-
+        """
+        
     def afficheEmplacement(self,planete):
 
         for i in planete.emplacementsDispo:

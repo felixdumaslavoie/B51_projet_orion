@@ -173,8 +173,12 @@ class Structure():
     Raffinerie_Diamant=["Raffinerie_Diamant",80,350,6,2]
     Raffinerie_Charbon=["Raffinerie_Charbon",50,150,2,3]
     Raffinerie_Isotope=["Raffinerie_Isotope",175,250,3,2]
-    Ferme={"Ferme",75,50,1,2}
-    Capitale={"Capitale",300,5000,10,100}
+    Ferme=["Ferme",75,50,1,2]
+    Capitale=["Capitale",300,5000,10,100]
+    
+    
+    #Ferme={"Ferme",75,50,1,2}
+    #Capitale={"Capitale",300,5000,10,100}
 
     def __init__(self,joueur,idplanete,nomstruct,x,y):
         self.nomStructure=nomstruct
@@ -415,6 +419,7 @@ class Joueur():
                 return
             for j in i.listePlanete:
                 if int(j.id) == int(identificateur):
+                    self.bufferSelection.insert(0, j)
                     print(type(j).__name__, j.id, "mis dans le buffer")
                     return
 
@@ -427,7 +432,20 @@ class Joueur():
         self.flotteSystemeSolaire.append(v)
 
     def creerStructure(self,params):
+        planete = None
+        
         joueur,nomstruct,idplanete,x,y=params
+        
+        for i in (self.parent.Galaxie.listeSysSolaire):
+            for j in (i.listePlanete):
+                if (j.id == idplanete):
+                    planete=j
+                    
+        structure=self.structures[nomstruct]
+        planete.listeStructure.append(structure)
+        
+        print(structure,joueur,nomstruct,idplanete,x,y)
+        print()
         #t=Structure(self,idplanete,nomstruct,x,y)
         #planete.listeStructure.append(t)
 
@@ -535,7 +553,7 @@ class Modele():
 
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
             #self.joueurs[i].creerStructure(self.joueurs[i].nom,100,100,"Capitale",self.joueurs[i].planetemere)
-            self.joueurs[i].creerStructure([self.joueurs[i],self.joueurs[i].planetemere.id,"Capitale",100,100])
+            self.joueurs[i].creerStructure([self.joueurs[i],"Capitale",self.joueurs[i].planetemere.id,100,100])
             print("Capitale créée sur",self.joueurs[i].planetemere.nom,"pour le joueur",self.joueurs[i].nom)
 
         # IA- creation des ias - max 2
@@ -570,3 +588,12 @@ class Modele():
         # IA- appelle prochaine action
         for i in self.ias:
             i.prochaineaction()
+            
+
+batiments={"Usine_Civile":["Usine_Civile",100,150,1,0,UsineCivile],
+           "Usine_Militaire":["Usine_Militaire",200,225,2,0,UsineMilitaire],
+           "Raffinerie_Diamant":["Raffinerie_Diamant",80,350,6,2,RaffinerieDiamant],
+           "Raffinerie_Charbon":["Raffinerie_Charbon",50,150,2,3,RaffinerieCharbon],
+           "Raffinerie_Isotope":["Raffinerie_Isotope",175,250,3,2,RaffinerieIsotope],
+           "Ferme":["Ferme",75,50,1,2,Ferme],
+           "Capitale":["Capitale",300,5000,10,100,Capitale]}
