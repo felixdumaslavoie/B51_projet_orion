@@ -148,9 +148,14 @@ class Controleur():
     def creervaisseau(self):
         self.actions.append([self.monnom,"creervaisseau",""])
 
+    def changerVueVaisseau(self,idSoleil):
+        self.actions.append([self.monnom,"changevuevaisseau", [idSoleil]])
+
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])
 
+    def cibleretoile(self,idorigine,iddestination):
+        self.actions.append([self.monnom,"cibleretoile",[idorigine,iddestination]])
 
     def envoyermessage(self,envoyeur, recipiendaire,message):
         if recipiendaire=="Tous":
