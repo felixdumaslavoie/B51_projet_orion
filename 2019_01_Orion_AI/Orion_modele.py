@@ -360,9 +360,9 @@ class Joueur():
         self.flotteSystemeSolaire.append(v)
 
     def creerStructure(self,params):
-        nomstruct,idplanete,x,y=params
-        t=Structure(self,idplanete,nomStruct,x,y,)
-        planete.listeStructure.append(t)
+        joueur,nomstruct,idplanete,x,y=params
+        #t=Structure(self,idplanete,nomstruct,x,y)
+        #planete.listeStructure.append(t)
 
     def updaterRessources(self):
         self.timer+=1
@@ -468,7 +468,8 @@ class Modele():
             planes[0].proprietaire = i
 
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
-            self.joueurs[i].creerStructure(self.joueurs[i].nom,100,100,"Capitale",self.joueurs[i].planetemere)
+            #self.joueurs[i].creerStructure(self.joueurs[i].nom,100,100,"Capitale",self.joueurs[i].planetemere)
+            self.joueurs[i].creerStructure([self.joueurs[i],self.joueurs[i].planetemere.id,"Capitale",100,100])
             print("Capitale créée sur",self.joueurs[i].planetemere.nom,"pour le joueur",self.joueurs[i].nom)
 
         # IA- creation des ias - max 2
@@ -476,8 +477,8 @@ class Modele():
         for i in range(ias):
             self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
 
-        for i in self.ias:
-            i.creerStructure(i.nom,100,100,"Capitale",i.planetemere)
+        #for i in self.ias:
+            #i.creerStructure(i.nom,100,100,"Capitale",i.planetemere)
 
 
     def prochaineaction(self,cadre):

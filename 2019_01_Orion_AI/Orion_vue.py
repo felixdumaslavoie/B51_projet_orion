@@ -747,8 +747,16 @@ class VuePlanete():
 
         #self.parent.bChoixBatiement.grid(row = 6, column = 0)
         self.afficheEmplacement(self.planete)
-        self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
-
+        #self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
+        self.canevasPlanete.bind( "<Button-1>", self.cliqueEmplacement)
+        
+    def cliqueEmplacement(self,evt=0):
+        tagsPlanete=self.canevasPlanete.gettags("current")
+        print(tagsPlanete)
+        if tagsPlanete:
+            if tagsPlanete[0] == "emplacement":
+                self.menuStructPlanete()
+                
 
     def afficherPlanete2(self,modele,idPlanete):
         #self.parent.cadreinfo.grid_forget()
@@ -827,16 +835,6 @@ class VuePlanete():
 
 
         self.parent.updateInfosJoueur(self.modele)
-
-    def afficheEmplacement(self,idPlanete):
-        self.id = idPlanete
-
-        for i in (self.modele.Galaxie.listeSysSolaire):
-            for j in (i.listePlanete):
-                if (j.id == idPlanete):
-                    self.planete=j
-
-        self.parent.updateInfosJoueur(modele)
 
     def afficheEmplacement(self,planete):
 
