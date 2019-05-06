@@ -5,6 +5,7 @@ import math
 from Id import Id
 from helper import Helper as hlp
 from couleurs import *
+import math
 
 #modif arbitraire
 class Galaxie():
@@ -165,7 +166,6 @@ class EmplacementsSurPlanete():
         self.structure=None
 
 
-
 class Structure():
                 #nom structure, vie, cout, maintenance, exctraction
     Usine_Civile=["Usine_Civile",100,150,1,0]
@@ -251,6 +251,13 @@ class Capitale(Structure):
         self.maintenance=Structure.Capitale[2]
         self.production=Structure.Capitale[3]
 
+class Projectile():
+    def __init__(self,x,y,targetX,targetY):
+        self.x = x
+        self.y = y
+        self.targetX = targetX
+        self.targetY = targetY
+
 class Vaisseau():
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau_Militaire"):
         self.parent=parent
@@ -260,13 +267,17 @@ class Vaisseau():
         self.y=y
         self.espaceCourant = solaireMere
         self.cible=None
+        self.vaisseauCible = None
         self.nomVaisseau=nomVaisseau
+        self.projectile=[];
 
 
         if nomVaisseau=="Vaisseau_Militaire":
             self.cargo=0
             self.energie=400
             self.vitesse=1
+            self.range=200
+            self.distMax = self.getDistance()
 
         if nomVaisseau=="Vaisseau_Civil":
             self.cargo=100
@@ -284,8 +295,10 @@ class Vaisseau():
                 print("RESSOURCES...",self.cible.id,self.proprietaire,self.espaceCourant.nometoile)
                 if len(self.cible.listeStructure)==0:
                     self.cible.proprietaire=self.proprietaire
-                    self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
+                    #self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
+                    self.parent.parent.parent.reclamersyssolaire(self.cible.id,self.proprietaire)
                 #tempo=input("Continuersvp")
+                #self.checkIfInRangeSolaire()
                 self.cible=None
                 print("Change cible")
         else:
@@ -307,6 +320,46 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
+    def getDistance(self):
+        self.distanceX = self.x + self.range
+        self.distanceY = self.y + self.range
+        dist = math.sqrt((self.distanceX - self.x)**2 + (self.distanceY - self.y)**2)
+
+        return dist
+
+    # def checkIfInRangeSolaire(self):
+    #     listeJoueur = list(self.parent.joueurs.keys())
+    #     for i in listeJoueur:
+    #         if i.nom != self.nom:
+    #             for j in i.flotteSystemeSolaire:
+    #                 diffX = j.x - self.x
+    #                 diffY = j.y - self.y
+    #                 if diffX < self.distMax & diffY < self.distMax:
+    #                     self.vaisseauCible = j
+
+    def creerProjectiles(self,name,targetX,targetY):
+        self.monnom = name
+        self.tX = targetX
+        self.tY = targetY
+
+        listeJoueur = list(self.parent.joueurs.keys())
+        for i in listeJoueur:
+            if i.nom == self.nom:
+                pass
+
+
+
+
+    def deleteProj(self):
+        for i in self.projectile:
+            if i.x == i.targetX & i.Y == i.targetY:
+                self.projectile.remove(i)
+
+
+
+    def checkIfInRangeGalaxie(self):
+        pass
+
 
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
@@ -325,7 +378,8 @@ class Joueur():
         self.bufferSelection = []
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte,
-                      "creerStructure":self.creerStructure}
+                      "creerStructure":self.creerStructure,
+                      "envoyermessage":self.envoyermessage}
                                                                                                                                                              
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
@@ -335,10 +389,23 @@ class Joueur():
                          "Ferme":Ferme,
                          "Capitale":Capitale}
         
+                      
         self.credit=1000
         self.nourriture=1000
         self.deuterium=5
         self.timer=0
+        self.messages=[]
+
+    def envoyermessage(self, params):
+        envoyeur, recipiendaire, msg = params
+        if envoyeur:
+            self.messages.append([envoyeur,recipiendaire,msg])
+        if recipiendaire:
+            self.messages.append([envoyeur,recipiendaire,msg])
+        if recipiendaire == "Tout le monde":
+            self.messages.append([envoyeur,recipiendaire,msg])
+
+
 
     def setbuffer(self,identificateur):
         for i in self.parent.Galaxie.listeSysSolaire:
@@ -376,7 +443,7 @@ class Joueur():
         idori,iddesti=ids
         for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
             if i.id== int(idori):
-                for j in self.planetemere.parent.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE 
+                for j in self.planetemere.parent.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
                     if j.id== int(iddesti):
                         i.cible=j
                         print("GOT TARGET:", j.id)
@@ -421,7 +488,6 @@ class IA(Joueur):
                 else:
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
                     print("Nouvelle cible IA:", i.cible.id)
-
 
         else:
             self.creervaisseau(0)
