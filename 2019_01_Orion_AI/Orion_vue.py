@@ -363,11 +363,7 @@ class Vue():
                     self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
 
     def createElemTech(self):
-        #onglet
-        #self.cadreArbreTechno.create_rectangle(0, 0, 100, 35, fill="light gray", tags=("onglet Eco"))
-        #self.cadreArbreTechno.create_rectangle(100, 0, 200, 35, fill="light gray", tags=("onglet Milit"))
-        #self.cadreArbreTechno.create_rectangle(200, 0, 300, 35, fill="light gray",tags=("onglet Science"))
-        # buttons
+        # onglet buttons
         self.btnEco=Button(self.cadreArbreTechno,text="Economie",height=1, width = 14, bg = "light gray")
         self.btnMilit=Button(self.cadreArbreTechno,text="Militaire",height=1, width = 14, bg = "light gray")
         self.btnScience=Button(self.cadreArbreTechno,text="Science",height=1, width = 14, bg = "light gray")
@@ -392,32 +388,26 @@ class Vue():
         self.btnMilit.bind("<Button>", self.actionOngletMilit)
         self.btnScience.bind("<Button>", self.actionOngletScience)
 
-        self.onglet = "ongltEco" # default
+        self.ongletActif = "ongltEco" # default
         self.avancement = 1
 
     def actionOngletEco(self,event):
-        print("Economie")
+        self.ongletActif = "economie"
 
     def actionOngletMilit(self,event):
-        print("Militaire")
+        self.ongletActif = "Militaire"
 
     def actionOngletScience(self,event):
-        print("Science")
+        self.ongletActif = "Science"
 
     def actionElemTech(self,event):
         item=self.cadreArbreTechno.gettags(CURRENT)
 
-        print(item)
-
         if item:
-            #if item[0] == "onglet":
-            #    self.onglet = item[1]
-            #    print(self.onglet)
-
             if item[0] == "Avancement":
                 self.avancement = item[1]
                 #fonctionModele(self.onglet,self.avancement)
-                print(item[1])
+                print(item[1],self.ongletActif)
 
 
 
