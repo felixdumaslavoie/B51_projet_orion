@@ -298,7 +298,7 @@ class Vaisseau():
                     #self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                     self.parent.parent.parent.reclamersyssolaire(self.cible.id,self.proprietaire)
                 #tempo=input("Continuersvp")
-                self.checkIfInRangeSolaire()
+                #self.checkIfInRangeSolaire()
                 self.cible=None
                 print("Change cible")
         else:
@@ -327,15 +327,15 @@ class Vaisseau():
 
         return dist
 
-    def checkIfInRangeSolaire(self):
-        listeJoueur = list(self.parent.joueurs.keys())
-        for i in listeJoueur:
-            if i.nom != self.nom:
-                for j in i.flotteSystemeSolaire:
-                    diffX = j.x - self.x
-                    diffY = j.y - self.y
-                    if diffX < self.distMax & diffY < self.distMax:
-                        self.vaisseauCible = j
+    # def checkIfInRangeSolaire(self):
+    #     listeJoueur = list(self.parent.joueurs.keys())
+    #     for i in listeJoueur:
+    #         if i.nom != self.nom:
+    #             for j in i.flotteSystemeSolaire:
+    #                 diffX = j.x - self.x
+    #                 diffY = j.y - self.y
+    #                 if diffX < self.distMax & diffY < self.distMax:
+    #                     self.vaisseauCible = j
 
     def creerProjectiles(self,name,targetX,targetY):
         self.monnom = name
