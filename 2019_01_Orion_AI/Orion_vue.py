@@ -360,9 +360,9 @@ class Vue():
 
     def createElemTech(self):
         #onglet
-        self.cadreArbreTechno.create_rectangle(0, 0, 100, 35, fill="light gray", tags=("ongletEco"))
-        self.cadreArbreTechno.create_rectangle(100, 0, 200, 35, fill="light gray", tags=("ongletMilit"))
-        self.cadreArbreTechno.create_rectangle(200, 0, 300, 35, fill="light gray",tags=("ongletScience"))
+        self.cadreArbreTechno.create_rectangle(0, 0, 100, 35, fill="light gray", tags=("onglet Eco"))
+        self.cadreArbreTechno.create_rectangle(100, 0, 200, 35, fill="light gray", tags=("onglet Milit"))
+        self.cadreArbreTechno.create_rectangle(200, 0, 300, 35, fill="light gray",tags=("onglet Science"))
         # boutons
         self.cadreArbreTechno.create_rectangle(40, 90, 70, 120, fill="light gray", tags=("Avancement 1"))
         self.cadreArbreTechno.create_rectangle(160, 60, 190, 90, fill="azure", tags=("Avancement 2"))
@@ -370,10 +370,28 @@ class Vue():
         self.cadreArbreTechno.create_rectangle(270, 60, 300, 90, fill="deep pink", tags=("Avancement 4"))
         self.cadreArbreTechno.create_rectangle(270, 120, 300, 150, fill="plum1", tags=("Avancement 5"))
         # lines
-        self.cadreArbreTechno.create_line(70,105,160,75)
-        self.cadreArbreTechno.create_line()
-        self.cadreArbreTechno.create_line()
-        self.cadreArbreTechno.create_line()
+        self.cadreArbreTechno.create_line(70,105,160,75) #  avance 1 to 2
+        self.cadreArbreTechno.create_line(190,75,270,75) #  avance 2 to 4
+        self.cadreArbreTechno.create_line(70,105,160,135) # avance 1 to 3
+        self.cadreArbreTechno.create_line(190,135,270,135) #avance 3 to 5
+
+        self.cadreArbreTechno.bind( "<Button-1>",self.actionElemTech)
+        self.onglet = "ongltEco" # default
+        self.avancement = 1
+
+
+    def actionElemTech(self,event):
+        item=self.cadreArbreTechno.gettags(CURRENT)
+
+        if item:
+            if item[0] == "onglet":
+                self.onglet = item[1]
+                print(self.onglet)
+
+            if item[0] == "Avancement":
+                self.avancement = item[1]
+                #fonctionModele(self.onglet,self.avancement)
+                print(item[1])
 
 
 
