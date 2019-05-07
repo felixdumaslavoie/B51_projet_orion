@@ -441,11 +441,12 @@ class Vue():
                 if t[1] == "planeteMere":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
                     self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
-                    self.vues["Solaire"].afficherPlanete(self.mod,int(t[2]))
+                    self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     print (t[2])
                 elif t[1]=="flotte":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
+                    self.vues["Solaire"].versGalaxie.config(state=ACTIVE, command = lambda  : self.vues["Solaire"].envoyerVersGalaxie(t,self.mod)) 
                 elif t[1]=="planete":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
                 elif t[1] is not None:
@@ -470,11 +471,15 @@ class Vue():
                 if s[0] == "etoile":
                     self.vues["Galaxie"].afficherInfosSystemSolaire(self.mod,int(s[1])) # afficher infos sys solaire en passant modele et id sys solaire
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
+                    self.vues["Galaxie"].afficherpartieGalaxie(self.mod)
                     self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
                     print (s[1], self.nom)
                     self.mod.joueurs[self.nom].setbuffer(s[1])
+                    self.vues["Galaxie"].cliquecosmos(CURRENT)
                     #self.mod.joueurs[nom].setbuffer(s[1])
-
+                elif s[1]=="flotte":
+                    self.vues["Galaxie"].cliquecosmos(CURRENT)
+                    self.vues["Galaxie"].versSoleil.config(state=ACTIVE, command = lambda  : self.vues["Galaxie"].envoyerVersSoleil(s,self.mod)) 
 
     def updateInfosJoueur(self,mod):
         self.nbnourriture.config(text=self.mod.joueurs[self.nom].nourriture)
@@ -509,7 +514,16 @@ class VueSolaire():
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
         self.newVais = Button(self.cadreinfo,text="Vaisseau",bg="DeepSkyBlue2", command=self.parent.creervaisseau)
+        self.versGalaxie = Button(self.cadreinfo,text="Vers la Galaxie",bg="DeepSkyBlue2", command=self.envoyerVersGalaxie)
         self.maselection2=None
+
+    def envoyerVersGalaxie(self,t,mod):
+        self.mod=mod
+        self.t=t
+        
+        for vais in self.mod.joueurs[self.parent.nom].flotteSystemeSolaire:
+            if int(t[2])==vais.id:
+                vais.changerVueVaisseau(vais.solaire)
 
 
     def afficherdecorSolaire(self,mod):
@@ -593,8 +607,9 @@ class VueSolaire():
             i=modele.joueurs[i]
             #for j in i.flotteSystemeSolaire:
             for j in i.flotteSystemeSolaire:
-                if(j.espaceCourant.id==self.id):
-                    self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+                if(j.espaceCourant):
+                    if(j.espaceCourant.id ==self.id):
+                     self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
                 #self.canevas.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
@@ -603,9 +618,10 @@ class VueSolaire():
 
         for i in modele.ias:
             for j in i.flotteSystemeSolaire:
-                if(j.espaceCourant.id==self.id):
-                    self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+                if(j.espaceCourant):
+                    if(j.espaceCourant.id ==self.id):
+                        self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+                                        tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
         self.parent.updateInfosJoueur(modele)
 
@@ -655,6 +671,7 @@ class VueSolaire():
         self.planeteDeuterium.grid(row=15, column=0)
         self.planeteFertile.grid(row=16, column=0)
         self.newVais.grid(row=17,column=0)
+        self.versGalaxie.grid(row=18,column=0)
 
         # self.parent.updateInfosJoueur(modele)
         # self.planeteNom.grid(row=0, column=0)
@@ -977,8 +994,15 @@ class VueGalaxie():
         self.sysSolaireNom = Label(self.cadreinfo)
         self.mod=parent.mod
         self.sysSolaireNom.grid(row = 0, column =0)
+        self.versSoleil = Button(self.cadreinfo,text="Vers la Soleil",bg="DeepSkyBlue2", command=self.envoyerVersSoleil)
 
-
+    def envoyerVersSoleil(self,t,mod):
+        self.mod=mod
+        self.t=t
+        
+        for vais in self.mod.joueurs[self.parent.nom].flotteSystemeSolaire:
+            if int(t[2])==vais.id:
+                vais.changerVueVaisseau(vais.solaire)
 
     def afficherdecorGalaxie(self,mod):
         self.mod =mod
@@ -1002,7 +1026,7 @@ class VueGalaxie():
         self.variationNomSysSolaire = StringVar()
         self.variationNomSysSolaire.set("Système : " + str(self.systeme.nometoile))
         self.sysSolaireNom.config(bg="white", textvariable=self.variationNomSysSolaire)
-
+        self.versSoleil.grid(row=1,column=0)
 
 
 
@@ -1015,21 +1039,21 @@ class VueGalaxie():
         self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(3,3),width=2,outline=couleur,
                                 tags=("planetemere","marqueur"))
     def cliquecosmos(self,evt):
-        self.parent.btncreervaisseau.grid_forget()
+       # self.parent.btncreervaisseau.grid_forget()
         t=self.canevasGalaxie.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
             #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
             self.parent.maselection=[self.parent.nom,t[1],t[2]]  #self.canevas.find_withtag(CURRENT)#[0]
            # print(self.parent.maselection)
-            if t[1] == "planete":
+            if t[1] == "etoile":
                 self.montreplaneteselection()
             elif t[1] == "flotte":
                 self.montreflotteselection()
-        elif "planete" in t and t[0]!=self.parent.nom:
+        elif "etoile" in t and t[0]!=self.parent.nom:
             if self.parent.maselection:
                 #pass # attribuer cette planete a la cible de la flotte selectionne
-                self.parent.parent.ciblerflotte(self.parent.maselection[2],t[2])
-            print("Cette planete ne vous appartient pas - elle est a ",t[0])
+                self.parent.parent.cibleretoile(self.parent.maselection[2],t[1])
+            print("Cette planete ne vous appartient pas - elle est a ",t[1])
             self.parent.maselection=None
             self.parent.lbselectecible.grid_forget()
             self.canevasGalaxie.delete("marqueur")
@@ -1061,7 +1085,7 @@ class VueGalaxie():
                         self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
                                                  tags=("select","marqueur"))
             elif self.parent.maselection[1]=="flotte":
-                for i in joueur.flotte:
+                for i in joueur.flotteSystemeSolaire:
                     if i.id == int(self.parent.maselection[2]):
                         x=i.x
                         y=i.y
@@ -1073,8 +1097,9 @@ class VueGalaxie():
 
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
-            for j in i.flotteGalaxie:
-                self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+            for j in i.flotteSystemeSolaire:
+                 if(j.espaceCourant==None):
+                    self.canevasGalaxie.create_rectangle(j.x-10,j.y-10,j.x-4,j.y-4,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
                 #self.canevas.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
@@ -1082,8 +1107,9 @@ class VueGalaxie():
 
 
         for i in mod.ias:
-            for j in i.flotteGalaxie:
-                self.canevasGalaxie.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+            for j in i.flotteSystemeSolaire:
+                 if(j.espaceCourant==None):
+                    self.canevasGalaxie.create_rectangle(j.x-10,j.y-10,j.x-4,j.y-4,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 
         self.parent.updateInfosJoueur(mod)
