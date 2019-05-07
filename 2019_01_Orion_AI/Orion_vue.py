@@ -247,7 +247,7 @@ class Vue():
         # création des objets de Messagerie
         self.labMessagerie=Label(self.cadreMessagerie,text="Messagerie")
         self.afficherMenuJoueur()
-        self.listeMessage=Listbox(self.cadreMessagerie, fg="blue")
+        self.listeMessage=Listbox(self.cadreMessagerie, fg="blue",width=40)
         self.scrollMessage=Scrollbar(self.cadreMessagerie, orient=VERTICAL)
         self.entryMessage=Entry(self.cadreMessagerie)
         self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.envoyerMessage)
