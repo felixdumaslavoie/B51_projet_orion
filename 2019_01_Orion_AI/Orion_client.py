@@ -144,8 +144,8 @@ class Controleur():
     def creervaisseau(self):
         self.actions.append([self.monnom,"creervaisseau",""])
 
-    def changerVueVaisseau(self,idSoleil):
-        self.actions.append([self.monnom,"changevuevaisseau", [idSoleil]])
+    def changerVueVaisseau(self,idSoleil,vais):
+        self.actions.append([self.monnom,"changevuevaisseau", [idSoleil,vais]])
 
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])

@@ -326,15 +326,17 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
-    def changerVueVaisseau(self,Soleil):
-        if self.espaceCourant is not None:
-            self.espaceCourant=None
-            self.x=Soleil.x
-            self.y=Soleil.y
-        elif (self.espaceCourant==None):
-            self.espaceCourant=Soleil
-            self.x=100
-            self.y=100
+    # def changerVueVaisseau(self,Soleil):
+    #     if self.espaceCourant is not None:
+    #         self.espaceCourant=None
+    #         self.x=Soleil.x
+    #         self.y=Soleil.y
+    #     elif (self.espaceCourant==None):
+    #         self.espaceCourant=Soleil
+    #         self.x=100
+    #         self.y=100
+
+
     # def getDistance(self):
     #     self.distanceX = self.x + self.range
     #     self.distanceY = self.y + self.range
@@ -392,7 +394,8 @@ class Joueur():
                       "ciblerflotte":self.ciblerflotte,
                       "creerStructure":self.creerStructure,
                       "envoyermessage":self.envoyermessage,
-                      "cibleretoile":self.cibleretoile}
+                      "cibleretoile":self.cibleretoile,
+                      "changerVueVaisseau":self.changerVueVaisseau}
                                                                                                                                                              
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
@@ -408,6 +411,17 @@ class Joueur():
         self.deuterium=5
         self.timer=0
         self.messages=[]
+
+    def changerVueVaisseau(self,Soleil,vais):
+        self.vais=vais
+        if self.vais.espaceCourant is not None:
+            self.vais.espaceCourant=None
+            self.x=Soleil.x
+            self.y=Soleil.y
+        elif (self.vais.espaceCourant==None):
+            self.vais.espaceCourant=Soleil
+            self.x=100
+            self.y=100
 
     def envoyermessage(self, params):
         envoyeur, recipiendaire, msg = params
