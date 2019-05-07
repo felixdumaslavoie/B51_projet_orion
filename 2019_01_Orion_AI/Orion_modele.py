@@ -22,7 +22,7 @@ class Galaxie():
         self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.listeNomPlanete = self.txtNomPlanete.readlines()
-        self.nbSysSolaire=120
+        self.nbSysSolaire=8
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
@@ -232,7 +232,7 @@ class RaffinerieCharbon(Structure):
         self.production=Structure.Raffinerie_Charbon[3]
 
 class RaffinerieIsotope(Structure):
-    def __init__(self,joueur,idplanete,nomstruct,x,yure):
+    def __init__(self,joueur,idplanete,nomstruct,x,y):
         super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Isotope[0]
         self.cout=Structure.Raffinerie_Isotope[1]
