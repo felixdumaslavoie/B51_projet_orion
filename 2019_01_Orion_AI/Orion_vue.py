@@ -440,8 +440,8 @@ class Vue():
             if self.canvas == self.vues["Solaire"].canevasSolaire:
                 if t[1] == "planeteMere":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
-                    self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
-                    self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
+                    self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
+                    self.vues["Solaire"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     print (t[2])
                 elif t[1]=="flotte":
