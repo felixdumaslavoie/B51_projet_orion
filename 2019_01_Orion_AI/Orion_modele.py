@@ -22,7 +22,7 @@ class Galaxie():
         self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.listeNomPlanete = self.txtNomPlanete.readlines()
-        self.nbSysSolaire=120
+        self.nbSysSolaire=8
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
