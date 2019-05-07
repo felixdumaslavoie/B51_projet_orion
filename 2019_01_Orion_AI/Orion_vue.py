@@ -391,7 +391,7 @@ class Vue():
         self.cadreArbreTechno.create_window(100, 0, anchor=NW, window=self.btnMilit, tags=("onglet Milit"))
         self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet Science"))
         # avancement
-        self.cadreArbreTechno.create_rectangle(40, 90, 70, 120, fill="light gray", tags=("Avancement 1"))
+        self.avac1 = self.cadreArbreTechno.create_rectangle(40, 90, 70, 120, fill="light gray", tags=("Avancement 1"))
         self.cadreArbreTechno.create_rectangle(160, 60, 190, 90, fill="azure", tags=("Avancement 2"))
         self.cadreArbreTechno.create_rectangle(160, 120, 190, 150, fill="misty rose", tags=("Avancement 3"))
         self.cadreArbreTechno.create_rectangle(270, 60, 300, 90, fill="deep pink", tags=("Avancement 4"))
@@ -412,6 +412,7 @@ class Vue():
 
     def actionOngletEco(self,event):
         self.ongletActif = "economie"
+        #self.avac1.config(tags="BonusCash")
 
     def actionOngletMilit(self,event):
         self.ongletActif = "Militaire"
@@ -425,7 +426,7 @@ class Vue():
         if item:
             if item[0] == "Avancement":
                 self.avancement = item[1]
-                #fonctionModele(self.onglet,self.avancement)
+                #fonctionModele(self.onglet,item[1])
                 print(item[1],self.ongletActif)
 
 
