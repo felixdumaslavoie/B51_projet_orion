@@ -281,9 +281,9 @@ class Vue():
         self.tkvar.trace("w", self.choix)
         nomJoueur=self.tkvar.get()
         print(nomJoueur)
-        listenomjoueur=["Tout le monde"]+ list(self.mod.joueurs.keys())
+        listenomjoueur=["Tous"]+ list(self.mod.joueurs.keys())
 
-        self.tkvar.set("Tout le monde")
+        self.tkvar.set("Tous")
         self.menu = OptionMenu(self.cadreMessagerie, self.tkvar, *listenomjoueur)
         #self.menu.bind('<')
         self.menu.grid(row=2, columnspan=2, sticky=W+E)
@@ -440,8 +440,8 @@ class Vue():
             if self.canvas == self.vues["Solaire"].canevasSolaire:
                 if t[1] == "planeteMere":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
-                    self.vues["Planete"].afficherInfosPlanete(self.mod,int(t[2]))
-                    self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
+                    self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
+                    self.vues["Solaire"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
                     print (t[2])
                 elif t[1]=="flotte":

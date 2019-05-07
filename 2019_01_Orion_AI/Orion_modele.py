@@ -175,8 +175,8 @@ class Structure():
     Raffinerie_Isotope=["Raffinerie_Isotope",175,250,3,2]
     Ferme=["Ferme",75,50,1,2]
     Capitale=["Capitale",300,5000,10,100]
-    
-    
+
+
     #Ferme={"Ferme",75,50,1,2}
     #Capitale={"Capitale",300,5000,10,100}
 
@@ -384,7 +384,7 @@ class Joueur():
                       "ciblerflotte":self.ciblerflotte,
                       "creerStructure":self.creerStructure,
                       "envoyermessage":self.envoyermessage}
-                                                                                                                                                             
+
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
                          "Raffinerie (Diamant)":RaffinerieDiamant,
@@ -392,8 +392,8 @@ class Joueur():
                          "Raffinerie (Isotope)":RaffinerieIsotope,
                          "Ferme":Ferme,
                          "Capitale":Capitale}
-        
-                      
+
+
         self.credit=1000
         self.nourriture=1000
         self.deuterium=5
@@ -403,7 +403,7 @@ class Joueur():
     def envoyermessage(self, params):
         envoyeur, recipiendaire, msg = params
         self.messages.append([envoyeur,recipiendaire,msg])
-        print(self.nom,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        #print(self.nom,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         """
         if envoyeur == self.parent.parent.monnom:
             self.messages.append([envoyeur,recipiendaire,msg])
@@ -442,17 +442,17 @@ class Joueur():
 
     def creerStructure(self,params):
         planete = None
-        
+
         joueur,nomstruct,idplanete,x,y=params
-        
+
         for i in (self.parent.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
-                    
+
         structure=self.structures[nomstruct]
         planete.listeStructure.append(structure)
-        
+
         print(structure,joueur,nomstruct,idplanete,x,y)
         print()
         #t=Structure(self,idplanete,nomstruct,x,y)
@@ -596,7 +596,7 @@ class Modele():
         # IA- appelle prochaine action
         for i in self.ias:
             i.prochaineaction()
-            
+
 
 batiments={"Usine_Civile":["Usine_Civile",100,150,1,0,UsineCivile],
            "Usine_Militaire":["Usine_Militaire",200,225,2,0,UsineMilitaire],
