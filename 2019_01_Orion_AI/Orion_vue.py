@@ -742,8 +742,8 @@ class VuePlanete():
         self.cadreStruct = Frame(self.cadreinfo)
 
 
-        self.newStruct = Button(self.cadreStruct,text="Nouvelle Structure",bg="DeepSkyBlue2" , command = lambda: self.menuStructPlanete())
-        self.newStruct.grid(row = 0, column = 0,columnspan = 2)
+        #self.newStruct = Button(self.cadreStruct,text="Nouvelle Structure",bg="DeepSkyBlue2" , command = lambda: self.menuStructPlanete())
+        #self.newStruct.grid(row = 0, column = 0,columnspan = 2)
 
 
         self.planeteNom=Label(self.cadreinfo)
@@ -881,7 +881,7 @@ class VuePlanete():
         self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
 
     def menuStructPlanete(self):
-        self.newStruct.config(state="disabled")
+       # self.newStruct.config(state="disabled")
         self.buttonUsineCiv = Button(self.cadreStruct, text = "Usine Civile",height = 2, width = 15)#, command =self.creerStructure() )
         self.buttonUsineMili = Button(self.cadreStruct, text = "Usine Militaire",height = 2, width = 15)#, command =self.creerStructure())
         self.buttonRaffDia = Button(self.cadreStruct, text = "Raffinerie (Diamant)",height = 2, width = 15)#, command =self.creerStructure())
