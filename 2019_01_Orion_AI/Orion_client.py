@@ -153,9 +153,10 @@ class Controleur():
 
 
     def envoyermessage(self,envoyeur, recipiendaire,message):
-        if recipiendaire=="tous":
+        if recipiendaire=="Tous":
             for i in self.modele.joueurs.keys():
                 self.actions.append([i,"envoyermessage",[envoyeur,recipiendaire,message]])
+                print("Msg envoie a ",i)
         else:
             self.actions.append([self.monnom,"envoyermessage",[envoyeur,recipiendaire,message]])
             self.actions.append([recipiendaire,"envoyermessage",[envoyeur,recipiendaire,message]])

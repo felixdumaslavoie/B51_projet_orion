@@ -281,9 +281,9 @@ class Vue():
         self.tkvar.trace("w", self.choix)
         nomJoueur=self.tkvar.get()
         print(nomJoueur)
-        listenomjoueur=["Tout le monde"]+ list(self.mod.joueurs.keys())
+        listenomjoueur=["Tous"]+ list(self.mod.joueurs.keys())
 
-        self.tkvar.set("Tout le monde")
+        self.tkvar.set("Tous")
         self.menu = OptionMenu(self.cadreMessagerie, self.tkvar, *listenomjoueur)
         #self.menu.bind('<')
         self.menu.grid(row=2, columnspan=2, sticky=W+E)
