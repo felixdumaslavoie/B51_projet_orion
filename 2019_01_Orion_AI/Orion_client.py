@@ -158,8 +158,11 @@ class Controleur():
                 self.actions.append([i,"envoyermessage",[envoyeur,recipiendaire,message]])
                 print("Msg envoie a ",i)
         else:
-            self.actions.append([self.monnom,"envoyermessage",[envoyeur,recipiendaire,message]])
-            self.actions.append([recipiendaire,"envoyermessage",[envoyeur,recipiendaire,message]])
+            if recipiendaire== self.monnom:
+                self.actions.append([recipiendaire,"envoyermessage",[envoyeur,recipiendaire,message]])
+            else:
+                self.actions.append([self.monnom,"envoyermessage",[envoyeur,recipiendaire,message]])
+                self.actions.append([recipiendaire,"envoyermessage",[envoyeur,recipiendaire,message]])
 
     def reclamersyssolaire(self,idsyssolaire,proprietaire):
         coul = None
