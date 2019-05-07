@@ -447,7 +447,7 @@ class Vue():
                     print (t[2])
                 elif t[1]=="flotte":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
-                    self.vues["Solaire"].versGalaxie.config(state=ACTIVE, command = lambda  : self.vues["Solaire"].envoyerVersGalaxie(t,self.mod)) 
+                    self.vues["Solaire"].versGalaxie.config(state=ACTIVE, command = lambda  : self.vues["Solaire"].envoyerVersGalaxie(t,self.mod))
                 elif t[1]=="planete":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
                 elif t[1] is not None:
@@ -480,7 +480,7 @@ class Vue():
                     #self.mod.joueurs[nom].setbuffer(s[1])
                 elif s[1]=="flotte":
                     self.vues["Galaxie"].cliquecosmos(CURRENT)
-                    self.vues["Galaxie"].versSoleil.config(state=ACTIVE, command = lambda  : self.vues["Galaxie"].envoyerVersSoleil(s,self.mod)) 
+                    self.vues["Galaxie"].versSoleil.config(state=ACTIVE, command = lambda  : self.vues["Galaxie"].envoyerVersSoleil(s,self.mod))
 
     def updateInfosJoueur(self,mod):
         self.nbnourriture.config(text=self.mod.joueurs[self.nom].nourriture)
@@ -521,7 +521,7 @@ class VueSolaire():
     def envoyerVersGalaxie(self,t,mod):
         self.mod=mod
         self.t=t
-        
+
         for vais in self.mod.joueurs[self.parent.nom].flotteSystemeSolaire:
             if int(t[2])==vais.id:
                 vais.changerVueVaisseau(vais.solaire)
@@ -739,7 +739,7 @@ class VuePlanete():
         self.cadreinfo=Frame(self.parent.cadreoutils)
         self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
         self.canevasPlanete.grid(row = 0, column =1)
-        self.cadreStruct = Frame(self.parent.cadreoutils)
+        self.cadreStruct = Frame(self.cadreinfo)
 
 
         self.newStruct = Button(self.cadreStruct,text="Nouvelle Structure",bg="DeepSkyBlue2" , command = lambda: self.menuStructPlanete())
@@ -1000,7 +1000,7 @@ class VueGalaxie():
     def envoyerVersSoleil(self,t,mod):
         self.mod=mod
         self.t=t
-        
+
         for vais in self.mod.joueurs[self.parent.nom].flotteSystemeSolaire:
             if int(t[2])==vais.id:
                 vais.changerVueVaisseau(vais.solaire)
