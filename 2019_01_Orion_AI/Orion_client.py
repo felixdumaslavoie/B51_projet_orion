@@ -148,17 +148,26 @@ class Controleur():
     def creervaisseau(self):
         self.actions.append([self.monnom,"creervaisseau",""])
 
+    def changerVueVaisseau(self,idSoleil):
+        self.actions.append([self.monnom,"changevuevaisseau", [idSoleil]])
+
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])
 
+    def cibleretoile(self,idorigine,iddestination):
+        self.actions.append([self.monnom,"cibleretoile",[idorigine,iddestination]])
 
     def envoyermessage(self,envoyeur, recipiendaire,message):
-        if recipiendaire=="tous":
+        if recipiendaire=="Tous":
             for i in self.modele.joueurs.keys():
                 self.actions.append([i,"envoyermessage",[envoyeur,recipiendaire,message]])
+                print("Msg envoie a ",i)
         else:
-            self.actions.append([self.monnom,"envoyermessage",[envoyeur,recipiendaire,message]])
-            self.actions.append([recipiendaire,"envoyermessage",[envoyeur,recipiendaire,message]])
+            if recipiendaire== self.monnom:
+                self.actions.append([recipiendaire,"envoyermessage",[envoyeur,recipiendaire,message]])
+            else:
+                self.actions.append([self.monnom,"envoyermessage",[envoyeur,recipiendaire,message]])
+                self.actions.append([recipiendaire,"envoyermessage",[envoyeur,recipiendaire,message]])
 
     def reclamersyssolaire(self,idsyssolaire,proprietaire):
         coul = None

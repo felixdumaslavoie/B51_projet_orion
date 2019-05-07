@@ -22,7 +22,7 @@ class Galaxie():
         self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.listeNomPlanete = self.txtNomPlanete.readlines()
-        self.nbSysSolaire=5
+        self.nbSysSolaire=120
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
@@ -175,8 +175,8 @@ class Structure():
     Raffinerie_Isotope=["Raffinerie_Isotope",175,250,3,2]
     Ferme=["Ferme",75,50,1,2]
     Capitale=["Capitale",300,5000,10,100]
-    
-    
+
+
     #Ferme={"Ferme",75,50,1,2}
     #Capitale={"Capitale",300,5000,10,100}
 
@@ -255,12 +255,12 @@ class Capitale(Structure):
         self.maintenance=Structure.Capitale[2]
         self.production=Structure.Capitale[3]
 
-class Projectile():
-    def __init__(self,x,y,targetX,targetY):
-        self.x = x
-        self.y = y
-        self.targetX = targetX
-        self.targetY = targetY
+# class Projectile():
+#     def __init__(self,x,y,targetX,targetY):
+#         self.x = x
+#         self.y = y
+#         self.targetX = targetX
+#         self.targetY = targetY
 
 class Vaisseau():
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau_Militaire"):
@@ -269,11 +269,12 @@ class Vaisseau():
         self.proprietaire=nom
         self.x=x
         self.y=y
+        self.solaire=solaireMere
         self.espaceCourant = solaireMere
         self.cible=None
         self.vaisseauCible = None
         self.nomVaisseau=nomVaisseau
-        self.projectile=[];
+        self.projectile=[]
 
 
         if nomVaisseau=="Vaisseau_Militaire":
@@ -281,7 +282,7 @@ class Vaisseau():
             self.energie=400
             self.vitesse=1
             self.range=200
-            self.distMax = self.getDistance()
+           # self.distMax = self.getDistance()
 
         if nomVaisseau=="Vaisseau_Civil":
             self.cargo=100
@@ -296,13 +297,14 @@ class Vaisseau():
             x1,y1=hlp.getAngledPoint(ang,self.vitesse,self.x,self.y)
             self.x,self.y=x1,y1 #int(x1),int(y1)
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
-                print("RESSOURCES...",self.cible.id,self.proprietaire,self.espaceCourant.nometoile)
-                if len(self.cible.listeStructure)==0:
-                    self.cible.proprietaire=self.proprietaire
-                    #self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
-                    self.parent.parent.parent.reclamersyssolaire(self.cible.id,self.proprietaire)
-                #tempo=input("Continuersvp")
-                #self.checkIfInRangeSolaire()
+                #print("RESSOURCES...",self.cible.id,self.proprietaire,self.espaceCourant.nometoile)
+                if type(self.cible).__name__=="Planete":
+                    if len(self.cible.listeStructure)==0:
+                        self.cible.proprietaire=self.proprietaire
+                     #self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
+                        self.parent.parent.parent.reclamersyssolaire(self.cible.id,self.proprietaire)
+                    #tempo=input("Continuersvp")
+                    #self.checkIfInRangeSolaire()
                 self.cible=None
                 print("Change cible")
         else:
@@ -324,12 +326,21 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
-    def getDistance(self):
-        self.distanceX = self.x + self.range
-        self.distanceY = self.y + self.range
-        dist = math.sqrt((self.distanceX - self.x)**2 + (self.distanceY - self.y)**2)
+    def changerVueVaisseau(self,Soleil):
+        if self.espaceCourant is not None:
+            self.espaceCourant=None
+            self.x=Soleil.x
+            self.y=Soleil.y
+        elif (self.espaceCourant==None):
+            self.espaceCourant=Soleil
+            self.x=100
+            self.y=100
+    # def getDistance(self):
+    #     self.distanceX = self.x + self.range
+    #     self.distanceY = self.y + self.range
+    #     dist = math.sqrt((self.distanceX - self.x)**2 + (self.distanceY - self.y)**2)
 
-        return dist
+    #     return dist
 
     # def checkIfInRangeSolaire(self):
     #     listeJoueur = list(self.parent.joueurs.keys())
@@ -341,28 +352,25 @@ class Vaisseau():
     #                 if diffX < self.distMax & diffY < self.distMax:
     #                     self.vaisseauCible = j
 
-    def creerProjectiles(self,name,targetX,targetY):
-        self.monnom = name
-        self.tX = targetX
-        self.tY = targetY
+    # def creerProjectiles(self,name,targetX,targetY):
+    #     self.monnom = name
+    #     self.tX = targetX
+    #     self.tY = targetY
 
-        listeJoueur = list(self.parent.joueurs.keys())
-        for i in listeJoueur:
-            if i.nom == self.nom:
-                pass
+    #     listeJoueur = list(self.parent.joueurs.keys())
+    #     for i in listeJoueur:
+    #         if i.nom == self.nom:
+    #             pass
 
-
-
-
-    def deleteProj(self):
-        for i in self.projectile:
-            if i.x == i.targetX & i.Y == i.targetY:
-                self.projectile.remove(i)
+    # def deleteProj(self):
+    #     for i in self.projectile:
+    #         if i.x == i.targetX & i.Y == i.targetY:
+    #             self.projectile.remove(i)
 
 
 
-    def checkIfInRangeGalaxie(self):
-        pass
+    # def checkIfInRangeGalaxie(self):
+    #     pass
 
 
 class Joueur():
@@ -383,7 +391,8 @@ class Joueur():
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte,
                       "creerStructure":self.creerStructure,
-                      "envoyermessage":self.envoyermessage}
+                      "envoyermessage":self.envoyermessage,
+                      "cibleretoile":self.cibleretoile}
                                                                                                                                                              
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
@@ -392,8 +401,8 @@ class Joueur():
                          "Raffinerie (Isotope)":RaffinerieIsotope,
                          "Ferme":Ferme,
                          "Capitale":Capitale}
-        
-                      
+
+
         self.credit=1000
         self.nourriture=1000
         self.deuterium=5
@@ -403,7 +412,7 @@ class Joueur():
     def envoyermessage(self, params):
         envoyeur, recipiendaire, msg = params
         self.messages.append([envoyeur,recipiendaire,msg])
-        print(self.nom,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        #print(self.nom,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         """
         if envoyeur == self.parent.parent.monnom:
             self.messages.append([envoyeur,recipiendaire,msg])
@@ -442,17 +451,17 @@ class Joueur():
 
     def creerStructure(self,params):
         planete = None
-        
+
         joueur,nomstruct,idplanete,x,y=params
-        
+
         for i in (self.parent.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
-                    
+
         structure=self.structures[nomstruct]
         planete.listeStructure.append(structure)
-        
+
         print(structure,joueur,nomstruct,idplanete,x,y)
         print()
         #t=Structure(self,idplanete,nomstruct,x,y)
@@ -475,7 +484,16 @@ class Joueur():
                         i.cible=j
                         print("GOT TARGET:", j.id)
                         return
-
+    def cibleretoile(self,ids):
+        idori,iddesti=ids
+        
+        for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
+            if i.id== int(idori):
+                for j in self.parent.Galaxie.listeSysSolaire: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
+                    if j.id== int(float(iddesti)):
+                        i.cible=j
+                        print("GOT TARGET:", j.id)
+                        return
 
     def prochaineaction(self):
         for i in self.flotteSystemeSolaire:
@@ -596,7 +614,7 @@ class Modele():
         # IA- appelle prochaine action
         for i in self.ias:
             i.prochaineaction()
-            
+
 
 batiments={"Usine_Civile":["Usine_Civile",100,150,1,0,UsineCivile],
            "Usine_Militaire":["Usine_Militaire",200,225,2,0,UsineMilitaire],
