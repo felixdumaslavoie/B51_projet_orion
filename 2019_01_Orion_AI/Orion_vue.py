@@ -518,10 +518,10 @@ class VueSolaire():
         self.mod=mod
         self.t=t
 
+
         for vais in self.mod.joueurs[self.parent.nom].flotteSystemeSolaire:
             if int(t[2])==vais.id:
-                vais.changerVueVaisseau(vais.solaire)
-
+                self.mod.joueurs[t[0]].changerVueVaisseau(vais.solaire,vais)
 
     def afficherdecorSolaire(self,mod):
         self.mod = mod
