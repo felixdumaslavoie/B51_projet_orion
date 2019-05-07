@@ -446,6 +446,7 @@ class Vue():
                     self.vues["Solaire"].versGalaxie.config(state=ACTIVE, command = lambda  : self.vues["Solaire"].envoyerVersGalaxie(t,self.mod))
                 elif t[1]=="planete":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
+                    self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                 elif t[1] is not None:
                     self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
@@ -712,8 +713,6 @@ class VueSolaire():
 
     def montreplaneteselection(self):
         self.newVais.grid(row=7,column=0)
-    #def montreflotteselection(self):
-       # self.lbselectecible.pack()
 
 
 class VuePlanete():
