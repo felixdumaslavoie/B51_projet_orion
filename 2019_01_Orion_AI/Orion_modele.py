@@ -232,7 +232,7 @@ class RaffinerieCharbon(Structure):
         self.production=Structure.Raffinerie_Charbon[3]
 
 class RaffinerieIsotope(Structure):
-    def __init__(self,joueur,idplanete,nomstruct,x,yure):
+    def __init__(self,joueur,idplanete,nomstruct,x,y):
         super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Isotope[0]
         self.cout=Structure.Raffinerie_Isotope[1]
