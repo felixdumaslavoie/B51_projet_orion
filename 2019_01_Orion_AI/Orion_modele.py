@@ -406,7 +406,7 @@ class Joueur():
                          "Raffinerie (Isotope)":RaffinerieIsotope,
                          "Ferme":Ferme,
                          "Capitale":Capitale}
-
+        self.cooldownRessource = 100
 
         self.credit=1000
         self.nourriture=1000
@@ -495,7 +495,7 @@ class Joueur():
 
     def updaterRessources(self):
         self.timer+=1
-        if self.timer >= 100:
+        if self.timer >= self.cooldownRessource:
             self.nourriture += 50
             self.credit += 10
             self.deuterium += 2
@@ -534,8 +534,15 @@ class Joueur():
             i.avancer()
 
     def avancementTechno(self,nomAvancement):
-        self.avanc = nomAvancement
-        print(self.avanc)
+        self.avanc = nomAvancement[0]
+        print(self.cooldownRessource)
+        if self.avanc == "Bonus Production":
+            self.cooldownRessource = 95
+        elif self.avanc == "Bonus Production x 2":
+            self.cooldownRessource = 85
+        elif self.avanc == "Bonus Production x 4":
+            self.cooldownRessource = 55 # calcul weird
+
 
 
     def reclamerplanete(self,idplanete,proprietaire):
