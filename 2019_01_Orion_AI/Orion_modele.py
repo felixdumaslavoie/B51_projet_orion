@@ -396,6 +396,7 @@ class Joueur():
                       "envoyermessage":self.envoyermessage,
                       "cibleretoile":self.cibleretoile,
                       "changervuevaisseau":self.changerVueVaisseau,
+                      "avancementTechno":self.avancementTechno,
                       "reclamerplanete":self.reclamerplanete}
 
         self.structures={"Usine Civile":UsineCivile,
@@ -405,7 +406,7 @@ class Joueur():
                          "Raffinerie (Isotope)":RaffinerieIsotope,
                          "Ferme":Ferme,
                          "Capitale":Capitale}
-
+        self.cooldownRessource = 100
 
         self.credit=1000
         self.nourriture=1000
@@ -494,7 +495,7 @@ class Joueur():
 
     def updaterRessources(self):
         self.timer+=1
-        if self.timer >= 100:
+        if self.timer >= self.cooldownRessource:
             self.nourriture += 50
             self.credit += 10
             self.deuterium += 2
@@ -532,10 +533,22 @@ class Joueur():
         for i in self.flotteSystemeSolaire:
             i.avancer()
 
+    def avancementTechno(self,nomAvancement):
+        self.avanc = nomAvancement[0]
+        print(nomAvancement)
+        if self.avanc == "Bonus production":
+            self.cooldownRessource = 95
+        elif self.avanc == "Bonus production x 2":
+            self.cooldownRessource = 85
+        elif self.avanc == "Bonus production x 4":
+            self.cooldownRessource = 55 # calcul weird
+
+
+
     def reclamerplanete(self,idplanete,proprietaire):
         print(idplanete, coul)
         self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
-# IA- nouvelle classe de joueur
+
 class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)

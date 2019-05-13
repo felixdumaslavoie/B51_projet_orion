@@ -184,6 +184,9 @@ class Controleur():
     def creerStructure(self,joueur,nomstruct,idplanete,x,y):
         self.actions.append([self.monnom,"creerStructure",[joueur,nomstruct,idplanete,x,y]])
 
+    def avancementTechno(self,nomAvance):
+        self.actions.append([self.monnom,"avancementTechno",[nomAvance]])
+
 if __name__=="__main__":
     c=Controleur()
     print("End Orion_mini")

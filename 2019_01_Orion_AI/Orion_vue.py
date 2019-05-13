@@ -50,6 +50,8 @@ class Vue():
 
         self.couleurinfo="gray"
         self.couleurbouton="gray33"
+        self.labfont="Helvetica",20,"bold"
+        self.infofont="Helvetica",12,"bold"
         self.cadrejeu.grid(row=1, column=0)
         self.mod=None
 
@@ -160,32 +162,34 @@ class Vue():
         self.cadre = cadre
         self.mod = mod
 
-        self.labcouleur=Label(self.cadre,text="Couleur:",bg=self.couleurinfo)
+        self.labcouleur=Label(self.cadre,text="Couleur:",bg=self.couleurinfo, font=self.infofont)
         self.idcouleur=Label(self.cadre, bg=self.mod.joueurs[self.nom].couleur )
-        self.btndiplomatie=Button(self.cadre,text="Diplomatie",bg=self.couleurinfo)
         # ajouter text variable
-        self.labcouttotal=Label(self.cadre,text="Cout Total:",bg=self.couleurinfo)
-        self.nbcouttotal=Label(self.cadre,text="-" ,bg=self.couleurinfo)
+        self.labcouttotal=Label(self.cadre,text="Cout Total:",bg=self.couleurinfo, font=self.infofont)
+        self.nbcouttotal=Label(self.cadre,text="-" ,bg=self.couleurinfo, font=self.infofont)
 
-        self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo)
+        self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo, font=("Helvetica",14,"bold"))
         self.btnarbretech.bind("<Button-1>",self.toggleBtnTechno)
 
-        self.labcredit=Label(self.cadre, text="Credit:",bg=self.couleurinfo)
-        self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo)
+        self.labcredit=Label(self.cadre, text="Credit:",bg=self.couleurinfo, font=self.infofont)
+        self.nbcredit=Label(self.cadre, text=self.mod.joueurs[self.nom].credit,bg=self.couleurinfo, font=self.infofont)
 
-        self.labnourriture= Label(self.cadre, text="Nourriture:",bg=self.couleurinfo)
-        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo)
+        self.labnourriture= Label(self.cadre, text="Nourriture:",bg=self.couleurinfo, font=self.infofont)
+        self.nbnourriture=Label(self.cadre, text=self.mod.joueurs[self.nom].nourriture,bg=self.couleurinfo, font=self.infofont)
 
-        self.labdeuterium= Label(self.cadre, text="Deuterium:",bg=self.couleurinfo)
-        self.nbdeuterium=Label(self.cadre, text=self.mod.joueurs[self.nom].deuterium,bg=self.couleurinfo)
+        self.labdeuterium= Label(self.cadre, text="Deuterium:",bg=self.couleurinfo, font=self.infofont)
+        self.nbdeuterium=Label(self.cadre, text=self.mod.joueurs[self.nom].deuterium,bg=self.couleurinfo, font=self.infofont)
 
-        self.labmoral= Label(self.cadre, text="Moral:",bg=self.couleurinfo)
-        self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo)
+        self.labmoral= Label(self.cadre, text="Moral:",bg=self.couleurinfo, font=self.infofont)
+        self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo, font=self.infofont)
+
+        self.labespacement=Label(self.cadreinfojoueur, text="", bg=self.couleurinfo)
+        self.labaffichagevue=Label(self.cadreinfojoueur, text="Vues", bg=self.couleurbouton, font=self.labfont)
         # boutons et bind
-        self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton)
-        self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton)
-        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton)
-        self.bsolairemere=Button(self.cadreinfojoueur,text="SolaireMere",bg=self.couleurbouton)
+        self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton, font=self.infofont)
+        self.bsolaire=Button(self.cadreinfojoueur,text="Solaire",bg=self.couleurbouton, font=self.infofont)
+        self.bplanete=Button(self.cadreinfojoueur,text="Planete",bg=self.couleurbouton, font=self.infofont)
+        self.bsolairemere=Button(self.cadreinfojoueur,text="SolaireMere",bg=self.couleurbouton, font=self.infofont)
         # call fct to grid
         self.gridCadreInfoJoueur(self.cadre,self.mod)
 
@@ -195,24 +199,25 @@ class Vue():
 
         self.labcouleur.grid(row=0,column=0)
         self.idcouleur.grid(row=0,column=1)
-        self.labcouttotal.grid(row=0,column=2,)
+        self.labcouttotal.grid(row=0,column=2)
         self.nbcouttotal.grid(row=0,column=3)
         # ajout text var
         self.labcredit.grid(row=1,column=0)
         self.nbcredit.grid(row=1,column=1)
         self.labnourriture.grid(row=1,column=2)
         self.nbnourriture.grid(row=1,column=3)
-        self.labdeuterium.grid(row=1,column=4)
-        self.nbdeuterium.grid(row=1,column=5)
-        self.labmoral.grid(row=1,column=6)
-        self.nbmoral.grid(row=1,column=7)
+        self.labdeuterium.grid(row=0,column=4)
+        self.nbdeuterium.grid(row=0,column=5)
+        self.labmoral.grid(row=1,column=4)
+        self.nbmoral.grid(row=1,column=5)
+        self.labaffichagevue.grid(row=4, column=0, columnspan=1, sticky=W+E)
+        self.labespacement.grid(row=5, column=0, columnspan=3, sticky=W+E)
         # boutons
-        self.btndiplomatie.grid(row=0,column=4)
-        self.btnarbretech.grid(row=0,column=5)
-        self.bgalaxie.grid(row = 1, column =8)
-        self.bsolaire.grid(row = 1, column =9)
-        self.bplanete.grid(row = 1, column =10)
-        self.bsolairemere.grid(row=1,column=11)
+        self.btnarbretech.grid(row=0,column=6, columnspan=2, rowspan=2, sticky=N+S)
+        self.bgalaxie.grid(row = 6, column =0, sticky=W+E)
+        self.bsolaire.grid(row = 7, column =0, sticky=W+E)
+        self.bplanete.grid(row = 8, column =0, sticky=W+E)
+        self.bsolairemere.grid(row=9,column=0, sticky=W+E)
         self.bsolairemere.config(state=NORMAL, command = lambda : self.combinedactions())
 
     def creeraffichercadrepartie(self,mod):
@@ -227,7 +232,7 @@ class Vue():
 
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
         self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
-        self.cadreinfojoueur.grid(row=0, column=0)
+        self.cadreinfojoueur.grid(row=0, column=0, sticky=W+E+N+S)
         self.cadreMessagerie.grid(row=0, column=1)
 
         # fonction création des infos joueurs
@@ -250,27 +255,31 @@ class Vue():
         self.listeMessage=Listbox(self.cadreMessagerie, fg="blue",width=40)
         self.scrollMessage=Scrollbar(self.cadreMessagerie, orient=VERTICAL)
         self.entryMessage=Entry(self.cadreMessagerie)
-        self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.envoyerMessage)
-        self.labDiplomatie=Label(self.cadreMessagerie, text="Diplomatie")
-        self.btnAlliance=Button(self.cadreMessagerie, text="Alliance", fg="blue")
-        self.btnGuerre=Button(self.cadreMessagerie, text="Guerre", bg="red")
-        #self.btnAllianceGuerriere=Button(self.cadreMessagerie, text="Alliance guerrière")
-        #self.btnPaix=Button(self.cadreMessagerie, text="Paix")
+        self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.envoyerMessage, width=10)
+
+
+        self.labDiplomatie=Label(self.cadreinfojoueur, text="Diplomatie", font=self.labfont)
+        self.btnAlliance=Button(self.cadreinfojoueur, text="Alliance", bg="blue", font=self.infofont)
+        self.btnGuerre=Button(self.cadreinfojoueur, text="Guerre", bg="red", font=self.infofont)
+        self.btnAllianceGuerriere=Button(self.cadreinfojoueur, text="Pacte Guerre",bg="green", font=self.infofont)
+        self.btnPaix=Button(self.cadreinfojoueur, text="Paix", bg="white", font=self.infofont)
 
         # création de la liste de joueur
         #print(list(self.mod.joueurs.keys()))
 
         # création du grid
         self.labMessagerie.grid(row=0, columnspan=2, sticky=W+E)
-        self.listeMessage.grid(row=1, column=0)
+        self.listeMessage.grid(row=1, column=0, sticky=W+E)
         self.scrollMessage.grid(row=1, column=1, sticky=W+E+N+S)
-        self.entryMessage.grid(row=3, column=0)
-        self.envoiMessage.grid(row=3, column=1)
-        self.labDiplomatie.grid(row=4, columnspan=2, sticky=W+E)
-        self.btnAlliance.grid(row=5, column=0, sticky=W+E)
-        self.btnGuerre.grid(row=5, column=1, sticky=W+E)
-        #self.btnAllianceGuerriere(row=5, column=2)
-        #self.btnPaix(row=5, column=2)
+        self.entryMessage.grid(row=3, column=0, sticky=W+E+N+S)
+        self.envoiMessage.grid(row=3, column=1, sticky=W)
+
+
+        self.labDiplomatie.grid(row=4, column=2, columnspan=2, sticky=W+E)
+        self.btnAlliance.grid(row=8, column=2, columnspan=2, sticky=W+E)
+        self.btnGuerre.grid(row=6, column=2, columnspan=2, sticky=W+E)
+        self.btnAllianceGuerriere.grid(row=9, column=2, columnspan=2, sticky=W+E)
+        self.btnPaix.grid(row=7, column=2, columnspan=2, sticky=W+E)
 
 
     def choix(self, *args):
@@ -383,48 +392,74 @@ class Vue():
         self.btnMilit=Button(self.cadreArbreTechno,text="Militaire",height=1, width = 14, bg = "light gray")
         self.btnScience=Button(self.cadreArbreTechno,text="Science",height=1, width = 14, bg = "light gray")
         ## placement buttons
-        self.cadreArbreTechno.create_window(0, 0, anchor=NW, window=self.btnEco, tags=("onglet Eco"))
-        self.cadreArbreTechno.create_window(100, 0, anchor=NW, window=self.btnMilit, tags=("onglet Milit"))
-        self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet Science"))
+        self.cadreArbreTechno.create_window(0, 0, anchor=NW, window=self.btnEco, tags=("onglet", "Eco"))
+        self.cadreArbreTechno.create_window(100, 0, anchor=NW, window=self.btnMilit, tags=("onglet", "Milit"))
+        self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet", "Science"))
         # avancement
-        self.avac1 = self.cadreArbreTechno.create_rectangle(40, 90, 70, 120, fill="light gray", tags=("Avancement 1"))
-        self.cadreArbreTechno.create_rectangle(160, 60, 190, 90, fill="azure", tags=("Avancement 2"))
-        self.cadreArbreTechno.create_rectangle(160, 120, 190, 150, fill="misty rose", tags=("Avancement 3"))
-        self.cadreArbreTechno.create_rectangle(270, 60, 300, 90, fill="deep pink", tags=("Avancement 4"))
-        self.cadreArbreTechno.create_rectangle(270, 120, 300, 150, fill="plum1", tags=("Avancement 5"))
-        # lines
-        self.cadreArbreTechno.create_line(70,105,160,75) #  avance 1 to 2
-        self.cadreArbreTechno.create_line(190,75,270,75) #  avance 2 to 4
-        self.cadreArbreTechno.create_line(70,105,160,135) # avance 1 to 3
-        self.cadreArbreTechno.create_line(190,135,270,135) #avance 3 to 5
-
-        self.cadreArbreTechno.bind( "<Button>",self.actionElemTech)
+        self.btnAvac1 = Button(self.cadreArbreTechno, text = "Bonus production", height =1 , width = 14,bg = "light gray" )
+        self.btnAvac2 = Button(self.cadreArbreTechno, text = "Bonus production x 2", height =1 , width = 16,bg = "light gray" )
+        self.btnAvac3 = Button(self.cadreArbreTechno, text = "Couts Reduit", height =1 , width = 16,bg = "light gray" )
+        self.btnAvac4 = Button(self.cadreArbreTechno, text = "Bonus production x 4", height =1 , width = 16,bg = "light gray" )
+        self.btnAvac5 = Button(self.cadreArbreTechno, text = "Couts Reduit x 2", height =1 , width = 16,bg = "light gray" )
+        # ajout sur canvevas
+        self.cadreArbreTechno.create_window(60,110,window = self.btnAvac1)
+        self.cadreArbreTechno.create_window(130,70,window = self.btnAvac2)
+        self.cadreArbreTechno.create_window(130,150,window = self.btnAvac3)
+        self.cadreArbreTechno.create_window(270,70,window = self.btnAvac4)
+        self.cadreArbreTechno.create_window(270,150,window = self.btnAvac5)
+        # ajout des lignes
+        self.cadreArbreTechno.create_line(105,100,145,75) #  avance 1 to 2
+        self.cadreArbreTechno.create_line(190,68,270,68) #  avance 2 to 4
+        self.cadreArbreTechno.create_line(70,105,150,135) # avance 1 to 3
+        self.cadreArbreTechno.create_line(190,150,270,150) #avance 3 to 5
+        # ajouts des binds
         self.btnEco.bind("<Button>", self.actionOngletEco)
         self.btnMilit.bind("<Button>", self.actionOngletMilit)
         self.btnScience.bind("<Button>", self.actionOngletScience)
 
-        self.ongletActif = "ongltEco" # default
-        self.avancement = 1
+        self.btnAvac1.bind("<Button>", self.actionElemTech)
+        self.btnAvac2.bind("<Button>", self.actionElemTech)
+        self.btnAvac3.bind("<Button>", self.actionElemTech)
+        self.btnAvac4.bind("<Button>", self.actionElemTech)
+        self.btnAvac5.bind("<Button>", self.actionElemTech)
+
+
+
+
+        self.actionOngletEco(self)
 
     def actionOngletEco(self,event):
         self.ongletActif = "economie"
-        #self.avac1.config(tags="BonusCash")
+
+        self.btnAvac1.config(text = "Bonus production")
+        self.btnAvac2.config(text = "Bonus production x 2")
+        self.btnAvac3.config(text = "Couts Reduit")
+        self.btnAvac4.config(text = "Bonus production x 4")
+        self.btnAvac5.config(text = "Couts Reduit x 2")
 
     def actionOngletMilit(self,event):
         self.ongletActif = "Militaire"
 
+        self.btnAvac1.config(text = "Vaisseau plus rapide")
+        self.btnAvac2.config(text = "Vaisseau tir rapide")
+        self.btnAvac3.config(text = "Vaisseau plus durable")
+        self.btnAvac4.config(text = "Vaisseau laser")
+        self.btnAvac5.config(text = "Vaisseau plus fort")
+
     def actionOngletScience(self,event):
         self.ongletActif = "Science"
 
+        self.btnAvac1.config(text = "PlaceHolder")
+        self.btnAvac2.config(text = "PlaceHolder")
+        self.btnAvac3.config(text = "PlaceHolder")
+        self.btnAvac4.config(text = "PlaceHolder")
+        self.btnAvac5.config(text = "PlaceHolder")
+
+
     def actionElemTech(self,event):
-        item=self.cadreArbreTechno.gettags(CURRENT)
-
-        if item:
-            if item[0] == "Avancement":
-                self.avancement = item[1]
-                #fonctionModele(self.onglet,item[1])
-                #print(item[1],self.ongletActif)
-
+        avancement = event.widget.cget("text")
+        if avancement:
+            self.parent.avancementTechno(avancement)
 
 
     def CliqueVueSySsolaire(self,canvas,mod):
