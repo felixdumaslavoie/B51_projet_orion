@@ -535,12 +535,12 @@ class Joueur():
 
     def avancementTechno(self,nomAvancement):
         self.avanc = nomAvancement[0]
-        print(self.cooldownRessource)
-        if self.avanc == "Bonus Production":
+        print(nomAvancement)
+        if self.avanc == "Bonus production":
             self.cooldownRessource = 95
-        elif self.avanc == "Bonus Production x 2":
+        elif self.avanc == "Bonus production x 2":
             self.cooldownRessource = 85
-        elif self.avanc == "Bonus Production x 4":
+        elif self.avanc == "Bonus production x 4":
             self.cooldownRessource = 55 # calcul weird
 
 
