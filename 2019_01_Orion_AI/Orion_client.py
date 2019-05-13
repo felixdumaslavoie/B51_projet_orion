@@ -144,8 +144,8 @@ class Controleur():
     def creervaisseau(self):
         self.actions.append([self.monnom,"creervaisseau",""])
 
-    def changerVueVaisseau(self,vais,isSol):
-        self.actions.append([self.monnom,"changervuevaisseau", [vais,isSol]])
+    def changerVueVaisseau(self,idVais,idEspace,idSol):
+        self.actions.append([self.monnom,"changervuevaisseau", [idVais,idEspace,idSol]])
 
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])
@@ -165,19 +165,18 @@ class Controleur():
                 self.actions.append([self.monnom,"envoyermessage",[envoyeur,recipiendaire,message]])
                 self.actions.append([recipiendaire,"envoyermessage",[envoyeur,recipiendaire,message]])
 
-    def reclamersyssolaire(self,idsyssolaire,proprietaire):
+    def reclamerplanete(self,idplanete,proprietaire):
         coul = None
         if proprietaire in self.modele.joueurs.keys():
-#            print(idplanete,self.modele.joueurs[proprietaire])
+            print(idplanete,self.modele.joueurs[proprietaire])
             coul = self.modele.joueurs[proprietaire].couleur
         else:
             for i in self.modele.ias:
                 if i.nom == proprietaire:
                     coul = i.couleur
-
-        print(idsyssolaire, coul)
-        self.vue.vues["Solaire"].changerProprietaire(idsyssolaire,coul)
-
+        print(idplanete, coul)
+        self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
+        
     def creerProjectile(self,targetX,targetY):
         self.actions.append([self.monnom,"creerProjectile",[targetX,targetY]])
 
