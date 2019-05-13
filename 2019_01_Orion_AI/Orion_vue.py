@@ -691,9 +691,13 @@ class VueSolaire():
                 self.montreplaneteselection()
             elif t[1] == "flotte":
                 pass
-            elif "planeteMere" in t and t[0]==self.parent.nom and self.maselection2:
-                self.parent.parent.ciblerflotte(self.maselection2[2],t[2])
+           # elif "planeteMere" in t and t[0]==self.parent.nom and self.maselection2:
+                #self.parent.parent.ciblerflotte(self.maselection2[2],t[2])
+                #self.maselection2=None
                # self.montreflotteselection()
+        elif "planeteMere" in t and t[0]==self.parent.nom and self.maselection2:
+                self.parent.parent.ciblerflotte(self.maselection2[2],t[2])
+                self.maselection2=None
         elif "planeteMere" in t and t[0]!=self.parent.nom:
                 self.parent.parent.ciblerflotte(self.maselection[2],t[2])
         elif "planete" in t and t[0]!=self.parent.nom:
@@ -704,6 +708,8 @@ class VueSolaire():
             self.maselection=None
            # self.lbselectecible.pack_forget()
             self.canevasSolaire.delete("marqueur")
+        elif "flotte" in t :
+            self.maselection=None
         else:
             print("Region inconnue")
             self.maselection=None
