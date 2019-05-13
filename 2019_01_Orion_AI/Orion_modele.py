@@ -395,8 +395,8 @@ class Joueur():
                       "creerStructure":self.creerStructure,
                       "envoyermessage":self.envoyermessage,
                       "cibleretoile":self.cibleretoile,
-                      "changerVueVaisseau":self.changerVueVaisseau}
-                                                                                                                                                             
+                      "changervuevaisseau":self.changerVueVaisseau}
+
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
                          "Raffinerie (Diamant)":RaffinerieDiamant,
@@ -412,16 +412,26 @@ class Joueur():
         self.timer=0
         self.messages=[]
 
-    def changerVueVaisseau(self,Soleil,vais):
-        self.vais=vais
+    def changerVueVaisseau(self,info):
+        idvais,idSoleil=info
+        for i in self.flotteSystemeSolaire:
+            if i.id==int(idvais):
+                self.vais=i
+        if idSoleil != "None":
+            for etoile in self.parent.Galaxie.listeSysSolaire:
+                if etoile.id==int(idSoleil):
+                    self.Soleil=etoile
         if self.vais.espaceCourant is not None:
+            self.vais.solaire=self.Soleil
             self.vais.espaceCourant=None
-            self.x=Soleil.x
-            self.y=Soleil.y
+            self.vais.x=self.Soleil.x
+            self.vais.y=self.Soleil.y
+            return
         elif (self.vais.espaceCourant==None):
-            self.vais.espaceCourant=Soleil
-            self.x=100
-            self.y=100
+            self.vais.espaceCourant=self.Soleil
+            self.vais.x=100
+            self.vais.y=100
+            return
 
 
     def envoyermessage(self, params):
@@ -501,7 +511,7 @@ class Joueur():
                         return
     def cibleretoile(self,ids):
         idori,iddesti=ids
-        
+
         for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
             if i.id== int(idori):
                 for j in self.parent.Galaxie.listeSysSolaire: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
