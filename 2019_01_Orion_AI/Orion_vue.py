@@ -997,10 +997,16 @@ class VueGalaxie():
     def envoyerVersSoleil(self,t,mod):
         self.mod=mod
         self.t=t
-
+        self.etoile
+        self.vaisseau
+        
         for vais in self.mod.joueurs[self.parent.nom].flotteSystemeSolaire:
             if int(t[2])==vais.id:
-                vais.changerVueVaisseau(vais.solaire)
+                self.etoile=vais.solaire
+                self.vaisseau=vais
+        
+        self.mod.parent.changerVueVaisseau(etoile,vais)
+
 
     def afficherdecorGalaxie(self,mod):
         self.mod =mod

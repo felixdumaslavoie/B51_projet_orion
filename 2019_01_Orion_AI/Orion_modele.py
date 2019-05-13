@@ -423,6 +423,7 @@ class Joueur():
             self.x=100
             self.y=100
 
+
     def envoyermessage(self, params):
         envoyeur, recipiendaire, msg = params
         self.messages.append([envoyeur,recipiendaire,msg])
