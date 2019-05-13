@@ -672,7 +672,7 @@ class VueSolaire():
         for i in self.canevasSolaire.find_all():
             if self.canevasSolaire.gettags(i)[2] == str(idplanete):
                 self.canevasSolaire.itemconfig(i, fill=couleur)
-
+#hello
     def cliqueSolaire(self,evt):
         self.newVais.grid_forget()
 

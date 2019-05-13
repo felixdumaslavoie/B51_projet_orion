@@ -458,12 +458,12 @@ class Joueur():
         for i in self.parent.Galaxie.listeSysSolaire:
             if int(i.id) == int(identificateur):
                 self.bufferSelection.insert(0, i)
-                print(type(i).__name__, i.id, "mis dans le buffer")
+                print(type(i).__name__, i.id, "mis dans le buffer etranger")
                 return
             for j in i.listePlanete:
                 if int(j.id) == int(identificateur):
                     self.bufferSelection.insert(0, j)
-                    print(type(j).__name__, j.id, "mis dans le buffer")
+                    print(type(j).__name__, j.id, "mis dans le buffer planete")
                     return
 
     def creervaisseau(self,params):
@@ -504,7 +504,7 @@ class Joueur():
         idori,iddesti=ids
         for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
             if i.id== int(idori):
-                for j in self.planetemere.parent.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
+                for j in i.solaire.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
                     if j.id== int(iddesti):
                         i.cible=j
                         print("GOT TARGET:", j.id)
