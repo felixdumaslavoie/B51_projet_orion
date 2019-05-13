@@ -522,7 +522,7 @@ class VueSolaire():
         self.mod=mod
         self.t=t
 
-        self.parent.parent.changerVueVaisseau(t[2],t[4])
+        self.parent.parent.changerVueVaisseau(t[2],t[4],t[5])
 
     def afficherdecorSolaire(self,mod):
         self.mod = mod
@@ -608,7 +608,7 @@ class VueSolaire():
                 if(j.espaceCourant):
                     if(j.espaceCourant.id ==self.id):
                      self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id)))
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
 
                 #self.canevas.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
                 #                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
@@ -619,7 +619,7 @@ class VueSolaire():
                 if(j.espaceCourant):
                     if(j.espaceCourant.id ==self.id):
                         self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
-                                        tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id)))
+                                        tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
 
         self.parent.updateInfosJoueur(modele)
 
@@ -1006,7 +1006,7 @@ class VueGalaxie():
         #         self.etoile=vais.solaire
         #         self.vaisseau=vais
 
-        self.parent.parent.changerVueVaisseau(t[2],t[4])
+        self.parent.parent.changerVueVaisseau(t[2],t[4],t[5])
 
 
     def afficherdecorGalaxie(self,mod):
@@ -1105,7 +1105,7 @@ class VueGalaxie():
             for j in i.flotteSystemeSolaire:
                  if(j.espaceCourant==None):
                     self.canevasGalaxie.create_rectangle(j.x-10,j.y-10,j.x-4,j.y-4,fill=i.couleur,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact","None"))
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact","None",str(j.solaire.id)))
 
                 #self.canevas.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
                 #                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
@@ -1115,6 +1115,6 @@ class VueGalaxie():
             for j in i.flotteSystemeSolaire:
                  if(j.espaceCourant==None):
                     self.canevasGalaxie.create_rectangle(j.x-10,j.y-10,j.x-4,j.y-4,fill=i.couleur,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact","None"))
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact","None",str(j.solaire.id)))
 
         self.parent.updateInfosJoueur(mod)

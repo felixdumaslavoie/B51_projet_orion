@@ -302,7 +302,7 @@ class Vaisseau():
                     if len(self.cible.listeStructure)==0:
                         self.cible.proprietaire=self.proprietaire
                      #self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
-                        self.parent.parent.parent.reclamersyssolaire(self.cible.id,self.proprietaire)
+                        self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                     #tempo=input("Continuersvp")
                     #self.checkIfInRangeSolaire()
                 self.cible=None
@@ -395,7 +395,8 @@ class Joueur():
                       "creerStructure":self.creerStructure,
                       "envoyermessage":self.envoyermessage,
                       "cibleretoile":self.cibleretoile,
-                      "changervuevaisseau":self.changerVueVaisseau}
+                      "changervuevaisseau":self.changerVueVaisseau,
+                      "reclamerplanete":self.reclamerplanete}
 
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
@@ -413,22 +414,21 @@ class Joueur():
         self.messages=[]
 
     def changerVueVaisseau(self,info):
-        idvais,idSoleil=info
+        idvais,idEspace,idSoleil=info
         for i in self.flotteSystemeSolaire:
             if i.id==int(idvais):
                 self.vais=i
-        if idSoleil != "None":
-            for etoile in self.parent.Galaxie.listeSysSolaire:
-                if etoile.id==int(idSoleil):
-                    self.Soleil=etoile
+        # if idEspace != "None":
+        #     for etoile in self.parent.Galaxie.listeSysSolaire:
+        #         if etoile.id==int(idSoleil):
+        #             self.Soleil=etoile
         if self.vais.espaceCourant is not None:
-            self.vais.solaire=self.Soleil
             self.vais.espaceCourant=None
-            self.vais.x=self.Soleil.x
-            self.vais.y=self.Soleil.y
+            self.vais.x=self.vais.solaire.x
+            self.vais.y=self.vais.solaire.y
             return
         elif (self.vais.espaceCourant==None):
-            self.vais.espaceCourant=self.Soleil
+            self.vais.espaceCourant=self.vais.solaire
             self.vais.x=100
             self.vais.y=100
             return
@@ -517,6 +517,7 @@ class Joueur():
                 for j in self.parent.Galaxie.listeSysSolaire: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
                     if j.id== int(float(iddesti)):
                         i.cible=j
+                        i.solaire=j
                         print("GOT TARGET:", j.id)
                         return
 
@@ -531,6 +532,9 @@ class Joueur():
         for i in self.flotteSystemeSolaire:
             i.avancer()
 
+    def reclamerplanete(self,idplanete,proprietaire):
+        print(idplanete, coul)
+        self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
 # IA- nouvelle classe de joueur
 class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
