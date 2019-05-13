@@ -156,18 +156,23 @@ class Planete():
                 self.viePlanete1+=self.listeStructure[i].vie
         return self.viePlanete1
 
-    def estFertile(self):
-        return self.fertile
+    def ajouterBatiment(self,x,y,nomBatiment):
+        structure = None
+        for i in self.emplacementsDispo:
+            if x == i[0] and y == i[1]:
+             structure = EmplacementsSurPlanete(i[0],i[1],nomBatiment)
+        self.listeStructure.append(structure)
+
 
 class EmplacementsSurPlanete():
-    def _init_(self,x,y):
+    def _init_(self,x,y,structure):
         self.x = x
         self.y = y
         self.structure=None
 
 
 class Structure():
-                #nom structure, vie, cout, maintenance, exctraction
+    #nom structure, vie, cout, maintenance, exctraction
     Usine_Civile=["Usine_Civile",100,150,1,0]
     Usine_Militaire=["Usine_Militaire",200,225,2,0]
     Raffinerie_Diamant=["Raffinerie_Diamant",80,350,6,2]
@@ -255,12 +260,8 @@ class Capitale(Structure):
         self.maintenance=Structure.Capitale[2]
         self.production=Structure.Capitale[3]
 
-# class Projectile():
-#     def __init__(self,x,y,targetX,targetY):
-#         self.x = x
-#         self.y = y
-#         self.targetX = targetX
-#         self.targetY = targetY
+
+
 
 class Vaisseau():
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau_Militaire"):
@@ -395,8 +396,8 @@ class Joueur():
                       "creerStructure":self.creerStructure,
                       "envoyermessage":self.envoyermessage,
                       "cibleretoile":self.cibleretoile,
-                      "changerVueVaisseau":self.changerVueVaisseau}
-                                                                                                                                                             
+                      "changervuevaisseau":self.changerVueVaisseau}
+
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
                          "Raffinerie (Diamant)":RaffinerieDiamant,
@@ -412,16 +413,27 @@ class Joueur():
         self.timer=0
         self.messages=[]
 
-    def changerVueVaisseau(self,Soleil,vais):
-        self.vais=vais
+    def changerVueVaisseau(self,info):
+        idvais,idSoleil=info
+        for i in self.flotteSystemeSolaire:
+            if i.id==int(idvais):
+                self.vais=i
+        if idSoleil != "None":
+            for etoile in self.parent.Galaxie.listeSysSolaire:
+                if etoile.id==int(idSoleil):
+                    self.Soleil=etoile
         if self.vais.espaceCourant is not None:
+            self.vais.solaire=self.Soleil
             self.vais.espaceCourant=None
-            self.x=Soleil.x
-            self.y=Soleil.y
+            self.vais.x=self.Soleil.x
+            self.vais.y=self.Soleil.y
+            return
         elif (self.vais.espaceCourant==None):
-            self.vais.espaceCourant=Soleil
-            self.x=100
-            self.y=100
+            self.vais.espaceCourant=self.Soleil
+            self.vais.x=100
+            self.vais.y=100
+            return
+
 
     def envoyermessage(self, params):
         envoyeur, recipiendaire, msg = params
@@ -456,30 +468,21 @@ class Joueur():
                     return
 
     def creervaisseau(self,params):
-        #planete,cible,type=params
-        #is type=="explorer":
-
         v=Vaisseau(self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
         print("Vaisseau",v.id, v.nomVaisseau, v.cargo, v.energie, v.vitesse)
         self.flotteSystemeSolaire.append(v)
 
     def creerStructure(self,params):
-        planete = None
-
+        planete,x,y,structure = params
         joueur,nomstruct,idplanete,x,y=params
-
         for i in (self.parent.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
-
         structure=self.structures[nomstruct]
-        planete.listeStructure.append(structure)
+        planete.ajouterBatiment(x,y,nomstruct)
 
-        print(structure,joueur,nomstruct,idplanete,x,y)
-        print()
-        #t=Structure(self,idplanete,nomstruct,x,y)
-        #planete.listeStructure.append(t)
+        print("STRUCTURE CRÉE ", structure,joueur,nomstruct,idplanete,x,y)
 
     def updaterRessources(self):
         self.timer+=1
@@ -500,7 +503,7 @@ class Joueur():
                         return
     def cibleretoile(self,ids):
         idori,iddesti=ids
-        
+
         for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
             if i.id== int(idori):
                 for j in self.parent.Galaxie.listeSysSolaire: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
