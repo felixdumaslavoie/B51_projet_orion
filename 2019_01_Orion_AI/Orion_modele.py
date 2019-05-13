@@ -395,7 +395,8 @@ class Joueur():
                       "creerStructure":self.creerStructure,
                       "envoyermessage":self.envoyermessage,
                       "cibleretoile":self.cibleretoile,
-                      "changervuevaisseau":self.changerVueVaisseau}
+                      "changervuevaisseau":self.changerVueVaisseau,
+                      "avancementTechno":self.avancementTechno}
 
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
@@ -530,6 +531,11 @@ class Joueur():
     def prochaineaction2(self):
         for i in self.flotteSystemeSolaire:
             i.avancer()
+
+    def avancementTechno(self,nomAvancement):
+        self.avanc = nomAvancement
+        print(self.avanc)
+
 
 # IA- nouvelle classe de joueur
 class IA(Joueur):

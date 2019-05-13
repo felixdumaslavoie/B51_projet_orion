@@ -383,15 +383,15 @@ class Vue():
         self.btnMilit=Button(self.cadreArbreTechno,text="Militaire",height=1, width = 14, bg = "light gray")
         self.btnScience=Button(self.cadreArbreTechno,text="Science",height=1, width = 14, bg = "light gray")
         ## placement buttons
-        self.cadreArbreTechno.create_window(0, 0, anchor=NW, window=self.btnEco, tags=("onglet Eco"))
-        self.cadreArbreTechno.create_window(100, 0, anchor=NW, window=self.btnMilit, tags=("onglet Milit"))
-        self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet Science"))
+        self.cadreArbreTechno.create_window(0, 0, anchor=NW, window=self.btnEco, tags=("onglet", "Eco"))
+        self.cadreArbreTechno.create_window(100, 0, anchor=NW, window=self.btnMilit, tags=("onglet", "Milit"))
+        self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet", "Science"))
         # avancement
-        self.avac1 = self.cadreArbreTechno.create_rectangle(40, 90, 70, 120, fill="light gray", tags=("Avancement 1"))
-        self.cadreArbreTechno.create_rectangle(160, 60, 190, 90, fill="azure", tags=("Avancement 2"))
-        self.cadreArbreTechno.create_rectangle(160, 120, 190, 150, fill="misty rose", tags=("Avancement 3"))
-        self.cadreArbreTechno.create_rectangle(270, 60, 300, 90, fill="deep pink", tags=("Avancement 4"))
-        self.cadreArbreTechno.create_rectangle(270, 120, 300, 150, fill="plum1", tags=("Avancement 5"))
+        self.avac1 = self.cadreArbreTechno.create_rectangle(40, 90, 70, 120, fill="light gray", tags=("Avancement", "1"))
+        self.avac2 = self.cadreArbreTechno.create_rectangle(160, 60, 190, 90, fill="azure", tags=("Avancement", "2"))
+        self.avac3 = self.cadreArbreTechno.create_rectangle(160, 120, 190, 150, fill="misty rose", tags=("Avancement", "3"))
+        self.avac4 = self.cadreArbreTechno.create_rectangle(270, 60, 300, 90, fill="deep pink", tags=("Avancement", "4"))
+        self.avac5 = self.cadreArbreTechno.create_rectangle(270, 120, 300, 150, fill="plum1", tags=("Avancement", "5"))
         # lines
         self.cadreArbreTechno.create_line(70,105,160,75) #  avance 1 to 2
         self.cadreArbreTechno.create_line(190,75,270,75) #  avance 2 to 4
@@ -403,27 +403,45 @@ class Vue():
         self.btnMilit.bind("<Button>", self.actionOngletMilit)
         self.btnScience.bind("<Button>", self.actionOngletScience)
 
-        self.ongletActif = "ongltEco" # default
-        self.avancement = 1
+        self.actionOngletEco(self)
+
+        #self.ongletActif = "ongltEco" # default
+        #self.avancement = 1
+
+
 
     def actionOngletEco(self,event):
         self.ongletActif = "economie"
-        #self.avac1.config(tags="BonusCash")
+        self.cadreArbreTechno.itemconfig(self.avac1,tags = ("Avancement", "Bonus Production", "1") , fill = "deep sky blue")
+        self.cadreArbreTechno.itemconfig(self.avac2,tags = ("Avancement", "Bonus Production x 2", "2"), fill = "deep sky blue")
+        self.cadreArbreTechno.itemconfig(self.avac3,tags = ("Avancement", "cout réduit ", "3"), fill = "deep sky blue")
+        self.cadreArbreTechno.itemconfig(self.avac4,tags = ("Avancement", "Bonus Production x 4", "4"), fill = "deep sky blue")
+        self.cadreArbreTechno.itemconfig(self.avac5,tags = ("Avancement", "cout réduit x 2", "5"), fill = "deep sky blue")
 
     def actionOngletMilit(self,event):
         self.ongletActif = "Militaire"
+        self.cadreArbreTechno.itemconfig(self.avac1,tags = ("Avancement", "Vaisseau civile", "6") , fill = "DarkOliveGreen1")
+        self.cadreArbreTechno.itemconfig(self.avac2,tags = ("Avancement", "Vaisseau missile", "7"), fill = "DarkOliveGreen1")
+        self.cadreArbreTechno.itemconfig(self.avac3,tags = ("Avancement", "Vaisseau Colonisateur", "8"), fill = "DarkOliveGreen1")
+        self.cadreArbreTechno.itemconfig(self.avac4,tags = ("Avancement", "Vaisseau laser", "9"), fill = "DarkOliveGreen1")
+        self.cadreArbreTechno.itemconfig(self.avac5,tags = ("Avancement", "Vaisseau avec Population", "10"), fill = "DarkOliveGreen1")
 
     def actionOngletScience(self,event):
         self.ongletActif = "Science"
+        self.cadreArbreTechno.itemconfig(self.avac1,tags = ("Avancement", "PlaceHolder", "11") , fill = "plum1")
+        self.cadreArbreTechno.itemconfig(self.avac2,tags = ("Avancement", "PlaceHolder", "12"), fill = "plum1")
+        self.cadreArbreTechno.itemconfig(self.avac3,tags = ("Avancement", "PlaceHolder", "13"), fill = "plum1")
+        self.cadreArbreTechno.itemconfig(self.avac4,tags = ("Avancement", "PlaceHolder", "14"), fill = "plum1")
+        self.cadreArbreTechno.itemconfig(self.avac5,tags = ("Avancement", "PlaceHolder", "15"), fill = "plum1")
 
     def actionElemTech(self,event):
         item=self.cadreArbreTechno.gettags(CURRENT)
 
         if item:
             if item[0] == "Avancement":
-                self.avancement = item[1]
-                #fonctionModele(self.onglet,item[1])
-                #print(item[1],self.ongletActif)
+                #self.avancement = item[1]
+                self.parent.avancementTechno(item[1])
+                #print(item[1])
 
 
 
