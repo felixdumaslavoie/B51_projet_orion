@@ -227,7 +227,7 @@ class Vue():
 
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
         self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
-        self.cadreinfojoueur.grid(row=0, column=0)
+        self.cadreinfojoueur.grid(row=0, column=0, sticky=W+E+N+S)
         self.cadreMessagerie.grid(row=0, column=1)
 
         # fonction création des infos joueurs
@@ -250,27 +250,31 @@ class Vue():
         self.listeMessage=Listbox(self.cadreMessagerie, fg="blue",width=40)
         self.scrollMessage=Scrollbar(self.cadreMessagerie, orient=VERTICAL)
         self.entryMessage=Entry(self.cadreMessagerie)
-        self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.envoyerMessage)
-        self.labDiplomatie=Label(self.cadreMessagerie, text="Diplomatie")
-        self.btnAlliance=Button(self.cadreMessagerie, text="Alliance", fg="blue")
-        self.btnGuerre=Button(self.cadreMessagerie, text="Guerre", bg="red")
-        #self.btnAllianceGuerriere=Button(self.cadreMessagerie, text="Alliance guerrière")
-        #self.btnPaix=Button(self.cadreMessagerie, text="Paix")
+        self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.envoyerMessage, width=10)
+
+
+        self.labDiplomatie=Label(self.cadreinfojoueur, text="Diplomatie")
+        self.btnAlliance=Button(self.cadreinfojoueur, text="Alliance", bg="blue")
+        self.btnGuerre=Button(self.cadreinfojoueur, text="Guerre", bg="red")
+        self.btnAllianceGuerriere=Button(self.cadreinfojoueur, text="Alliance guerrière",bg="orange")
+        self.btnPaix=Button(self.cadreinfojoueur, text="Paix", bg="white")
 
         # création de la liste de joueur
         #print(list(self.mod.joueurs.keys()))
 
         # création du grid
         self.labMessagerie.grid(row=0, columnspan=2, sticky=W+E)
-        self.listeMessage.grid(row=1, column=0)
+        self.listeMessage.grid(row=1, column=0, sticky=W+E)
         self.scrollMessage.grid(row=1, column=1, sticky=W+E+N+S)
-        self.entryMessage.grid(row=3, column=0)
-        self.envoiMessage.grid(row=3, column=1)
-        self.labDiplomatie.grid(row=4, columnspan=2, sticky=W+E)
-        self.btnAlliance.grid(row=5, column=0, sticky=W+E)
-        self.btnGuerre.grid(row=5, column=1, sticky=W+E)
-        #self.btnAllianceGuerriere(row=5, column=2)
-        #self.btnPaix(row=5, column=2)
+        self.entryMessage.grid(row=3, column=0, sticky=W+E+N+S)
+        self.envoiMessage.grid(row=3, column=1, sticky=W)
+
+
+        self.labDiplomatie.grid(row=4, column=8, columnspan=4, sticky=W+E)
+        self.btnAlliance.grid(row=5, column=8, columnspan=2, sticky=W+E)
+        self.btnGuerre.grid(row=5, column=10, columnspan=2, sticky=W+E)
+        self.btnAllianceGuerriere.grid(row=6, column=8, columnspan=2, sticky=W+E)
+        self.btnPaix.grid(row=6, column=10, columnspan=2, sticky=W+E)
 
 
     def choix(self, *args):
