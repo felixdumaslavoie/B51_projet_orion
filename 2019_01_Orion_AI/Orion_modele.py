@@ -158,17 +158,38 @@ class Planete():
 
     def ajouterBatiment(self,x,y,nomBatiment):
         structure = None
+        print("IN ajouterbatiment", nomBatiment)
         for i in self.emplacementsDispo:
+            print(i, x,y)
             if x == i[0] and y == i[1]:
-             structure = EmplacementsSurPlanete(i[0],i[1],nomBatiment)
-        self.listeStructure.append(structure)
+                structure = EmplacementsSurPlanete(i[0],i[1],nomBatiment)
+                self.listeStructure.append(structure)
+                self.emplacementsDispo.remove(i)
+                print("Methode Ajouter batiment", nomBatiment)
+                break
 
 
 class EmplacementsSurPlanete():
-    def _init_(self,x,y,structure):
+    def __init__(self,x,y,structure):
         self.x = x
         self.y = y
-        self.structure=None
+        self.structure=str(structure)
+        self.couleur ="grey"
+        print("BATIMENT", self.structure)
+        if self.structure=="Usine Civile":
+            self.couleur="tan1"
+        elif self.structure=="Usine Militaire":
+            self.couleur="blue"
+        elif self.structure=="Raffinerie (Diamant)":
+            self.couleur="cyan"
+        elif self.structure=="Raffinerie (Charbon)":
+            self.couleur="gray25"
+        elif self.structure=="Raffinerie (Isotope)":
+            self.couleur="RoyalBlue1"
+        elif self.structure=="Ferme":
+            self.couleur="brown4"
+        elif self.structure=="Capitale":
+            self.couleur="yellow"
 
 
 class Structure():
@@ -473,16 +494,16 @@ class Joueur():
         self.flotteSystemeSolaire.append(v)
 
     def creerStructure(self,params):
-        planete,x,y,structure = params
-        joueur,nomstruct,idplanete,x,y=params
+        nomjoueur, nomstruct,idplanete,x,y=params
         for i in (self.parent.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
-        structure=self.structures[nomstruct]
         planete.ajouterBatiment(x,y,nomstruct)
+        if self.parent.parent.vue.vues:
+            self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
+        #print("STRUCTURE CRÉE ", self.parent.parent.vue.vues["Planete"])
 
-        print("STRUCTURE CRÉE ", structure,joueur,nomstruct,idplanete,x,y)
 
     def updaterRessources(self):
         self.timer+=1
@@ -501,9 +522,9 @@ class Joueur():
                         i.cible=j
                         print("GOT TARGET:", j.id)
                         return
+
     def cibleretoile(self,ids):
         idori,iddesti=ids
-
         for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
             if i.id== int(idori):
                 for j in self.parent.Galaxie.listeSysSolaire: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE

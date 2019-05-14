@@ -176,13 +176,12 @@ class Controleur():
                     coul = i.couleur
         print(idplanete, coul)
         self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
-        
+
     def creerProjectile(self,targetX,targetY):
         self.actions.append([self.monnom,"creerProjectile",[targetX,targetY]])
 
-
     def creerStructure(self,joueur,nomstruct,idplanete,x,y):
-        self.actions.append([self.monnom,"creerStructure",[joueur,nomstruct,idplanete,x,y]])
+        self.actions.append([self.monnom,"creerStructure",[joueur, nomstruct,idplanete,x,y]])
 
 if __name__=="__main__":
     c=Controleur()

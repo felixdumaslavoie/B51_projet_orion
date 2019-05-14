@@ -14,6 +14,7 @@ class Vue():
         self.hauteur=480
         self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
         self.terrain=[]
+        self.vues=None
         self.cadreactif=None
         self.maselection=None
         self.root.title(os.path.basename(sys.argv[0]))
@@ -835,6 +836,7 @@ class VuePlanete():
         if tagsPlanete:
             if tagsPlanete[0] == "emplacement":
                 self.menuStructPlanete()
+                self.emplacementSelectionne=tagsPlanete
             if tagsPlanete[0] != "emplacement":
                 self.cadreStruct.grid_forget()
         else:
@@ -907,9 +909,10 @@ class VuePlanete():
         j = self.modele.joueurs[self.parent.parent.monnom]
         id = j.bufferSelection[0].id
         nom=evt.widget.cget("text")
-        self.parent.parent.creerStructure(j.nom,nom,id,100,100)
-        #self.afficheEmplacement(self.id)
-        #self.afficheStructure(self.id)
+        x=int(self.emplacementSelectionne[2])
+        y=int(self.emplacementSelectionne[3])
+        self.parent.parent.creerStructure(j.nom,nom,id,x,y)
+
 
 
         #if j.:
@@ -962,13 +965,17 @@ class VuePlanete():
                 if (j.id == self.idplante):
                     self.planete=j
 
-
+        print("In affiche structure", self.planete.listeStructure)
         if len(self.planete.listeStructure) > 0:
             for i in self.planete.listeStructure:
-                self.x = i.x
-                self.y = i.y
-                self.diametre = i.taille
-                self.cadrespatial.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill="turquoise2", tags=(i.nomStructure,i.proprietaire))
+                print(i,"Affiche structure")
+                self.x = i.x - 5
+                self.y = i.y - 5
+                self.diametre =10#i.taille
+                self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
+
+
+
 
 
 class VueGalaxie():
