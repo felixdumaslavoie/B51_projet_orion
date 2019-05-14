@@ -197,7 +197,7 @@ class Vue():
         self.mod = mod
 
         self.labcouleur.grid(row=0,column=0)
-        self.idcouleur.grid(row=0,column=1)
+        self.idcouleur.grid(row=0,column=1, sticky=W+E)
         self.labcouttotal.grid(row=0,column=2)
         self.nbcouttotal.grid(row=0,column=3)
         # ajout text var
@@ -510,7 +510,6 @@ class Vue():
 
             #else if self.canvas == self.vues["Solaire"].canevasSolaire:
             #    if t[1] == "vaisseau" :
-
 
     def CliqueVueGalaxie(self,canvas,mod):
         self.canvas = canvas
@@ -831,6 +830,7 @@ class VuePlanete():
             y=random.randrange(mod.hauteur)
             self.canevasPlanete.create_oval(x,y,x+1,y+1,fill="white",tags=("fond"))
 
+
         # affichage de la planete selectionner
 
         #self.canevasPlanete.create_oval(x, y, x+r, y+r,fill="green2",tags=("planeteMere"))
@@ -898,12 +898,13 @@ class VuePlanete():
         x2=cx + demiTaille
         y1=cy - demiTaille
         y2=cy + demiTaille
-        self.canevasPlanete.create_oval(x1, y1, x2, y2,fill=self.planete.couleur ,tags=("planeteMere",id, self.planete.taille))
+        self.canevasPlanete.create_oval(x1, y1, x2, y2, fill=self.planete.couleur,tags=("planeteMere",id, self.planete.taille))
 
-        #self.parent.bChoixBatiement.grid(row = 6, column = 0)
         self.afficheEmplacement(self.planete)
+        self.afficheStructure(self.planete.id)
         #self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
         self.canevasPlanete.bind( "<Button-1>", self.cliqueEmplacement)
+
 
     def cliqueEmplacement(self,evt=0):
         tagsPlanete=self.canevasPlanete.gettags("current")
@@ -920,13 +921,10 @@ class VuePlanete():
 
 
     def afficherPlanete2(self,modele,idPlanete):
-        #self.parent.cadreinfo.grid_forget()
         self.modele=modele
         self.id=idPlanete
         self.canevasPlanete.delete("all")
         self.afficherdecorPlanete(self.modele)
-        # self.afficherInfosPlanete(self.modele,self.id)
-        self.modele=modele
         x=200
         y=100
         for i in (self.modele.Galaxie.listeSysSolaire):
@@ -973,8 +971,6 @@ class VuePlanete():
         self.buttonRaffIso.grid(row=3 , column = 1)
         self.buttonFerme.grid(row=3 , column = 0)
         self.buttonCapitale.grid(row=4 , column = 0, columnspan = 2)
-        #self.labelStructSucces.grid(row=5,column = 0, columnspan = 2) # always lowest
-        #self.parent.cadreBouton.grid(row=1 , column = 0)
 
     def hideFrameStruct(self):
         self.cadreStruct.grid_forget()
@@ -988,36 +984,11 @@ class VuePlanete():
         y=int(self.emplacementSelectionne[3])
         self.parent.parent.creerStructure(j.nom,nom,id,x,y)
 
-
-
         #if j.:
         #self.succesful = self.modele.Planete.creerStructure(self.id,nom)
         print(j,nom,id)
-        """
-        self.succesfull =1
-
-        if (self.succesfull == 1):
-            # ajouté
-            self.labelStructSucces.config(text="La structure a bien été ajouté!")
-        if(self.succesfull == 0):
-            # pas ajouté car pas de place
-            self.labelStructSucces.config(text="La structure na pas pu etre ajoutée")
-
-        self.buttonUsineCiv.grid_forget()
-        self.buttonUsineMili.grid_forget()
-        self.buttonRaffDia.grid_forget()
-        self.buttonRaffChar.grid_forget()
-        self.buttonRaffIso.grid_forget()
-        self.buttonFerme.grid_forget()
-        self.buttonCapitale.grid_forget()
-        self.newStruct.config(state="normal")
-
-
-        self.parent.updateInfosJoueur(self.modele)
-        """
 
     def afficheEmplacement(self,planete):
-
         for i in planete.emplacementsDispo:
             t=5
             self.canevasPlanete.create_rectangle(i[0]-t, i[1]-t,  i[0] + t, i[1] + t, fill="red",tags=("emplacement", str(planete.id), str(i[0]),str(i[1])))

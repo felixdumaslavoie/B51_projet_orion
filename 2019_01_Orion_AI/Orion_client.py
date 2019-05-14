@@ -85,9 +85,9 @@ class Controleur():
             self.prochaintour()
 
     def boucleattente(self):
-        print("IN BOUCLEATTENTE")
+        #print("IN BOUCLEATTENTE")
         rep=self.serveur.faireaction([self.monnom,0,0])
-        print("RETOUR DU faire action  SERVEUR",rep)
+        #print("RETOUR DU faire action  SERVEUR",rep)
         if rep[0]:
             print("Recu ORDRE de DEMARRER")
             # PATCH pour dico in xmlrpc qui requiert des chaines comme cles

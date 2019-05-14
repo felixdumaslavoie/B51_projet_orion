@@ -66,7 +66,7 @@ class SystemeSolaire():
         self.couleur = "grey80"
         print("Étoile", self.nometoile, "ID:", self.id)
         for i in range(self.nbdeplanete):
-            self.nom = self.parent.listeNomPlanete[random.randrange(len(self.parent.listeNomPlanete)-1)]+ " "+ str(random.randrange(10))
+            self.nom = self.parent.listeNomPlanete[random.randrange(len(self.parent.listeNomPlanete)-1)]
             x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
             y=random.randrange(self.parent.parent.hauteur-(2*self.bordure))+self.bordure
             p = Planete(self,x,y, self.nom)
@@ -491,7 +491,7 @@ class Joueur():
 
         self.cooldownRessource = 100
 
-        self.credit=1000
+        self.credit=6000
         self.nourriture=1000
         self.deuterium=5
         self.timer=0
@@ -572,6 +572,19 @@ class Joueur():
         if self.parent.parent.vue.vues:
             self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
         #print("STRUCTURE CRÉE ", self.parent.parent.vue.vues["Planete"])
+
+        if self.credit>=structure.cout:
+            self.credit-=structure.cout
+
+            self.listeStructure.append(structure)
+            planete.listeStructure.append(structure)
+
+            planete.ajouterBatiment(x,y,nomstruct)
+            if self.parent.parent.vue.vues:
+                self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
+            #print("STRUCTURE CRÉE ", self.parent.parent.vue.vues["Planete"])
+        else:
+            print("Vous n'avez pas assez de crédits pour construire cette structure")
 
 
     def updaterRessources(self):
@@ -661,6 +674,7 @@ class IA(Joueur):
         #planetemere.proprietaire = nom
         self.couleur = couleur
         self.compteurCreation = 0
+        self.compteurChangementVue = 0
         print("Planete mere", planetemere.nom, "assignee a", nom, couleur)
         self.tempo=random.randrange(100)+20
 
@@ -677,15 +691,31 @@ class IA(Joueur):
         # construit un bâtiment sur la planète mère
         if self.couleur == "orange":
             self.compteurCreation +=1
+
             if self.compteurCreation == 1000:
+                self.compteurChangementVue += 1
                 self.compteurCreation = 0
                 self.creervaisseau("Vaisseau Canon")
 
+            if self.compteurChangementVue == 2:
+                self.compteurChangementVue = 0
+                i = random.choice(self.flotteSystemeSolaire)
+                self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
+
         if self.couleur == "green":
             self.compteurCreation +=1
-            if self.compteurCreation == 500:
+
+            if self.compteurCreation == 750:
+                self.compteurChangementVue += 1
                 self.compteurCreation = 0
                 self.creervaisseau("Vaisseau Canon")
+
+            if self.compteurChangementVue == 3:
+                pass
+
+
+
+
 
         if self.flotteSystemeSolaire:
             for i in self.flotteSystemeSolaire:
@@ -693,8 +723,7 @@ class IA(Joueur):
                     i.avancer()
                 else:
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
-                    print("Nouvelle cible IA:", i.cible.id)
-
+                    print("Nouvelle cible IA Solaire:", i.cible.id)
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
@@ -738,7 +767,9 @@ class Modele():
 
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
             #self.joueurs[i].creerStructure(self.joueurs[i].nom,100,100,"Capitale",self.joueurs[i].planetemere)
-            self.joueurs[i].creerStructure([self.joueurs[i],"Capitale",self.joueurs[i].planetemere.id,100,100])
+            choixEmplacement = random.choice(self.joueurs[i].planetemere.emplacementsDispo)
+            self.joueurs[i].planetemere.emplacementsDispo.remove(choixEmplacement)
+            self.joueurs[i].creerStructure([self.joueurs[i],"Capitale",self.joueurs[i].planetemere.id,choixEmplacement[0],choixEmplacement[1]])
             print("Capitale créée sur",self.joueurs[i].planetemere.nom,"pour le joueur",self.joueurs[i].nom)
 
         # IA- creation des ias - max 2
