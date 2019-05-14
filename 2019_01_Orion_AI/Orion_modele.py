@@ -508,11 +508,11 @@ class Joueur():
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
-                    
+
         structure=self.structures[nomstruct](nomjoueur,nomstruct,idplanete,x,y)
         self.listeStructure.append(structure)
         planete.listeStructure.append(structure)
-        
+
         planete.ajouterBatiment(x,y,nomstruct)
         if self.parent.parent.vue.vues:
             self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
@@ -521,17 +521,17 @@ class Joueur():
 
     def updaterRessources(self):
         self.timer+=1
-        
+
         coutNourriture = 0
         coutCredit = 0
         coutDeuterium = 0
-        
+
         if self.timer >= self.cooldownRessource:
-            
+
             for i in self.listeStructure:
-                coutCredit+=i.maintenance                    
-                    
-                
+                coutCredit+=i.maintenance
+
+
             self.credit-=coutCredit
             self.timer = 0
             print("Economie: coutCredit: -",coutCredit)
@@ -683,7 +683,9 @@ class Modele():
 
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
             #self.joueurs[i].creerStructure(self.joueurs[i].nom,100,100,"Capitale",self.joueurs[i].planetemere)
-            self.joueurs[i].creerStructure([self.joueurs[i],"Capitale",self.joueurs[i].planetemere.id,100,100])
+            choixEmplacement = random.choice(self.joueurs[i].planetemere.emplacementsDispo)
+            self.joueurs[i].planetemere.emplacementsDispo.remove(choixEmplacement)
+            self.joueurs[i].creerStructure([self.joueurs[i],"Capitale",self.joueurs[i].planetemere.id,choixEmplacement[0],choixEmplacement[1]])
             print("Capitale créée sur",self.joueurs[i].planetemere.nom,"pour le joueur",self.joueurs[i].nom)
 
         # IA- creation des ias - max 2

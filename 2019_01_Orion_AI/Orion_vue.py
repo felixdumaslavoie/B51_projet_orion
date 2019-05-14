@@ -876,6 +876,7 @@ class VuePlanete():
         self.canevasPlanete.create_oval(x1, y1, x2, y2, fill=self.planete.couleur,tags=("planeteMere",id, self.planete.taille))
 
         self.afficheEmplacement(self.planete)
+        self.afficheStructure(self.planete.id)
         #self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
         self.canevasPlanete.bind( "<Button-1>", self.cliqueEmplacement)
 
