@@ -242,8 +242,8 @@ class Vue():
         self.cadreoutils.grid(row=1, column=1)
         # cadre des infos contextuel
         # nom et couleur du joueur : text=self.nom,fg=mod.joueurs[self.nom].couleur
-        self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
-        self.btncreervaisseau.grid(row=2, column=2)
+        #self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
+        #self.btncreervaisseau.grid(row=2, column=2)
         self.lbselectecible=Label(self.cadreinfo,text="Choisir cible",bg="darkgrey")
 
         # cadre Messagerie
@@ -367,9 +367,10 @@ class Vue():
 
 
 
-    def creervaisseau(self):
+    def creervaisseau(self,nomVais):
         print("Creer vaisseau")
-        self.parent.creervaisseau()
+        nomVais1=nomVais
+        self.parent.creervaisseau(nomVais1)
         self.maselection=None
         self.vues["Solaire"].canevasSolaire.delete("marqueur")
         self.btncreervaisseau.grid_forget()
@@ -562,9 +563,18 @@ class VueSolaire():
         self.sysSolaireNom = Label(self.cadreinfo)
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
-        self.newVais = Button(self.cadreinfo,text="Vaisseau",bg="DeepSkyBlue2", command=self.parent.creervaisseau)
+        self.boutonsVais=[]
+        self.newVais1 = Button(self.cadreinfo,text="Vaisseau Canon",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Canon"))
+        self.newVais2 = Button(self.cadreinfo,text="Vaisseau Eclaireur",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Eclaireur"))
+        self.newVais3 = Button(self.cadreinfo,text="Vaisseau Tank",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Tank"))
+        self.newVais4 = Button(self.cadreinfo,text="Vaisseau Laser",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Laser"))
+        self.newVais5 = Button(self.cadreinfo,text="Vaisseau Sniper",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Sniper"))
+
+
         self.versGalaxie = Button(self.cadreinfo,text="Vers la Galaxie",bg="DeepSkyBlue2", command=self.envoyerVersGalaxie)
         self.maselection2=None
+
+
 
     def envoyerVersGalaxie(self,t,mod):
         self.mod=mod
@@ -716,8 +726,13 @@ class VueSolaire():
         self.planeteZinc.grid(row=14, column=0)
         self.planeteDeuterium.grid(row=15, column=0)
         self.planeteFertile.grid(row=16, column=0)
-        self.newVais.grid(row=17,column=0)
-        self.versGalaxie.grid(row=18,column=0)
+        self.newVais1.grid(row=17,column=0)
+        self.newVais2.grid(row=17,column=1)
+        self.newVais3.grid(row=17,column=2)
+        self.newVais4.grid(row=18,column=0)
+        self.newVais5.grid(row=18,column=1)
+
+        self.versGalaxie.grid(row=19,column=0)
 
     def changerProprietaire(self,idplanete,couleur):
 
@@ -726,7 +741,12 @@ class VueSolaire():
                 self.canevasSolaire.itemconfig(i, fill=couleur)
 #hello
     def cliqueSolaire(self,evt):
-        self.newVais.grid_forget()
+        self.newVais1.grid_forget()
+        self.newVais2.grid_forget()
+        self.newVais3.grid_forget()
+        self.newVais4.grid_forget()
+        self.newVais5.grid_forget()
+
 
         t=self.canevasSolaire.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
@@ -766,7 +786,12 @@ class VueSolaire():
             self.canevasSolaire.delete("marqueur")
 
     def montreplaneteselection(self):
-        self.newVais.grid(row=7,column=0)
+        self.newVais1.grid(row=7,column=0)
+        self.newVais2.grid(row=7,column=1)
+        self.newVais3.grid(row=7,column=2)
+        self.newVais4.grid(row=8,column=0)
+        self.newVais5.grid(row=8,column=1)
+
 
 
 class VuePlanete():
@@ -1105,7 +1130,7 @@ class VueGalaxie():
 
         if self.parent.maselection!=None:
             joueur=mod.joueurs[self.parent.maselection[0]]
-            if self.parent.maselection[1]=="planete":
+            if self.parent.maselection[1]=="etoile":
                 for i in joueur.planetescontrolees:
                     if i.id == int(self.parent.maselection[2]):
                         x=i.x
@@ -1119,7 +1144,7 @@ class VueGalaxie():
                         x=i.x
                         y=i.y
                         t=10
-                        self.canevasGalaxie.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
+                        self.canevasGalaxie.create_rectangle((i.x-10)-t,(i.y-10)-t,(i.x-4)+t,(i.y-4)+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
                                                  tags=("select","marqueur"))
         #else:
         #    self.canevas.delete("marqueur")
