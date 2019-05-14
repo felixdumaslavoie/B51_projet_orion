@@ -438,7 +438,7 @@ class Joueur():
                          "Capitale":Capitale}
         self.cooldownRessource = 100
 
-        self.credit=1000
+        self.credit=6000
         self.nourriture=1000
         self.deuterium=5
         self.timer=0
@@ -510,6 +510,7 @@ class Joueur():
                     planete=j
 
         structure=self.structures[nomstruct](nomjoueur,nomstruct,idplanete,x,y)
+<<<<<<< HEAD
         self.listeStructure.append(structure)
         planete.listeStructure.append(structure)
 
@@ -517,6 +518,21 @@ class Joueur():
         if self.parent.parent.vue.vues:
             self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
         #print("STRUCTURE CRÉE ", self.parent.parent.vue.vues["Planete"])
+=======
+        
+        if self.credit>=structure.cout:
+            self.credit-=structure.cout
+        
+            self.listeStructure.append(structure)
+            planete.listeStructure.append(structure)
+            
+            planete.ajouterBatiment(x,y,nomstruct)
+            if self.parent.parent.vue.vues:
+                self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
+            #print("STRUCTURE CRÉE ", self.parent.parent.vue.vues["Planete"])
+        else:
+            print("Vous n'avez pas assez de crédits pour construire cette structure")
+>>>>>>> d350784f880d9fb4c120679878ec0281fa34ef9b
 
 
     def updaterRessources(self):
