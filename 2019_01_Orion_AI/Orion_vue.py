@@ -1129,7 +1129,7 @@ class VueGalaxie():
 
         if self.parent.maselection!=None:
             joueur=mod.joueurs[self.parent.maselection[0]]
-            if self.parent.maselection[1]=="planete":
+            if self.parent.maselection[1]=="etoile":
                 for i in joueur.planetescontrolees:
                     if i.id == int(self.parent.maselection[2]):
                         x=i.x
@@ -1143,7 +1143,7 @@ class VueGalaxie():
                         x=i.x
                         y=i.y
                         t=10
-                        self.canevasGalaxie.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
+                        self.canevasGalaxie.create_rectangle((i.x-10)-t,(i.y-10)-t,(i.x-4)+t,(i.y-4)+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
                                                  tags=("select","marqueur"))
         #else:
         #    self.canevas.delete("marqueur")
