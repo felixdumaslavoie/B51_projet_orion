@@ -418,6 +418,7 @@ class Joueur():
                       "envoyermessage":self.envoyermessage,
                       "cibleretoile":self.cibleretoile,
                       "changervuevaisseau":self.changerVueVaisseau,
+                      "avancementTechno":self.avancementTechno,
                       "reclamerplanete":self.reclamerplanete}
 
         self.structures={"Usine Civile":UsineCivile,
@@ -427,7 +428,7 @@ class Joueur():
                          "Raffinerie (Isotope)":RaffinerieIsotope,
                          "Ferme":Ferme,
                          "Capitale":Capitale}
-
+        self.cooldownRessource = 100
 
         self.credit=1000
         self.nourriture=1000
@@ -480,12 +481,12 @@ class Joueur():
         for i in self.parent.Galaxie.listeSysSolaire:
             if int(i.id) == int(identificateur):
                 self.bufferSelection.insert(0, i)
-                print(type(i).__name__, i.id, "mis dans le buffer")
+                print(type(i).__name__, i.id, "mis dans le buffer etranger")
                 return
             for j in i.listePlanete:
                 if int(j.id) == int(identificateur):
                     self.bufferSelection.insert(0, j)
-                    print(type(j).__name__, j.id, "mis dans le buffer")
+                    print(type(j).__name__, j.id, "mis dans le buffer planete")
                     return
 
     def creervaisseau(self,params):
@@ -507,7 +508,7 @@ class Joueur():
 
     def updaterRessources(self):
         self.timer+=1
-        if self.timer >= 100:
+        if self.timer >= self.cooldownRessource:
             self.nourriture += 50
             self.credit += 10
             self.deuterium += 2
@@ -517,7 +518,7 @@ class Joueur():
         idori,iddesti=ids
         for i in self.flotteSystemeSolaire: #TEMPORAIRE IL FAUT AVOIR UNE FLOTTE
             if i.id== int(idori):
-                for j in self.planetemere.parent.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
+                for j in i.solaire.listePlanete: #  A CHANGER ÇA MARCHE SEULEMENT DANS SYSTEME SOLAIRE
                     if j.id== int(iddesti):
                         i.cible=j
                         print("GOT TARGET:", j.id)
@@ -545,10 +546,22 @@ class Joueur():
         for i in self.flotteSystemeSolaire:
             i.avancer()
 
+    def avancementTechno(self,nomAvancement):
+        self.avanc = nomAvancement[0]
+        print(nomAvancement)
+        if self.avanc == "Bonus production":
+            self.cooldownRessource = 95
+        elif self.avanc == "Bonus production x 2":
+            self.cooldownRessource = 85
+        elif self.avanc == "Bonus production x 4":
+            self.cooldownRessource = 55 # calcul weird
+
+
+
     def reclamerplanete(self,idplanete,proprietaire):
         print(idplanete, coul)
         self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
-# IA- nouvelle classe de joueur
+
 class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)
