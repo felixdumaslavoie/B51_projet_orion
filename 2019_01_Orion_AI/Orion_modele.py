@@ -66,7 +66,7 @@ class SystemeSolaire():
         self.couleur = "grey80"
         print("Étoile", self.nometoile, "ID:", self.id)
         for i in range(self.nbdeplanete):
-            self.nom = self.parent.listeNomPlanete[random.randrange(len(self.parent.listeNomPlanete)-1)]+ " "+ str(random.randrange(10))
+            self.nom = self.parent.listeNomPlanete[random.randrange(len(self.parent.listeNomPlanete)-1)]
             x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
             y=random.randrange(self.parent.parent.hauteur-(2*self.bordure))+self.bordure
             p = Planete(self,x,y, self.nom)
