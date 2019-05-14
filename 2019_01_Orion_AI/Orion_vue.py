@@ -366,13 +366,14 @@ class Vue():
 
 
 
-    def creervaisseau(self,nomVais):
+    def creervaisseau(self,widg,nomVais):
         print("Creer vaisseau")
         nomVais1=nomVais
         self.parent.creervaisseau(nomVais1)
         self.maselection=None
         self.vues["Solaire"].canevasSolaire.delete("marqueur")
-        self.btncreervaisseau.grid_forget()
+        #widg.grid_forget()
+        #self.btncreervaisseau.grid_forget()
 
     def CliqueVuePlanete(self,canvas,mod,SysSolaire,idPlanete):
         self.canvas = canvas
@@ -563,16 +564,30 @@ class VueSolaire():
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
         self.boutonsVais=[]
-        self.newVais1 = Button(self.cadreinfo,text="Vaisseau Canon",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Canon"))
-        self.newVais2 = Button(self.cadreinfo,text="Vaisseau Eclaireur",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Eclaireur"))
-        self.newVais3 = Button(self.cadreinfo,text="Vaisseau Tank",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Tank"))
-        self.newVais4 = Button(self.cadreinfo,text="Vaisseau Laser",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Laser"))
-        self.newVais5 = Button(self.cadreinfo,text="Vaisseau Sniper",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Sniper"))
+        self.newVais1 = Button(self.cadreinfo,text="Vaisseau Canon",bg="DeepSkyBlue2")
+
+
+        #self.newVais1.bind( "<Button-1>", lambda event, button = self.newVais1 : self.parent.creervaisseau("Vaisseau Canon",button))
+        self.newVais1.bind( "<Button-1>", self.selectvaisseau)
+
+        self.newVais2 = Button(self.cadreinfo,text="Vaisseau Eclaireur",bg="DeepSkyBlue2" )
+        self.newVais2.bind( "<Button-1>", self.selectvaisseau)
+        self.newVais3 = Button(self.cadreinfo,text="Vaisseau Tank",bg="DeepSkyBlue2")
+        self.newVais3.bind( "<Button-1>", self.selectvaisseau)
+
+        self.newVais4 = Button(self.cadreinfo,text="Vaisseau Laser",bg="DeepSkyBlue2")
+        self.newVais4.bind("<Button-1>", self.selectvaisseau )
+        self.newVais5 = Button(self.cadreinfo,text="Vaisseau Sniper",bg="DeepSkyBlue2")
+        self.newVais5.bind( "<Button-1>", self.selectvaisseau)
 
 
         self.versGalaxie = Button(self.cadreinfo,text="Vers la Galaxie",bg="DeepSkyBlue2", command=self.envoyerVersGalaxie)
         self.maselection2=None
 
+    def selectvaisseau(self,evt):
+        w=evt.widget
+        typev=w.cget("text")
+        self.parent.creervaisseau(w,typev)
 
 
     def envoyerVersGalaxie(self,t,mod):
@@ -646,6 +661,8 @@ class VueSolaire():
                     if(modele.joueurs[j].nom == i.proprietaire):
                         player = j
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=modele.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
+
+
     def afficherInfosSystemSolaire(self, modele, idSysteme):
         # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
 
