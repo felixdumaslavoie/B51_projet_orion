@@ -549,19 +549,19 @@ class Joueur():
     def avancementTechno(self,nomAvancement):
         self.avanc = nomAvancement[0]
         print(nomAvancement)
-        if self.avanc == "Bonus production":
+        if self.avanc == "Bonus production": # btn avac 1
             self.cooldownRessource = 95
             self.parent.parent.vue.disableBtnAvac1()
-        elif self.avanc == "Bonus production x 2":
+        elif self.avanc == "Bonus production x 2": # btn avac 2
             self.cooldownRessource = 85
             self.parent.parent.vue.disableBtnAvac2()
-        elif self.avanc == "Bonus production x 4":
+        elif self.avanc == "Bonus production x 4": # btn avac 4
             self.parent.parent.vue.disableBtnAvac4()
             self.cooldownRessource = 55
-        elif self.avanc == "Couts Reduit":
-            pass
-        elif self.avanc == "Couts Reduit x 2":
-            pass
+        elif self.avanc == "Couts Reduit": # btn avac 3
+            self.parent.parent.vue.disableBtnAvac3()
+        elif self.avanc == "Couts Reduit x 2": # btn avac 5
+            self.parent.parent.vue.disableBtnAvac5()
         elif self.avanc == "Vaisseau Canon":
             pass
         elif self.avanc == "Vaisseau Eclaireur":
