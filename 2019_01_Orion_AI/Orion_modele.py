@@ -508,11 +508,11 @@ class Joueur():
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
-                    
+
         structure=self.structures[nomstruct](nomjoueur,nomstruct,idplanete,x,y)
         self.listeStructure.append(structure)
         planete.listeStructure.append(structure)
-        
+
         planete.ajouterBatiment(x,y,nomstruct)
         if self.parent.parent.vue.vues:
             self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
@@ -521,17 +521,17 @@ class Joueur():
 
     def updaterRessources(self):
         self.timer+=1
-        
+
         coutNourriture = 0
         coutCredit = 0
         coutDeuterium = 0
-        
+
         if self.timer >= self.cooldownRessource:
-            
+
             for i in self.listeStructure:
-                coutCredit+=i.maintenance                    
-                    
-                
+                coutCredit+=i.maintenance
+
+
             self.credit-=coutCredit
             self.timer = 0
             print("Economie: coutCredit: -",coutCredit)
@@ -606,6 +606,7 @@ class IA(Joueur):
         #planetemere.proprietaire = nom
         self.couleur = couleur
         self.compteurCreation = 0
+        self.compteurChangementVue = 0
         print("Planete mere", planetemere.nom, "assignee a", nom, couleur)
         self.tempo=random.randrange(100)+20
 
@@ -622,15 +623,31 @@ class IA(Joueur):
         # construit un bâtiment sur la planète mère
         if self.couleur == "orange":
             self.compteurCreation +=1
+
             if self.compteurCreation == 1000:
+                self.compteurChangementVue += 1
                 self.compteurCreation = 0
                 self.creervaisseau(0)
 
+            if self.compteurChangementVue == 2:
+                self.compteurChangementVue = 0
+                i = random.choice(self.flotteSystemeSolaire)
+                self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
+
         if self.couleur == "green":
             self.compteurCreation +=1
-            if self.compteurCreation == 500:
+
+            if self.compteurCreation == 750:
+                self.compteurChangementVue += 1
                 self.compteurCreation = 0
                 self.creervaisseau(0)
+
+            if self.compteurChangementVue == 3:
+                pass
+
+
+
+
 
         if self.flotteSystemeSolaire:
             for i in self.flotteSystemeSolaire:
@@ -638,8 +655,7 @@ class IA(Joueur):
                     i.avancer()
                 else:
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
-                    print("Nouvelle cible IA:", i.cible.id)
-
+                    print("Nouvelle cible IA Solaire:", i.cible.id)
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
