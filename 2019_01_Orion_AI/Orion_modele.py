@@ -547,6 +547,7 @@ class Joueur():
 
         coutNourriture = 0
         #self.maintenance = 0
+        coutCredit=0
         coutDeuterium = 0
 
         if self.timer >= self.cooldownRessource:
