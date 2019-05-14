@@ -22,7 +22,7 @@ class Galaxie():
         self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.listeNomPlanete = self.txtNomPlanete.readlines()
-        self.nbSysSolaire=8
+        self.nbSysSolaire=2
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
@@ -582,7 +582,8 @@ class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)
         #planetemere.proprietaire = nom
-        #planetemere.couleur = couleur
+        self.couleur = couleur
+        self.compteurCreation = 0
         print("Planete mere", planetemere.nom, "assignee a", nom, couleur)
         self.tempo=random.randrange(100)+20
 
@@ -597,6 +598,18 @@ class IA(Joueur):
 
         # si assez d'argent
         # construit un bâtiment sur la planète mère
+        if self.couleur == "orange":
+            self.compteurCreation +=1
+            if self.compteurCreation == 1000:
+                self.compteurCreation = 0
+                self.creervaisseau(0)
+
+        if self.couleur == "green":
+            self.compteurCreation +=1
+            if self.compteurCreation == 500:
+                self.compteurCreation = 0
+                self.creervaisseau(0)
+
         if self.flotteSystemeSolaire:
             for i in self.flotteSystemeSolaire:
                 if i.cible:
@@ -604,9 +617,6 @@ class IA(Joueur):
                 else:
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
                     print("Nouvelle cible IA:", i.cible.id)
-
-        else:
-            self.creervaisseau(0)
 
 class Modele():
     def __init__(self,parent,joueurs):
