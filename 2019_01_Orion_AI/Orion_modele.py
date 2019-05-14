@@ -551,9 +551,12 @@ class Joueur():
         print(nomAvancement)
         if self.avanc == "Bonus production":
             self.cooldownRessource = 95
+            self.parent.parent.vue.disableBtnAvac1()
         elif self.avanc == "Bonus production x 2":
             self.cooldownRessource = 85
+            self.parent.parent.vue.disableBtnAvac2()
         elif self.avanc == "Bonus production x 4":
+            self.parent.parent.vue.disableBtnAvac4()
             self.cooldownRessource = 55
         elif self.avanc == "Couts Reduit":
             pass
@@ -568,8 +571,6 @@ class Joueur():
         elif self.avanc == "Vaisseau Laser":
             pass
         elif self.avanc == "Vaisseau Sniper":
-            pass
-        elif self.avanc == "PlaceHolder":
             pass
 
 
