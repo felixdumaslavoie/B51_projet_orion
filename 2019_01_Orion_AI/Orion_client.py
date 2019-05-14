@@ -85,9 +85,9 @@ class Controleur():
             self.prochaintour()
 
     def boucleattente(self):
-        print("IN BOUCLEATTENTE")
+        #print("IN BOUCLEATTENTE")
         rep=self.serveur.faireaction([self.monnom,0,0])
-        print("RETOUR DU faire action  SERVEUR",rep)
+        #print("RETOUR DU faire action  SERVEUR",rep)
         if rep[0]:
             print("Recu ORDRE de DEMARRER")
             # PATCH pour dico in xmlrpc qui requiert des chaines comme cles
@@ -180,9 +180,8 @@ class Controleur():
     def creerProjectile(self,targetX,targetY):
         self.actions.append([self.monnom,"creerProjectile",[targetX,targetY]])
 
-
     def creerStructure(self,joueur,nomstruct,idplanete,x,y):
-        self.actions.append([self.monnom,"creerStructure",[joueur,nomstruct,idplanete,x,y]])
+        self.actions.append([self.monnom,"creerStructure",[joueur, nomstruct,idplanete,x,y]])
 
     def avancementTechno(self,nomAvance):
         self.actions.append([self.monnom,"avancementTechno",[nomAvance]])

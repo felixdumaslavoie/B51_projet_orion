@@ -14,6 +14,7 @@ class Vue():
         self.hauteur=480
         self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
         self.terrain=[]
+        self.vues=None
         self.cadreactif=None
         self.maselection=None
         self.root.title(os.path.basename(sys.argv[0]))
@@ -45,8 +46,6 @@ class Vue():
 
         self.cadreBouton=Frame(self.cadreoutils,width=200,height=200,bg="medium spring green")
 
-        self.cadreinfo.grid_propagate(False)
-
 
         self.couleurinfo="gray"
         self.couleurbouton="gray33"
@@ -59,7 +58,7 @@ class Vue():
         if self.cadreArbreTechno.winfo_ismapped():
             self.cadreArbreTechno.grid_forget()
         else:
-            self.cadreArbreTechno.grid(row=0, column =0, sticky=N)
+            self.cadreArbreTechno.grid(row=0, column =0)
             self.createElemTech()
 
     def changementdevue(self,evt):
@@ -390,23 +389,23 @@ class Vue():
         # onglet buttons
         self.btnEco=Button(self.cadreArbreTechno,text="Economie",height=1, width = 14, bg = "light gray")
         self.btnMilit=Button(self.cadreArbreTechno,text="Militaire",height=1, width = 14, bg = "light gray")
-        self.btnScience=Button(self.cadreArbreTechno,text="Science",height=1, width = 14, bg = "light gray")
+        #self.btnScience=Button(self.cadreArbreTechno,text="Science",height=1, width = 14, bg = "light gray")
         ## placement buttons
         self.cadreArbreTechno.create_window(0, 0, anchor=NW, window=self.btnEco, tags=("onglet", "Eco"))
         self.cadreArbreTechno.create_window(100, 0, anchor=NW, window=self.btnMilit, tags=("onglet", "Milit"))
-        self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet", "Science"))
+        #self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet", "Science"))
         # avancement
-        self.btnAvac1 = Button(self.cadreArbreTechno, text = "Bonus production", height =1 , width = 14,bg = "light gray" )
-        self.btnAvac2 = Button(self.cadreArbreTechno, text = "Bonus production x 2", height =1 , width = 16,bg = "light gray" )
-        self.btnAvac3 = Button(self.cadreArbreTechno, text = "Couts Reduit", height =1 , width = 16,bg = "light gray" )
-        self.btnAvac4 = Button(self.cadreArbreTechno, text = "Bonus production x 4", height =1 , width = 16,bg = "light gray" )
-        self.btnAvac5 = Button(self.cadreArbreTechno, text = "Couts Reduit x 2", height =1 , width = 16,bg = "light gray" )
+        self.btnAvac1 = Button(self.cadreArbreTechno, text = "Bonus production", height =1 , width = 14,bg = "azure", state= NORMAL )
+        self.btnAvac2 = Button(self.cadreArbreTechno, text = "Bonus production x 2", height =1 , width = 16,bg = "azure", state= NORMAL )
+        self.btnAvac3 = Button(self.cadreArbreTechno, text = "Couts Reduit", height =1 , width = 16,bg = "azure", state= NORMAL )
+        self.btnAvac4 = Button(self.cadreArbreTechno, text = "Bonus production x 4", height =1 , width = 16,bg = "azure", state= NORMAL )
+        self.btnAvac5 = Button(self.cadreArbreTechno, text = "Couts Reduit x 2", height =1 , width = 16,bg = "azure", state= NORMAL )
         # ajout sur canvevas
-        self.cadreArbreTechno.create_window(60,110,window = self.btnAvac1)
-        self.cadreArbreTechno.create_window(130,70,window = self.btnAvac2)
-        self.cadreArbreTechno.create_window(130,150,window = self.btnAvac3)
-        self.cadreArbreTechno.create_window(270,70,window = self.btnAvac4)
-        self.cadreArbreTechno.create_window(270,150,window = self.btnAvac5)
+        self.cadreArbreTechno.create_window(60,110,window = self.btnAvac1, tags = "Avac1")
+        self.cadreArbreTechno.create_window(130,70,window = self.btnAvac2, tags = "Avac2")
+        self.cadreArbreTechno.create_window(130,150,window = self.btnAvac3, tags = "Avac3")
+        self.cadreArbreTechno.create_window(270,70,window = self.btnAvac4, tags = "Avac4")
+        self.cadreArbreTechno.create_window(270,150,window = self.btnAvac5, tags = "Avac5")
         # ajout des lignes
         self.cadreArbreTechno.create_line(105,100,145,75) #  avance 1 to 2
         self.cadreArbreTechno.create_line(190,68,270,68) #  avance 2 to 4
@@ -415,16 +414,13 @@ class Vue():
         # ajouts des binds
         self.btnEco.bind("<Button>", self.actionOngletEco)
         self.btnMilit.bind("<Button>", self.actionOngletMilit)
-        self.btnScience.bind("<Button>", self.actionOngletScience)
+        #self.btnScience.bind("<Button>", self.actionOngletScience)
 
         self.btnAvac1.bind("<Button>", self.actionElemTech)
         self.btnAvac2.bind("<Button>", self.actionElemTech)
         self.btnAvac3.bind("<Button>", self.actionElemTech)
         self.btnAvac4.bind("<Button>", self.actionElemTech)
         self.btnAvac5.bind("<Button>", self.actionElemTech)
-
-
-
 
         self.actionOngletEco(self)
 
@@ -440,11 +436,11 @@ class Vue():
     def actionOngletMilit(self,event):
         self.ongletActif = "Militaire"
 
-        self.btnAvac1.config(text = "Vaisseau plus rapide")
-        self.btnAvac2.config(text = "Vaisseau tir rapide")
-        self.btnAvac3.config(text = "Vaisseau plus durable")
-        self.btnAvac4.config(text = "Vaisseau laser")
-        self.btnAvac5.config(text = "Vaisseau plus fort")
+        self.btnAvac1.config(text = "Vaisseau Canon")
+        self.btnAvac2.config(text = "Vaisseau Eclaireur")
+        self.btnAvac3.config(text = "Vaisseau Tank")
+        self.btnAvac4.config(text = "Vaisseau Laser")
+        self.btnAvac5.config(text = "Vaisseau Sniper")
 
     def actionOngletScience(self,event):
         self.ongletActif = "Science"
@@ -455,11 +451,31 @@ class Vue():
         self.btnAvac4.config(text = "PlaceHolder")
         self.btnAvac5.config(text = "PlaceHolder")
 
+    # active bouton si assez d'Argent
+    def disableBtnAvac1(self):
+        self.btnAvac1.config(state = DISABLED, bg="gray20")
+    def disableBtnAvac2(self):
+        self.btnAvac1.config(state = DISABLED, bg="gray20")
+        self.btnAvac2.config(state = DISABLED, bg="gray20")
+    def disableBtnAvac3(self):
+        self.btnAvac1.config(state = DISABLED, bg="gray20")
+        self.btnAvac3.config(state = DISABLED, bg="gray20")
+    def disableBtnAvac4(self):
+        self.btnAvac1.config(state = DISABLED, bg="gray20")
+        self.btnAvac2.config(state = DISABLED, bg="gray20")
+        self.btnAvac4.config(state = DISABLED, bg="gray20")
+    def disableBtnAvac5(self):
+        self.btnAvac1.config(state = DISABLED, bg="gray20")
+        self.btnAvac3.config(state = DISABLED, bg="gray20")
+        self.btnAvac5.config(state = DISABLED, bg="gray20")
+
 
     def actionElemTech(self,event):
         avancement = event.widget.cget("text")
+        etat = event.widget.cget("state")
         if avancement:
-            self.parent.avancementTechno(avancement)
+            if etat == "normal":
+                self.parent.avancementTechno(avancement)
 
 
     def CliqueVueSySsolaire(self,canvas,mod):
@@ -481,6 +497,7 @@ class Vue():
                     self.vues["Solaire"].versGalaxie.config(state=ACTIVE, command = lambda  : self.vues["Solaire"].envoyerVersGalaxie(t,self.mod))
                 elif t[1]=="planete":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
+                    self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                 elif t[1] is not None:
                     self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
@@ -492,7 +509,6 @@ class Vue():
 
             #else if self.canvas == self.vues["Solaire"].canevasSolaire:
             #    if t[1] == "vaisseau" :
-
 
     def CliqueVueGalaxie(self,canvas,mod):
         self.canvas = canvas
@@ -750,8 +766,6 @@ class VueSolaire():
 
     def montreplaneteselection(self):
         self.newVais.grid(row=7,column=0)
-    #def montreflotteselection(self):
-       # self.lbselectecible.pack()
 
 
 class VuePlanete():
@@ -790,6 +804,7 @@ class VuePlanete():
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
             self.canevasPlanete.create_oval(x,y,x+1,y+1,fill="white",tags=("fond"))
+
 
         # affichage de la planete selectionner
 
@@ -858,12 +873,13 @@ class VuePlanete():
         x2=cx + demiTaille
         y1=cy - demiTaille
         y2=cy + demiTaille
-        self.canevasPlanete.create_oval(x1, y1, x2, y2,fill=self.planete.couleur ,tags=("planeteMere",id, self.planete.taille))
+        self.canevasPlanete.create_oval(x1, y1, x2, y2, fill=self.planete.couleur,tags=("planeteMere",id, self.planete.taille))
 
-        #self.parent.bChoixBatiement.grid(row = 6, column = 0)
         self.afficheEmplacement(self.planete)
+        self.afficheStructure(self.planete.id)
         #self.canevasPlanete.bind( "<Button-1>", lambda event, canvas = self.canevasPlanete : self.parent.CliqueVuePlanete(canvas,self.parent.modele,self.planete.parent,self.id))
         self.canevasPlanete.bind( "<Button-1>", self.cliqueEmplacement)
+
 
     def cliqueEmplacement(self,evt=0):
         tagsPlanete=self.canevasPlanete.gettags("current")
@@ -871,6 +887,7 @@ class VuePlanete():
         if tagsPlanete:
             if tagsPlanete[0] == "emplacement":
                 self.menuStructPlanete()
+                self.emplacementSelectionne=tagsPlanete
             if tagsPlanete[0] != "emplacement":
                 self.cadreStruct.grid_forget()
         else:
@@ -879,13 +896,10 @@ class VuePlanete():
 
 
     def afficherPlanete2(self,modele,idPlanete):
-        #self.parent.cadreinfo.grid_forget()
         self.modele=modele
         self.id=idPlanete
         self.canevasPlanete.delete("all")
         self.afficherdecorPlanete(self.modele)
-        # self.afficherInfosPlanete(self.modele,self.id)
-        self.modele=modele
         x=200
         y=100
         for i in (self.modele.Galaxie.listeSysSolaire):
@@ -932,8 +946,6 @@ class VuePlanete():
         self.buttonRaffIso.grid(row=3 , column = 1)
         self.buttonFerme.grid(row=3 , column = 0)
         self.buttonCapitale.grid(row=4 , column = 0, columnspan = 2)
-        #self.labelStructSucces.grid(row=5,column = 0, columnspan = 2) # always lowest
-        #self.parent.cadreBouton.grid(row=1 , column = 0)
 
     def hideFrameStruct(self):
         self.cadreStruct.grid_forget()
@@ -943,39 +955,15 @@ class VuePlanete():
         j = self.modele.joueurs[self.parent.parent.monnom]
         id = j.bufferSelection[0].id
         nom=evt.widget.cget("text")
-        self.parent.parent.creerStructure(j.nom,nom,id,100,100)
-        #self.afficheEmplacement(self.id)
-        #self.afficheStructure(self.id)
-
+        x=int(self.emplacementSelectionne[2])
+        y=int(self.emplacementSelectionne[3])
+        self.parent.parent.creerStructure(j.nom,nom,id,x,y)
 
         #if j.:
         #self.succesful = self.modele.Planete.creerStructure(self.id,nom)
         print(j,nom,id)
-        """
-        self.succesfull =1
-
-        if (self.succesfull == 1):
-            # ajouté
-            self.labelStructSucces.config(text="La structure a bien été ajouté!")
-        if(self.succesfull == 0):
-            # pas ajouté car pas de place
-            self.labelStructSucces.config(text="La structure na pas pu etre ajoutée")
-
-        self.buttonUsineCiv.grid_forget()
-        self.buttonUsineMili.grid_forget()
-        self.buttonRaffDia.grid_forget()
-        self.buttonRaffChar.grid_forget()
-        self.buttonRaffIso.grid_forget()
-        self.buttonFerme.grid_forget()
-        self.buttonCapitale.grid_forget()
-        self.newStruct.config(state="normal")
-
-
-        self.parent.updateInfosJoueur(self.modele)
-        """
 
     def afficheEmplacement(self,planete):
-
         for i in planete.emplacementsDispo:
             t=5
             self.canevasPlanete.create_rectangle(i[0]-t, i[1]-t,  i[0] + t, i[1] + t, fill="red",tags=("emplacement", str(planete.id), str(i[0]),str(i[1])))
@@ -998,13 +986,17 @@ class VuePlanete():
                 if (j.id == self.idplante):
                     self.planete=j
 
-
+        print("In affiche structure", self.planete.listeStructure)
         if len(self.planete.listeStructure) > 0:
             for i in self.planete.listeStructure:
-                self.x = i.x
-                self.y = i.y
-                self.diametre = i.taille
-                self.cadrespatial.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill="turquoise2", tags=(i.nomStructure,i.proprietaire))
+                print(i,"Affiche structure")
+                self.x = i.x - 5
+                self.y = i.y - 5
+                self.diametre =10#i.taille
+                self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
+
+
+
 
 
 class VueGalaxie():
