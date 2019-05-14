@@ -443,6 +443,7 @@ class Joueur():
         self.deuterium=5
         self.timer=0
         self.messages=[]
+        self.maintenance=0
 
     def changerVueVaisseau(self,info):
         idvais,idEspace,idSoleil=info
@@ -536,18 +537,18 @@ class Joueur():
         self.timer+=1
 
         coutNourriture = 0
-        coutCredit = 0
+        #self.maintenance = 0
         coutDeuterium = 0
 
         if self.timer >= self.cooldownRessource:
 
             for i in self.listeStructure:
-                coutCredit+=i.maintenance
+                self.maintenance+=i.maintenance
 
 
-            self.credit-=coutCredit
+            self.credit-=self.maintenance
             self.timer = 0
-            print("Economie: coutCredit: -",coutCredit)
+            print("Economie: coutCredit: -",self.maintenance)
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids

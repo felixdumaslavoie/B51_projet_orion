@@ -165,7 +165,7 @@ class Vue():
         self.idcouleur=Label(self.cadre, bg=self.mod.joueurs[self.nom].couleur )
         # ajouter text variable
         self.labcouttotal=Label(self.cadre,text="Cout Total:",bg=self.couleurinfo, font=self.infofont)
-        self.nbcouttotal=Label(self.cadre,text="-" ,bg=self.couleurinfo, font=self.infofont)
+        self.nbcouttotal=Label(self.cadre,text=self.mod.joueurs[self.nom].maintenance ,bg=self.couleurinfo, font=self.infofont)
 
         self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo, font=("Helvetica",14,"bold"))
         self.btnarbretech.bind("<Button-1>",self.toggleBtnTechno)
@@ -342,6 +342,7 @@ class Vue():
 
 
         #return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
+        #self.nbcouttotal.config(text= self.mod.joueurs[self.nom].credit)
 
     #def _create_circle(self, x, y, r):
        # return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
