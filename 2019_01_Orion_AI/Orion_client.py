@@ -141,8 +141,8 @@ class Controleur():
             self.serveur.jequitte(self.monnom)
         self.vue.root.destroy()
 
-    def creervaisseau(self):
-        self.actions.append([self.monnom,"creervaisseau",""])
+    def creervaisseau(self,nomVais):
+        self.actions.append([self.monnom,"creervaisseau",nomVais])
 
     def changerVueVaisseau(self,idVais,idEspace,idSol):
         self.actions.append([self.monnom,"changervuevaisseau", [idVais,idEspace,idSol]])

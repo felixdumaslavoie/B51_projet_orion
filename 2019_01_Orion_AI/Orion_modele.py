@@ -292,7 +292,7 @@ class Capitale(Structure):
 
 
 class Vaisseau():
-    def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau_Militaire"):
+    def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau):
         self.parent=parent
         self.id=Id.prochainid()
         self.proprietaire=nom
@@ -304,19 +304,22 @@ class Vaisseau():
         self.vaisseauCible = None
         self.nomVaisseau=nomVaisseau
         self.projectile=[]
+        self.cargo=0
+        self.energie=0
+        self.vitesse=0
+        self.range=0
 
+        # if nomVaisseau=="Vaisseau_Militaire":
+        #     self.cargo=0
+        #     self.energie=400
+        #     self.vitesse=1
+        #     self.range=200
+        #    # self.distMax = self.getDistance()
 
-        if nomVaisseau=="Vaisseau_Militaire":
-            self.cargo=0
-            self.energie=400
-            self.vitesse=1
-            self.range=200
-           # self.distMax = self.getDistance()
-
-        if nomVaisseau=="Vaisseau_Civil":
-            self.cargo=100
-            self.energie=100
-            self.vitesse=0
+        # if nomVaisseau=="Vaisseau_Civil":
+        #     self.cargo=100
+        #     self.energie=100
+        #     self.vitesse=0
 
     def avancer(self):
         if self.cible:
@@ -402,7 +405,50 @@ class Vaisseau():
 
     # def checkIfInRangeGalaxie(self):
     #     pass
+class VaisseauCanon(Vaisseau):
+    def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Canon"):
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) # Constructeur de la classe structure
+        self.cargo=0
+        self.energie=400
+        self.vitesse=5
+        self.range=200
+        self.cout=100
 
+class VaisseauEclaireur(Vaisseau):
+    def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Eclaireur"):
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) # Constructeur de la classe structure
+        self.cargo=0
+        self.energie=400
+        self.vitesse=10
+        self.range=200
+        self.cout=300
+
+class VaisseauTank(Vaisseau):
+    def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Tank"):
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) # Constructeur de la classe structure
+        self.cargo=0
+        self.energie=400
+        self.vitesse=1
+        self.range=400
+        self.cout=300
+
+class VaisseauLaser(Vaisseau):
+    def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Laser"):
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) # Constructeur de la classe structure
+        self.cargo=0
+        self.energie=400
+        self.vitesse=1
+        self.range=400
+        self.cout=200
+
+class VaisseauSniper(Vaisseau):
+    def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Sniper"):
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) # Constructeur de la classe structure
+        self.cargo=0
+        self.energie=400
+        self.vitesse=1
+        self.range=400
+        self.cout=200
 
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
@@ -436,6 +482,13 @@ class Joueur():
                          "Raffinerie (Isotope)":RaffinerieIsotope,
                          "Ferme":Ferme,
                          "Capitale":Capitale}
+
+        self.vaisseaux={"Vaisseau Canon":VaisseauCanon,
+                         "Vaisseau Eclaireur":VaisseauEclaireur,
+                         "Vaisseau Tank":VaisseauTank,
+                         "Vaisseau Laser":VaisseauLaser,
+                         "Vaisseau Sniper":VaisseauSniper}
+
         self.cooldownRessource = 100
 
         self.credit=1000
@@ -498,9 +551,11 @@ class Joueur():
                     return
 
     def creervaisseau(self,params):
-        v=Vaisseau(self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
-        print("Vaisseau",v.id, v.nomVaisseau, v.cargo, v.energie, v.vitesse)
-        self.flotteSystemeSolaire.append(v)
+        nomvais=params
+        #v=Vaisseau(self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
+        vaisseau=self.vaisseaux[nomvais](self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
+        print("Vaisseau", vaisseau.id, vaisseau.nomVaisseau, vaisseau.cargo, vaisseau.energie, vaisseau.vitesse)
+        self.flotteSystemeSolaire.append(vaisseau)
 
     def creerStructure(self,params):
         nomjoueur, nomstruct,idplanete,x,y=params
@@ -508,11 +563,11 @@ class Joueur():
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
-                    
+
         structure=self.structures[nomstruct](nomjoueur,nomstruct,idplanete,x,y)
         self.listeStructure.append(structure)
         planete.listeStructure.append(structure)
-        
+
         planete.ajouterBatiment(x,y,nomstruct)
         if self.parent.parent.vue.vues:
             self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
@@ -521,17 +576,17 @@ class Joueur():
 
     def updaterRessources(self):
         self.timer+=1
-        
+
         coutNourriture = 0
         coutCredit = 0
         coutDeuterium = 0
-        
+
         if self.timer >= self.cooldownRessource:
-            
+
             for i in self.listeStructure:
-                coutCredit+=i.maintenance                    
-                    
-                
+                coutCredit+=i.maintenance
+
+
             self.credit-=coutCredit
             self.timer = 0
             print("Economie: coutCredit: -",coutCredit)
@@ -624,13 +679,13 @@ class IA(Joueur):
             self.compteurCreation +=1
             if self.compteurCreation == 1000:
                 self.compteurCreation = 0
-                self.creervaisseau(0)
+                self.creervaisseau("Vaisseau Canon")
 
         if self.couleur == "green":
             self.compteurCreation +=1
             if self.compteurCreation == 500:
                 self.compteurCreation = 0
-                self.creervaisseau(0)
+                self.creervaisseau("Vaisseau Canon")
 
         if self.flotteSystemeSolaire:
             for i in self.flotteSystemeSolaire:
