@@ -227,59 +227,66 @@ class Structure():
 
 class UsineCivile(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Usine_Civile[0]
-        self.cout=Structure.Usine_Civile[1]
-        self.maintenance=Structure.Usine_Civile[2]
-        self.production=Structure.Usine_Civile[3]
+        self.cout=Structure.Usine_Civile[2]
+        self.maintenance=Structure.Usine_Civile[3]
+        self.production=Structure.Usine_Civile[4]
+        self.couleur = "tan1"
 
 class UsineMilitaire(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Usine_Militaire[0]
-        self.cout=Structure.Usine_Militaire[1]
-        self.maintenance=Structure.Usine_Militaire[2]
-        self.production=Structure.Usine_Militaire[3]
+        self.cout=Structure.Usine_Militaire[2]
+        self.maintenance=Structure.Usine_Militaire[3]
+        self.production=Structure.Usine_Militaire[4]
+        self.couleur = "blue"
 
 class RaffinerieDiamant(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Diamant[0]
-        self.cout=Structure.Raffinerie_Diamant[1]
-        self.maintenance=Structure.Raffinerie_Diamant[2]
-        self.production=Structure.Raffinerie_Diamant[3]
+        self.cout=Structure.Raffinerie_Diamant[2]
+        self.maintenance=Structure.Raffinerie_Diamant[3]
+        self.production=Structure.Raffinerie_Diamant[4]
+        self.couleur = "cyan"
 
 class RaffinerieCharbon(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Charbon[0]
-        self.cout=Structure.Raffinerie_Charbon[1]
-        self.maintenance=Structure.Raffinerie_Charbon[2]
-        self.production=Structure.Raffinerie_Charbon[3]
+        self.cout=Structure.Raffinerie_Charbon[2]
+        self.maintenance=Structure.Raffinerie_Charbon[3]
+        self.production=Structure.Raffinerie_Charbon[4]
+        self.couleur = "gray25"
 
 class RaffinerieIsotope(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Isotope[0]
-        self.cout=Structure.Raffinerie_Isotope[1]
-        self.maintenance=Structure.Raffinerie_Isotope[2]
-        self.production=Structure.Raffinerie_Isotope[3]
+        self.cout=Structure.Raffinerie_Isotope[2]
+        self.maintenance=Structure.Raffinerie_Isotope[3]
+        self.production=Structure.Raffinerie_Isotope[4]
+        self.couleur = "RoyalBlue1"
 
 class Ferme(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Ferme[0]
-        self.cout=Structure.Ferme[1]
-        self.maintenance=Structure.Ferme[2]
-        self.production=Structure.Ferme[3]
+        self.cout=Structure.Ferme[2]
+        self.maintenance=Structure.Ferme[3]
+        self.production=Structure.Ferme[4]
+        self.couleur = "brown4"
 
 class Capitale(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Capitale[0]
-        self.cout=Structure.Capitale[1]
-        self.maintenance=Structure.Capitale[2]
-        self.production=Structure.Capitale[3]
+        self.cout=Structure.Capitale[2]
+        self.maintenance=Structure.Capitale[3]
+        self.production=Structure.Capitale[4]
+        self.couleur = "yellow"
 
 
 
@@ -412,6 +419,7 @@ class Joueur():
         self.systemeVisiter=[]
         self.planetescontrolees=[planetemere]
         self.bufferSelection = []
+        self.listeStructure = []
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte,
                       "creerStructure":self.creerStructure,
@@ -500,6 +508,11 @@ class Joueur():
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
+                    
+        structure=self.structures[nomstruct](nomjoueur,nomstruct,idplanete,x,y)
+        self.listeStructure.append(structure)
+        planete.listeStructure.append(structure)
+        
         planete.ajouterBatiment(x,y,nomstruct)
         if self.parent.parent.vue.vues:
             self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
@@ -508,11 +521,20 @@ class Joueur():
 
     def updaterRessources(self):
         self.timer+=1
+        
+        coutNourriture = 0
+        coutCredit = 0
+        coutDeuterium = 0
+        
         if self.timer >= self.cooldownRessource:
-            self.nourriture += 50
-            self.credit += 10
-            self.deuterium += 2
+            
+            for i in self.listeStructure:
+                coutCredit+=i.maintenance                    
+                    
+                
+            self.credit-=coutCredit
             self.timer = 0
+            print("Economie: coutCredit: -",coutCredit)
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
