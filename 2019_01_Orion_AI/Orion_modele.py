@@ -358,53 +358,6 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
-    # def changerVueVaisseau(self,Soleil):
-    #     if self.espaceCourant is not None:
-    #         self.espaceCourant=None
-    #         self.x=Soleil.x
-    #         self.y=Soleil.y
-    #     elif (self.espaceCourant==None):
-    #         self.espaceCourant=Soleil
-    #         self.x=100
-    #         self.y=100
-
-
-    # def getDistance(self):
-    #     self.distanceX = self.x + self.range
-    #     self.distanceY = self.y + self.range
-    #     dist = math.sqrt((self.distanceX - self.x)**2 + (self.distanceY - self.y)**2)
-
-    #     return dist
-
-    # def checkIfInRangeSolaire(self):
-    #     listeJoueur = list(self.parent.joueurs.keys())
-    #     for i in listeJoueur:
-    #         if i.nom != self.nom:
-    #             for j in i.flotteSystemeSolaire:
-    #                 diffX = j.x - self.x
-    #                 diffY = j.y - self.y
-    #                 if diffX < self.distMax & diffY < self.distMax:
-    #                     self.vaisseauCible = j
-
-    # def creerProjectiles(self,name,targetX,targetY):
-    #     self.monnom = name
-    #     self.tX = targetX
-    #     self.tY = targetY
-
-    #     listeJoueur = list(self.parent.joueurs.keys())
-    #     for i in listeJoueur:
-    #         if i.nom == self.nom:
-    #             pass
-
-    # def deleteProj(self):
-    #     for i in self.projectile:
-    #         if i.x == i.targetX & i.Y == i.targetY:
-    #             self.projectile.remove(i)
-
-
-
-    # def checkIfInRangeGalaxie(self):
-    #     pass
 class VaisseauCanon(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Canon"):
         super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) # Constructeur de la classe structure
@@ -695,14 +648,14 @@ class IA(Joueur):
             if self.compteurCreation == 1000:
                 self.compteurChangementVue += 1
                 self.compteurCreation = 0
-                self.creervaisseau("Vaisseau Canon")
+                #self.parent.parent.creervaisseauAi("Vaisseau Canon","nom")
 
             if self.compteurChangementVue == 1:
                 self.compteurChangementVue = 0
-                i = random.choice(self.flotteSystemeSolaire)
-
-                self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
-                i.cible = None
+                if self.flotteSystemeSolaire:
+                    i = random.choice(self.flotteSystemeSolaire)
+                    self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
+                    i.cible = None
 
             if self.flotteSystemeSolaire:
                 for i in self.flotteSystemeSolaire:
@@ -720,13 +673,14 @@ class IA(Joueur):
             if self.compteurCreation == 750:
                 self.compteurChangementVue += 1
                 self.compteurCreation = 0
-                self.creervaisseau("Vaisseau Canon")
+                #self.parent.parent.creervaisseauAi("Vaisseau Canon","nom")
 
             if self.compteurChangementVue == 3:
                 self.compteurChangementVue = 0
-                i = random.choice(self.flotteSystemeSolaire)
-                self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
-                i.cible = None
+                if self.flotteSystemeSolaire:
+                    i = random.choice(self.flotteSystemeSolaire)
+                    self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
+                    i.cible = None
 
             if self.flotteSystemeSolaire:
                 for i in self.flotteSystemeSolaire:
