@@ -61,7 +61,7 @@ class SystemeSolaire():
         self.x=x
         self.y=y
         self.taille=random.randrange(4,7) #taille de l'étoile dans la vue de la galaxie
-        self.nbdeplanete=random.randrange(2, 12)
+        self.nbdeplanete=random.randrange(5, 12)
         self.listePlanete = []
         self.couleur = "grey80"
         print("Étoile", self.nometoile, "ID:", self.id)
@@ -692,7 +692,7 @@ class IA(Joueur):
         if self.couleur == "orange":
             self.compteurCreation +=1
 
-            if self.compteurCreation == 100:
+            if self.compteurCreation == 1000:
                 self.compteurChangementVue += 1
                 self.compteurCreation = 0
                 self.creervaisseau("Vaisseau Canon")
@@ -702,12 +702,17 @@ class IA(Joueur):
                 i = random.choice(self.flotteSystemeSolaire)
 
                 self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
-                if i.espaceCourant:
-                    i.cible=random.choice(i.solaire.listePlanete)
-                    print("Nouvelle cible IA Solaire:", i.cible.id)
-                if i.espaceCourant == None:
-                    i.cible=random.choice(i.solaire.parent.listeSysSolaire)
-                    print("Nouvelle cible IA galaxie:", i.cible.id)
+                i.cible = None
+
+            if self.flotteSystemeSolaire:
+                for i in self.flotteSystemeSolaire:
+                    if i.cible == None:
+                        if i.espaceCourant:
+                            i.cible=random.choice(i.solaire.listePlanete)
+                            print("Nouvelle cible IA Solaire:", i.cible.id)
+                        if i.espaceCourant == None:
+                            i.cible=random.choice(i.solaire.parent.listeSysSolaire)
+                            print("Nouvelle cible IA galaxie:", i.cible.id)
 
         if self.couleur == "green":
             self.compteurCreation +=1
@@ -721,26 +726,24 @@ class IA(Joueur):
                 self.compteurChangementVue = 0
                 i = random.choice(self.flotteSystemeSolaire)
                 self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
+                i.cible = None
 
-                if i.espaceCourant:
-                    i.cible=random.choice(i.solaire.listePlanete)
-                    print("Nouvelle cible IA Solaire:", i.cible.id)
-                if i.espaceCourant == None:
-                    i.cible=random.choice(i.solaire.parent.listeSysSolaire)
-                    print("Nouvelle cible IA galaxie:", i.cible.id)
+            if self.flotteSystemeSolaire:
+                for i in self.flotteSystemeSolaire:
+                    if i.cible == None:
+                        if i.espaceCourant:
+                            i.cible=random.choice(i.solaire.listePlanete)
+                            print("Nouvelle cible IA Solaire:", i.cible.id)
+                        if i.espaceCourant == None:
+                            i.cible=random.choice(i.solaire.parent.listeSysSolaire)
+                            print("Nouvelle cible IA galaxie:", i.cible.id)
+
 
         if self.flotteSystemeSolaire:
             for i in self.flotteSystemeSolaire:
                 if i.cible:
                     i.avancer()
-                else:
-                    pass
-                    #if i.espaceCourant:
-                    #    i.cible=random.choice(i.solaire.listePlanete)
-                    #    print("Nouvelle cible IA Solaire:", i.cible.id)
-                    #if i.espaceCourant == None:
-                    #    i.cible=random.choice(i.solaire.parent.listeSysSolaire)
-                    #    print("Nouvelle cible IA galaxie:", i.cible.id)
+
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
