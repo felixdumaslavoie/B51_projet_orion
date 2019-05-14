@@ -996,9 +996,6 @@ class VuePlanete():
                 self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
 
 
-
-
-
 class VueGalaxie():
 
     def __init__(self,fen,parent):
