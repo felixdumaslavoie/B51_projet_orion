@@ -198,7 +198,7 @@ class Vue():
         self.mod = mod
 
         self.labcouleur.grid(row=0,column=0)
-        self.idcouleur.grid(row=0,column=1)
+        self.idcouleur.grid(row=0,column=1, sticky=W+E)
         self.labcouttotal.grid(row=0,column=2)
         self.nbcouttotal.grid(row=0,column=3)
         # ajout text var
