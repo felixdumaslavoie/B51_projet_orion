@@ -46,8 +46,6 @@ class Vue():
 
         self.cadreBouton=Frame(self.cadreoutils,width=200,height=200,bg="medium spring green")
 
-        self.cadreinfo.grid_propagate(False)
-
 
         self.couleurinfo="gray"
         self.couleurbouton="gray33"
@@ -60,7 +58,7 @@ class Vue():
         if self.cadreArbreTechno.winfo_ismapped():
             self.cadreArbreTechno.grid_forget()
         else:
-            self.cadreArbreTechno.grid(row=0, column =0, sticky=N)
+            self.cadreArbreTechno.grid(row=0, column =0)
             self.createElemTech()
 
     def changementdevue(self,evt):
@@ -391,23 +389,23 @@ class Vue():
         # onglet buttons
         self.btnEco=Button(self.cadreArbreTechno,text="Economie",height=1, width = 14, bg = "light gray")
         self.btnMilit=Button(self.cadreArbreTechno,text="Militaire",height=1, width = 14, bg = "light gray")
-        self.btnScience=Button(self.cadreArbreTechno,text="Science",height=1, width = 14, bg = "light gray")
+        #self.btnScience=Button(self.cadreArbreTechno,text="Science",height=1, width = 14, bg = "light gray")
         ## placement buttons
         self.cadreArbreTechno.create_window(0, 0, anchor=NW, window=self.btnEco, tags=("onglet", "Eco"))
         self.cadreArbreTechno.create_window(100, 0, anchor=NW, window=self.btnMilit, tags=("onglet", "Milit"))
-        self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet", "Science"))
+        #self.cadreArbreTechno.create_window(200, 0, anchor=NW, window=self.btnScience, tags=("onglet", "Science"))
         # avancement
-        self.btnAvac1 = Button(self.cadreArbreTechno, text = "Bonus production", height =1 , width = 14,bg = "light gray" )
-        self.btnAvac2 = Button(self.cadreArbreTechno, text = "Bonus production x 2", height =1 , width = 16,bg = "light gray" )
-        self.btnAvac3 = Button(self.cadreArbreTechno, text = "Couts Reduit", height =1 , width = 16,bg = "light gray" )
-        self.btnAvac4 = Button(self.cadreArbreTechno, text = "Bonus production x 4", height =1 , width = 16,bg = "light gray" )
-        self.btnAvac5 = Button(self.cadreArbreTechno, text = "Couts Reduit x 2", height =1 , width = 16,bg = "light gray" )
+        self.btnAvac1 = Button(self.cadreArbreTechno, text = "Bonus production", height =1 , width = 14,bg = "azure", state= NORMAL )
+        self.btnAvac2 = Button(self.cadreArbreTechno, text = "Bonus production x 2", height =1 , width = 16,bg = "azure", state= NORMAL )
+        self.btnAvac3 = Button(self.cadreArbreTechno, text = "Couts Reduit", height =1 , width = 16,bg = "azure", state= NORMAL )
+        self.btnAvac4 = Button(self.cadreArbreTechno, text = "Bonus production x 4", height =1 , width = 16,bg = "azure", state= NORMAL )
+        self.btnAvac5 = Button(self.cadreArbreTechno, text = "Couts Reduit x 2", height =1 , width = 16,bg = "azure", state= NORMAL )
         # ajout sur canvevas
-        self.cadreArbreTechno.create_window(60,110,window = self.btnAvac1)
-        self.cadreArbreTechno.create_window(130,70,window = self.btnAvac2)
-        self.cadreArbreTechno.create_window(130,150,window = self.btnAvac3)
-        self.cadreArbreTechno.create_window(270,70,window = self.btnAvac4)
-        self.cadreArbreTechno.create_window(270,150,window = self.btnAvac5)
+        self.cadreArbreTechno.create_window(60,110,window = self.btnAvac1, tags = "Avac1")
+        self.cadreArbreTechno.create_window(130,70,window = self.btnAvac2, tags = "Avac2")
+        self.cadreArbreTechno.create_window(130,150,window = self.btnAvac3, tags = "Avac3")
+        self.cadreArbreTechno.create_window(270,70,window = self.btnAvac4, tags = "Avac4")
+        self.cadreArbreTechno.create_window(270,150,window = self.btnAvac5, tags = "Avac5")
         # ajout des lignes
         self.cadreArbreTechno.create_line(105,100,145,75) #  avance 1 to 2
         self.cadreArbreTechno.create_line(190,68,270,68) #  avance 2 to 4
@@ -416,16 +414,13 @@ class Vue():
         # ajouts des binds
         self.btnEco.bind("<Button>", self.actionOngletEco)
         self.btnMilit.bind("<Button>", self.actionOngletMilit)
-        self.btnScience.bind("<Button>", self.actionOngletScience)
+        #self.btnScience.bind("<Button>", self.actionOngletScience)
 
         self.btnAvac1.bind("<Button>", self.actionElemTech)
         self.btnAvac2.bind("<Button>", self.actionElemTech)
         self.btnAvac3.bind("<Button>", self.actionElemTech)
         self.btnAvac4.bind("<Button>", self.actionElemTech)
         self.btnAvac5.bind("<Button>", self.actionElemTech)
-
-
-
 
         self.actionOngletEco(self)
 
@@ -441,11 +436,11 @@ class Vue():
     def actionOngletMilit(self,event):
         self.ongletActif = "Militaire"
 
-        self.btnAvac1.config(text = "Vaisseau plus rapide")
-        self.btnAvac2.config(text = "Vaisseau tir rapide")
-        self.btnAvac3.config(text = "Vaisseau plus durable")
-        self.btnAvac4.config(text = "Vaisseau laser")
-        self.btnAvac5.config(text = "Vaisseau plus fort")
+        self.btnAvac1.config(text = "Vaisseau Canon")
+        self.btnAvac2.config(text = "Vaisseau Eclaireur")
+        self.btnAvac3.config(text = "Vaisseau Tank")
+        self.btnAvac4.config(text = "Vaisseau Laser")
+        self.btnAvac5.config(text = "Vaisseau Sniper")
 
     def actionOngletScience(self,event):
         self.ongletActif = "Science"
@@ -456,11 +451,31 @@ class Vue():
         self.btnAvac4.config(text = "PlaceHolder")
         self.btnAvac5.config(text = "PlaceHolder")
 
+    # active bouton si assez d'Argent
+    def disableBtnAvac1(self):
+        self.btnAvac1.config(state = DISABLED, bg="gray20")
+    def disableBtnAvac2(self):
+        self.btnAvac1.config(state = DISABLED, bg="gray20")
+        self.btnAvac2.config(state = DISABLED, bg="gray20")
+    def disableBtnAvac3(self):
+        self.btnAvac1.config(state = DISABLED, bg="gray20")
+        self.btnAvac3.config(state = DISABLED, bg="gray20")
+    def disableBtnAvac4(self):
+        self.btnAvac1.config(state = DISABLED, bg="gray20")
+        self.btnAvac2.config(state = DISABLED, bg="gray20")
+        self.btnAvac4.config(state = DISABLED, bg="gray20")
+    def disableBtnAvac5(self):
+        self.btnAvac1.config(state = DISABLED, bg="gray20")
+        self.btnAvac3.config(state = DISABLED, bg="gray20")
+        self.btnAvac5.config(state = DISABLED, bg="gray20")
+
 
     def actionElemTech(self,event):
         avancement = event.widget.cget("text")
+        etat = event.widget.cget("state")
         if avancement:
-            self.parent.avancementTechno(avancement)
+            if etat == "normal":
+                self.parent.avancementTechno(avancement)
 
 
     def CliqueVueSySsolaire(self,canvas,mod):

@@ -22,7 +22,7 @@ class Galaxie():
         self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.listeNomPlanete = self.txtNomPlanete.readlines()
-        self.nbSysSolaire=8
+        self.nbSysSolaire=2
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
@@ -227,59 +227,66 @@ class Structure():
 
 class UsineCivile(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Usine_Civile[0]
-        self.cout=Structure.Usine_Civile[1]
-        self.maintenance=Structure.Usine_Civile[2]
-        self.production=Structure.Usine_Civile[3]
+        self.cout=Structure.Usine_Civile[2]
+        self.maintenance=Structure.Usine_Civile[3]
+        self.production=Structure.Usine_Civile[4]
+        self.couleur = "tan1"
 
 class UsineMilitaire(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Usine_Militaire[0]
-        self.cout=Structure.Usine_Militaire[1]
-        self.maintenance=Structure.Usine_Militaire[2]
-        self.production=Structure.Usine_Militaire[3]
+        self.cout=Structure.Usine_Militaire[2]
+        self.maintenance=Structure.Usine_Militaire[3]
+        self.production=Structure.Usine_Militaire[4]
+        self.couleur = "blue"
 
 class RaffinerieDiamant(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Diamant[0]
-        self.cout=Structure.Raffinerie_Diamant[1]
-        self.maintenance=Structure.Raffinerie_Diamant[2]
-        self.production=Structure.Raffinerie_Diamant[3]
+        self.cout=Structure.Raffinerie_Diamant[2]
+        self.maintenance=Structure.Raffinerie_Diamant[3]
+        self.production=Structure.Raffinerie_Diamant[4]
+        self.couleur = "cyan"
 
 class RaffinerieCharbon(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Charbon[0]
-        self.cout=Structure.Raffinerie_Charbon[1]
-        self.maintenance=Structure.Raffinerie_Charbon[2]
-        self.production=Structure.Raffinerie_Charbon[3]
+        self.cout=Structure.Raffinerie_Charbon[2]
+        self.maintenance=Structure.Raffinerie_Charbon[3]
+        self.production=Structure.Raffinerie_Charbon[4]
+        self.couleur = "gray25"
 
 class RaffinerieIsotope(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Raffinerie_Isotope[0]
-        self.cout=Structure.Raffinerie_Isotope[1]
-        self.maintenance=Structure.Raffinerie_Isotope[2]
-        self.production=Structure.Raffinerie_Isotope[3]
+        self.cout=Structure.Raffinerie_Isotope[2]
+        self.maintenance=Structure.Raffinerie_Isotope[3]
+        self.production=Structure.Raffinerie_Isotope[4]
+        self.couleur = "RoyalBlue1"
 
 class Ferme(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Ferme[0]
-        self.cout=Structure.Ferme[1]
-        self.maintenance=Structure.Ferme[2]
-        self.production=Structure.Ferme[3]
+        self.cout=Structure.Ferme[2]
+        self.maintenance=Structure.Ferme[3]
+        self.production=Structure.Ferme[4]
+        self.couleur = "brown4"
 
 class Capitale(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(self,joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
+        super().__init__(joueur,idplanete,nomstruct,x,y) # Constructeur de la classe structure
         self.nomStructure=Structure.Capitale[0]
-        self.cout=Structure.Capitale[1]
-        self.maintenance=Structure.Capitale[2]
-        self.production=Structure.Capitale[3]
+        self.cout=Structure.Capitale[2]
+        self.maintenance=Structure.Capitale[3]
+        self.production=Structure.Capitale[4]
+        self.couleur = "yellow"
 
 
 
@@ -412,6 +419,7 @@ class Joueur():
         self.systemeVisiter=[]
         self.planetescontrolees=[planetemere]
         self.bufferSelection = []
+        self.listeStructure = []
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte,
                       "creerStructure":self.creerStructure,
@@ -500,6 +508,11 @@ class Joueur():
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
+                    
+        structure=self.structures[nomstruct](nomjoueur,nomstruct,idplanete,x,y)
+        self.listeStructure.append(structure)
+        planete.listeStructure.append(structure)
+        
         planete.ajouterBatiment(x,y,nomstruct)
         if self.parent.parent.vue.vues:
             self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
@@ -508,11 +521,20 @@ class Joueur():
 
     def updaterRessources(self):
         self.timer+=1
+        
+        coutNourriture = 0
+        coutCredit = 0
+        coutDeuterium = 0
+        
         if self.timer >= self.cooldownRessource:
-            self.nourriture += 50
-            self.credit += 10
-            self.deuterium += 2
+            
+            for i in self.listeStructure:
+                coutCredit+=i.maintenance                    
+                    
+                
+            self.credit-=coutCredit
             self.timer = 0
+            print("Economie: coutCredit: -",coutCredit)
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
@@ -549,13 +571,29 @@ class Joueur():
     def avancementTechno(self,nomAvancement):
         self.avanc = nomAvancement[0]
         print(nomAvancement)
-        if self.avanc == "Bonus production":
+        if self.avanc == "Bonus production": # btn avac 1
             self.cooldownRessource = 95
-        elif self.avanc == "Bonus production x 2":
+            self.parent.parent.vue.disableBtnAvac1()
+        elif self.avanc == "Bonus production x 2": # btn avac 2
             self.cooldownRessource = 85
-        elif self.avanc == "Bonus production x 4":
-            self.cooldownRessource = 55 # calcul weird
-
+            self.parent.parent.vue.disableBtnAvac2()
+        elif self.avanc == "Bonus production x 4": # btn avac 4
+            self.parent.parent.vue.disableBtnAvac4()
+            self.cooldownRessource = 55
+        elif self.avanc == "Couts Reduit": # btn avac 3
+            self.parent.parent.vue.disableBtnAvac3()
+        elif self.avanc == "Couts Reduit x 2": # btn avac 5
+            self.parent.parent.vue.disableBtnAvac5()
+        elif self.avanc == "Vaisseau Canon":
+            pass
+        elif self.avanc == "Vaisseau Eclaireur":
+            pass
+        elif self.avanc == "Vaisseau Tank":
+            pass
+        elif self.avanc == "Vaisseau Laser":
+            pass
+        elif self.avanc == "Vaisseau Sniper":
+            pass
 
 
     def reclamerplanete(self,idplanete,proprietaire):
@@ -566,7 +604,8 @@ class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)
         #planetemere.proprietaire = nom
-        #planetemere.couleur = couleur
+        self.couleur = couleur
+        self.compteurCreation = 0
         print("Planete mere", planetemere.nom, "assignee a", nom, couleur)
         self.tempo=random.randrange(100)+20
 
@@ -581,6 +620,18 @@ class IA(Joueur):
 
         # si assez d'argent
         # construit un bâtiment sur la planète mère
+        if self.couleur == "orange":
+            self.compteurCreation +=1
+            if self.compteurCreation == 1000:
+                self.compteurCreation = 0
+                self.creervaisseau(0)
+
+        if self.couleur == "green":
+            self.compteurCreation +=1
+            if self.compteurCreation == 500:
+                self.compteurCreation = 0
+                self.creervaisseau(0)
+
         if self.flotteSystemeSolaire:
             for i in self.flotteSystemeSolaire:
                 if i.cible:
@@ -588,9 +639,6 @@ class IA(Joueur):
                 else:
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
                     print("Nouvelle cible IA:", i.cible.id)
-
-        else:
-            self.creervaisseau(0)
 
 class Modele():
     def __init__(self,parent,joueurs):
