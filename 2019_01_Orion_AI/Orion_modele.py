@@ -6,6 +6,7 @@ from Id import Id
 from helper import Helper as hlp
 from couleurs import *
 import math
+from numpy.distutils.fcompiler import none
 
 #modif arbitraire
 class Galaxie():
@@ -61,7 +62,7 @@ class SystemeSolaire():
         self.x=x
         self.y=y
         self.taille=random.randrange(4,7) #taille de l'étoile dans la vue de la galaxie
-        self.nbdeplanete=random.randrange(2, 12)
+        self.nbdeplanete=random.randrange(5, 12)
         self.listePlanete = []
         self.couleur = "grey80"
         print("Étoile", self.nometoile, "ID:", self.id)
@@ -196,9 +197,9 @@ class Structure():
     #nom structure, vie, cout, maintenance, exctraction
     Usine_Civile=["Usine_Civile",100,150,1,0]
     Usine_Militaire=["Usine_Militaire",200,225,2,0]
-    Raffinerie_Diamant=["Raffinerie_Diamant",80,350,6,2]
-    Raffinerie_Charbon=["Raffinerie_Charbon",50,150,2,3]
-    Raffinerie_Isotope=["Raffinerie_Isotope",175,250,3,2]
+    Raffinerie_Diamant=["Raffinerie_Diamant",80,350,6,24]
+    Raffinerie_Charbon=["Raffinerie_Charbon",50,150,2,6]
+    Raffinerie_Isotope=["Raffinerie_Isotope",175,250,3,18]
     Ferme=["Ferme",75,50,1,2]
     Capitale=["Capitale",300,5000,10,100]
 
@@ -212,14 +213,6 @@ class Structure():
         self.x=x
         self.y=y
         self.idplanete = idplanete
-
-    def extractionStructure(self):
-        for i in self.parent.listeStructure[i]:
-            if self.parent.ressource[i]>0:
-                if self.parent.ressource[i]<self.extraction:
-                    self.extraction==self.parent.ressource[i]
-                self.parent.ressource[i]-=self.extraction
-
 
     def maintenanceStructure(self):
         for i in self.parent.listeStructure[i]:
@@ -358,53 +351,6 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
-    # def changerVueVaisseau(self,Soleil):
-    #     if self.espaceCourant is not None:
-    #         self.espaceCourant=None
-    #         self.x=Soleil.x
-    #         self.y=Soleil.y
-    #     elif (self.espaceCourant==None):
-    #         self.espaceCourant=Soleil
-    #         self.x=100
-    #         self.y=100
-
-
-    # def getDistance(self):
-    #     self.distanceX = self.x + self.range
-    #     self.distanceY = self.y + self.range
-    #     dist = math.sqrt((self.distanceX - self.x)**2 + (self.distanceY - self.y)**2)
-
-    #     return dist
-
-    # def checkIfInRangeSolaire(self):
-    #     listeJoueur = list(self.parent.joueurs.keys())
-    #     for i in listeJoueur:
-    #         if i.nom != self.nom:
-    #             for j in i.flotteSystemeSolaire:
-    #                 diffX = j.x - self.x
-    #                 diffY = j.y - self.y
-    #                 if diffX < self.distMax & diffY < self.distMax:
-    #                     self.vaisseauCible = j
-
-    # def creerProjectiles(self,name,targetX,targetY):
-    #     self.monnom = name
-    #     self.tX = targetX
-    #     self.tY = targetY
-
-    #     listeJoueur = list(self.parent.joueurs.keys())
-    #     for i in listeJoueur:
-    #         if i.nom == self.nom:
-    #             pass
-
-    # def deleteProj(self):
-    #     for i in self.projectile:
-    #         if i.x == i.targetX & i.Y == i.targetY:
-    #             self.projectile.remove(i)
-
-
-
-    # def checkIfInRangeGalaxie(self):
-    #     pass
 class VaisseauCanon(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Canon"):
         super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) # Constructeur de la classe structure
@@ -466,6 +412,7 @@ class Joueur():
         self.planetescontrolees=[planetemere]
         self.bufferSelection = []
         self.listeStructure = []
+        self.profits = 0
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte,
                       "creerStructure":self.creerStructure,
@@ -496,6 +443,7 @@ class Joueur():
         self.deuterium=5
         self.timer=0
         self.messages=[]
+        self.maintenance=0
 
     def changerVueVaisseau(self,info):
         idvais,idEspace,idSoleil=info
@@ -558,7 +506,12 @@ class Joueur():
         self.flotteSystemeSolaire.append(vaisseau)
 
     def creerStructure(self,params):
-        nomjoueur, nomstruct,idplanete,x,y=params
+        nomjoueur,nomstruct,idplanete,x,y=params
+
+        #for i in self.parent.Galaxie.listeSysSolaire:
+            #for j in i.listePlanete:
+
+
         for i in (self.parent.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idplanete):
@@ -588,21 +541,30 @@ class Joueur():
 
 
     def updaterRessources(self):
+
         self.timer+=1
+        self.profits = 0
 
         coutNourriture = 0
-        coutCredit = 0
+        #self.maintenance = 0
         coutDeuterium = 0
 
         if self.timer >= self.cooldownRessource:
 
             for i in self.listeStructure:
-                coutCredit+=i.maintenance
+                self.maintenance+=i.maintenance
 
+            for i in self.listeStructure:
+                typeStruct = i.nomStructure[0:10]
+                if typeStruct == "Raffinerie":
+                    self.profits += i.production
 
+            self.credit+=self.profits
             self.credit-=coutCredit
             self.timer = 0
-            print("Economie: coutCredit: -",coutCredit)
+            print("Substring",typeStruct)
+            print("Economie: Profits: ", self.profits)
+            print("Economie: coutCredit: ",coutCredit)
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
@@ -695,12 +657,24 @@ class IA(Joueur):
             if self.compteurCreation == 1000:
                 self.compteurChangementVue += 1
                 self.compteurCreation = 0
-                self.creervaisseau("Vaisseau Canon")
+                #self.parent.parent.creervaisseauAi("Vaisseau Canon","nom")
 
-            if self.compteurChangementVue == 2:
+            if self.compteurChangementVue == 1:
                 self.compteurChangementVue = 0
-                i = random.choice(self.flotteSystemeSolaire)
-                self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
+                if self.flotteSystemeSolaire:
+                    i = random.choice(self.flotteSystemeSolaire)
+                    self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
+                    i.cible = None
+
+            if self.flotteSystemeSolaire:
+                for i in self.flotteSystemeSolaire:
+                    if i.cible == None:
+                        if i.espaceCourant:
+                            i.cible=random.choice(i.solaire.listePlanete)
+                            print("Nouvelle cible IA Solaire:", i.cible.id)
+                        if i.espaceCourant == None:
+                            i.cible=random.choice(i.solaire.parent.listeSysSolaire)
+                            print("Nouvelle cible IA galaxie:", i.cible.id)
 
         if self.couleur == "green":
             self.compteurCreation +=1
@@ -708,22 +682,31 @@ class IA(Joueur):
             if self.compteurCreation == 750:
                 self.compteurChangementVue += 1
                 self.compteurCreation = 0
-                self.creervaisseau("Vaisseau Canon")
+                #self.parent.parent.creervaisseauAi("Vaisseau Canon","nom")
 
             if self.compteurChangementVue == 3:
-                pass
+                self.compteurChangementVue = 0
+                if self.flotteSystemeSolaire:
+                    i = random.choice(self.flotteSystemeSolaire)
+                    self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
+                    i.cible = None
 
-
-
+            if self.flotteSystemeSolaire:
+                for i in self.flotteSystemeSolaire:
+                    if i.cible == None:
+                        if i.espaceCourant:
+                            i.cible=random.choice(i.solaire.listePlanete)
+                            print("Nouvelle cible IA Solaire:", i.cible.id)
+                        if i.espaceCourant == None:
+                            i.cible=random.choice(i.solaire.parent.listeSysSolaire)
+                            print("Nouvelle cible IA galaxie:", i.cible.id)
 
 
         if self.flotteSystemeSolaire:
             for i in self.flotteSystemeSolaire:
                 if i.cible:
                     i.avancer()
-                else:
-                    i.cible=random.choice(self.planetemere.parent.listePlanete)
-                    print("Nouvelle cible IA Solaire:", i.cible.id)
+
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
