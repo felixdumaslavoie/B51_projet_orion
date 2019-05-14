@@ -22,7 +22,7 @@ class Galaxie():
         self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.listeNomPlanete = self.txtNomPlanete.readlines()
-        self.nbSysSolaire=8
+        self.nbSysSolaire=2
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
@@ -577,13 +577,29 @@ class Joueur():
     def avancementTechno(self,nomAvancement):
         self.avanc = nomAvancement[0]
         print(nomAvancement)
-        if self.avanc == "Bonus production":
+        if self.avanc == "Bonus production": # btn avac 1
             self.cooldownRessource = 95
-        elif self.avanc == "Bonus production x 2":
+            self.parent.parent.vue.disableBtnAvac1()
+        elif self.avanc == "Bonus production x 2": # btn avac 2
             self.cooldownRessource = 85
-        elif self.avanc == "Bonus production x 4":
-            self.cooldownRessource = 55 # calcul weird
-
+            self.parent.parent.vue.disableBtnAvac2()
+        elif self.avanc == "Bonus production x 4": # btn avac 4
+            self.parent.parent.vue.disableBtnAvac4()
+            self.cooldownRessource = 55
+        elif self.avanc == "Couts Reduit": # btn avac 3
+            self.parent.parent.vue.disableBtnAvac3()
+        elif self.avanc == "Couts Reduit x 2": # btn avac 5
+            self.parent.parent.vue.disableBtnAvac5()
+        elif self.avanc == "Vaisseau Canon":
+            pass
+        elif self.avanc == "Vaisseau Eclaireur":
+            pass
+        elif self.avanc == "Vaisseau Tank":
+            pass
+        elif self.avanc == "Vaisseau Laser":
+            pass
+        elif self.avanc == "Vaisseau Sniper":
+            pass
 
 
     def reclamerplanete(self,idplanete,proprietaire):
@@ -594,7 +610,8 @@ class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)
         #planetemere.proprietaire = nom
-        #planetemere.couleur = couleur
+        self.couleur = couleur
+        self.compteurCreation = 0
         print("Planete mere", planetemere.nom, "assignee a", nom, couleur)
         self.tempo=random.randrange(100)+20
 
@@ -609,6 +626,18 @@ class IA(Joueur):
 
         # si assez d'argent
         # construit un bâtiment sur la planète mère
+        if self.couleur == "orange":
+            self.compteurCreation +=1
+            if self.compteurCreation == 1000:
+                self.compteurCreation = 0
+                self.creervaisseau(0)
+
+        if self.couleur == "green":
+            self.compteurCreation +=1
+            if self.compteurCreation == 500:
+                self.compteurCreation = 0
+                self.creervaisseau(0)
+
         if self.flotteSystemeSolaire:
             for i in self.flotteSystemeSolaire:
                 if i.cible:
@@ -616,9 +645,6 @@ class IA(Joueur):
                 else:
                     i.cible=random.choice(self.planetemere.parent.listePlanete)
                     print("Nouvelle cible IA:", i.cible.id)
-
-        else:
-            self.creervaisseau(0)
 
 class Modele():
     def __init__(self,parent,joueurs):
