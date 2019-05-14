@@ -552,7 +552,12 @@ class Joueur():
         self.flotteSystemeSolaire.append(vaisseau)
 
     def creerStructure(self,params):
-        nomjoueur, nomstruct,idplanete,x,y=params
+        nomjoueur,nomstruct,idplanete,x,y=params
+        
+        #for i in self.parent.Galaxie.listeSysSolaire:
+            #for j in i.listePlanete:
+                
+        
         for i in (self.parent.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idplanete):
