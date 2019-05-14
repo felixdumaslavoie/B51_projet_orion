@@ -554,8 +554,23 @@ class Joueur():
         elif self.avanc == "Bonus production x 2":
             self.cooldownRessource = 85
         elif self.avanc == "Bonus production x 4":
-            self.cooldownRessource = 55 # calcul weird
-
+            self.cooldownRessource = 55
+        elif self.avanc == "Couts Reduit":
+            pass
+        elif self.avanc == "Couts Reduit x 2":
+            pass
+        elif self.avanc == "Vaisseau Canon":
+            pass
+        elif self.avanc == "Vaisseau Eclaireur":
+            pass
+        elif self.avanc == "Vaisseau Tank":
+            pass
+        elif self.avanc == "Vaisseau Laser":
+            pass
+        elif self.avanc == "Vaisseau Sniper":
+            pass
+        elif self.avanc == "PlaceHolder":
+            pass
 
 
     def reclamerplanete(self,idplanete,proprietaire):

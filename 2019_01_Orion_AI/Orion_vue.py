@@ -60,7 +60,7 @@ class Vue():
         if self.cadreArbreTechno.winfo_ismapped():
             self.cadreArbreTechno.grid_forget()
         else:
-            self.cadreArbreTechno.grid(row=0, column =0, sticky=N)
+            self.cadreArbreTechno.grid(row=0, column =0)
             self.createElemTech()
 
     def changementdevue(self,evt):
@@ -441,11 +441,11 @@ class Vue():
     def actionOngletMilit(self,event):
         self.ongletActif = "Militaire"
 
-        self.btnAvac1.config(text = "Vaisseau plus rapide")
-        self.btnAvac2.config(text = "Vaisseau tir rapide")
-        self.btnAvac3.config(text = "Vaisseau plus durable")
-        self.btnAvac4.config(text = "Vaisseau laser")
-        self.btnAvac5.config(text = "Vaisseau plus fort")
+        self.btnAvac1.config(text = "Vaisseau Canon")
+        self.btnAvac2.config(text = "Vaisseau Eclaireur")
+        self.btnAvac3.config(text = "Vaisseau Tank")
+        self.btnAvac4.config(text = "Vaisseau Laser")
+        self.btnAvac5.config(text = "Vaisseau Sniper")
 
     def actionOngletScience(self,event):
         self.ongletActif = "Science"
