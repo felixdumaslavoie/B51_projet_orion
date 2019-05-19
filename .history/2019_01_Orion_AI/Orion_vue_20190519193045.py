@@ -711,7 +711,7 @@ class VueSolaire():
                              self.canevasSolaire.create_image(j.x,j.y,image=self.vaisSniperCan,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
                         elif (j.nomVaisseau=="Vaisseau Tank"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisTankCan,
+                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisTank,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
 
 

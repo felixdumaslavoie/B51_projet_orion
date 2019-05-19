@@ -575,18 +575,18 @@ class VueSolaire():
         self.vaisCanonMenu=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauCanon.png")
         self.vaisEclaireurMenu=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
         self.vaisLaserMenu=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauLaser.png")
-        self.vaisSniperMenu=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauSniper.png")
-        self.vaisTankMenu=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauTank.png")
-        self.vaisCanonCan=resizeImage.resizeVaisseau("C",30,"2019_01_Orion_AI/images/vaisseauCanon.png")
-        self.vaisEclaireurCan=resizeImage.resizeVaisseau("C",30,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
-        self.vaisLaserCan=resizeImage.resizeVaisseau("C",30,"2019_01_Orion_AI/images/vaisseauLaser.png")
-        self.vaisSniperCan=resizeImage.resizeVaisseau("C",30,"2019_01_Orion_AI/images/vaisseauSniper.png")
-        self.vaisTankCan=resizeImage.resizeVaisseau("C",30,"2019_01_Orion_AI/images/vaisseauTank.png")
-        self.newVais1 = Button(self.cadreinfo,image=self.vaisCanonMenu,text="Vaisseau Canon",bg="DeepSkyBlue2")
-        self.newVais2 = Button(self.cadreinfo,image=self.vaisEclaireurMenu,text="Vaisseau Eclaireur",bg="DeepSkyBlue2" )
-        self.newVais3 = Button(self.cadreinfo,image=self.vaisTankMenu,text="Vaisseau Tank",bg="DeepSkyBlue2")
-        self.newVais4 = Button(self.cadreinfo,image=self.vaisLaserMenu,text="Vaisseau Laser",bg="DeepSkyBlue2")
-        self.newVais5 = Button(self.cadreinfo,image=self.vaisSniperMenu,text="Vaisseau Sniper",bg="DeepSkyBlue2")
+        self.vaisSniperCa=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauSniper.png")
+        self.vaisTankCa=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauTank.png")
+        self.vaisCanonCan=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauCanon.png")
+        self.vaisEclaireurCa=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
+        self.vaisLaserCa=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauLaser.png")
+        self.vaisSniperCa=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauSniper.png")
+        self.vaisTankCa=resizeImage.resizeVaisseau("m",30,"2019_01_Orion_AI/images/vaisseauTank.png")
+        self.newVais1 = Button(self.cadreinfo,image=self.vaisCanonCan,text="Vaisseau Canon",bg="DeepSkyBlue2")
+        self.newVais2 = Button(self.cadreinfo,image=self.vaisEclaireurCa,text="Vaisseau Eclaireur",bg="DeepSkyBlue2" )
+        self.newVais3 = Button(self.cadreinfo,image=self.vaisTankCa,text="Vaisseau Tank",bg="DeepSkyBlue2")
+        self.newVais4 = Button(self.cadreinfo,image=self.vaisLaserCa,text="Vaisseau Laser",bg="DeepSkyBlue2")
+        self.newVais5 = Button(self.cadreinfo,image=self.vaisSniperCa,text="Vaisseau Sniper",bg="DeepSkyBlue2")
 
 
         self.newVais1.bind( "<Button-1>", self.selectvaisseau)
@@ -698,25 +698,8 @@ class VueSolaire():
             for j in i.flotteSystemeSolaire:
                 if(j.espaceCourant):
                     if(j.espaceCourant.id ==self.id):
-                        if (j.nomVaisseau=="Vaisseau Canon"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisCanonCan,
+                     self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-                        elif (j.nomVaisseau=="Vaisseau Eclaireur"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisEclaireurCan,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-                        elif (j.nomVaisseau=="Vaisseau Laser"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisLaserCan,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-                        elif (j.nomVaisseau=="Vaisseau Sniper"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisSniperCan,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-                        elif (j.nomVaisseau=="Vaisseau Tank"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisTankCan,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-
-
-                     #create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
-                      #               tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
 
                 #self.canevas.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
                 #                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))

@@ -708,10 +708,10 @@ class VueSolaire():
                              self.canevasSolaire.create_image(j.x,j.y,image=self.vaisLaserCan,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
                         elif (j.nomVaisseau=="Vaisseau Sniper"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisSniperCan,
+                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisEclaireurMenu,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-                        elif (j.nomVaisseau=="Vaisseau Tank"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisTankCan,
+                        elif (j.nomVaisseau=="Vaisseau Eclaireur"):
+                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisEclaireurMenu,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
 
 

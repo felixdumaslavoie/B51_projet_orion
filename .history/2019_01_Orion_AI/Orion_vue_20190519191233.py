@@ -698,21 +698,9 @@ class VueSolaire():
             for j in i.flotteSystemeSolaire:
                 if(j.espaceCourant):
                     if(j.espaceCourant.id ==self.id):
-                        if (j.nomVaisseau=="Vaisseau Canon"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisCanonCan,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-                        elif (j.nomVaisseau=="Vaisseau Eclaireur"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisEclaireurCan,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-                        elif (j.nomVaisseau=="Vaisseau Laser"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisLaserCan,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-                        elif (j.nomVaisseau=="Vaisseau Sniper"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisSniperCan,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-                        elif (j.nomVaisseau=="Vaisseau Tank"):
-                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisTankCan,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
+                        if(j.)
+                             self.canevasSolaire.create_image(j.x-3,j.y-3,j.x+3,j.y+3,image=self.vaisCanonCan,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id))))
 
 
                      #create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
