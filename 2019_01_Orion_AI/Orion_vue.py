@@ -3,6 +3,8 @@ from tkinter import *
 import random
 import os,os.path
 import time
+import resizeImage
+from PIL import Image, ImageTk
 
 
 
@@ -439,11 +441,15 @@ class Vue():
     def actionOngletMilit(self,event):
         self.ongletActif = "Militaire"
 
-        self.btnAvac1.config(text = "Vaisseau Canon")
-        self.btnAvac2.config(text = "Vaisseau Eclaireur")
-        self.btnAvac3.config(text = "Vaisseau Tank")
-        self.btnAvac4.config(text = "Vaisseau Laser")
-        self.btnAvac5.config(text = "Vaisseau Sniper")
+        self.btnAvac1.config(text = "Vaisseau Canon",command= lambda: self.gridhelper(self.vues["Solaire"].newVais1,17,0))
+        self.btnAvac2.config(text = "Vaisseau Eclaireur",command= lambda: self.gridhelper(self.vues["Solaire"].newVais2,17,1))
+        self.btnAvac3.config(text = "Vaisseau Tank",command= lambda: self.gridhelper(self.vues["Solaire"].newVais3,17,2))
+        self.btnAvac4.config(text = "Vaisseau Laser",command= lambda: self.gridhelper(self.vues["Solaire"].newVais4,18,0))
+        self.btnAvac5.config(text = "Vaisseau Sniper",command= lambda: self.gridhelper(self.vues["Solaire"].newVais5,18,1))
+
+
+    def gridhelper(self, button,arow,acolumn):
+        button.grid(row=arow,column=acolumn)
 
     def actionOngletScience(self,event):
         self.ongletActif = "Science"
@@ -565,7 +571,11 @@ class VueSolaire():
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
         self.boutonsVais=[]
-        self.newVais1 = Button(self.cadreinfo,text="Vaisseau Canon",bg="DeepSkyBlue2")
+        self.drawing=Image.open("2019_01_Orion_AI/images/vaisseauCanon.png")
+        #self.drawing=PhotoImage(file="2019_01_Orion_AI/images/vaisseauCanon.png")
+        resizeImage.resizeImage(50,"2019_01_Orion_AI/images/vaisseauCanon.png",self.drawing)
+        self.tk_image = ImageTk.PhotoImage(self.drawing)
+        self.newVais1 = Button(self.cadreinfo,image=self.tk_image,bg="DeepSkyBlue2")
 
 
         #self.newVais1.bind( "<Button-1>", lambda event, button = self.newVais1 : self.parent.creervaisseau("Vaisseau Canon",button))
@@ -584,6 +594,8 @@ class VueSolaire():
 
         self.versGalaxie = Button(self.cadreinfo,text="Vers la Galaxie",bg="DeepSkyBlue2", command=self.envoyerVersGalaxie)
         self.maselection2=None
+    def gridhelper(self, button,arow,acolumn):
+        button.grid(row=arow,column=acolumn)
 
     def selectvaisseau(self,evt):
         w=evt.widget
@@ -743,11 +755,11 @@ class VueSolaire():
         self.planeteZinc.grid(row=14, column=0)
         self.planeteDeuterium.grid(row=15, column=0)
         self.planeteFertile.grid(row=16, column=0)
-        self.newVais1.grid(row=17,column=0)
-        self.newVais2.grid(row=17,column=1)
-        self.newVais3.grid(row=17,column=2)
-        self.newVais4.grid(row=18,column=0)
-        self.newVais5.grid(row=18,column=1)
+        # self.newVais1.grid(row=17,column=0)
+        # self.newVais2.grid(row=17,column=1)
+        # self.newVais3.grid(row=17,column=2)
+        # self.newVais4.grid(row=18,column=0)
+        # self.newVais5.grid(row=18,column=1)
 
         self.versGalaxie.grid(row=19,column=0)
 
@@ -758,11 +770,11 @@ class VueSolaire():
                 self.canevasSolaire.itemconfig(i, fill=couleur)
 #hello
     def cliqueSolaire(self,evt):
-        self.newVais1.grid_forget()
-        self.newVais2.grid_forget()
-        self.newVais3.grid_forget()
-        self.newVais4.grid_forget()
-        self.newVais5.grid_forget()
+        # self.newVais1.grid_forget()
+        # self.newVais2.grid_forget()
+        # self.newVais3.grid_forget()
+        # self.newVais4.grid_forget()
+        # self.newVais5.grid_forget()
 
 
         t=self.canevasSolaire.gettags(CURRENT)
