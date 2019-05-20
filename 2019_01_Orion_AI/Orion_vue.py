@@ -3,6 +3,8 @@ from tkinter import *
 import random
 import os,os.path
 import time
+import resizeImage
+from PIL import Image, ImageTk
 
 
 
@@ -38,8 +40,8 @@ class Vue():
 
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
-        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
-        self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
+        #self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
+       # self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="light cyan")
         self.cadreArbreTechno=Canvas(self.cadreoutils,width=350,height=200, bg = "green2")
@@ -51,7 +53,7 @@ class Vue():
         self.couleurbouton="gray33"
         self.labfont="Helvetica",20,"bold"
         self.infofont="Helvetica",12,"bold"
-        self.cadrejeu.grid(row=1, column=0)
+        self.cadrejeu.grid(row=1, column=0, rowspan=2)
         self.mod=None
 
     def toggleBtnTechno(self,evt):
@@ -165,7 +167,7 @@ class Vue():
         self.idcouleur=Label(self.cadre, bg=self.mod.joueurs[self.nom].couleur )
         # ajouter text variable
         self.labcouttotal=Label(self.cadre,text="Cout Total:",bg=self.couleurinfo, font=self.infofont)
-        self.nbcouttotal=Label(self.cadre,text="-" ,bg=self.couleurinfo, font=self.infofont)
+        self.nbcouttotal=Label(self.cadre,text=self.mod.joueurs[self.nom].maintenance ,bg=self.couleurinfo, font=self.infofont)
 
         self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo, font=("Helvetica",14,"bold"))
         self.btnarbretech.bind("<Button-1>",self.toggleBtnTechno)
@@ -209,14 +211,14 @@ class Vue():
         self.nbdeuterium.grid(row=0,column=5)
         self.labmoral.grid(row=1,column=4)
         self.nbmoral.grid(row=1,column=5)
-        self.labaffichagevue.grid(row=4, column=0, columnspan=1, sticky=W+E)
-        self.labespacement.grid(row=5, column=0, columnspan=3, sticky=W+E)
+        #self.labaffichagevue.grid(row=3, column=0, columnspan=1, sticky=W+E)
+        #self.labespacement.grid(row=5, column=0, columnspan=3, sticky=W+E)
         # boutons
         self.btnarbretech.grid(row=0,column=6, columnspan=2, rowspan=2, sticky=N+S)
-        self.bgalaxie.grid(row = 6, column =0, sticky=W+E)
-        self.bsolaire.grid(row = 7, column =0, sticky=W+E)
-        self.bplanete.grid(row = 8, column =0, sticky=W+E)
-        self.bsolairemere.grid(row=9,column=0, sticky=W+E)
+        self.bgalaxie.grid(row = 2, column =0, sticky=W+E)
+        self.bsolaire.grid(row = 2, column =1, sticky=W+E)
+        self.bplanete.grid(row = 2, column =2, sticky=W+E)
+        self.bsolairemere.grid(row=2,column=3, sticky=W+E)
         self.bsolairemere.config(state=NORMAL, command = lambda : self.combinedactions())
 
     def creeraffichercadrepartie(self,mod):
@@ -229,17 +231,17 @@ class Vue():
         self.changevueactive(self.vues["Solaire"])
         self.vueactive.cadrespatial.grid()
 
-        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
-        self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
-        self.cadreinfojoueur.grid(row=0, column=0, sticky=W+E+N+S)
-        self.cadreMessagerie.grid(row=0, column=1)
+        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray")
+        self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink")
+        self.cadreinfojoueur.grid(row=0, column=0)
+        self.cadreMessagerie.grid(row=0, column=1, rowspan=2)
 
         # fonction création des infos joueurs
         self.creerCadreInfoJoueur(self.cadreinfojoueur,self.mod)
         # bind du bouton pour retourner a la galaxie
         self.bgalaxie.bind("<Button>",self.changementdevue)
         # cadre générale des outils
-        self.cadreoutils.grid(row=1, column=1)
+        self.cadreoutils.grid(row=2, column=1)
         # cadre des infos contextuel
         # nom et couleur du joueur : text=self.nom,fg=mod.joueurs[self.nom].couleur
         #self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
@@ -274,11 +276,11 @@ class Vue():
         self.envoiMessage.grid(row=3, column=1, sticky=W)
 
 
-        self.labDiplomatie.grid(row=4, column=2, columnspan=2, sticky=W+E)
-        self.btnAlliance.grid(row=8, column=2, columnspan=2, sticky=W+E)
-        self.btnGuerre.grid(row=6, column=2, columnspan=2, sticky=W+E)
-        self.btnAllianceGuerriere.grid(row=9, column=2, columnspan=2, sticky=W+E)
-        self.btnPaix.grid(row=7, column=2, columnspan=2, sticky=W+E)
+        self.labDiplomatie.grid(row=2, column=4,sticky=W+E)
+        self.btnAlliance.grid(row=2, column=5, sticky=W+E)
+        self.btnGuerre.grid(row=2, column=6, sticky=W+E)
+        self.btnAllianceGuerriere.grid(row=2, column=7, sticky=W+E)
+        self.btnPaix.grid(row=2, column=8,sticky=W+E)
 
 
     def choix(self, *args):
@@ -342,6 +344,7 @@ class Vue():
 
 
         #return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
+        #self.nbcouttotal.config(text= self.mod.joueurs[self.nom].credit)
 
     #def _create_circle(self, x, y, r):
        # return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=("soleil"))
@@ -366,13 +369,14 @@ class Vue():
 
 
 
-    def creervaisseau(self,nomVais):
+    def creervaisseau(self,widg,nomVais):
         print("Creer vaisseau")
         nomVais1=nomVais
         self.parent.creervaisseau(nomVais1)
         self.maselection=None
         self.vues["Solaire"].canevasSolaire.delete("marqueur")
-        self.btncreervaisseau.grid_forget()
+        #widg.grid_forget()
+        #self.btncreervaisseau.grid_forget()
 
     def CliqueVuePlanete(self,canvas,mod,SysSolaire,idPlanete):
         self.canvas = canvas
@@ -437,11 +441,15 @@ class Vue():
     def actionOngletMilit(self,event):
         self.ongletActif = "Militaire"
 
-        self.btnAvac1.config(text = "Vaisseau Canon")
-        self.btnAvac2.config(text = "Vaisseau Eclaireur")
-        self.btnAvac3.config(text = "Vaisseau Tank")
-        self.btnAvac4.config(text = "Vaisseau Laser")
-        self.btnAvac5.config(text = "Vaisseau Sniper")
+        self.btnAvac1.config(text = "Vaisseau Canon",command= lambda: self.gridhelper(self.vues["Solaire"].newVais1,17,0))
+        self.btnAvac2.config(text = "Vaisseau Eclaireur",command= lambda: self.gridhelper(self.vues["Solaire"].newVais2,17,1))
+        self.btnAvac3.config(text = "Vaisseau Tank",command= lambda: self.gridhelper(self.vues["Solaire"].newVais3,17,2))
+        self.btnAvac4.config(text = "Vaisseau Laser",command= lambda: self.gridhelper(self.vues["Solaire"].newVais4,18,0))
+        self.btnAvac5.config(text = "Vaisseau Sniper",command= lambda: self.gridhelper(self.vues["Solaire"].newVais5,18,1))
+
+
+    def gridhelper(self, button,arow,acolumn):
+        button.grid(row=arow,column=acolumn)
 
     def actionOngletScience(self,event):
         self.ongletActif = "Science"
@@ -563,16 +571,41 @@ class VueSolaire():
         self.variationNomSysSolaire = StringVar()
         self.sysSolaireNom.grid(row = 0, column =0)
         self.boutonsVais=[]
-        self.newVais1 = Button(self.cadreinfo,text="Vaisseau Canon",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Canon"))
-        self.newVais2 = Button(self.cadreinfo,text="Vaisseau Eclaireur",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Eclaireur"))
-        self.newVais3 = Button(self.cadreinfo,text="Vaisseau Tank",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Tank"))
-        self.newVais4 = Button(self.cadreinfo,text="Vaisseau Laser",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Laser"))
-        self.newVais5 = Button(self.cadreinfo,text="Vaisseau Sniper",bg="DeepSkyBlue2", command = lambda : self.parent.creervaisseau("Vaisseau Sniper"))
+
+        self.vaisCanonMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauCanon.png")
+        self.vaisEclaireurMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
+        self.vaisLaserMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauLaser.png")
+        self.vaisSniperMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauSniper.png")
+        self.vaisTankMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauTank.png")
+        self.vaisCanonCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauCanon.png")
+        self.vaisEclaireurCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
+        self.vaisLaserCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauLaser.png")
+        self.vaisSniperCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauSniper.png")
+        self.vaisTankCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauTank.png")
+
+        self.newVais1 = Button(self.cadreinfo,image=self.vaisCanonMenu,text="Vaisseau Canon",bg="DeepSkyBlue2")
+        self.newVais2 = Button(self.cadreinfo,image=self.vaisEclaireurMenu,text="Vaisseau Eclaireur",bg="DeepSkyBlue2" )
+        self.newVais3 = Button(self.cadreinfo,image=self.vaisTankMenu,text="Vaisseau Tank",bg="DeepSkyBlue2")
+        self.newVais4 = Button(self.cadreinfo,image=self.vaisLaserMenu,text="Vaisseau Laser",bg="DeepSkyBlue2")
+        self.newVais5 = Button(self.cadreinfo,image=self.vaisSniperMenu,text="Vaisseau Sniper",bg="DeepSkyBlue2")
+
+
+        self.newVais1.bind( "<Button-1>", self.selectvaisseau)
+        self.newVais2.bind( "<Button-1>", self.selectvaisseau)
+        self.newVais3.bind( "<Button-1>", self.selectvaisseau)
+        self.newVais4.bind("<Button-1>", self.selectvaisseau )
+        self.newVais5.bind( "<Button-1>", self.selectvaisseau)
 
 
         self.versGalaxie = Button(self.cadreinfo,text="Vers la Galaxie",bg="DeepSkyBlue2", command=self.envoyerVersGalaxie)
         self.maselection2=None
+    def gridhelper(self, button,arow,acolumn):
+        button.grid(row=arow,column=acolumn)
 
+    def selectvaisseau(self,evt):
+        w=evt.widget
+        typev=w.cget("text")
+        self.parent.creervaisseau(w,typev)
 
 
     def envoyerVersGalaxie(self,t,mod):
@@ -646,6 +679,8 @@ class VueSolaire():
                     if(modele.joueurs[j].nom == i.proprietaire):
                         player = j
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=modele.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
+
+
     def afficherInfosSystemSolaire(self, modele, idSysteme):
         # self.parent.bplanete.config(state = DISABLED) # fonctionne pas
 
@@ -664,8 +699,25 @@ class VueSolaire():
             for j in i.flotteSystemeSolaire:
                 if(j.espaceCourant):
                     if(j.espaceCourant.id ==self.id):
-                     self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+                        if (j.nomVaisseau=="Vaisseau Canon"):
+                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisCanonCan,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
+                        elif (j.nomVaisseau=="Vaisseau Eclaireur"):
+                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisEclaireurCan,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
+                        elif (j.nomVaisseau=="Vaisseau Laser"):
+                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisLaserCan,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
+                        elif (j.nomVaisseau=="Vaisseau Sniper"):
+                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisSniperCan,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
+                        elif (j.nomVaisseau=="Vaisseau Tank"):
+                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisTankCan,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
+
+
+                     #create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
+                      #               tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
 
                 #self.canevas.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
                 #                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
@@ -725,11 +777,11 @@ class VueSolaire():
         self.planeteZinc.grid(row=14, column=0)
         self.planeteDeuterium.grid(row=15, column=0)
         self.planeteFertile.grid(row=16, column=0)
-        self.newVais1.grid(row=17,column=0)
-        self.newVais2.grid(row=17,column=1)
-        self.newVais3.grid(row=17,column=2)
-        self.newVais4.grid(row=18,column=0)
-        self.newVais5.grid(row=18,column=1)
+        # self.newVais1.grid(row=17,column=0)
+        # self.newVais2.grid(row=17,column=1)
+        # self.newVais3.grid(row=17,column=2)
+        # self.newVais4.grid(row=18,column=0)
+        # self.newVais5.grid(row=18,column=1)
 
         self.versGalaxie.grid(row=19,column=0)
 
@@ -740,11 +792,11 @@ class VueSolaire():
                 self.canevasSolaire.itemconfig(i, fill=couleur)
 #hello
     def cliqueSolaire(self,evt):
-        self.newVais1.grid_forget()
-        self.newVais2.grid_forget()
-        self.newVais3.grid_forget()
-        self.newVais4.grid_forget()
-        self.newVais5.grid_forget()
+        # self.newVais1.grid_forget()
+        # self.newVais2.grid_forget()
+        # self.newVais3.grid_forget()
+        # self.newVais4.grid_forget()
+        # self.newVais5.grid_forget()
 
 
         t=self.canevasSolaire.gettags(CURRENT)
@@ -811,6 +863,25 @@ class VuePlanete():
         self.planeteZinc = Label(self.cadreinfo)
         self.planeteDeuterium = Label(self.cadreinfo)
         self.planeteFertile = Label(self.cadreinfo)
+
+        self.raffinerieCharbonMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/raffinerieCharbon.png")
+        self.raffinerieDiamantMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/raffinerieDiamant1.png")
+        self.raffinerieIsotopeMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/raffinerieIsotope.png")
+        self.usineCivileMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/usineCivile.png")
+        self.usineMilitaireMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/usineMilitairekra.png")
+        self.capitaleMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/capital.png")
+        self.fermeMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/ferme.png")
+
+        self.raffinerieCharbonCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/raffinerieCharbon.png")
+        self.raffinerieDiamantCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/raffinerieDiamant1.png")
+        self.raffinerieIsotopeCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/raffinerieIsotope.png")
+        self.usineCivileCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/usineCivile.png")
+        self.usineMilitaireCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/usineMilitairekra.png")
+        self.capitaleCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/capital.png")
+        self.fermeCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/ferme.png")
+
+
+
 
 
     def afficherdecorPlanete1(self,mod):
@@ -1018,7 +1089,22 @@ class VuePlanete():
                 self.x = i.x - 5
                 self.y = i.y - 5
                 self.diametre =10#i.taille
-                self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
+                if(i.nomStructure=="Raffinerie (Charbon)"):
+                    self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieCharbonCanvas, tags=("batiment_construit"))
+                elif(i.nomStructure=="Raffinerie (Diamant)"):
+                    self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieDiamantCanvas, tags=("batiment_construit"))
+                elif(i.nomStructure=="Raffinerie (Isotope)"):
+                    self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieIsotopeCanvas, tags=("batiment_construit"))
+                elif(i.nomStructure=="Usine Militaire"):
+                    self.canevasPlanete.create_image(self.x,self.y,image= self.usineMilitaireCanvas, tags=("batiment_construit"))
+                elif(i.nomStructure=="Usine Civile"):
+                    self.canevasPlanete.create_image(self.x,self.y,image= self.usineCivileCanvas, tags=("batiment_construit"))
+                elif(i.nomStructure=="Capitale"):
+                    self.canevasPlanete.create_image(self.x,self.y,image= self.capitaleCanvas, tags=("batiment_construit"))
+                elif(i.nomStructure=="Ferme"):
+                    self.canevasPlanete.create_image(self.x,self.y,image= self.fermeCanvas, tags=("batiment_construit"))
+
+                #self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
 
 
 
@@ -1042,6 +1128,12 @@ class VueGalaxie():
         self.mod=parent.mod
         self.sysSolaireNom.grid(row = 0, column =0)
         self.versSoleil = Button(self.cadreinfo,text="Vers la Soleil",bg="DeepSkyBlue2", command=self.envoyerVersSoleil)
+
+        self.vaisCanonG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauCanon.png")
+        self.vaisEclaireurG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
+        self.vaisLaserG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauLaser.png")
+        self.vaisSniperG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauSniper.png")
+        self.vaisTankG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauTank.png")
 
     def envoyerVersSoleil(self,t,mod):
         self.mod=mod
@@ -1143,6 +1235,7 @@ class VueGalaxie():
                         x=i.x
                         y=i.y
                         t=10
+
                         self.canevasGalaxie.create_rectangle((i.x-10)-t,(i.y-10)-t,(i.x-4)+t,(i.y-4)+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
                                                  tags=("select","marqueur"))
         #else:
@@ -1152,8 +1245,23 @@ class VueGalaxie():
             i=mod.joueurs[i]
             for j in i.flotteSystemeSolaire:
                  if(j.espaceCourant==None):
-                    self.canevasGalaxie.create_rectangle(j.x-10,j.y-10,j.x-4,j.y-4,fill=i.couleur,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact","None",str(j.solaire.id)))
+                    if (j.nomVaisseau=="Vaisseau Canon"):
+                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisCanonG,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
+                    elif (j.nomVaisseau=="Vaisseau Eclaireur"):
+                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisEclaireurG,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
+                    elif (j.nomVaisseau=="Vaisseau Laser"):
+                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisLaserG,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
+                    elif (j.nomVaisseau=="Vaisseau Sniper"):
+                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisSniperG,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
+                    elif (j.nomVaisseau=="Vaisseau Tank"):
+                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisTankG,
+                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
+                    #self.canevasGalaxie.create_rectangle(j.x-10,j.y-10,j.x-4,j.y-4,fill=i.couleur,
+                                  #   tags=(j.proprietaire,"flotte",str(j.id),"artefact","None",str(j.solaire.id)))
 
                 #self.canevas.create_rectangle(j.x,j.y,image=self.imgs["vaiss"],
                 #                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
