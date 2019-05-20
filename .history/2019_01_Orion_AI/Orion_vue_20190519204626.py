@@ -582,7 +582,11 @@ class VueSolaire():
         self.vaisLaserCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauLaser.png")
         self.vaisSniperCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauSniper.png")
         self.vaisTankCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauTank.png")
-
+        self.vaisCanonG=resizeImage.resizeImage("G",15,"2019_01_Orion_AI/images/vaisseauCanon.png")
+        self.vaisEclaireurG=resizeImage.resizeImage("G",15,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
+        self.vaisLaserG=resizeImage.resizeImage("G",15,"2019_01_Orion_AI/images/vaisseauLaser.png")
+        self.vaisSniperG=resizeImage.resizeImage("G",15,"2019_01_Orion_AI/images/vaisseauSniper.png")
+        self.vaisTankG=resizeImage.resizeImage("G",15,"2019_01_Orion_AI/images/vaisseauTank.png")
         self.newVais1 = Button(self.cadreinfo,image=self.vaisCanonMenu,text="Vaisseau Canon",bg="DeepSkyBlue2")
         self.newVais2 = Button(self.cadreinfo,image=self.vaisEclaireurMenu,text="Vaisseau Eclaireur",bg="DeepSkyBlue2" )
         self.newVais3 = Button(self.cadreinfo,image=self.vaisTankMenu,text="Vaisseau Tank",bg="DeepSkyBlue2")
@@ -1129,12 +1133,6 @@ class VueGalaxie():
         self.sysSolaireNom.grid(row = 0, column =0)
         self.versSoleil = Button(self.cadreinfo,text="Vers la Soleil",bg="DeepSkyBlue2", command=self.envoyerVersSoleil)
 
-        self.vaisCanonG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauCanon.png")
-        self.vaisEclaireurG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
-        self.vaisLaserG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauLaser.png")
-        self.vaisSniperG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauSniper.png")
-        self.vaisTankG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauTank.png")
-
     def envoyerVersSoleil(self,t,mod):
         self.mod=mod
         self.t=t
@@ -1246,19 +1244,19 @@ class VueGalaxie():
             for j in i.flotteSystemeSolaire:
                  if(j.espaceCourant==None):
                     if (j.nomVaisseau=="Vaisseau Canon"):
-                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisCanonG,
+                             self.canevasGalaxie.create_image(j.x,j.y,image=self.vaisCanonG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
                     elif (j.nomVaisseau=="Vaisseau Eclaireur"):
-                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisEclaireurG,
+                             self.canevasGalaxie.create_image(j.x,j.y,image=self.vaisEclaireurG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
                     elif (j.nomVaisseau=="Vaisseau Laser"):
-                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisLaserG,
+                             self.canevasGalaxie.create_image(j.x,j.y,image=self.vaisLaserG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
                     elif (j.nomVaisseau=="Vaisseau Sniper"):
-                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisSniperG,
+                             self.canevasGalaxie.create_image(j.x,j.y,image=self.vaisSniperG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
                     elif (j.nomVaisseau=="Vaisseau Tank"):
-                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisTankG,
+                             self.canevasSolaire.create_image(j.x,j.y,image=self.vaisTankG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
                     #self.canevasGalaxie.create_rectangle(j.x-10,j.y-10,j.x-4,j.y-4,fill=i.couleur,
                                   #   tags=(j.proprietaire,"flotte",str(j.id),"artefact","None",str(j.solaire.id)))

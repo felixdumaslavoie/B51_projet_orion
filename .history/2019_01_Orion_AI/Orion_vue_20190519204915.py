@@ -1252,13 +1252,13 @@ class VueGalaxie():
                              self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisEclaireurG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
                     elif (j.nomVaisseau=="Vaisseau Laser"):
-                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisLaserG,
+                             self.canevasGalaxie.create_image(j.x,j.y,image=self.vaisLaserG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
                     elif (j.nomVaisseau=="Vaisseau Sniper"):
-                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisSniperG,
+                             self.canevasGalaxie.create_image(j.x,j.y,image=self.vaisSniperG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
                     elif (j.nomVaisseau=="Vaisseau Tank"):
-                             self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisTankG,
+                             self.canevasGalaxie.create_image(j.x,j.y,image=self.vaisTankG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
                     #self.canevasGalaxie.create_rectangle(j.x-10,j.y-10,j.x-4,j.y-4,fill=i.couleur,
                                   #   tags=(j.proprietaire,"flotte",str(j.id),"artefact","None",str(j.solaire.id)))
