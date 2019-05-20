@@ -40,8 +40,8 @@ class Vue():
 
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
-        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
-        self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
+        #self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
+       # self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="light cyan")
         self.cadreArbreTechno=Canvas(self.cadreoutils,width=350,height=200, bg = "green2")
@@ -53,7 +53,7 @@ class Vue():
         self.couleurbouton="gray33"
         self.labfont="Helvetica",20,"bold"
         self.infofont="Helvetica",12,"bold"
-        self.cadrejeu.grid(row=1, column=0)
+        self.cadrejeu.grid(row=1, column=0, rowspan=2)
         self.mod=None
 
     def toggleBtnTechno(self,evt):
@@ -211,14 +211,14 @@ class Vue():
         self.nbdeuterium.grid(row=0,column=5)
         self.labmoral.grid(row=1,column=4)
         self.nbmoral.grid(row=1,column=5)
-        self.labaffichagevue.grid(row=4, column=0, columnspan=1, sticky=W+E)
-        self.labespacement.grid(row=5, column=0, columnspan=3, sticky=W+E)
+        #self.labaffichagevue.grid(row=3, column=0, columnspan=1, sticky=W+E)
+        #self.labespacement.grid(row=5, column=0, columnspan=3, sticky=W+E)
         # boutons
         self.btnarbretech.grid(row=0,column=6, columnspan=2, rowspan=2, sticky=N+S)
-        self.bgalaxie.grid(row = 6, column =0, sticky=W+E)
-        self.bsolaire.grid(row = 7, column =0, sticky=W+E)
-        self.bplanete.grid(row = 8, column =0, sticky=W+E)
-        self.bsolairemere.grid(row=9,column=0, sticky=W+E)
+        self.bgalaxie.grid(row = 2, column =0, sticky=W+E)
+        self.bsolaire.grid(row = 2, column =1, sticky=W+E)
+        self.bplanete.grid(row = 2, column =2, sticky=W+E)
+        self.bsolairemere.grid(row=2,column=3, sticky=W+E)
         self.bsolairemere.config(state=NORMAL, command = lambda : self.combinedactions())
 
     def creeraffichercadrepartie(self,mod):
@@ -231,17 +231,17 @@ class Vue():
         self.changevueactive(self.vues["Solaire"])
         self.vueactive.cadrespatial.grid()
 
-        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray",padx =50)
-        self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink",padx =50)
-        self.cadreinfojoueur.grid(row=0, column=0, sticky=W+E+N+S)
-        self.cadreMessagerie.grid(row=0, column=1)
+        self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray")
+        self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink")
+        self.cadreinfojoueur.grid(row=0, column=0)
+        self.cadreMessagerie.grid(row=0, column=1, rowspan=2)
 
         # fonction création des infos joueurs
         self.creerCadreInfoJoueur(self.cadreinfojoueur,self.mod)
         # bind du bouton pour retourner a la galaxie
         self.bgalaxie.bind("<Button>",self.changementdevue)
         # cadre générale des outils
-        self.cadreoutils.grid(row=1, column=1)
+        self.cadreoutils.grid(row=2, column=1)
         # cadre des infos contextuel
         # nom et couleur du joueur : text=self.nom,fg=mod.joueurs[self.nom].couleur
         #self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
@@ -276,11 +276,11 @@ class Vue():
         self.envoiMessage.grid(row=3, column=1, sticky=W)
 
 
-        self.labDiplomatie.grid(row=4, column=2, columnspan=2, sticky=W+E)
-        self.btnAlliance.grid(row=8, column=2, columnspan=2, sticky=W+E)
-        self.btnGuerre.grid(row=6, column=2, columnspan=2, sticky=W+E)
-        self.btnAllianceGuerriere.grid(row=9, column=2, columnspan=2, sticky=W+E)
-        self.btnPaix.grid(row=7, column=2, columnspan=2, sticky=W+E)
+        self.labDiplomatie.grid(row=2, column=4,sticky=W+E)
+        self.btnAlliance.grid(row=2, column=5, sticky=W+E)
+        self.btnGuerre.grid(row=2, column=6, sticky=W+E)
+        self.btnAllianceGuerriere.grid(row=2, column=7, sticky=W+E)
+        self.btnPaix.grid(row=2, column=8,sticky=W+E)
 
 
     def choix(self, *args):
