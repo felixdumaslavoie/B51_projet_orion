@@ -176,7 +176,7 @@ class EmplacementsSurPlanete():
         self.y = y
         self.structure=str(structure)
         self.couleur ="grey"
-        self.nomStructure=structure
+        self.nomStructure=self.structure.nomStructure
         print("BATIMENT", self.structure)
         if self.structure=="Usine Civile":
             self.couleur="tan1"

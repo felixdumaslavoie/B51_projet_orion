@@ -572,7 +572,7 @@ class VueSolaire():
         self.sysSolaireNom.grid(row = 0, column =0)
         self.boutonsVais=[]
 
-        self.vaisCanonMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauCanon.png")
+        self.vaisCanonMenu=resizeImage.resizeImage"m",30,"2019_01_Orion_AI/images/vaisseauCanon.png")
         self.vaisEclaireurMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
         self.vaisLaserMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauLaser.png")
         self.vaisSniperMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauSniper.png")
@@ -863,23 +863,13 @@ class VuePlanete():
         self.planeteDeuterium = Label(self.cadreinfo)
         self.planeteFertile = Label(self.cadreinfo)
 
-        self.raffinerieCharbonMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/raffinerieCharbon.png")
-        self.raffinerieDiamantMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/raffinerieDiamant1.png")
-        self.raffinerieIsotopeMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/raffinerieIsotope.png")
-        self.usineCivileMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/usineCivile.png")
-        self.usineMilitaireMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/usineMilitairekra.png")
-        self.capitaleMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/capital.png")
-        self.fermeMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/ferme.png")
-
-        self.raffinerieCharbonCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/raffinerieCharbon.png")
-        self.raffinerieDiamantCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/raffinerieDiamant1.png")
-        self.raffinerieIsotopeCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/raffinerieIsotope.png")
-        self.usineCivileCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/usineCivile.png")
-        self.usineMilitaireCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/usineMilitairekra.png")
-        self.capitaleCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/capital.png")
-        self.fermeCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/ferme.png")
-
-
+        self.raffinerieCharbonMenu=resizeImage.resizeImage(50,"2019_01_Orion_AI/images/raffinerieCharbon.png")
+        self.raffinerieDiamantMenu=resizeImage.resizeImage(50,"2019_01_Orion_AI/images/raffinerieDiamant1.png")
+        self.raffinerieIsotopeMenu=
+        self.usineCivileMenu
+        self.usineMilitaireMenu
+        self.capitaleMenu
+        self.fermeMenu
 
 
 
@@ -1088,22 +1078,7 @@ class VuePlanete():
                 self.x = i.x - 5
                 self.y = i.y - 5
                 self.diametre =10#i.taille
-                if(i.nomStructure=="Raffinerie (Charbon)"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieCharbonCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Raffinerie (Diamant)"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieDiamantCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Raffinerie (Isotope)"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieIsotopeCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Usine Militaire"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.usineMilitaireCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Usine Civile"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.usineCivileCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Capitale"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.capitaleCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Ferme"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.fermeCanvas, tags=("batiment_construit"))
-
-                #self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
+                self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
 
 
 

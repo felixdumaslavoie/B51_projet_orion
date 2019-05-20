@@ -1088,9 +1088,9 @@ class VuePlanete():
                 self.x = i.x - 5
                 self.y = i.y - 5
                 self.diametre =10#i.taille
-                if(i.nomStructure=="Raffinerie (Charbon)"):
+                if(i.Structure=="Raffinerie (Charbon)"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieCharbonCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Raffinerie (Diamant)"):
+                elif(i.Structure=="Raffinerie (Diamant)"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieDiamantCanvas, tags=("batiment_construit"))
                 elif(i.nomStructure=="Raffinerie (Isotope)"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieIsotopeCanvas, tags=("batiment_construit"))

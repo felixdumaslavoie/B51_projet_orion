@@ -1088,19 +1088,19 @@ class VuePlanete():
                 self.x = i.x - 5
                 self.y = i.y - 5
                 self.diametre =10#i.taille
-                if(i.nomStructure=="Raffinerie (Charbon)"):
+                if(i.nomStru=="Raffinerie (Charbon)"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieCharbonCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Raffinerie (Diamant)"):
+                elif(i.nom=="Raffinerie (Diamant)"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieDiamantCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Raffinerie (Isotope)"):
+                elif(i.nom=="Raffinerie (Isotope)"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieIsotopeCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Usine Militaire"):
+                elif(i.nom=="Usine Militaire"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.usineMilitaireCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Usine Civile"):
+                elif(i.nom=="Usine Civile"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.usineCivileCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Capitale"):
+                elif(i.nom=="Capitale"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.capitaleCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Ferme"):
+                elif(i.nom=="Ferme"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.fermeCanvas, tags=("batiment_construit"))
 
                 #self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
