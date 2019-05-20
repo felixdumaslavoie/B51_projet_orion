@@ -702,7 +702,7 @@ class VueSolaire():
         # assignation des valeurs aux string variable
         self.variationCharbon.set("Charbon : " + str(int(self.planete.charbon)))
         self.variationZinc.set("Zinc : " + str(int(self.planete.zinc)))
-        self.variationDeuterium.set("Deuterium : " + str(int(self.planete.deuterium)))
+        self.variationDeuterium.set("Diamant : " + str(int(self.planete.diamant)))
         self.variationFertile.set("Fertile : " + str(int(self.planete.fertile)))
 
         # TEST FDL

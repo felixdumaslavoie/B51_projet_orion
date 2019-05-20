@@ -87,7 +87,7 @@ class Planete():
         self.taille=random.randrange(4,12)
         self.charbon=random.randrange(6000)
         self.zinc=random.randrange(3000)
-        self.deuterium=random.randrange(100)
+        self.diamant=random.randrange(100)
         self.fertile=random.randrange(1)
         self.listeStructure=[] ## Chaque planète à une liste de bâtiments avec l'emplacement de chaque bâtiment
         self.emplacementsDispo=[]*self.taille ## Emplacement vides
@@ -130,7 +130,7 @@ class Planete():
         self.emplacementsDispo=paires
         #fin de sélection d'emplacement sur planète
 
-        self.ressource=[self.charbon,self.zinc,self.deuterium]
+        self.ressource=[self.charbon,self.zinc,self.diamant]
         self.viePlanete1=self.viePlanete()
         self.couleur=random.choice(COULEURS)
 
@@ -207,12 +207,12 @@ class Structure():
     #Ferme={"Ferme",75,50,1,2}
     #Capitale={"Capitale",300,5000,10,100}
 
-    def __init__(self,joueur,idplanete,nomstruct,x,y):
+    def __init__(self,joueur,planete,nomstruct,x,y):
         self.nomStructure=nomstruct
         self.joueur=joueur
         self.x=x
         self.y=y
-        self.idplanete = idplanete
+        self.planete = planete
 
     def maintenanceStructure(self):
         for i in self.parent.listeStructure[i]:
@@ -553,17 +553,14 @@ class Joueur():
 
     def creerStructure(self,params):
         nomjoueur,nomstruct,idplanete,x,y=params
-        
-        #for i in self.parent.Galaxie.listeSysSolaire:
-            #for j in i.listePlanete:
-                
+        planete = None       
         
         for i in (self.parent.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
 
-        structure=self.structures[nomstruct](nomjoueur,nomstruct,idplanete,x,y)
+        structure=self.structures[nomstruct](nomjoueur,nomstruct,planete,x,y)
         self.listeStructure.append(structure)
         planete.listeStructure.append(structure)
 
@@ -601,14 +598,27 @@ class Joueur():
                 coutCredit+=i.maintenance
 
             for i in self.listeStructure:
-                typeStruct = i.nomStructure[0:10]
-                if typeStruct == "Raffinerie":
-                    self.profits += i.production
+                typeRess = i.nomStructure[11:14]
+                print(typeRess)
+                if typeRess == "Dia":
+                    if i.planete.diamant >= i.production:
+                        self.profits += i.production
+                        i.planete.diamant-=1
+                        print("-1 diamant sur ", i.planete.nom)
+                if typeRess == "Cha":
+                    if i.planete.charbon >= i.producton:
+                        self.profits+= i.production
+                        i.planete.charbon-=3
+                        print("-3 charbon sur ", i.planete.nom)
+                if  typeRess == "Iso":
+                    if i.planete.zinc >= i.production:
+                        self.profits+= i.production
+                        i.planete.zinc-=2
+                        print("-2 zinc sur ", i.planete.nom)
                 
             self.credit+=self.profits
             self.credit-=coutCredit
             self.timer = 0
-            print("Substring",typeStruct)
             print("Economie: Profits: ", self.profits)
             print("Economie: coutCredit: ",coutCredit)
 
