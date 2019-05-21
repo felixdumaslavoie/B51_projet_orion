@@ -302,6 +302,7 @@ class Vaisseau():
         self.energie=0
         self.vitesse=0
         self.range=0
+        self.cout=0
 
         # if nomVaisseau=="Vaisseau_Militaire":
         #     self.cargo=0
@@ -352,6 +353,20 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
+
+
+## Ne fait pas le test de si il reste assez d'argent. Ce test sera fait en ammont
+    def payerVaisseau(self):
+        self.parent.credit-=self.cout
+
+    def assezArgentPayerVaisseau(self):
+        if (self.parent.credit < 0):
+            self.parent.credit = 0
+        if self.parent.credit - self.cout >= 0:
+            return True
+        else:
+            return False
+
 class VaisseauCanon(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Canon"):
         super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) # Constructeur de la classe structure
@@ -360,6 +375,7 @@ class VaisseauCanon(Vaisseau):
         self.vitesse=5
         self.range=200
         self.cout=100
+        self.payerVaisseau()
 
 class VaisseauEclaireur(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Eclaireur"):
@@ -369,6 +385,7 @@ class VaisseauEclaireur(Vaisseau):
         self.vitesse=10
         self.range=200
         self.cout=300
+        self.payerVaisseau()
 
 class VaisseauTank(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Tank"):
@@ -378,6 +395,7 @@ class VaisseauTank(Vaisseau):
         self.vitesse=1
         self.range=400
         self.cout=300
+        self.payerVaisseau()
 
 class VaisseauLaser(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Laser"):
@@ -387,6 +405,7 @@ class VaisseauLaser(Vaisseau):
         self.vitesse=1
         self.range=400
         self.cout=200
+        self.payerVaisseau()
 
 class VaisseauSniper(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Sniper"):
@@ -396,6 +415,7 @@ class VaisseauSniper(Vaisseau):
         self.vitesse=1
         self.range=400
         self.cout=200
+        self.payerVaisseau()
 
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
@@ -414,6 +434,7 @@ class Joueur():
         self.bufferSelection = []
         self.listeStructure = []
         self.profits = 0
+
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte,
                       "creerStructure":self.creerStructure,
@@ -503,8 +524,10 @@ class Joueur():
         nomvais=params
         #v=Vaisseau(self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
         vaisseau=self.vaisseaux[nomvais](self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
-        print("Vaisseau", vaisseau.id, vaisseau.nomVaisseau, vaisseau.cargo, vaisseau.energie, vaisseau.vitesse)
-        self.flotteSystemeSolaire.append(vaisseau)
+        if (vaisseau.assezArgentPayerVaisseau()):
+            vaisseau=self.vaisseaux[nomvais](self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
+            print("Vaisseau", vaisseau.id, vaisseau.nomVaisseau, vaisseau.cargo, vaisseau.energie, vaisseau.vitesse)
+            self.flotteSystemeSolaire.append(vaisseau)
 
     def creerStructure(self,params):
         nomjoueur,nomstruct,idplanete,x,y=params
