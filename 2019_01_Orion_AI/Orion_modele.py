@@ -656,10 +656,10 @@ class IA(Joueur):
         if self.couleur == "orange":
             self.compteurCreation +=1
 
-            if self.compteurCreation == 1000:
+            if self.compteurCreation == 100:
                 self.compteurChangementVue += 1
                 self.compteurCreation = 0
-                #self.parent.parent.creervaisseauAi("Vaisseau Canon","nom")
+                self.creervaisseau("Vaisseau Canon")
 
             if self.compteurChangementVue == 1:
                 self.compteurChangementVue = 0
@@ -678,13 +678,17 @@ class IA(Joueur):
                             i.cible=random.choice(i.solaire.parent.listeSysSolaire)
                             print("Nouvelle cible IA galaxie:", i.cible.id)
 
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+
         if self.couleur == "green":
             self.compteurCreation +=1
 
             if self.compteurCreation == 750:
                 self.compteurChangementVue += 1
                 self.compteurCreation = 0
-                #self.parent.parent.creervaisseauAi("Vaisseau Canon","nom")
+                self.creervaisseau("Vaisseau Canon")
 
             if self.compteurChangementVue == 3:
                 self.compteurChangementVue = 0

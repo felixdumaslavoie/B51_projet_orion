@@ -572,16 +572,18 @@ class VueSolaire():
         self.sysSolaireNom.grid(row = 0, column =0)
         self.boutonsVais=[]
 
-        self.vaisCanonMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauCanon.png")
-        self.vaisEclaireurMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
-        self.vaisLaserMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauLaser.png")
-        self.vaisSniperMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauSniper.png")
-        self.vaisTankMenu=resizeImage.resizeImage("m",30,"2019_01_Orion_AI/images/vaisseauTank.png")
-        self.vaisCanonCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauCanon.png")
-        self.vaisEclaireurCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
-        self.vaisLaserCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauLaser.png")
-        self.vaisSniperCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauSniper.png")
-        self.vaisTankCan=resizeImage.resizeImage("C",30,"2019_01_Orion_AI/images/vaisseauTank.png")
+        curwd = os.path.dirname(os.path.realpath(__file__))
+
+        self.vaisCanonMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauCanon.png")
+        self.vaisEclaireurMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauEclaireur.png")
+        self.vaisLaserMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauLaser.png")
+        self.vaisSniperMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauSniper.png")
+        self.vaisTankMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauTank.png")
+        self.vaisCanonCan=resizeImage.resizeImage("C",30,curwd+"\\images\\vaisseauCanon.png")
+        self.vaisEclaireurCan=resizeImage.resizeImage("C",30,curwd+"\\images\\vaisseauEclaireur.png")
+        self.vaisLaserCan=resizeImage.resizeImage("C",30,curwd+"\\images\\vaisseauLaser.png")
+        self.vaisSniperCan=resizeImage.resizeImage("C",30,curwd+"\\images\\vaisseauSniper.png")
+        self.vaisTankCan=resizeImage.resizeImage("C",30,curwd+"\\images\\vaisseauTank.png")
 
         self.newVais1 = Button(self.cadreinfo,image=self.vaisCanonMenu,text="Vaisseau Canon",bg="DeepSkyBlue2")
         self.newVais2 = Button(self.cadreinfo,image=self.vaisEclaireurMenu,text="Vaisseau Eclaireur",bg="DeepSkyBlue2" )
@@ -864,21 +866,23 @@ class VuePlanete():
         self.planeteDeuterium = Label(self.cadreinfo)
         self.planeteFertile = Label(self.cadreinfo)
 
-        self.raffinerieCharbonMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/raffinerieCharbon.png")
-        self.raffinerieDiamantMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/raffinerieDiamant1.png")
-        self.raffinerieIsotopeMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/raffinerieIsotope.png")
-        self.usineCivileMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/usineCivile.png")
-        self.usineMilitaireMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/usineMilitairekra.png")
-        self.capitaleMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/capital.png")
-        self.fermeMenu=resizeImage.resizeImage("M",50,"2019_01_Orion_AI/images/ferme.png")
+        curwd = os.path.dirname(os.path.realpath(__file__))
 
-        self.raffinerieCharbonCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/raffinerieCharbon.png")
-        self.raffinerieDiamantCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/raffinerieDiamant1.png")
-        self.raffinerieIsotopeCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/raffinerieIsotope.png")
-        self.usineCivileCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/usineCivile.png")
-        self.usineMilitaireCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/usineMilitairekra.png")
-        self.capitaleCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/capital.png")
-        self.fermeCanvas=resizeImage.resizeImage("C",100,"2019_01_Orion_AI/images/ferme.png")
+        self.raffinerieCharbonMenu=resizeImage.resizeImage("M",50,curwd+"\\images\\raffinerieCharbon.png")
+        self.raffinerieDiamantMenu=resizeImage.resizeImage("M",50,curwd+"\\images\\raffinerieDiamant1.png")
+        self.raffinerieIsotopeMenu=resizeImage.resizeImage("M",50,curwd+"\\images\\raffinerieIsotope.png")
+        self.usineCivileMenu=resizeImage.resizeImage("M",50,curwd+"\\images\\usineCivile.png")
+        self.usineMilitaireMenu=resizeImage.resizeImage("M",50,curwd+"\\images\\usineMilitairekra.png")
+        self.capitaleMenu=resizeImage.resizeImage("M",50,curwd+"\\images\\capital.png")
+        self.fermeMenu=resizeImage.resizeImage("M",50,curwd+"\\images\\ferme.png")
+
+        self.raffinerieCharbonCanvas=resizeImage.resizeImage("C",100,curwd+"\\images\\raffinerieCharbon.png")
+        self.raffinerieDiamantCanvas=resizeImage.resizeImage("C",100,curwd+"\\images\\raffinerieDiamant1.png")
+        self.raffinerieIsotopeCanvas=resizeImage.resizeImage("C",100,curwd+"\\images\\raffinerieIsotope.png")
+        self.usineCivileCanvas=resizeImage.resizeImage("C",100,curwd+"\\images\\usineCivile.png")
+        self.usineMilitaireCanvas=resizeImage.resizeImage("C",100,curwd+"\\images\\usineMilitairekra.png")
+        self.capitaleCanvas=resizeImage.resizeImage("C",100,curwd+"\\images\\capital.png")
+        self.fermeCanvas=resizeImage.resizeImage("C",100,curwd+"\\images\\ferme.png")
 
 
 
@@ -1126,11 +1130,13 @@ class VueGalaxie():
         self.sysSolaireNom.grid(row = 0, column =0)
         self.versSoleil = Button(self.cadreinfo,text="Vers la Soleil",bg="DeepSkyBlue2", command=self.envoyerVersSoleil)
 
-        self.vaisCanonG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauCanon.png")
-        self.vaisEclaireurG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauEclaireur.png")
-        self.vaisLaserG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauLaser.png")
-        self.vaisSniperG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauSniper.png")
-        self.vaisTankG=resizeImage.resizeImage("G",20,"2019_01_Orion_AI/images/vaisseauTank.png")
+        curwd = os.path.dirname(os.path.realpath(__file__))
+
+        self.vaisCanonG=resizeImage.resizeImage("G",20,curwd+"\\images\\vaisseauCanon.png")
+        self.vaisEclaireurG=resizeImage.resizeImage("G",20,curwd+"\\images\\vaisseauEclaireur.png")
+        self.vaisLaserG=resizeImage.resizeImage("G",20,curwd+"\\images\\vaisseauLaser.png")
+        self.vaisSniperG=resizeImage.resizeImage("G",20,curwd+"\\images\\vaisseauSniper.png")
+        self.vaisTankG=resizeImage.resizeImage("G",20,curwd+"\\images\\vaisseauTank.png")
 
     def envoyerVersSoleil(self,t,mod):
         self.mod=mod
