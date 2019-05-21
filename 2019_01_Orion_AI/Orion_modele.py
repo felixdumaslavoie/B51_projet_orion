@@ -563,18 +563,17 @@ class Joueur():
             for i in self.listeStructure:
                 typeRess = i.nomStructure[11:14]
                 if typeRess == "Dia":
-                    print("aaaaaaaaaaaaa",i.planete)
-                    if i.planete.diamant >= i.production:
+                    if i.planete.diamant >= 1:
                         self.profits += i.production
                         i.planete.diamant-=1
-                        print("-1 diamant sur ", i.planete.nom)
+                        print("-1 diamant sur ", i.planete.nom, " Diamants restants:", i.planete.diamant)
                 if typeRess == "Cha":
-                    if i.planete.charbon >= i.producton:
+                    if i.planete.charbon >= 3:
                         self.profits+= i.production
                         i.planete.charbon-=3
                         print("-3 charbon sur ", i.planete.nom)
                 if  typeRess == "Iso":
-                    if i.planete.zinc >= i.production:
+                    if i.planete.zinc >= 2:
                         self.profits+= i.production
                         i.planete.zinc-=2
                         print("-2 zinc sur ", i.planete.nom)
