@@ -33,6 +33,8 @@ class Vue():
         self.ip=ip
         self.vueactive=None
         self.vueEnFonction=0
+        self.arbretechEcoState=0
+        self.arbretechMilitState=0
 
 
         self.cadrepartie=Frame(self.cadreapp)
@@ -47,7 +49,7 @@ class Vue():
         self.couleurinfo="gray"
         self.couleurbouton="gray33"
         self.labfont="Helvetica",20,"bold"
-        self.infofont="Helvetica",12,"bold"
+        self.infofont="Helvetica",10,"bold"
         self.cadrejeu.grid(row=1, column=0, rowspan=2)
         self.mod=None
 
@@ -66,7 +68,7 @@ class Vue():
         if self.vueactive:
             self.vueactive.cadrespatial.grid_forget()
             self.vueactive.cadreinfo.grid_forget()
-            
+
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
         self.vueactive.cadreinfo.grid(row = 1, column =0 )
@@ -94,7 +96,7 @@ class Vue():
 
     def creercadresplash(self,ip,nom):
         self.cadresplash=Frame(self.cadreapp)
-        self.canevassplash=Canvas(self.cadresplash,width=640,height=480,bg="gray38")
+        self.canevassplash=Canvas(self.cadresplash,width=640,height=480,bg="midnight blue")
         self.canevassplash.grid(row=0, column=0)
         self.nomsplash=Entry(bg="pink")
         self.nomsplash.insert(0, nom)
@@ -111,9 +113,9 @@ class Vue():
 
     def creercadrelobby(self):
         self.cadrelobby=Frame(self.cadreapp)
-        self.canevaslobby=Canvas(self.cadrelobby,width=640,height=480,bg="lightblue")
+        self.canevaslobby=Canvas(self.cadrelobby,width=640,height=480,bg="DarkOrchid4")
         self.canevaslobby.grid(row=0, column=0)
-        self.listelobby=Listbox(bg="red",borderwidth=0,relief=FLAT)
+        self.listelobby=Listbox(bg="goldenrod",borderwidth=0,relief=FLAT)
         self.nbetoile=Entry(bg="pink")
         self.nbetoile.insert(0, 100)
         self.largeespace=Entry(bg="pink")
@@ -163,7 +165,7 @@ class Vue():
         self.labcouttotal=Label(self.cadre,text="Cout Total:",bg=self.couleurinfo, font=self.infofont)
         self.nbcouttotal=Label(self.cadre,text=self.mod.joueurs[self.nom].maintenance ,bg=self.couleurinfo, font=self.infofont)
 
-        self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo, font=("Helvetica",14,"bold"))
+        self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo, font=("Helvetica",12,"bold"))
         self.btnarbretech.bind("<Button-1>",self.toggleBtnTechno)
 
         self.labcredit=Label(self.cadre, text="Credit:",bg=self.couleurinfo, font=self.infofont)
@@ -178,7 +180,7 @@ class Vue():
         self.labmoral= Label(self.cadre, text="Moral:",bg=self.couleurinfo, font=self.infofont)
         self.nbmoral=Label(self.cadre, text="-",bg=self.couleurinfo, font=self.infofont)
 
-        self.labespacement=Label(self.cadreinfojoueur, text="", bg=self.couleurinfo)
+        #self.labespacement=Label(self.cadreinfojoueur, text="              ", bg=self.couleurinfo)
         self.labaffichagevue=Label(self.cadreinfojoueur, text="Vues", bg=self.couleurbouton, font=self.labfont)
 
         self.bgalaxie=Button(self.cadreinfojoueur,text="Galaxie",bg=self.couleurbouton, font=self.infofont)
@@ -196,21 +198,23 @@ class Vue():
         self.idcouleur.grid(row=0,column=1, sticky=W+E)
         self.labcouttotal.grid(row=0,column=2)
         self.nbcouttotal.grid(row=0,column=3)
-
-        self.labcredit.grid(row=1,column=0)
-        self.nbcredit.grid(row=1,column=1)
-        self.labnourriture.grid(row=1,column=2)
-        self.nbnourriture.grid(row=1,column=3)
+        # ajout text var
+        self.labcredit.grid(row=0,column=6)
+        self.nbcredit.grid(row=0,column=7)
+        self.labnourriture.grid(row=0,column=8)
+        self.nbnourriture.grid(row=0,column=9)
         self.labdeuterium.grid(row=0,column=4)
         self.nbdeuterium.grid(row=0,column=5)
-        self.labmoral.grid(row=1,column=4)
-        self.nbmoral.grid(row=1,column=5)
-
-        self.btnarbretech.grid(row=0,column=6, columnspan=2, rowspan=2, sticky=N+S)
-        self.bgalaxie.grid(row = 2, column =0, sticky=W+E)
-        self.bsolaire.grid(row = 2, column =1, sticky=W+E)
-        self.bplanete.grid(row = 2, column =2, sticky=W+E)
-        self.bsolairemere.grid(row=2,column=3, sticky=W+E)
+        self.labmoral.grid(row=0,column=10)
+        self.nbmoral.grid(row=0,column=11)
+        #self.labaffichagevue.grid(row=1, column=3, columnspan=1, sticky=W+E)
+        #self.labespacement.grid(row=5, column=0, columnspan=3, sticky=W+E)
+        # boutons
+        self.btnarbretech.grid(row=1,column=9, columnspan=2, sticky=W+E)
+        self.bgalaxie.grid(row = 1, column =1, sticky=W+E)
+        self.bsolaire.grid(row = 1, column =3, sticky=W+E)
+        self.bplanete.grid(row = 1, column =5, sticky=W+E)
+        self.bsolairemere.grid(row=1,column=7, sticky=W+E)
         self.bsolairemere.config(state=NORMAL, command = lambda : self.combinedactions())
 
     def creeraffichercadrepartie(self,mod):
@@ -225,8 +229,8 @@ class Vue():
 
         self.cadreinfojoueur=Frame(self.cadrepartie,height=100, width=800, bg="gray")
         self.cadreMessagerie=Frame(self.cadrepartie,height=100, width=400, bg="pink")
-        self.cadreinfojoueur.grid(row=0, column=0)
-        self.cadreMessagerie.grid(row=0, column=1, rowspan=2)
+        self.cadreinfojoueur.grid(row=0, column=0, sticky=W+E)
+        self.cadreMessagerie.grid(row=0, column=1, rowspan=2, sticky=N)
 
 
         self.creerCadreInfoJoueur(self.cadreinfojoueur,self.mod)
@@ -238,19 +242,20 @@ class Vue():
         self.lbselectecible=Label(self.cadreinfo,text="Choisir cible",bg="darkgrey")
 
 
-        self.labMessagerie=Label(self.cadreMessagerie,text="Messagerie")
+        # création des objets de Messagerie
+        self.labMessagerie=Label(self.cadreMessagerie,text="Messagerie", font=self.infofont)
         self.afficherMenuJoueur()
-        self.listeMessage=Listbox(self.cadreMessagerie, fg="blue",width=40)
+        self.listeMessage=Listbox(self.cadreMessagerie, fg="blue",width=45)
         self.scrollMessage=Scrollbar(self.cadreMessagerie, orient=VERTICAL)
         self.entryMessage=Entry(self.cadreMessagerie)
         self.envoiMessage=Button(self.cadreMessagerie,text="Envoyer", command=self.envoyerMessage, width=10)
 
 
-        self.labDiplomatie=Label(self.cadreinfojoueur, text="Diplomatie", font=self.labfont)
-        self.btnAlliance=Button(self.cadreinfojoueur, text="Alliance", bg="blue", font=self.infofont)
-        self.btnGuerre=Button(self.cadreinfojoueur, text="Guerre", bg="red", font=self.infofont)
-        self.btnAllianceGuerriere=Button(self.cadreinfojoueur, text="Pacte Guerre",bg="green", font=self.infofont)
-        self.btnPaix=Button(self.cadreinfojoueur, text="Paix", bg="white", font=self.infofont)
+        #self.labDiplomatie=Label(self.cadreinfojoueur, text="Diplomatie", font=self.labfont)
+        #self.btnAlliance=Button(self.cadreinfojoueur, text="Alliance", bg="blue", font=self.infofont)
+        #self.btnGuerre=Button(self.cadreinfojoueur, text="Guerre", bg="red", font=self.infofont)
+        #self.btnAllianceGuerriere=Button(self.cadreinfojoueur, text="Pacte Guerre",bg="green", font=self.infofont)
+        #self.btnPaix=Button(self.cadreinfojoueur, text="Paix", bg="white", font=self.infofont)
 
 
         self.labMessagerie.grid(row=0, columnspan=2, sticky=W+E)
@@ -260,11 +265,11 @@ class Vue():
         self.envoiMessage.grid(row=3, column=1, sticky=W)
 
 
-        self.labDiplomatie.grid(row=2, column=4,sticky=W+E)
-        self.btnAlliance.grid(row=2, column=5, sticky=W+E)
-        self.btnGuerre.grid(row=2, column=6, sticky=W+E)
-        self.btnAllianceGuerriere.grid(row=2, column=7, sticky=W+E)
-        self.btnPaix.grid(row=2, column=8,sticky=W+E)
+        #self.labDiplomatie.grid(row=2, column=4,sticky=W+E)
+        #self.btnAlliance.grid(row=2, column=5, sticky=W+E)
+        #self.btnGuerre.grid(row=2, column=6, sticky=W+E)
+        #self.btnAllianceGuerriere.grid(row=2, column=7, sticky=W+E)
+        #self.btnPaix.grid(row=2, column=8,sticky=W+E)
 
 
     def choix(self, *args):
@@ -403,6 +408,37 @@ class Vue():
         self.btnAvac4.config(text = "Vaisseau Laser",command= lambda: self.gridhelper(self.vues["Solaire"].newVais4,18,0))
         self.btnAvac5.config(text = "Vaisseau Sniper",command= lambda: self.gridhelper(self.vues["Solaire"].newVais5,18,1))
 
+        if self.arbretechMilitState == 0:
+            self.btnAvac1.config(state = NORMAL,bg = "azure")
+            self.btnAvac2.config(state = NORMAL,bg = "azure")
+            self.btnAvac3.config(state = NORMAL,bg = "azure")
+            self.btnAvac4.config(state = NORMAL,bg = "azure")
+            self.btnAvac5.config(state = NORMAL,bg = "azure")
+
+        if self.arbretechMilitState == 1:
+            self.btnAvac2.config(state = NORMAL,bg = "azure")
+            self.btnAvac3.config(state = NORMAL,bg = "azure")
+            self.btnAvac4.config(state = NORMAL,bg = "azure")
+            self.btnAvac5.config(state = NORMAL,bg = "azure")
+
+        if self.arbretechMilitState == 2:
+            self.btnAvac3.config(state = NORMAL,bg = "azure")
+            self.btnAvac4.config(state = NORMAL,bg = "azure")
+            self.btnAvac5.config(state = NORMAL,bg = "azure")
+
+        if self.arbretechMilitState == 3:
+            self.btnAvac2.config(state = NORMAL,bg = "azure")
+            self.btnAvac4.config(state = NORMAL,bg = "azure")
+            self.btnAvac5.config(state = NORMAL,bg = "azure")
+
+        if self.arbretechMilitState == 4:
+            self.btnAvac3.config(state = NORMAL,bg = "azure")
+            self.btnAvac5.config(state = NORMAL,bg = "azure")
+
+        if self.arbretechMilitState == 5:
+            self.btnAvac2.config(state = NORMAL,bg = "azure")
+            self.btnAvac4.config(state = NORMAL,bg = "azure")
+
 
     def gridhelper(self, button,arow,acolumn):
         button.grid(row=arow,column=acolumn)
@@ -418,20 +454,53 @@ class Vue():
 
     def disableBtnAvac1(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
+        print(self.ongletActif)
+        if self.ongletActif == "Militaire":
+            self.arbretechMilitState = 1
+        if self.ongletActif == "economie":
+            self.arbretechEcoState = 1
+
+        print(self.arbretechMilitState)
+
+        print(self.arbretechMilitState)
+
     def disableBtnAvac2(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac2.config(state = DISABLED, bg="gray20")
+        if self.ongletActif == "Militaire":
+            self.arbretechMilitState = 2
+        if self.ongletActif == "economie":
+            self.arbretechEcoState = 2
+
     def disableBtnAvac3(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac3.config(state = DISABLED, bg="gray20")
+        if self.ongletActif == "Militaire":
+            self.arbretechMilitState = 3
+        if self.ongletActif == "economie":
+            self.arbretechEcoState = 3
+
     def disableBtnAvac4(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac2.config(state = DISABLED, bg="gray20")
         self.btnAvac4.config(state = DISABLED, bg="gray20")
+
+        if self.ongletActif == "Militaire":
+            self.arbretechMilitState = 4
+        if self.ongletActif == "economie":
+            self.arbretechEcoState = 4
+
+
+
     def disableBtnAvac5(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac3.config(state = DISABLED, bg="gray20")
         self.btnAvac5.config(state = DISABLED, bg="gray20")
+
+        if self.ongletActif == "Militaire":
+            self.arbretechMilitState = 5
+        if self.ongletActif == "economie":
+            self.arbretechEcoState = 5
 
 
     def actionElemTech(self,event):
@@ -440,6 +509,21 @@ class Vue():
         if avancement:
             if etat == "normal":
                 self.parent.avancementTechno(avancement)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     def CliqueVueSySsolaire(self,canvas,mod):
@@ -476,7 +560,7 @@ class Vue():
         if s:
             if self.canvas == self.vues["Galaxie"].canevasGalaxie:
                 if s[0] == "etoile":
-                    self.vues["Galaxie"].afficherInfosSystemSolaire(self.mod,int(s[1])) 
+                    self.vues["Galaxie"].afficherInfosSystemSolaire(self.mod,int(s[1]))
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
                     self.vues["Galaxie"].afficherpartieGalaxie(self.mod)
                     self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
@@ -496,7 +580,7 @@ class VueSolaire():
     def __init__(self,fen,parent):
 
         self.cadrejeu=fen
-        self.parent=parent 
+        self.parent=parent
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreinfo=Frame(self.parent.cadreoutils)
         self.canevasSolaire=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
@@ -567,7 +651,7 @@ class VueSolaire():
     def afficherdecorSolaire(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
-        self.unSysSolaire = self.listeSysSolaire[0] 
+        self.unSysSolaire = self.listeSysSolaire[0]
 
         self.planete= self.mod.joueurs[self.parent.nom].planetemere
         self.unSysSolaire=self.planete.parent
@@ -674,7 +758,7 @@ class VueSolaire():
 
     def afficherInfosPlanete(self, modele, idPlanete):
 
-        self.parent.bplanete.config(state = "disabled") 
+        self.parent.bplanete.config(state = "disabled")
         self.modele=modele
         for i in (self.modele.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
@@ -729,7 +813,7 @@ class VueSolaire():
         t=self.canevasSolaire.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
 
-            self.maselection=[self.parent.nom,t[1],t[2]]  
+            self.maselection=[self.parent.nom,t[1],t[2]]
 
             if "planeteMere" not in t:
                  self.maselection2=[self.parent.nom,t[1],t[2]]
@@ -745,7 +829,7 @@ class VueSolaire():
                 self.parent.parent.ciblerflotte(self.maselection[2],t[2])
         elif "planete" in t and t[0]!=self.parent.nom:
             if self.maselection:
-                pass 
+                pass
                 self.parent.parent.ciblerflotte(self.maselection[2],t[2])
             self.maselection=None
             self.canevasSolaire.delete("marqueur")
@@ -883,7 +967,7 @@ class VuePlanete():
 
         self.afficheEmplacement(self.planete)
         self.afficheStructure(self.planete.id)
-        
+
         self.canevasPlanete.bind( "<Button-1>", self.cliqueEmplacement)
 
 
@@ -911,7 +995,7 @@ class VuePlanete():
             for j in (i.listePlanete):
                 if (j.id == idPlanete):
                     self.planete=j
-        
+
         taille=self.planete.taille*50
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id, taille))
 
@@ -1006,6 +1090,8 @@ class VuePlanete():
                 elif(i.nomStructure=="Ferme"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.fermeCanvas, tags=("batiment_construit"))
 
+                #self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
+
 
 class VueGalaxie():
 
@@ -1077,7 +1163,7 @@ class VueGalaxie():
     def cliquecosmos(self,evt):
         t=self.canevasGalaxie.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
-            self.parent.maselection=[self.parent.nom,t[1],t[2]]  
+            self.parent.maselection=[self.parent.nom,t[1],t[2]]
             if t[1] == "etoile":
                 self.montreplaneteselection()
             elif t[1] == "flotte":
@@ -1099,7 +1185,7 @@ class VueGalaxie():
         self.parent.lbselectecible.grid(row=0, column=0)
 
     def afficherartefacts(self,joueurs):
-        pass 
+        pass
 
     def afficherpartieGalaxie(self,mod):
         self.canevasGalaxie.delete("artefact")

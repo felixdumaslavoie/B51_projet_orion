@@ -58,7 +58,7 @@ class SystemeSolaire():
         self.proprietaire="inconnu"
         self.x=x
         self.y=y
-        self.taille=random.randrange(4,7) 
+        self.taille=random.randrange(4,7)
         self.nbdeplanete=random.randrange(5, 12)
         self.listePlanete = []
         self.couleur = "grey80"
@@ -188,7 +188,7 @@ class Structure():
 
 class UsineCivile(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Usine_Civile[0]
         self.cout=Structure.Usine_Civile[2]
         self.maintenance=Structure.Usine_Civile[3]
@@ -197,7 +197,7 @@ class UsineCivile(Structure):
 
 class UsineMilitaire(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Usine_Militaire[0]
         self.cout=Structure.Usine_Militaire[2]
         self.maintenance=Structure.Usine_Militaire[3]
@@ -206,7 +206,7 @@ class UsineMilitaire(Structure):
 
 class RaffinerieDiamant(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Raffinerie_Diamant[0]
         self.cout=Structure.Raffinerie_Diamant[2]
         self.maintenance=Structure.Raffinerie_Diamant[3]
@@ -215,7 +215,7 @@ class RaffinerieDiamant(Structure):
 
 class RaffinerieCharbon(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Raffinerie_Charbon[0]
         self.cout=Structure.Raffinerie_Charbon[2]
         self.maintenance=Structure.Raffinerie_Charbon[3]
@@ -224,7 +224,7 @@ class RaffinerieCharbon(Structure):
 
 class RaffinerieIsotope(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Raffinerie_Isotope[0]
         self.cout=Structure.Raffinerie_Isotope[2]
         self.maintenance=Structure.Raffinerie_Isotope[3]
@@ -233,7 +233,7 @@ class RaffinerieIsotope(Structure):
 
 class Ferme(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Ferme[0]
         self.cout=Structure.Ferme[2]
         self.maintenance=Structure.Ferme[3]
@@ -242,7 +242,7 @@ class Ferme(Structure):
 
 class Capitale(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Capitale[0]
         self.cout=Structure.Capitale[2]
         self.maintenance=Structure.Capitale[3]
@@ -269,6 +269,7 @@ class Vaisseau():
         self.energie=0
         self.vitesse=0
         self.range=0
+        self.cout=0
 
 
     def avancer(self):
@@ -277,7 +278,7 @@ class Vaisseau():
             y=self.cible.y
             ang=hlp.calcAngle(self.x,self.y,x,y)
             x1,y1=hlp.getAngledPoint(ang,self.vitesse,self.x,self.y)
-            self.x,self.y=x1,y1 
+            self.x,self.y=x1,y1
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
                 if type(self.cible).__name__=="Planete":
                     if len(self.cible.listeStructure)==0:
@@ -301,50 +302,69 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
+
+
+## Ne fait pas le test de si il reste assez d'argent. Ce test sera fait en ammont
+    def payerVaisseau(self):
+        self.parent.credit-=self.cout
+
+    def assezArgentPayerVaisseau(self):
+        if (self.parent.credit < 0):
+            self.parent.credit = 0
+        if self.parent.credit - self.cout >= 0:
+            return True
+        else:
+            return False
+
 class VaisseauCanon(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Canon"):
-        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) 
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=400
         self.vitesse=5
         self.range=200
         self.cout=100
+        self.payerVaisseau()
 
 class VaisseauEclaireur(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Eclaireur"):
-        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) 
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=400
         self.vitesse=10
         self.range=200
         self.cout=300
+        self.payerVaisseau()
 
 class VaisseauTank(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Tank"):
-        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) 
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=400
         self.vitesse=1
         self.range=400
         self.cout=300
+        self.payerVaisseau()
 
 class VaisseauLaser(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Laser"):
-        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) 
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=400
         self.vitesse=1
         self.range=400
         self.cout=200
+        self.payerVaisseau()
 
 class VaisseauSniper(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Sniper"):
-        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) 
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=400
         self.vitesse=1
         self.range=400
         self.cout=200
+        self.payerVaisseau()
 
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
@@ -363,6 +383,7 @@ class Joueur():
         self.bufferSelection = []
         self.listeStructure = []
         self.profits = 0
+
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte,
                       "creerStructure":self.creerStructure,
@@ -431,11 +452,14 @@ class Joueur():
     def creervaisseau(self,params):
         nomvais=params
         vaisseau=self.vaisseaux[nomvais](self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
-        self.flotteSystemeSolaire.append(vaisseau)
+        if (vaisseau.assezArgentPayerVaisseau()):
+            vaisseau=self.vaisseaux[nomvais](self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
+            print("Vaisseau", vaisseau.id, vaisseau.nomVaisseau, vaisseau.cargo, vaisseau.energie, vaisseau.vitesse)
+            self.flotteSystemeSolaire.append(vaisseau)
 
     def creerStructure(self,params):
         nomjoueur,nomstruct,idplanete,x,y=params
-        planete = None       
+        planete = None
 
 
         for i in (self.parent.Galaxie.listeSysSolaire):
@@ -443,10 +467,11 @@ class Joueur():
                 if (j.id == idplanete):
                     planete=j
         
-        #if nomstruct == "Capitale":
-        #    for i in self.listeStructure:
-        #        if i.nomStructure == nomstruct:
-        #            Print("Construction de la capitale re")
+        if nomstruct == "Capitale":
+            for i in self.listeStructure:
+                if i.nomStructure == nomstruct:
+                    print("Construction de la capitale refusée")
+                    return
         
         structure=self.structures[nomstruct](nomjoueur,nomstruct,planete,x,y)
 
@@ -503,18 +528,18 @@ class Joueur():
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
-        for i in self.flotteSystemeSolaire: 
+        for i in self.flotteSystemeSolaire:
             if i.id== int(idori):
-                for j in i.solaire.listePlanete: 
+                for j in i.solaire.listePlanete:
                     if j.id== int(iddesti):
                         i.cible=j
                         return
 
     def cibleretoile(self,ids):
         idori,iddesti=ids
-        for i in self.flotteSystemeSolaire: 
+        for i in self.flotteSystemeSolaire:
             if i.id== int(idori):
-                for j in self.parent.Galaxie.listeSysSolaire: 
+                for j in self.parent.Galaxie.listeSysSolaire:
                     if j.id== int(float(iddesti)):
                         i.cible=j
                         i.solaire=j
@@ -531,18 +556,18 @@ class Joueur():
 
     def avancementTechno(self,nomAvancement):
         self.avanc = nomAvancement[0]
-        if self.avanc == "Bonus production": 
+        if self.avanc == "Bonus production":
             self.cooldownRessource = 95
             self.parent.parent.vue.disableBtnAvac1()
-        elif self.avanc == "Bonus production x 2": 
+        elif self.avanc == "Bonus production x 2":
             self.cooldownRessource = 85
             self.parent.parent.vue.disableBtnAvac2()
-        elif self.avanc == "Bonus production x 4": 
+        elif self.avanc == "Bonus production x 4":
             self.parent.parent.vue.disableBtnAvac4()
             self.cooldownRessource = 55
-        elif self.avanc == "Couts Reduit": 
+        elif self.avanc == "Couts Reduit":
             self.parent.parent.vue.disableBtnAvac3()
-        elif self.avanc == "Couts Reduit x 2": 
+        elif self.avanc == "Couts Reduit x 2":
             self.parent.parent.vue.disableBtnAvac5()
         elif self.avanc == "Vaisseau Canon":
             pass
@@ -563,7 +588,7 @@ class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)
         self.couleur = couleur
-        self.compteurCreation = 0
+        self.compteurChoix = 0
         self.compteurChangementVue = 0
         self.tempo=random.randrange(100)+20
 
@@ -571,21 +596,22 @@ class IA(Joueur):
     def prochaineaction(self):
 
         if self.couleur == "orange":
-            self.compteurCreation +=1
+            self.compteurChoix +=1
 
-            if self.compteurCreation == 100:
+            if self.compteurChoix == 750:
+                self.compteurChoix = 0
+                choice = random.randrange(0,100)
                 self.compteurChangementVue += 1
-                self.compteurCreation = 0
-                self.creervaisseau("Vaisseau Canon")
+                self.prendreChoix(choice)
 
-            if self.compteurChangementVue == 1:
+            if self.compteurChangementVue == 1: # changement de vue d'un vaisseau
                 self.compteurChangementVue = 0
                 if self.flotteSystemeSolaire:
                     i = random.choice(self.flotteSystemeSolaire)
                     self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
                     i.cible = None
 
-            if self.flotteSystemeSolaire:
+            if self.flotteSystemeSolaire: # changement de cible
                 for i in self.flotteSystemeSolaire:
                     if i.cible == None:
                         if i.espaceCourant:
@@ -594,12 +620,13 @@ class IA(Joueur):
                             i.cible=random.choice(i.solaire.parent.listeSysSolaire)
 
         if self.couleur == "green":
-            self.compteurCreation +=1
+            self.compteurChoix +=1
 
-            if self.compteurCreation == 750:
+            if self.compteurChoix == 750:
+                self.compteurChoix = 0
+                choice = random.randrange(0,100)
                 self.compteurChangementVue += 1
-                self.compteurCreation = 0
-                self.creervaisseau("Vaisseau Canon")
+                self.prendreChoix(choice)
 
             if self.compteurChangementVue == 3:
                 self.compteurChangementVue = 0
@@ -616,17 +643,37 @@ class IA(Joueur):
                         if i.espaceCourant == None:
                             i.cible=random.choice(i.solaire.parent.listeSysSolaire)
 
+ ################################################################################################################
+#################################################################################################################
+#################################################################################################################
 
         if self.flotteSystemeSolaire:
             for i in self.flotteSystemeSolaire:
                 if i.cible:
                     i.avancer()
 
+
+    def prendreChoix(self,choixNumber):
+        if choixNumber <= 50:
+            self.creervaisseau("Vaisseau Canon") # crée un vaisseau
+        elif choixNumber == 99:
+            num = random.randrange(5,15)
+            for x in range(0,num) :
+                self.creervaisseau("Vaisseau Eclaireur")
+        elif choixNumber >= 90 & choixNumber <=98:
+            self.creervaisseau("Vaisseau Tank")
+            self.creervaisseau("Vaisseau Tank")
+        elif choixNumber >= 75 & choixNumber < 90:
+            self.creervaisseau("Vaisseau Laser")
+        elif choixNumber > 50 & choixNumber < 75:
+            self.creervaisseau("Vaisseau Sniper")
+
+
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
-        self.largeur=800 
-        self.hauteur=600 
+        self.largeur=800
+        self.hauteur=600
         self.joueurs={}
         self.listeObjCliquable = []
         self.ias=[]
