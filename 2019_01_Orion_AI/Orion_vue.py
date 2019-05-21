@@ -614,6 +614,10 @@ class VueSolaire():
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
             self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=(None,"fond",None,None))
+        #curwd = os.path.dirname(os.path.realpath(__file__))
+
+        #image = resizeImage.resizeImage("",600,curwd+"\\images\\galaxy-png-date-2000.jpg")
+        #self.canevasSolaire.create_image(10, 10, image = image, anchor = NW)
 
         self.canevasSolaire.config(bg="midnight blue")
 
