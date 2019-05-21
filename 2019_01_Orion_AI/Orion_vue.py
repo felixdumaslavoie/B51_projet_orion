@@ -68,7 +68,7 @@ class Vue():
         if self.vueactive:
             self.vueactive.cadrespatial.grid_forget()
             self.vueactive.cadreinfo.grid_forget()
-            
+
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
         self.vueactive.cadreinfo.grid(row = 1, column =0 )
@@ -549,7 +549,7 @@ class Vue():
         if s:
             if self.canvas == self.vues["Galaxie"].canevasGalaxie:
                 if s[0] == "etoile":
-                    self.vues["Galaxie"].afficherInfosSystemSolaire(self.mod,int(s[1])) 
+                    self.vues["Galaxie"].afficherInfosSystemSolaire(self.mod,int(s[1]))
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
                     self.vues["Galaxie"].afficherpartieGalaxie(self.mod)
                     self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
@@ -569,7 +569,7 @@ class VueSolaire():
     def __init__(self,fen,parent):
 
         self.cadrejeu=fen
-        self.parent=parent 
+        self.parent=parent
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreinfo=Frame(self.parent.cadreoutils)
         self.canevasSolaire=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
@@ -640,7 +640,7 @@ class VueSolaire():
     def afficherdecorSolaire(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
-        self.unSysSolaire = self.listeSysSolaire[0] 
+        self.unSysSolaire = self.listeSysSolaire[0]
 
         self.planete= self.mod.joueurs[self.parent.nom].planetemere
         self.unSysSolaire=self.planete.parent
@@ -747,7 +747,7 @@ class VueSolaire():
 
     def afficherInfosPlanete(self, modele, idPlanete):
 
-        self.parent.bplanete.config(state = "disabled") 
+        self.parent.bplanete.config(state = "disabled")
         self.modele=modele
         for i in (self.modele.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
@@ -802,7 +802,7 @@ class VueSolaire():
         t=self.canevasSolaire.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
 
-            self.maselection=[self.parent.nom,t[1],t[2]]  
+            self.maselection=[self.parent.nom,t[1],t[2]]
 
             if "planeteMere" not in t:
                  self.maselection2=[self.parent.nom,t[1],t[2]]
@@ -818,7 +818,7 @@ class VueSolaire():
                 self.parent.parent.ciblerflotte(self.maselection[2],t[2])
         elif "planete" in t and t[0]!=self.parent.nom:
             if self.maselection:
-                pass 
+                pass
                 self.parent.parent.ciblerflotte(self.maselection[2],t[2])
             self.maselection=None
             self.canevasSolaire.delete("marqueur")
@@ -956,7 +956,7 @@ class VuePlanete():
 
         self.afficheEmplacement(self.planete)
         self.afficheStructure(self.planete.id)
-        
+
         self.canevasPlanete.bind( "<Button-1>", self.cliqueEmplacement)
 
 
@@ -984,7 +984,7 @@ class VuePlanete():
             for j in (i.listePlanete):
                 if (j.id == idPlanete):
                     self.planete=j
-        
+
         taille=self.planete.taille*50
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id, taille))
 
@@ -1079,11 +1079,8 @@ class VuePlanete():
                 elif(i.nomStructure=="Ferme"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.fermeCanvas, tags=("batiment_construit"))
 
-<<<<<<< HEAD
                 #self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
 
-=======
->>>>>>> 726efab4e3538b786b1887333b9cb00b3bd9f4a1
 
 class VueGalaxie():
 
@@ -1155,7 +1152,7 @@ class VueGalaxie():
     def cliquecosmos(self,evt):
         t=self.canevasGalaxie.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
-            self.parent.maselection=[self.parent.nom,t[1],t[2]]  
+            self.parent.maselection=[self.parent.nom,t[1],t[2]]
             if t[1] == "etoile":
                 self.montreplaneteselection()
             elif t[1] == "flotte":
@@ -1177,7 +1174,7 @@ class VueGalaxie():
         self.parent.lbselectecible.grid(row=0, column=0)
 
     def afficherartefacts(self,joueurs):
-        pass 
+        pass
 
     def afficherpartieGalaxie(self,mod):
         self.canevasGalaxie.delete("artefact")
