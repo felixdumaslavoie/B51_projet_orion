@@ -33,9 +33,8 @@ class Vue():
         self.ip=ip
         self.vueactive=None
         self.vueEnFonction=0
-        self.arbretechEcoState=0
-        self.arbretechMilitState=0
-
+        self.arbretechEcoState = 0
+        self.arbretechMilitState = 0
 
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
@@ -44,7 +43,6 @@ class Vue():
         self.cadreArbreTechno=Canvas(self.cadreoutils,width=350,height=200, bg = "green2")
 
         self.cadreBouton=Frame(self.cadreoutils,width=200,height=200,bg="medium spring green")
-
 
         self.couleurinfo="gray"
         self.couleurbouton="gray33"
@@ -454,54 +452,24 @@ class Vue():
 
     def disableBtnAvac1(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
-        print(self.ongletActif)
-        if self.ongletActif == "Militaire":
-            self.arbretechMilitState = 1
-        if self.ongletActif == "economie":
-            self.arbretechEcoState = 1
-
-        print(self.arbretechMilitState)
-
-        print(self.arbretechMilitState)
 
     def disableBtnAvac2(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac2.config(state = DISABLED, bg="gray20")
-        if self.ongletActif == "Militaire":
-            self.arbretechMilitState = 2
-        if self.ongletActif == "economie":
-            self.arbretechEcoState = 2
 
     def disableBtnAvac3(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac3.config(state = DISABLED, bg="gray20")
-        if self.ongletActif == "Militaire":
-            self.arbretechMilitState = 3
-        if self.ongletActif == "economie":
-            self.arbretechEcoState = 3
 
     def disableBtnAvac4(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac2.config(state = DISABLED, bg="gray20")
         self.btnAvac4.config(state = DISABLED, bg="gray20")
 
-        if self.ongletActif == "Militaire":
-            self.arbretechMilitState = 4
-        if self.ongletActif == "economie":
-            self.arbretechEcoState = 4
-
-
-
     def disableBtnAvac5(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac3.config(state = DISABLED, bg="gray20")
         self.btnAvac5.config(state = DISABLED, bg="gray20")
-
-        if self.ongletActif == "Militaire":
-            self.arbretechMilitState = 5
-        if self.ongletActif == "economie":
-            self.arbretechEcoState = 5
-
 
     def actionElemTech(self,event):
         avancement = event.widget.cget("text")
@@ -509,22 +477,6 @@ class Vue():
         if avancement:
             if etat == "normal":
                 self.parent.avancementTechno(avancement)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def CliqueVueSySsolaire(self,canvas,mod):
         self.canvas = canvas
@@ -656,11 +608,14 @@ class VueSolaire():
         self.planete= self.mod.joueurs[self.parent.nom].planetemere
         self.unSysSolaire=self.planete.parent
 
+        self
+
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
             self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=(None,"fond",None,None))
-            self.canevasSolaire.config(bg="midnight blue")
+
+        self.canevasSolaire.config(bg="midnight blue")
 
         for i in range(random.randrange(10,20)):
             x=random.randrange(mod.largeur)
@@ -694,7 +649,7 @@ class VueSolaire():
         for i in self.systemeSolaire.listePlanete:
             t=i.taille*4
             if(i.proprietaire=="inconnu"):
-                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=random.choice(self.couleurs),tags=("Inconnu","planete",str(i.id),None))
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=i.couleur,tags=("Inconnu","planete",str(i.id),None))
             elif(i.proprietaire is not None):
                 player = None
                 for k in self.mod.ias:
