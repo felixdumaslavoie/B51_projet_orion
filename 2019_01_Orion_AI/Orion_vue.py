@@ -1087,6 +1087,8 @@ class VuePlanete():
                 elif(i.nomStructure=="Ferme"):
                     self.canevasPlanete.create_image(self.x,self.y,image= self.fermeCanvas, tags=("batiment_construit"))
 
+                #self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
+
 
 class VueGalaxie():
 
