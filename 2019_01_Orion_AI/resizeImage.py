@@ -2,6 +2,8 @@ from PIL import Image, ImageTk
 import os
 
 def resizeImage(lettre,basewidth,path):
+
+	print(path)
 	image= Image.open(path)
 	wpercent=(basewidth/float(image.size[0]))
 	hsize= int((float(image.size[1])*float(wpercent)))
