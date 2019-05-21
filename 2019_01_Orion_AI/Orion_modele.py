@@ -443,13 +443,12 @@ class Joueur():
                 if (j.id == idplanete):
                     planete=j
         
+        #if nomstruct == "Capitale":
+        #    for i in self.listeStructure:
+        #        if i.nomStructure == nomstruct:
+        #            Print("Construction de la capitale re")
+        
         structure=self.structures[nomstruct](nomjoueur,nomstruct,planete,x,y)
-        self.listeStructure.append(structure)
-        planete.listeStructure.append(structure)
-
-        planete.ajouterBatiment(x,y,nomstruct)
-        if self.parent.parent.vue.vues:
-            self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
 
         if self.credit>=structure.cout:
             self.credit-=structure.cout
@@ -494,9 +493,9 @@ class Joueur():
                         self.profits+= i.production
                         i.planete.zinc-=2
                 
-                typeStruct = i.nomStructure[0:10]
-                if typeStruct == "Raffinerie":
-                    self.profits += i.production
+                #typeStruct = i.nomStructure[0:10]
+                #if typeStruct == "Raffinerie":
+                #    self.profits += i.production
 
             self.credit+=self.profits
             self.credit-=coutCredit
