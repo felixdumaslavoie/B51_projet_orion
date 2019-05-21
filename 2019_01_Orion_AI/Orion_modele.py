@@ -208,7 +208,7 @@ class Structure():
     #Ferme={"Ferme",75,50,1,2}
     #Capitale={"Capitale",300,5000,10,100}
 
-    def __init__(self,joueur,planete,nomstruct,x,y):
+    def __init__(self,joueur,nomstruct,planete,x,y):
         self.nomStructure=nomstruct
         self.joueur=joueur
         self.x=x
@@ -519,7 +519,9 @@ class Joueur():
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
-
+        
+        print("Planete(523):",planete)
+        
         structure=self.structures[nomstruct](nomjoueur,nomstruct,planete,x,y)
         self.listeStructure.append(structure)
         planete.listeStructure.append(structure)
@@ -560,8 +562,8 @@ class Joueur():
 
             for i in self.listeStructure:
                 typeRess = i.nomStructure[11:14]
-                print(typeRess)
                 if typeRess == "Dia":
+                    print("aaaaaaaaaaaaa",i.planete)
                     if i.planete.diamant >= i.production:
                         self.profits += i.production
                         i.planete.diamant-=1
