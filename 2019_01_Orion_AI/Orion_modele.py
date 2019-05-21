@@ -68,6 +68,10 @@ class SystemeSolaire():
             y=random.randrange(self.parent.parent.hauteur-(2*self.bordure))+self.bordure
             p = Planete(self,x,y, self.nom)
             self.listePlanete.append(p)
+            
+    def deplacerPlanetes(self):
+        for i in self.listePlanete:
+            i.deplacer()
 
 class Planete():
     couleurs={""}
@@ -88,6 +92,7 @@ class Planete():
         self.listeStructure=[]
         self.emplacementsDispo=[]*self.taille
         self.tailleAffichage=50*self.taille
+        self.orbite = []
 
 
         largeur=self.parent.parent.parent.largeur/2
@@ -139,7 +144,10 @@ class Planete():
                 self.listeStructure.append(structure)
                 self.emplacementsDispo.remove(i)
                 break
-
+            
+    def deplacer(self):
+        self.x+=1;
+        self.y+=1;
 
 class EmplacementsSurPlanete():
     def __init__(self,x,y,structure):
@@ -517,10 +525,6 @@ class Joueur():
                     if i.planete.zinc >= 2:
                         self.profits+= i.production
                         i.planete.zinc-=2
-                
-                #typeStruct = i.nomStructure[0:10]
-                #if typeStruct == "Raffinerie":
-                #    self.profits += i.production
 
             self.credit+=self.profits
             self.credit-=coutCredit

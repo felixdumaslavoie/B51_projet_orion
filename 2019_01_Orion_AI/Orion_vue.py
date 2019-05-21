@@ -676,7 +676,6 @@ class VueSolaire():
         self.afficherProjectile(mod)
 
 
-
     def _create_circle(self, x, y, r):
         return self.canevasSolaire.create_oval(x-r, y-r, x+r, y+r,fill="yellow",tags=(None,"soleil",None,None))
 
