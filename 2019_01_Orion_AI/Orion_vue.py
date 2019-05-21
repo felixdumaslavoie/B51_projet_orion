@@ -572,7 +572,7 @@ class VueSolaire():
         self.sysSolaireNom.grid(row = 0, column =0)
         self.boutonsVais=[]
 
-        curwd = os.getcwd()
+        curwd = os.path.dirname(os.path.realpath(__file__))
 
         self.vaisCanonMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauCanon.png")
         self.vaisEclaireurMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauEclaireur.png")
@@ -866,7 +866,7 @@ class VuePlanete():
         self.planeteDeuterium = Label(self.cadreinfo)
         self.planeteFertile = Label(self.cadreinfo)
 
-        curwd = os.getcwd()
+        curwd = os.path.dirname(os.path.realpath(__file__))
 
         self.raffinerieCharbonMenu=resizeImage.resizeImage("M",50,curwd+"\\images\\raffinerieCharbon.png")
         self.raffinerieDiamantMenu=resizeImage.resizeImage("M",50,curwd+"\\images\\raffinerieDiamant1.png")
@@ -1133,7 +1133,7 @@ class VueGalaxie():
         self.sysSolaireNom.grid(row = 0, column =0)
         self.versSoleil = Button(self.cadreinfo,text="Vers la Soleil",bg="DeepSkyBlue2", command=self.envoyerVersSoleil)
 
-        curwd = os.getcwd()
+        curwd = os.path.dirname(os.path.realpath(__file__))
 
         self.vaisCanonG=resizeImage.resizeImage("G",20,curwd+"\\images\\vaisseauCanon.png")
         self.vaisEclaireurG=resizeImage.resizeImage("G",20,curwd+"\\images\\vaisseauEclaireur.png")

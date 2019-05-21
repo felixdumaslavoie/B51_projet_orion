@@ -14,6 +14,11 @@ class Controleur():
     def __init__(self):
 
         print(os.getcwd())
+
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+
+        print ( dir_path)
+
         print("IN CONTROLEUR")
         self.attente=0
         self.cadre=0 # le no de cadre pour assurer la syncronisation avec les autres participants
