@@ -13,6 +13,7 @@ from Orion_vue import *
 class Controleur():
     def __init__(self):
 
+        print(os.getcwd())
         print("IN CONTROLEUR")
         self.attente=0
         self.cadre=0 # le no de cadre pour assurer la syncronisation avec les autres participants
