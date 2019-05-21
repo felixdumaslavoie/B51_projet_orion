@@ -466,14 +466,14 @@ class Joueur():
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
-
+        
+        if nomstruct == "Capitale":
+            for i in self.listeStructure:
+                if i.nomStructure == nomstruct:
+                    print("Construction de la capitale refusée")
+                    return
+        
         structure=self.structures[nomstruct](nomjoueur,nomstruct,planete,x,y)
-        self.listeStructure.append(structure)
-        planete.listeStructure.append(structure)
-
-        planete.ajouterBatiment(x,y,nomstruct)
-        if self.parent.parent.vue.vues:
-            self.parent.parent.vue.vues["Planete"].afficheStructure(idplanete)
 
         if self.credit>=structure.cout:
             self.credit-=structure.cout
@@ -517,10 +517,10 @@ class Joueur():
                     if i.planete.zinc >= 2:
                         self.profits+= i.production
                         i.planete.zinc-=2
-
-                typeStruct = i.nomStructure[0:10]
-                if typeStruct == "Raffinerie":
-                    self.profits += i.production
+                
+                #typeStruct = i.nomStructure[0:10]
+                #if typeStruct == "Raffinerie":
+                #    self.profits += i.production
 
             self.credit+=self.profits
             self.credit-=coutCredit
@@ -658,14 +658,14 @@ class IA(Joueur):
             self.creervaisseau("Vaisseau Canon") # crée un vaisseau
         elif choixNumber == 99:
             num = random.randrange(5,15)
-            for i in num:
+            for x in range(0,num) :
                 self.creervaisseau("Vaisseau Eclaireur")
         elif choixNumber >= 90 & choixNumber <=98:
             self.creervaisseau("Vaisseau Tank")
             self.creervaisseau("Vaisseau Tank")
-        elif choixNumber >= 75 & choixNumber <= 90:
+        elif choixNumber >= 75 & choixNumber < 90:
             self.creervaisseau("Vaisseau Laser")
-        elif choixNumber >= 50 & choixNumber <=75:
+        elif choixNumber > 50 & choixNumber < 75:
             self.creervaisseau("Vaisseau Sniper")
 
 
