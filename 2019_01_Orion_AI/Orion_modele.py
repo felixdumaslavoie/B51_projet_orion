@@ -637,7 +637,7 @@ class IA(Joueur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)
         #planetemere.proprietaire = nom
         self.couleur = couleur
-        self.compteurCreation = 0
+        self.compteurChoix = 0
         self.compteurChangementVue = 0
         print("Planete mere", planetemere.nom, "assignee a", nom, couleur)
         self.tempo=random.randrange(100)+20
@@ -651,24 +651,23 @@ class IA(Joueur):
 
     def prochaineaction(self):
 
-        # si assez d'argent
-        # construit un bâtiment sur la planète mère
         if self.couleur == "orange":
-            self.compteurCreation +=1
+            self.compteurChoix +=1
 
-            if self.compteurCreation == 100:
+            if self.compteurChoix == 750:
+                self.compteurChoix = 0
+                choice = random.randrange(0,100)
                 self.compteurChangementVue += 1
-                self.compteurCreation = 0
-                self.creervaisseau("Vaisseau Canon")
+                self.prendreChoix(choice)
 
-            if self.compteurChangementVue == 1:
+            if self.compteurChangementVue == 1: # changement de vue d'un vaisseau
                 self.compteurChangementVue = 0
                 if self.flotteSystemeSolaire:
                     i = random.choice(self.flotteSystemeSolaire)
                     self.changerVueVaisseau([i.id,i.espaceCourant,i.solaire.id])
                     i.cible = None
 
-            if self.flotteSystemeSolaire:
+            if self.flotteSystemeSolaire: # changement de cible
                 for i in self.flotteSystemeSolaire:
                     if i.cible == None:
                         if i.espaceCourant:
@@ -683,12 +682,13 @@ class IA(Joueur):
 #################################################################################################################
 
         if self.couleur == "green":
-            self.compteurCreation +=1
+            self.compteurChoix +=1
 
-            if self.compteurCreation == 750:
+            if self.compteurChoix == 750:
+                self.compteurChoix = 0
+                choice = random.randrange(0,100)
                 self.compteurChangementVue += 1
-                self.compteurCreation = 0
-                self.creervaisseau("Vaisseau Canon")
+                self.prendreChoix(choice)
 
             if self.compteurChangementVue == 3:
                 self.compteurChangementVue = 0
@@ -707,11 +707,31 @@ class IA(Joueur):
                             i.cible=random.choice(i.solaire.parent.listeSysSolaire)
                             print("Nouvelle cible IA galaxie:", i.cible.id)
 
+ ################################################################################################################
+#################################################################################################################
+#################################################################################################################
 
         if self.flotteSystemeSolaire:
             for i in self.flotteSystemeSolaire:
                 if i.cible:
                     i.avancer()
+
+
+    def prendreChoix(self,choixNumber):
+        if choixNumber <= 50:
+            self.creervaisseau("Vaisseau Canon") # crée un vaisseau
+        elif choixNumber == 99:
+            num = random.randrange(5,15)
+            for i in num:
+                self.creervaisseau("Vaisseau Eclaireur")
+        elif choixNumber >= 90 & choixNumber <=98:
+            self.creervaisseau("Vaisseau Tank")
+            self.creervaisseau("Vaisseau Tank")
+        elif choixNumber >= 75 & choixNumber <= 90:
+            self.creervaisseau("Vaisseau Laser")
+        elif choixNumber >= 50 & choixNumber <=75:
+            self.creervaisseau("Vaisseau Sniper")
+
 
 class Modele():
     def __init__(self,parent,joueurs):

@@ -13,11 +13,6 @@ from Orion_vue import *
 class Controleur():
     def __init__(self):
 
-        print(os.getcwd())
-
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-
-        print ( dir_path)
 
         print("IN CONTROLEUR")
         self.attente=0
@@ -43,7 +38,7 @@ class Controleur():
         return monip
 
     def generernom(self):  # generateur de nouveau nom - accelere l'entree de nom pour les tests - parfois � peut generer le meme nom mais c'est rare
-        monnom="jmd_"+str(random.randrange(1000))
+        monnom="AMSGFV : "+str(random.randrange(1000))
         return monnom
 
     def creerpartie(self):
