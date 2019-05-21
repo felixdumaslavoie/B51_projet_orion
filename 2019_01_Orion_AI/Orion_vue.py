@@ -33,6 +33,8 @@ class Vue():
         self.ip=ip
         self.vueactive=None
         self.vueEnFonction=0
+        self.arbretechEcoState=0
+        self.arbretechMilitState=0
 
 
         self.cadrepartie=Frame(self.cadreapp)
@@ -403,6 +405,32 @@ class Vue():
         self.btnAvac4.config(text = "Vaisseau Laser",command= lambda: self.gridhelper(self.vues["Solaire"].newVais4,18,0))
         self.btnAvac5.config(text = "Vaisseau Sniper",command= lambda: self.gridhelper(self.vues["Solaire"].newVais5,18,1))
 
+        print(self.arbretechMilitState)
+
+        if self.arbretechMilitState == 1:
+            self.btnAvac2.config(state = NORMAL)
+            self.btnAvac3.config(state = NORMAL)
+            self.btnAvac4.config(state = NORMAL)
+            self.btnAvac5.config(state = NORMAL)
+
+        if self.arbretechMilitState == 2:
+            self.btnAvac3.config(state = NORMAL)
+            self.btnAvac4.config(state = NORMAL)
+            self.btnAvac5.config(state = NORMAL)
+
+        if self.arbretechMilitState == 3:
+            self.btnAvac2.config(state = NORMAL)
+            self.btnAvac4.config(state = NORMAL)
+            self.btnAvac5.config(state = NORMAL)
+
+        if self.arbretechMilitState == 4:
+            self.btnAvac3.config(state = NORMAL)
+            self.btnAvac5.config(state = NORMAL)
+
+        if self.arbretechMilitState == 5:
+            self.btnAvac2.config(state = NORMAL)
+            self.btnAvac4.config(state = NORMAL)
+
 
     def gridhelper(self, button,arow,acolumn):
         button.grid(row=arow,column=acolumn)
@@ -418,20 +446,50 @@ class Vue():
 
     def disableBtnAvac1(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
+        print(self.ongletActif)
+        if self.ongletActif == "Militaire":
+            self.arbretechMilitState = 1
+        if self.ongletActif == "economie":
+            self.arbretechEcoState = 1
+        print(self.arbretechMilitState)
+
     def disableBtnAvac2(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac2.config(state = DISABLED, bg="gray20")
+        if self.ongletActif == "Militaire":
+            self.arbretechMilitState = 2
+        if self.ongletActif == "economie":
+            self.arbretechEcoState = 2
+
     def disableBtnAvac3(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac3.config(state = DISABLED, bg="gray20")
+        if self.ongletActif == "Militaire":
+            self.arbretechMilitState = 3
+        if self.ongletActif == "economie":
+            self.arbretechEcoState = 3
+
     def disableBtnAvac4(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac2.config(state = DISABLED, bg="gray20")
         self.btnAvac4.config(state = DISABLED, bg="gray20")
+
+        if self.ongletActif == "Militaire":
+            self.arbretechMilitState = 4
+        if self.ongletActif == "economie":
+            self.arbretechEcoState = 4
+
+
+
     def disableBtnAvac5(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac3.config(state = DISABLED, bg="gray20")
         self.btnAvac5.config(state = DISABLED, bg="gray20")
+
+        if self.ongletActif == "Militaire":
+            self.arbretechMilitState = 5
+        if self.ongletActif == "economie":
+            self.arbretechEcoState = 5
 
 
     def actionElemTech(self,event):
@@ -440,6 +498,21 @@ class Vue():
         if avancement:
             if etat == "normal":
                 self.parent.avancementTechno(avancement)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     def CliqueVueSySsolaire(self,canvas,mod):
