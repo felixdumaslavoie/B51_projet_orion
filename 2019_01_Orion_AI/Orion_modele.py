@@ -6,6 +6,7 @@ from Id import Id
 from helper import Helper as hlp
 from couleurs import *
 import math
+from numpy.distutils.fcompiler import none
 
 #modif arbitraire
 class Galaxie():
@@ -196,9 +197,9 @@ class Structure():
     #nom structure, vie, cout, maintenance, exctraction
     Usine_Civile=["Usine_Civile",100,150,1,0]
     Usine_Militaire=["Usine_Militaire",200,225,2,0]
-    Raffinerie_Diamant=["Raffinerie_Diamant",80,350,6,2]
-    Raffinerie_Charbon=["Raffinerie_Charbon",50,150,2,3]
-    Raffinerie_Isotope=["Raffinerie_Isotope",175,250,3,2]
+    Raffinerie_Diamant=["Raffinerie_Diamant",80,350,6,24]
+    Raffinerie_Charbon=["Raffinerie_Charbon",50,150,2,6]
+    Raffinerie_Isotope=["Raffinerie_Isotope",175,250,3,18]
     Ferme=["Ferme",75,50,1,2]
     Capitale=["Capitale",300,5000,10,100]
 
@@ -212,14 +213,6 @@ class Structure():
         self.x=x
         self.y=y
         self.idplanete = idplanete
-
-    def extractionStructure(self):
-        for i in self.parent.listeStructure[i]:
-            if self.parent.ressource[i]>0:
-                if self.parent.ressource[i]<self.extraction:
-                    self.extraction==self.parent.ressource[i]
-                self.parent.ressource[i]-=self.extraction
-
 
     def maintenanceStructure(self):
         for i in self.parent.listeStructure[i]:
@@ -466,6 +459,7 @@ class Joueur():
         self.planetescontrolees=[planetemere]
         self.bufferSelection = []
         self.listeStructure = []
+        self.profits = 0
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte,
                       "creerStructure":self.creerStructure,
@@ -558,7 +552,12 @@ class Joueur():
         self.flotteSystemeSolaire.append(vaisseau)
 
     def creerStructure(self,params):
-        nomjoueur, nomstruct,idplanete,x,y=params
+        nomjoueur,nomstruct,idplanete,x,y=params
+        
+        #for i in self.parent.Galaxie.listeSysSolaire:
+            #for j in i.listePlanete:
+                
+        
         for i in (self.parent.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idplanete):
@@ -585,10 +584,12 @@ class Joueur():
             #print("STRUCTURE CRÉE ", self.parent.parent.vue.vues["Planete"])
         else:
             print("Vous n'avez pas assez de crédits pour construire cette structure")
-
+            
 
     def updaterRessources(self):
+        
         self.timer+=1
+        self.profits = 0
 
         coutNourriture = 0
         coutCredit = 0
@@ -599,10 +600,17 @@ class Joueur():
             for i in self.listeStructure:
                 coutCredit+=i.maintenance
 
-
+            for i in self.listeStructure:
+                typeStruct = i.nomStructure[0:10]
+                if typeStruct == "Raffinerie":
+                    self.profits += i.production
+                
+            self.credit+=self.profits
             self.credit-=coutCredit
             self.timer = 0
-            print("Economie: coutCredit: -",coutCredit)
+            print("Substring",typeStruct)
+            print("Economie: Profits: ", self.profits)
+            print("Economie: coutCredit: ",coutCredit)
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
