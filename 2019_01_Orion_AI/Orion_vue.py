@@ -68,7 +68,7 @@ class Vue():
         if self.vueactive:
             self.vueactive.cadrespatial.grid_forget()
             self.vueactive.cadreinfo.grid_forget()
-            
+
         self.vueactive=vue
         self.vueactive.cadrespatial.grid()
         self.vueactive.cadreinfo.grid(row = 1, column =0 )
@@ -405,31 +405,36 @@ class Vue():
         self.btnAvac4.config(text = "Vaisseau Laser",command= lambda: self.gridhelper(self.vues["Solaire"].newVais4,18,0))
         self.btnAvac5.config(text = "Vaisseau Sniper",command= lambda: self.gridhelper(self.vues["Solaire"].newVais5,18,1))
 
-        print(self.arbretechMilitState)
+        if self.arbretechMilitState == 0:
+            self.btnAvac1.config(state = NORMAL,bg = "azure")
+            self.btnAvac2.config(state = NORMAL,bg = "azure")
+            self.btnAvac3.config(state = NORMAL,bg = "azure")
+            self.btnAvac4.config(state = NORMAL,bg = "azure")
+            self.btnAvac5.config(state = NORMAL,bg = "azure")
 
         if self.arbretechMilitState == 1:
-            self.btnAvac2.config(state = NORMAL)
-            self.btnAvac3.config(state = NORMAL)
-            self.btnAvac4.config(state = NORMAL)
-            self.btnAvac5.config(state = NORMAL)
+            self.btnAvac2.config(state = NORMAL,bg = "azure")
+            self.btnAvac3.config(state = NORMAL,bg = "azure")
+            self.btnAvac4.config(state = NORMAL,bg = "azure")
+            self.btnAvac5.config(state = NORMAL,bg = "azure")
 
         if self.arbretechMilitState == 2:
-            self.btnAvac3.config(state = NORMAL)
-            self.btnAvac4.config(state = NORMAL)
-            self.btnAvac5.config(state = NORMAL)
+            self.btnAvac3.config(state = NORMAL,bg = "azure")
+            self.btnAvac4.config(state = NORMAL,bg = "azure")
+            self.btnAvac5.config(state = NORMAL,bg = "azure")
 
         if self.arbretechMilitState == 3:
-            self.btnAvac2.config(state = NORMAL)
-            self.btnAvac4.config(state = NORMAL)
-            self.btnAvac5.config(state = NORMAL)
+            self.btnAvac2.config(state = NORMAL,bg = "azure")
+            self.btnAvac4.config(state = NORMAL,bg = "azure")
+            self.btnAvac5.config(state = NORMAL,bg = "azure")
 
         if self.arbretechMilitState == 4:
-            self.btnAvac3.config(state = NORMAL)
-            self.btnAvac5.config(state = NORMAL)
+            self.btnAvac3.config(state = NORMAL,bg = "azure")
+            self.btnAvac5.config(state = NORMAL,bg = "azure")
 
         if self.arbretechMilitState == 5:
-            self.btnAvac2.config(state = NORMAL)
-            self.btnAvac4.config(state = NORMAL)
+            self.btnAvac2.config(state = NORMAL,bg = "azure")
+            self.btnAvac4.config(state = NORMAL,bg = "azure")
 
 
     def gridhelper(self, button,arow,acolumn):
@@ -451,6 +456,9 @@ class Vue():
             self.arbretechMilitState = 1
         if self.ongletActif == "economie":
             self.arbretechEcoState = 1
+
+        print(self.arbretechMilitState)
+
         print(self.arbretechMilitState)
 
     def disableBtnAvac2(self):
@@ -549,7 +557,7 @@ class Vue():
         if s:
             if self.canvas == self.vues["Galaxie"].canevasGalaxie:
                 if s[0] == "etoile":
-                    self.vues["Galaxie"].afficherInfosSystemSolaire(self.mod,int(s[1])) 
+                    self.vues["Galaxie"].afficherInfosSystemSolaire(self.mod,int(s[1]))
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
                     self.vues["Galaxie"].afficherpartieGalaxie(self.mod)
                     self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
@@ -569,7 +577,7 @@ class VueSolaire():
     def __init__(self,fen,parent):
 
         self.cadrejeu=fen
-        self.parent=parent 
+        self.parent=parent
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreinfo=Frame(self.parent.cadreoutils)
         self.canevasSolaire=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
@@ -640,7 +648,7 @@ class VueSolaire():
     def afficherdecorSolaire(self,mod):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
-        self.unSysSolaire = self.listeSysSolaire[0] 
+        self.unSysSolaire = self.listeSysSolaire[0]
 
         self.planete= self.mod.joueurs[self.parent.nom].planetemere
         self.unSysSolaire=self.planete.parent
@@ -747,7 +755,7 @@ class VueSolaire():
 
     def afficherInfosPlanete(self, modele, idPlanete):
 
-        self.parent.bplanete.config(state = "disabled") 
+        self.parent.bplanete.config(state = "disabled")
         self.modele=modele
         for i in (self.modele.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
@@ -802,7 +810,7 @@ class VueSolaire():
         t=self.canevasSolaire.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
 
-            self.maselection=[self.parent.nom,t[1],t[2]]  
+            self.maselection=[self.parent.nom,t[1],t[2]]
 
             if "planeteMere" not in t:
                  self.maselection2=[self.parent.nom,t[1],t[2]]
@@ -818,7 +826,7 @@ class VueSolaire():
                 self.parent.parent.ciblerflotte(self.maselection[2],t[2])
         elif "planete" in t and t[0]!=self.parent.nom:
             if self.maselection:
-                pass 
+                pass
                 self.parent.parent.ciblerflotte(self.maselection[2],t[2])
             self.maselection=None
             self.canevasSolaire.delete("marqueur")
@@ -956,7 +964,7 @@ class VuePlanete():
 
         self.afficheEmplacement(self.planete)
         self.afficheStructure(self.planete.id)
-        
+
         self.canevasPlanete.bind( "<Button-1>", self.cliqueEmplacement)
 
 
@@ -984,7 +992,7 @@ class VuePlanete():
             for j in (i.listePlanete):
                 if (j.id == idPlanete):
                     self.planete=j
-        
+
         taille=self.planete.taille*50
         self.canevasPlanete.create_oval(x, y, x+taille, y+taille,fill=self.planete.couleur ,tags=("planeteMere",id, taille))
 
@@ -1150,7 +1158,7 @@ class VueGalaxie():
     def cliquecosmos(self,evt):
         t=self.canevasGalaxie.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
-            self.parent.maselection=[self.parent.nom,t[1],t[2]]  
+            self.parent.maselection=[self.parent.nom,t[1],t[2]]
             if t[1] == "etoile":
                 self.montreplaneteselection()
             elif t[1] == "flotte":
@@ -1172,7 +1180,7 @@ class VueGalaxie():
         self.parent.lbselectecible.grid(row=0, column=0)
 
     def afficherartefacts(self,joueurs):
-        pass 
+        pass
 
     def afficherpartieGalaxie(self,mod):
         self.canevasGalaxie.delete("artefact")

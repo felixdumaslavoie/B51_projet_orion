@@ -58,7 +58,7 @@ class SystemeSolaire():
         self.proprietaire="inconnu"
         self.x=x
         self.y=y
-        self.taille=random.randrange(4,7) 
+        self.taille=random.randrange(4,7)
         self.nbdeplanete=random.randrange(5, 12)
         self.listePlanete = []
         self.couleur = "grey80"
@@ -188,7 +188,7 @@ class Structure():
 
 class UsineCivile(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Usine_Civile[0]
         self.cout=Structure.Usine_Civile[2]
         self.maintenance=Structure.Usine_Civile[3]
@@ -197,7 +197,7 @@ class UsineCivile(Structure):
 
 class UsineMilitaire(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Usine_Militaire[0]
         self.cout=Structure.Usine_Militaire[2]
         self.maintenance=Structure.Usine_Militaire[3]
@@ -206,7 +206,7 @@ class UsineMilitaire(Structure):
 
 class RaffinerieDiamant(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Raffinerie_Diamant[0]
         self.cout=Structure.Raffinerie_Diamant[2]
         self.maintenance=Structure.Raffinerie_Diamant[3]
@@ -215,7 +215,7 @@ class RaffinerieDiamant(Structure):
 
 class RaffinerieCharbon(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Raffinerie_Charbon[0]
         self.cout=Structure.Raffinerie_Charbon[2]
         self.maintenance=Structure.Raffinerie_Charbon[3]
@@ -224,7 +224,7 @@ class RaffinerieCharbon(Structure):
 
 class RaffinerieIsotope(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Raffinerie_Isotope[0]
         self.cout=Structure.Raffinerie_Isotope[2]
         self.maintenance=Structure.Raffinerie_Isotope[3]
@@ -233,7 +233,7 @@ class RaffinerieIsotope(Structure):
 
 class Ferme(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Ferme[0]
         self.cout=Structure.Ferme[2]
         self.maintenance=Structure.Ferme[3]
@@ -242,7 +242,7 @@ class Ferme(Structure):
 
 class Capitale(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
-        super().__init__(joueur,idplanete,nomstruct,x,y) 
+        super().__init__(joueur,idplanete,nomstruct,x,y)
         self.nomStructure=Structure.Capitale[0]
         self.cout=Structure.Capitale[2]
         self.maintenance=Structure.Capitale[3]
@@ -277,7 +277,7 @@ class Vaisseau():
             y=self.cible.y
             ang=hlp.calcAngle(self.x,self.y,x,y)
             x1,y1=hlp.getAngledPoint(ang,self.vitesse,self.x,self.y)
-            self.x,self.y=x1,y1 
+            self.x,self.y=x1,y1
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
                 if type(self.cible).__name__=="Planete":
                     if len(self.cible.listeStructure)==0:
@@ -303,7 +303,7 @@ class Vaisseau():
 
 class VaisseauCanon(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Canon"):
-        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) 
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=400
         self.vitesse=5
@@ -312,7 +312,7 @@ class VaisseauCanon(Vaisseau):
 
 class VaisseauEclaireur(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Eclaireur"):
-        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) 
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=400
         self.vitesse=10
@@ -321,7 +321,7 @@ class VaisseauEclaireur(Vaisseau):
 
 class VaisseauTank(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Tank"):
-        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) 
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=400
         self.vitesse=1
@@ -330,7 +330,7 @@ class VaisseauTank(Vaisseau):
 
 class VaisseauLaser(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Laser"):
-        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) 
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=400
         self.vitesse=1
@@ -339,7 +339,7 @@ class VaisseauLaser(Vaisseau):
 
 class VaisseauSniper(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Sniper"):
-        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau) 
+        super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=400
         self.vitesse=1
@@ -435,14 +435,14 @@ class Joueur():
 
     def creerStructure(self,params):
         nomjoueur,nomstruct,idplanete,x,y=params
-        planete = None       
+        planete = None
 
 
         for i in (self.parent.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
                 if (j.id == idplanete):
                     planete=j
-        
+
         structure=self.structures[nomstruct](nomjoueur,nomstruct,planete,x,y)
         self.listeStructure.append(structure)
         planete.listeStructure.append(structure)
@@ -493,7 +493,7 @@ class Joueur():
                     if i.planete.zinc >= 2:
                         self.profits+= i.production
                         i.planete.zinc-=2
-                
+
                 typeStruct = i.nomStructure[0:10]
                 if typeStruct == "Raffinerie":
                     self.profits += i.production
@@ -504,18 +504,18 @@ class Joueur():
 
     def ciblerflotte(self,ids):
         idori,iddesti=ids
-        for i in self.flotteSystemeSolaire: 
+        for i in self.flotteSystemeSolaire:
             if i.id== int(idori):
-                for j in i.solaire.listePlanete: 
+                for j in i.solaire.listePlanete:
                     if j.id== int(iddesti):
                         i.cible=j
                         return
 
     def cibleretoile(self,ids):
         idori,iddesti=ids
-        for i in self.flotteSystemeSolaire: 
+        for i in self.flotteSystemeSolaire:
             if i.id== int(idori):
-                for j in self.parent.Galaxie.listeSysSolaire: 
+                for j in self.parent.Galaxie.listeSysSolaire:
                     if j.id== int(float(iddesti)):
                         i.cible=j
                         i.solaire=j
@@ -532,18 +532,18 @@ class Joueur():
 
     def avancementTechno(self,nomAvancement):
         self.avanc = nomAvancement[0]
-        if self.avanc == "Bonus production": 
+        if self.avanc == "Bonus production":
             self.cooldownRessource = 95
             self.parent.parent.vue.disableBtnAvac1()
-        elif self.avanc == "Bonus production x 2": 
+        elif self.avanc == "Bonus production x 2":
             self.cooldownRessource = 85
             self.parent.parent.vue.disableBtnAvac2()
-        elif self.avanc == "Bonus production x 4": 
+        elif self.avanc == "Bonus production x 4":
             self.parent.parent.vue.disableBtnAvac4()
             self.cooldownRessource = 55
-        elif self.avanc == "Couts Reduit": 
+        elif self.avanc == "Couts Reduit":
             self.parent.parent.vue.disableBtnAvac3()
-        elif self.avanc == "Couts Reduit x 2": 
+        elif self.avanc == "Couts Reduit x 2":
             self.parent.parent.vue.disableBtnAvac5()
         elif self.avanc == "Vaisseau Canon":
             pass
@@ -634,22 +634,22 @@ class IA(Joueur):
             self.creervaisseau("Vaisseau Canon") # crée un vaisseau
         elif choixNumber == 99:
             num = random.randrange(5,15)
-            for i in num:
+            for x in range(0,num) :
                 self.creervaisseau("Vaisseau Eclaireur")
         elif choixNumber >= 90 & choixNumber <=98:
             self.creervaisseau("Vaisseau Tank")
             self.creervaisseau("Vaisseau Tank")
-        elif choixNumber >= 75 & choixNumber <= 90:
+        elif choixNumber >= 75 & choixNumber < 90:
             self.creervaisseau("Vaisseau Laser")
-        elif choixNumber >= 50 & choixNumber <=75:
+        elif choixNumber > 50 & choixNumber < 75:
             self.creervaisseau("Vaisseau Sniper")
 
 
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
-        self.largeur=800 
-        self.hauteur=600 
+        self.largeur=800
+        self.hauteur=600
         self.joueurs={}
         self.listeObjCliquable = []
         self.ias=[]
