@@ -292,14 +292,11 @@ class Vaisseau():
         self.energie=0
         self.vitesse=0
         self.range=0
-<<<<<<< HEAD
         self.cout=0
-=======
         self.puissance=0
         self.etat="vivant"
         self.delai_de_tir=0
         self.velProjectile=0
->>>>>>> ON TUE ENFIN DU MONDE
 
 
     def avancer(self):
@@ -315,8 +312,6 @@ class Vaisseau():
                         self.cible.proprietaire=self.proprietaire
                         self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                 self.cible=None
-<<<<<<< HEAD
-=======
                 print("Change cible")
         else:
             print("PAS DE CIBLE")
@@ -359,7 +354,6 @@ class Vaisseau():
         for i in self.projectiles:
             i.deplacerProjectile()
         
->>>>>>> ON TUE ENFIN DU MONDE
 
     def avancer1(self):
         if self.cible:
@@ -377,7 +371,6 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
-<<<<<<< HEAD
 
 
 ## Ne fait pas le test de si il reste assez d'argent. Ce test sera fait en ammont
@@ -392,7 +385,6 @@ class Vaisseau():
         else:
             return False
 
-=======
     def toucher(self,puissance):
         self.puissance=puissance
 
@@ -409,7 +401,6 @@ class Vaisseau():
                 rendu.append(i)
         for i in rendu:
             self.projectiles.remove(i)
->>>>>>> ON TUE ENFIN DU MONDE
 class VaisseauCanon(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Canon"):
         super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
@@ -418,15 +409,12 @@ class VaisseauCanon(Vaisseau):
         self.vitesse=5
         self.range=200
         self.cout=100
-<<<<<<< HEAD
         self.payerVaisseau()
 
-=======
         self.puissance=10
         self.projectiles=[]
         self.delai_max=5
         self.velProjectile=3
->>>>>>> ON TUE ENFIN DU MONDE
 class VaisseauEclaireur(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Eclaireur"):
         super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
@@ -435,14 +423,11 @@ class VaisseauEclaireur(Vaisseau):
         self.vitesse=10
         self.range=200
         self.cout=300
-<<<<<<< HEAD
         self.payerVaisseau()
-=======
         self.puissance=1
         self.projectiles=[]
         self.delai_max=6
         self.velProjectile=2
->>>>>>> ON TUE ENFIN DU MONDE
 
 class VaisseauTank(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Tank"):
@@ -452,14 +437,11 @@ class VaisseauTank(Vaisseau):
         self.vitesse=1
         self.range=400
         self.cout=300
-<<<<<<< HEAD
         self.payerVaisseau()
-=======
         self.puissance=5
         self.projectiles=[]
         self.delai_max=7
         self.velProjectile=2
->>>>>>> ON TUE ENFIN DU MONDE
 
 class VaisseauLaser(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Laser"):
@@ -469,14 +451,11 @@ class VaisseauLaser(Vaisseau):
         self.vitesse=1
         self.range=400
         self.cout=200
-<<<<<<< HEAD
         self.payerVaisseau()
-=======
         self.puissance=3
         self.projectiles=[]
         self.delai_max=0
         self.velProjectile=9
->>>>>>> ON TUE ENFIN DU MONDE
 
 class VaisseauSniper(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Sniper"):
@@ -486,15 +465,12 @@ class VaisseauSniper(Vaisseau):
         self.vitesse=1
         self.range=400
         self.cout=200
-<<<<<<< HEAD
         self.payerVaisseau()
 
-=======
         self.puissance=20
         self.projectiles=[]
         self.delai_max=10
         self.velProjectile=7
->>>>>>> ON TUE ENFIN DU MONDE
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
         self.id=Id.prochainid()
@@ -742,12 +718,9 @@ class IA(Joueur):
                 self.compteurChoix = 0
                 choice = random.randrange(0,100)
                 self.compteurChangementVue += 1
-<<<<<<< HEAD
                 self.prendreChoix(choice)
-=======
                 self.compteurCreation = 0
                 self.creervaisseau("Vaisseau Canon")
->>>>>>> ON TUE ENFIN DU MONDE
 
             if self.compteurChangementVue == 1: # changement de vue d'un vaisseau
                 self.compteurChangementVue = 0
@@ -771,12 +744,9 @@ class IA(Joueur):
                 self.compteurChoix = 0
                 choice = random.randrange(0,100)
                 self.compteurChangementVue += 1
-<<<<<<< HEAD
                 self.prendreChoix(choice)
-=======
                 self.compteurCreation = 0
                 self.creervaisseau("Vaisseau Canon")
->>>>>>> ON TUE ENFIN DU MONDE
 
             if self.compteurChangementVue == 3:
                 self.compteurChangementVue = 0
@@ -841,11 +811,14 @@ class Modele():
             for v in self.joueurtrouver.flotteSystemeSolaire:
                 if v.etat=="mort":
                     mort.append(v)
-            
-            mort=[]
                 
             for i in mort:
                 self.joueurtrouver.flotteSystemeSolaire.remove(i)
+            
+            for t in self.joueurtrouver.flotteSystemeSolaire:
+                t.evaluerprojectiles()
+
+            mort=[]
         
         for i in self.ias:
             for v in i.flotteSystemeSolaire:
@@ -854,8 +827,11 @@ class Modele():
                 
             for m in mort:
                 i.flotteSystemeSolaire.remove(m)
-
+            
+            for ti in i.flotteSystemeSolaire:
+                ti.evaluerprojectiles()
             mort=[]
+        
 
     def creerterrain(self):
         self.terrain=[]
