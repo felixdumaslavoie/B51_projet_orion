@@ -93,7 +93,8 @@ class Planete():
         self.emplacementsDispo=[]*self.taille
         self.tailleAffichage=50*self.taille
         self.orbite = []
-
+        self.hypotenuse = hlp.calcDistance(self.x, self.y,400,300)
+        self.angleRad = math.radians(10)
 
         largeur=self.parent.parent.parent.largeur/2
         hauteur=self.parent.parent.parent.hauteur/2
@@ -146,8 +147,10 @@ class Planete():
                 break
             
     def deplacer(self):
-        self.x+=1;
-        self.y+=1;
+        self.x=(self.hypotenuse*math.cos(self.angleRad))*2
+        self.y=(self.hypotenuse*math.sin(self.angleRad))*2
+        
+        
 
 class EmplacementsSurPlanete():
     def __init__(self,x,y,structure):
@@ -553,6 +556,7 @@ class Joueur():
         for i in self.flotteSystemeSolaire:
             if i.cible:
                 i.avancer()
+            
 
     def prochaineaction2(self):
         for i in self.flotteSystemeSolaire:
