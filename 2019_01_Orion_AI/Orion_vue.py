@@ -33,9 +33,8 @@ class Vue():
         self.ip=ip
         self.vueactive=None
         self.vueEnFonction=0
-        self.arbretechEcoState=0
-        self.arbretechMilitState=0
-
+        self.arbretechEcoState = 0
+        self.arbretechMilitState = 0
 
         self.cadrepartie=Frame(self.cadreapp)
         self.cadrejeu=Frame(self.cadrepartie)
@@ -44,7 +43,6 @@ class Vue():
         self.cadreArbreTechno=Canvas(self.cadreoutils,width=350,height=200, bg = "green2")
 
         self.cadreBouton=Frame(self.cadreoutils,width=200,height=200,bg="medium spring green")
-
 
         self.couleurinfo="gray"
         self.couleurbouton="gray33"
@@ -98,36 +96,52 @@ class Vue():
         self.cadresplash=Frame(self.cadreapp)
         self.canevassplash=Canvas(self.cadresplash,width=640,height=480,bg="midnight blue")
         self.canevassplash.grid(row=0, column=0)
+        self.nomjeu=Label(self.cadresplash,text="ORION",bg="midnightblue", fg="lavender", font=("Helvetica", 40, "bold"))
+        self.nomjoueur=Label(self.cadresplash, text="NOM DU JOUEUR", bg="midnightblue", fg="lavender", font=("Helvetica", 16,"bold"))
+        self.adresseipserveur=Label(self.cadresplash, text="IP DU SERVEUR", bg="midnightblue", fg="lavender", font=("Helvetica", 16, "bold"))
+        self.tonadresseip=Label(self.cadresplash, text="TON ADRESSE IP", bg="midnightblue", fg="lavender", font=("Helvetica", 16, "bold"))
         self.nomsplash=Entry(bg="pink")
         self.nomsplash.insert(0, nom)
         self.ipsplash=Entry(bg="pink")
         self.ipsplash.insert(0, ip)
         labip=Label(text=ip,bg="red",borderwidth=0,relief=RIDGE)
-        btncreerpartie=Button(text="Creer partie",bg="pink",command=self.creerpartie)
-        btnconnecterpartie=Button(text="Connecter partie",bg="pink",command=self.connecterpartie)
-        self.canevassplash.create_window(200,200,window=self.nomsplash,width=100,height=30)
-        self.canevassplash.create_window(200,250,window=self.ipsplash,width=100,height=30)
-        self.canevassplash.create_window(200,300,window=labip,width=100,height=30)
-        self.canevassplash.create_window(200,350,window=btncreerpartie,width=100,height=30)
-        self.canevassplash.create_window(200,400,window=btnconnecterpartie,width=100,height=30)
+        btncreerpartie=Button(text="Créer partie",bg="pink",command=self.creerpartie, font=("Helvetica", 16,"bold"))
+        btnconnecterpartie=Button(text="Connecter partie",bg="pink",command=self.connecterpartie, font=("Helvetica",16,"bold"))
+        self.canevassplash.create_window(320,40, window=self.nomjeu, width=200, height=60)
+        self.canevassplash.create_window(320,120,window=self.nomjoueur, width=200, height=30)
+        self.canevassplash.create_window(320,160,window=self.nomsplash,width=200,height=30)
+        self.canevassplash.create_window(320,200,window=self.adresseipserveur, width=200, height=30)
+        self.canevassplash.create_window(320,240,window=self.ipsplash,width=200,height=30)
+        self.canevassplash.create_window(320,280,window=self.tonadresseip, width=200, height=30)
+        self.canevassplash.create_window(320,320,window=labip,width=200,height=30)
+        self.canevassplash.create_window(320,370,window=btncreerpartie,width=200,height=45)
+        self.canevassplash.create_window(320,425,window=btnconnecterpartie,width=200,height=45)
 
     def creercadrelobby(self):
         self.cadrelobby=Frame(self.cadreapp)
         self.canevaslobby=Canvas(self.cadrelobby,width=640,height=480,bg="DarkOrchid4")
         self.canevaslobby.grid(row=0, column=0)
         self.listelobby=Listbox(bg="goldenrod",borderwidth=0,relief=FLAT)
+        self.nomlobby=Label(self.cadrelobby, text="LOBBY", bg="DarkOrchid4", fg="lavender", font=("Helvetica",40,"bold"))
+        self.lbllargeurespace=Label(self.cadrelobby, text="LARGEUR ESPACE", bg="DarkOrchid4", fg="lavender", font=("Helvetica",16,"bold"))
+        self.lblhauteurespace=Label(self.cadrelobby, text="HAUTEUR ESPACE", bg="DarkOrchid4", fg="lavender", font=("Helvetica",16,"bold"))
+        self.lblnbetoile=Label(self.cadrelobby, text="NOMBRE ETOILE", bg="DarkOrchid4", fg="lavender", font=("Helvetica",16,"bold"))
         self.nbetoile=Entry(bg="pink")
         self.nbetoile.insert(0, 100)
         self.largeespace=Entry(bg="pink")
         self.largeespace.insert(0, 1000)
         self.hautespace=Entry(bg="pink")
         self.hautespace.insert(0, 800)
-        btnlancerpartie=Button(text="Lancer partie",bg="pink",command=self.lancerpartie)
-        self.canevaslobby.create_window(440,240,window=self.listelobby,width=200,height=400)
-        self.canevaslobby.create_window(200,200,window=self.largeespace,width=100,height=30)
-        self.canevaslobby.create_window(200,250,window=self.hautespace,width=100,height=30)
-        self.canevaslobby.create_window(200,300,window=self.nbetoile,width=100,height=30)
-        self.canevaslobby.create_window(200,400,window=btnlancerpartie,width=100,height=30)
+        btnlancerpartie=Button(text="Lancer partie",bg="pink",command=self.lancerpartie, font=("Helvetica",16,"bold"))
+        self.canevaslobby.create_window(320,50, window=self.nomlobby, width=200, height=60)
+        self.canevaslobby.create_window(160,180,window=self.lbllargeurespace,width=200,height=30)
+        self.canevaslobby.create_window(160,220,window=self.largeespace,width=100,height=30)
+        self.canevaslobby.create_window(160,260, window=self.lblhauteurespace, width=200, height=60)
+        self.canevaslobby.create_window(160,300,window=self.hautespace,width=100,height=30)
+        self.canevaslobby.create_window(480,180, window=self.lblnbetoile, width=200, height=30)
+        self.canevaslobby.create_window(480,220,window=self.nbetoile,width=100,height=30)
+        self.canevaslobby.create_window(480,300,window=btnlancerpartie,width=180,height=60)
+        self.canevaslobby.create_window(320,420,window=self.listelobby,width=480,height=80)
 
     def connecterpartie(self):
         nom=self.nomsplash.get()
@@ -454,54 +468,24 @@ class Vue():
 
     def disableBtnAvac1(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
-        print(self.ongletActif)
-        if self.ongletActif == "Militaire":
-            self.arbretechMilitState = 1
-        if self.ongletActif == "economie":
-            self.arbretechEcoState = 1
-
-        print(self.arbretechMilitState)
-
-        print(self.arbretechMilitState)
 
     def disableBtnAvac2(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac2.config(state = DISABLED, bg="gray20")
-        if self.ongletActif == "Militaire":
-            self.arbretechMilitState = 2
-        if self.ongletActif == "economie":
-            self.arbretechEcoState = 2
 
     def disableBtnAvac3(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac3.config(state = DISABLED, bg="gray20")
-        if self.ongletActif == "Militaire":
-            self.arbretechMilitState = 3
-        if self.ongletActif == "economie":
-            self.arbretechEcoState = 3
 
     def disableBtnAvac4(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac2.config(state = DISABLED, bg="gray20")
         self.btnAvac4.config(state = DISABLED, bg="gray20")
 
-        if self.ongletActif == "Militaire":
-            self.arbretechMilitState = 4
-        if self.ongletActif == "economie":
-            self.arbretechEcoState = 4
-
-
-
     def disableBtnAvac5(self):
         self.btnAvac1.config(state = DISABLED, bg="gray20")
         self.btnAvac3.config(state = DISABLED, bg="gray20")
         self.btnAvac5.config(state = DISABLED, bg="gray20")
-
-        if self.ongletActif == "Militaire":
-            self.arbretechMilitState = 5
-        if self.ongletActif == "economie":
-            self.arbretechEcoState = 5
-
 
     def actionElemTech(self,event):
         avancement = event.widget.cget("text")
@@ -509,22 +493,6 @@ class Vue():
         if avancement:
             if etat == "normal":
                 self.parent.avancementTechno(avancement)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def CliqueVueSySsolaire(self,canvas,mod):
         self.canvas = canvas
@@ -656,11 +624,18 @@ class VueSolaire():
         self.planete= self.mod.joueurs[self.parent.nom].planetemere
         self.unSysSolaire=self.planete.parent
 
+        self
+
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
             self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=(None,"fond",None,None))
-            self.canevasSolaire.config(bg="midnight blue")
+        #curwd = os.path.dirname(os.path.realpath(__file__))
+
+        #image = resizeImage.resizeImage("",600,curwd+"\\images\\galaxy-png-date-2000.jpg")
+        #self.canevasSolaire.create_image(10, 10, image = image, anchor = NW)
+
+        self.canevasSolaire.config(bg="midnight blue")
 
         for i in range(random.randrange(10,20)):
             x=random.randrange(mod.largeur)
@@ -693,7 +668,7 @@ class VueSolaire():
         for i in self.systemeSolaire.listePlanete:
             t=i.taille*4
             if(i.proprietaire=="inconnu"):
-                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=random.choice(self.couleurs),tags=("Inconnu","planete",str(i.id),None))
+                self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=i.couleur,tags=("Inconnu","planete",str(i.id),None))
             elif(i.proprietaire is not None):
                 player = None
                 for k in self.mod.ias:
