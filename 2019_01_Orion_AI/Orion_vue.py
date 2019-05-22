@@ -601,6 +601,7 @@ class VueSolaire():
 
         self.versGalaxie = Button(self.cadreinfo,text="Vers la Galaxie",bg="DeepSkyBlue2", command=self.envoyerVersGalaxie)
         self.maselection2=None
+        
     def gridhelper(self, button,arow,acolumn):
         button.grid(row=arow,column=acolumn)
 
