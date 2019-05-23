@@ -345,15 +345,17 @@ class Vaisseau():
             for i in self.parent.parent.joueurs:
                 for j in self.parent.parent.joueurs[i].flotteSystemeSolaire:
                     if(self.parent.parent.joueurs[i] is not self.parent):
-                        d=hlp.calcDistance(self.x,self.y,j.x,j.y)
-                        if d < self.range:
-                            self.vaisseauCible=j
+                        if j.espaceCourant==self.espaceCourant:
+                            d=hlp.calcDistance(self.x,self.y,j.x,j.y)
+                            if d < self.range:
+                                self.vaisseauCible=j
 
             for i in self.parent.parent.ias:
                 for x in i.flotteSystemeSolaire:
-                    d=hlp.calcDistance(self.x,self.y,j.x,j.y)
-                    if d < self.range:
-                        self.vaisseauCible=x
+                    if x.espaceCourant==self.espaceCourant:
+                        d=hlp.calcDistance(self.x,self.y,j.x,j.y)
+                        if d < self.range:
+                            self.vaisseauCible=x
 
             for i in self.projectiles:
                 i.etat="rendu"
@@ -429,14 +431,14 @@ class VaisseauCanon(Vaisseau):
         super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
         self.energie=1
-        self.vitesse=5
-        self.range=100
+        self.vitesse=3
+        self.range=300
         self.cout=100
         self.payerVaisseau()
 
         self.puissance=10
         self.projectiles=[]
-        self.delai_max=5
+        self.delai_max=0
         self.velProjectile=3
 class VaisseauEclaireur(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Eclaireur"):
@@ -449,7 +451,7 @@ class VaisseauEclaireur(Vaisseau):
         self.payerVaisseau()
         self.puissance=1
         self.projectiles=[]
-        self.delai_max=6
+        self.delai_max=0
         self.velProjectile=2
 
 class VaisseauTank(Vaisseau):
@@ -458,13 +460,13 @@ class VaisseauTank(Vaisseau):
         self.cargo=0
         self.energie=400
         self.vitesse=1
-        self.range=75
+        self.range=200
         self.cout=300
         self.payerVaisseau()
         self.puissance=5
         self.projectiles=[]
-        self.delai_max=7
-        self.velProjectile=2
+        self.delai_max=0
+        self.velProjectile=10
 
 class VaisseauLaser(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Laser"):
@@ -478,7 +480,7 @@ class VaisseauLaser(Vaisseau):
         self.puissance=3
         self.projectiles=[]
         self.delai_max=0
-        self.velProjectile=1
+        self.velProjectile=10
 
 class VaisseauSniper(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Sniper"):
@@ -486,14 +488,14 @@ class VaisseauSniper(Vaisseau):
         self.cargo=0
         self.energie=400
         self.vitesse=1
-        self.range=75
+        self.range=400
         self.cout=200
         self.payerVaisseau()
 
         self.puissance=20
         self.projectiles=[]
-        self.delai_max=10
-        self.velProjectile=7
+        self.delai_max=1
+        self.velProjectile=10
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
         self.id=Id.prochainid()
@@ -852,8 +854,8 @@ class Modele():
                 if v.etat=="mort":
                     mort.append(v)
 
-            for m in mort:
-                i.flotteSystemeSolaire.remove(m)
+            for v in mort:
+                i.flotteSystemeSolaire.remove(v)
 
             for ti in i.flotteSystemeSolaire:
                 ti.evaluerprojectiles()
@@ -922,6 +924,7 @@ class Modele():
         # IA- appelle prochaine action
         for i in self.ias:
             i.prochaineaction()
+
 
         self.evaluerjeu()
 
