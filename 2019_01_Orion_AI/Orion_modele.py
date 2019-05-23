@@ -62,6 +62,8 @@ class SystemeSolaire():
         self.nbdeplanete=random.randrange(5, 12)
         self.listePlanete = []
         self.couleur = "grey80"
+    
+        
         for i in range(self.nbdeplanete):
             self.nom = self.parent.listeNomPlanete[random.randrange(len(self.parent.listeNomPlanete)-1)]
             x=random.randrange(self.parent.parent.largeur-(2*self.bordure))+self.bordure
@@ -94,7 +96,7 @@ class Planete():
         self.tailleAffichage=50*self.taille
         self.orbite = []
         self.hypotenuse = hlp.calcDistance(self.x, self.y,400,300)
-        self.angleRad = math.radians(10)
+        self.angleRad = random.randrange(360)
 
         largeur=self.parent.parent.parent.largeur/2
         hauteur=self.parent.parent.parent.hauteur/2
@@ -146,11 +148,14 @@ class Planete():
                 self.emplacementsDispo.remove(i)
                 break
             
-    def deplacer(self):
-        self.x=(self.hypotenuse*math.cos(self.angleRad))*2
-        self.y=(self.hypotenuse*math.sin(self.angleRad))*2
-        
-        
+    def deplacer(self):       
+        #self.x=(self.hypotenuse*math.cos(self.angleRad))*2
+        #self.y=(self.hypotenuse*math.sin(self.angleRad))*2
+        self.x = self.hypotenuse*math.cos(math.radians(self.angleRad)) + 400
+        self.y = self.hypotenuse*math.sin(math.radians(self.angleRad)) + 300
+        self.angleRad+=0.1
+        if self.angleRad == 360:
+            self.angleRad = 0
 
 class EmplacementsSurPlanete():
     def __init__(self,x,y,structure):
@@ -392,6 +397,7 @@ class Joueur():
         self.systemeVisiter=[]
         self.planetescontrolees=[planetemere]
         self.bufferSelection = []
+        self.bufferSysSolaire = self.planetemere.parent
         self.listeStructure = []
         self.profits = 0
 
@@ -459,6 +465,12 @@ class Joueur():
                 if int(j.id) == int(identificateur):
                     self.bufferSelection.insert(0, j)
                     return
+                
+    def setSysSolaireBuffer(self,id):
+        for i in self.parent.Galaxie.listeSysSolaire:
+            if int(i.id) == int(id):
+                self.bufferSysSolaire = i
+                return
 
     def creervaisseau(self,params):
         nomvais=params
@@ -751,6 +763,10 @@ class Modele():
         for i in self.ias:
             i.prochaineaction()
 
+        for i in self.Galaxie.listeSysSolaire:
+            i.deplacerPlanetes()
+            
+            
 
 batiments={"Usine_Civile":["Usine_Civile",100,150,1,0,UsineCivile],
            "Usine_Militaire":["Usine_Militaire",200,225,2,0,UsineMilitaire],

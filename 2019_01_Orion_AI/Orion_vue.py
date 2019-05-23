@@ -324,11 +324,12 @@ class Vue():
         self.canevasGalaxie.yview(MOVETO,py)
         print("SCROLL",px,py)
 
-    def afficherpartie(self,mod):
+    def afficherpartie(self,mod,idsolaire):         
+        
         self.afficheMessage(mod)
         self.vues["Galaxie"].afficherpartieGalaxie(mod)
-        self.vues["Solaire"].afficherVaisseau(mod)
-
+        self.vues["Solaire"].afficherVaisseau(mod) 
+        self.vues["Solaire"].afficherSystemeSolaire(mod,idsolaire)
 
     def afficheMessage(self,mod):
         for i in mod.joueurs.keys():
@@ -533,8 +534,9 @@ class Vue():
                     self.vues["Galaxie"].afficherpartieGalaxie(self.mod)
                     self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
                     self.mod.joueurs[self.nom].setbuffer(s[1])
+                    self.mod.joueurs[self.nom].setSysSolaireBuffer(s[1])
                     self.vues["Galaxie"].cliquecosmos(CURRENT)
-
+                    
                 elif s[1]=="flotte":
                     self.vues["Galaxie"].cliquecosmos(CURRENT)
                     self.vues["Galaxie"].versSoleil.config(state=ACTIVE, command = lambda  : self.vues["Galaxie"].envoyerVersSoleil(s,self.mod))
@@ -624,8 +626,6 @@ class VueSolaire():
         self.planete= self.mod.joueurs[self.parent.nom].planetemere
         self.unSysSolaire=self.planete.parent
 
-        self
-
         for i in range(random.randrange(24, 156)):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
@@ -680,6 +680,7 @@ class VueSolaire():
                         player = j
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=modele.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
 
+        
 
     def afficherInfosSystemSolaire(self, modele, idSysteme):
 
@@ -722,8 +723,6 @@ class VueSolaire():
                     if(j.espaceCourant.id ==self.id):
                         self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                         tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-
-        self.parent.updateInfosJoueur(modele)
 
 
     def afficherProjectile(self,modele):
