@@ -82,6 +82,7 @@ class Controleur():
             self.vue.creeraffichercadrepartie(self.modele)
             self.vue.vues["Planete"].afficherPlanete(self.modele,self.modele.joueurs[self.monnom].planetemere.id)
             self.vue.vues["Galaxie"].afficherdecorGalaxie(self.modele)
+            
             self.vue.vues["Solaire"].afficherSystemeSolaire(self.modele,self.modele.joueurs[self.monnom].planetemere.parent.id)
             print(self.monnom,"LANCE PROCHAINTOUR")
             self.prochaintour()
@@ -190,7 +191,7 @@ class Controleur():
 
     def avancementTechno(self,nomAvance):
         self.actions.append([self.monnom,"avancementTechno",[nomAvance]])
-    
+
     def jouercoup(self):
         self.actions.append([self.monnom,"jouercoup",[idVaisseau,vaisseauIdEnnenmi]])
 

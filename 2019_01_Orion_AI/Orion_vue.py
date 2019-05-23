@@ -5,6 +5,7 @@ import os,os.path
 import time
 import resizeImage
 from PIL import Image, ImageTk
+from helper import Helper as hlp
 
 
 
@@ -74,6 +75,7 @@ class Vue():
     def combinedactions(self):
         self.planete=self.mod.joueurs[self.nom].planetemere
         self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,self.planete.parent.id)
+
         self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.planete.parent.id)
         self.changevueactive(self.vues["Solaire"])
 
@@ -324,11 +326,11 @@ class Vue():
         self.canevasGalaxie.yview(MOVETO,py)
         print("SCROLL",px,py)
 
-    def afficherpartie(self,mod,idsolaire):         
-        
+    def afficherpartie(self,mod,idsolaire):
+
         self.afficheMessage(mod)
         self.vues["Galaxie"].afficherpartieGalaxie(mod)
-        self.vues["Solaire"].afficherVaisseau(mod) 
+        self.vues["Solaire"].afficherVaisseau(mod)
         self.vues["Solaire"].afficherSystemeSolaire(mod,idsolaire)
 
     def afficheMessage(self,mod):
@@ -357,17 +359,7 @@ class Vue():
         self.vues["Solaire"].canevasSolaire.delete("marqueur")
 
 
-    def CliqueVuePlanete(self,canvas,mod,SysSolaire,idPlanete):
-        self.canvas = canvas
-        self.mod = mod
-        self.SystemeSolaire=SysSolaire
-        t=self.canvas.gettags(CURRENT)
-        if t:
-            if self.canvas == self.vues["Planete"].canevasPlanete:
-                self.vues["Planete"].afficherInfosPlanete(self.mod,int(idPlanete))
 
-                self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
-                self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
 
     def createElemTech(self):
         self.btnEco=Button(self.cadreArbreTechno,text="Economie",height=1, width = 14, bg = "light gray")
@@ -495,6 +487,18 @@ class Vue():
             if etat == "normal":
                 self.parent.avancementTechno(avancement)
 
+    def CliqueVuePlanete(self,canvas,mod,SysSolaire,idPlanete):
+        self.canvas = canvas
+        self.mod = mod
+        self.SystemeSolaire=SysSolaire
+        t=self.canvas.gettags(CURRENT)
+        if t:
+            if self.canvas == self.vues["Planete"].canevasPlanete:
+                self.vues["Planete"].afficherInfosPlanete(self.mod,int(idPlanete))
+
+                self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.SystemeSolaire.id)
+                self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
+
     def CliqueVueSySsolaire(self,canvas,mod):
         self.canvas = canvas
         self.mod = mod
@@ -504,6 +508,7 @@ class Vue():
             if self.canvas == self.vues["Solaire"].canevasSolaire:
                 if t[1] == "planeteMere":
                     self.vues["Solaire"].cliqueSolaire(CURRENT)
+
                     self.vues["Solaire"].afficherInfosPlanete(self.mod,int(t[2]))
                     self.vues["Planete"].afficherPlanete(self.mod,int(t[2]))
                     self.bplanete.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Planete"]) )
@@ -530,13 +535,14 @@ class Vue():
             if self.canvas == self.vues["Galaxie"].canevasGalaxie:
                 if s[0] == "etoile":
                     self.vues["Galaxie"].afficherInfosSystemSolaire(self.mod,int(s[1]))
+
                     self.vues["Solaire"].afficherSystemeSolaire(self.mod,int(s[1]))
                     self.vues["Galaxie"].afficherpartieGalaxie(self.mod)
                     self.bsolaire.config(state=ACTIVE, command = lambda  : self.changevueactive(self.vues["Solaire"]) )
                     self.mod.joueurs[self.nom].setbuffer(s[1])
                     self.mod.joueurs[self.nom].setSysSolaireBuffer(s[1])
                     self.vues["Galaxie"].cliquecosmos(CURRENT)
-                    
+
                 elif s[1]=="flotte":
                     self.vues["Galaxie"].cliquecosmos(CURRENT)
                     self.vues["Galaxie"].versSoleil.config(state=ACTIVE, command = lambda  : self.vues["Galaxie"].envoyerVersSoleil(s,self.mod))
@@ -603,7 +609,7 @@ class VueSolaire():
 
         self.versGalaxie = Button(self.cadreinfo,text="Vers la Galaxie",bg="DeepSkyBlue2", command=self.envoyerVersGalaxie)
         self.maselection2=None
-        
+
     def gridhelper(self, button,arow,acolumn):
         button.grid(row=arow,column=acolumn)
 
@@ -619,18 +625,17 @@ class VueSolaire():
 
         self.parent.parent.changerVueVaisseau(t[2],t[4],t[5])
 
-    def afficherdecorSolaire(self,mod):
+    def afficherdecorSolaire(self,mod,idSolaire):
         self.mod = mod
         self.listeSysSolaire=mod.Galaxie.listeSysSolaire
         self.unSysSolaire = self.listeSysSolaire[0]
-
         self.planete= self.mod.joueurs[self.parent.nom].planetemere
         self.unSysSolaire=self.planete.parent
 
-        for i in range(random.randrange(24, 156)):
-            x=random.randrange(mod.largeur)
-            y=random.randrange(mod.hauteur)
-            self.canevasSolaire.create_oval(x,y,x+1,y+1,fill="white",tags=(None,"fond",None,None))
+        for syssolaire in self.listeSysSolaire:
+            if syssolaire.id==idSolaire:
+                for i in syssolaire.listeObjArrierePlan:
+                    self.canevasSolaire.create_oval(i[0],i[1],i[0]+1,i[1]+1,fill="white",tags=(None,"fond",None,None))
         #curwd = os.path.dirname(os.path.realpath(__file__))
 
         #image = resizeImage.resizeImage("",600,curwd+"\\images\\galaxy-png-date-2000.jpg")
@@ -638,14 +643,14 @@ class VueSolaire():
 
         self.canevasSolaire.config(bg="midnight blue")
 
-        for i in range(random.randrange(10,20)):
-            x=random.randrange(mod.largeur)
-            y=random.randrange(mod.hauteur)
-            self.canevasSolaire.create_rectangle(x,y,x+8,y+8, fill="light gray", tags=(None,"asteroide",None,None))
+        #for i in range(random.randrange(10,20)):
+          #  x=random.randrange(mod.largeur)
+          #  y=random.randrange(mod.hauteur)
+          #  self.canevasSolaire.create_rectangle(x,y,x+8,y+8, fill="light gray", tags=(None,"asteroide",None,None))
 
         self._create_circle(self.parent.largeur/1.5,self.parent.hauteur/1.5,75)
 
-        self.parent.CliqueVueSySsolaire(self.canevasSolaire,mod)
+        #self.parent.CliqueVueSySsolaire(self.canevasSolaire,mod)
 
 
         self.afficherVaisseau(mod)
@@ -660,7 +665,7 @@ class VueSolaire():
         self.modele=modele
         self.id=idSolaire
         self.canevasSolaire.delete("all")
-        self.afficherdecorSolaire(self.modele)
+        self.afficherdecorSolaire(self.modele,idSolaire)
 
         for a in (self.modele.Galaxie.listeSysSolaire):
 
@@ -681,7 +686,8 @@ class VueSolaire():
                         player = j
                         self.canevasSolaire.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill=modele.joueurs[player].couleur,tags=(i.proprietaire,"planeteMere",str(i.id),"possession"))
 
-        
+        self.parent.CliqueVueSySsolaire(self.canevasSolaire,self.modele)
+
 
     def afficherInfosSystemSolaire(self, modele, idSysteme):
 
@@ -717,6 +723,10 @@ class VueSolaire():
                              self.canevasSolaire.create_image(j.x,j.y,image=self.vaisTankCan,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
 
+                    for p in j.projectiles:
+                        debutx,debuty=hlp.getAngledPoint(p.angle,15,p.x,p.y)
+                        self.canevasSolaire.create_line(p.x,p.y,debutx,debuty,
+                                    fill="royalblue",tags=("artefact","projectile",None,None,None,None),width=3)
 
         for i in modele.ias:
             for j in i.flotteSystemeSolaire:
@@ -724,6 +734,10 @@ class VueSolaire():
                     if(j.espaceCourant.id ==self.id):
                         self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                         tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
+                    for p in j.projectiles:
+                        debutx,debuty=hlp.getAngledPoint(p.angle,15,p.x,p.y)
+                        self.canevasSolaire.create_line(p.x,p.y,debutx,debuty,
+                                    fill="royalblue",tags=("artefact","projectile",None,None,None,None),width=3)
 
 
     def afficherProjectile(self,modele):
