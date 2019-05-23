@@ -265,6 +265,29 @@ class Capitale(Structure):
         self.production=Structure.Capitale[4]
         self.couleur = "yellow"
 
+class Projectile():
+    def __init__(self,vaisseau,x,y,targetX,targetY,portee,nomVaisseau):
+        self.x = x
+        self.y = y
+        self.vaisseau=vaisseau
+        self.cible_x = targetX
+        self.cible_y = targetY
+        self.velProjectile=None
+        self.etat="mouvement"
+        self.nomVaisseau=nomVaisseau
+        self.portee=portee
+        self.delai_max=None
+
+    def deplacerProjectile(self):
+        
+
+        
+            angle=hlp.calcAngle(self.x,self.y,self.cible_x,self.cible_y)
+            self.x,self.y=hlp.getAngledPoint(angle,self.vaisseau.velProjectile,self.x,self.y)
+            d=hlp.calcDistance(self.x,self.y,self.cible_x,self.cible_y)
+            if d <= self.vaisseau.velProjectile:
+                self.vaisseau.toucher(self.vaisseau.puissance)
+                self.etat="rendu"
 
 
 
@@ -286,6 +309,10 @@ class Vaisseau():
         self.vitesse=0
         self.range=0
         self.cout=0
+        self.puissance=0
+        self.etat="vivant"
+        self.delai_de_tir=0
+        self.velProjectile=0
 
 
     def avancer(self):
@@ -301,6 +328,48 @@ class Vaisseau():
                         self.cible.proprietaire=self.proprietaire
                         self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                 self.cible=None
+                print("Change cible")
+        else:
+            print("PAS DE CIBLE")
+    
+    def jouercoup(self):
+        
+        if self.vaisseauCible==None:
+            for i in self.parent.parent.joueurs:
+                for j in self.parent.parent.joueurs[i].flotteSystemeSolaire:
+                    if(self.parent.parent.joueurs[i] is not self.parent):
+                        d=hlp.calcDistance(self.x,self.y,j.x,j.y)
+                        if d < self.range:
+                            self.vaisseauCible=j
+
+            for i in self.parent.parent.ias:
+                for x in i.flotteSystemeSolaire:
+                    d=hlp.calcDistance(self.x,self.y,j.x,j.y)
+                    if d < self.range:
+                        self.vaisseauCible=x
+
+            for i in self.projectiles:
+                i.etat="rendu"
+
+        else:
+            if(self.vaisseauCible is not self):
+                distcib=hlp.calcDistance(self.x,self.y,self.vaisseauCible.x,self.vaisseauCible.y)
+
+                if (distcib >= self.range or self.vaisseauCible.etat=="mort" or self.vaisseauCible=="inconnue"):
+                    self.vaisseauCible=None
+                    for i in self.projectiles:
+                        i.etat="rendu"
+                else:
+                    if self.delai_de_tir==0:
+                        p=Projectile(self.vaisseauCible,self.x,self.y,self.vaisseauCible.x,self.vaisseauCible.y,self.range,self.nomVaisseau)
+                        self.projectiles.append(p)
+                        self.delai_de_tir=self.delai_max
+                    else:
+                        self.delai_de_tir-=1
+
+        for i in self.projectiles:
+            i.deplacerProjectile()
+        
 
     def avancer1(self):
         if self.cible:
@@ -332,16 +401,36 @@ class Vaisseau():
         else:
             return False
 
+    def toucher(self,puissance):
+        self.puissance=puissance
+
+        self.energie-=puissance
+
+        if self.energie <= 0:
+            self.etat="mort"
+
+
+    def evaluerprojectiles(self):
+        rendu=[]
+        for i in self.projectiles:
+            if i.etat=="rendu":
+                rendu.append(i)
+        for i in rendu:
+            self.projectiles.remove(i)
 class VaisseauCanon(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Canon"):
         super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
         self.cargo=0
-        self.energie=400
+        self.energie=1
         self.vitesse=5
         self.range=200
         self.cout=100
         self.payerVaisseau()
 
+        self.puissance=10
+        self.projectiles=[]
+        self.delai_max=5
+        self.velProjectile=3
 class VaisseauEclaireur(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Eclaireur"):
         super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
@@ -351,6 +440,10 @@ class VaisseauEclaireur(Vaisseau):
         self.range=200
         self.cout=300
         self.payerVaisseau()
+        self.puissance=1
+        self.projectiles=[]
+        self.delai_max=6
+        self.velProjectile=2
 
 class VaisseauTank(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Tank"):
@@ -361,6 +454,10 @@ class VaisseauTank(Vaisseau):
         self.range=400
         self.cout=300
         self.payerVaisseau()
+        self.puissance=5
+        self.projectiles=[]
+        self.delai_max=7
+        self.velProjectile=2
 
 class VaisseauLaser(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Laser"):
@@ -371,6 +468,10 @@ class VaisseauLaser(Vaisseau):
         self.range=400
         self.cout=200
         self.payerVaisseau()
+        self.puissance=3
+        self.projectiles=[]
+        self.delai_max=0
+        self.velProjectile=9
 
 class VaisseauSniper(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Sniper"):
@@ -382,6 +483,10 @@ class VaisseauSniper(Vaisseau):
         self.cout=200
         self.payerVaisseau()
 
+        self.puissance=20
+        self.projectiles=[]
+        self.delai_max=10
+        self.velProjectile=7
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
         self.id=Id.prochainid()
@@ -408,7 +513,8 @@ class Joueur():
                       "cibleretoile":self.cibleretoile,
                       "changervuevaisseau":self.changerVueVaisseau,
                       "avancementTechno":self.avancementTechno,
-                      "reclamerplanete":self.reclamerplanete}
+                      "reclamerplanete":self.reclamerplanete,
+                      "jouercoup":self.jouercoup}
 
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
@@ -604,6 +710,16 @@ class Joueur():
     def reclamerplanete(self,idplanete,proprietaire):
         self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
 
+    def jouercoup(self):
+        for j in self.parent.joueurs:
+            print(j)
+            for vais in j.flotteSystemeSolaire:
+                if(vaisIdEnnemi==vais.id):
+                    if(vais.etat=="mort"):
+                        j.flotteSystemeSolaire.remove(vais)
+        for v in flotteSystemeSolaire:
+            v.jouercoup()
+
 class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
         Joueur.__init__(self, parent, nom, planetemere, couleur)
@@ -623,6 +739,8 @@ class IA(Joueur):
                 choice = random.randrange(0,100)
                 self.compteurChangementVue += 1
                 self.prendreChoix(choice)
+                self.compteurCreation = 0
+                self.creervaisseau("Vaisseau Canon")
 
             if self.compteurChangementVue == 1: # changement de vue d'un vaisseau
                 self.compteurChangementVue = 0
@@ -647,6 +765,8 @@ class IA(Joueur):
                 choice = random.randrange(0,100)
                 self.compteurChangementVue += 1
                 self.prendreChoix(choice)
+                self.compteurCreation = 0
+                self.creervaisseau("Vaisseau Canon")
 
             if self.compteurChangementVue == 3:
                 self.compteurChangementVue = 0
@@ -702,6 +822,36 @@ class Modele():
         self.creerterrain()
         self.Galaxie = Galaxie(self)
         self.assignerplanetemere(joueurs, 2)
+    
+    def evaluerjeu(self):
+        mort=[]
+
+        for nom in self.joueurs:
+            self.joueurtrouver=self.joueurs[nom]
+            for v in self.joueurtrouver.flotteSystemeSolaire:
+                if v.etat=="mort":
+                    mort.append(v)
+                
+            for i in mort:
+                self.joueurtrouver.flotteSystemeSolaire.remove(i)
+            
+            for t in self.joueurtrouver.flotteSystemeSolaire:
+                t.evaluerprojectiles()
+
+            mort=[]
+        
+        for i in self.ias:
+            for v in i.flotteSystemeSolaire:
+                if v.etat=="mort":
+                    mort.append(v)
+                
+            for m in mort:
+                i.flotteSystemeSolaire.remove(m)
+            
+            for ti in i.flotteSystemeSolaire:
+                ti.evaluerprojectiles()
+            mort=[]
+        
 
     def creerterrain(self):
         self.terrain=[]
@@ -758,10 +908,15 @@ class Modele():
         for i in self.joueurs:
             self.joueurs[i].updaterRessources()
             self.joueurs[i].prochaineaction()
+            
+        for j in self.joueurs[i].flotteSystemeSolaire:
+            j.jouercoup()
 
         # IA- appelle prochaine action
         for i in self.ias:
             i.prochaineaction()
+        
+        self.evaluerjeu()
 
         for i in self.Galaxie.listeSysSolaire:
             i.deplacerPlanetes()
@@ -775,3 +930,5 @@ batiments={"Usine_Civile":["Usine_Civile",100,150,1,0,UsineCivile],
            "Raffinerie_Isotope":["Raffinerie_Isotope",175,250,3,2,RaffinerieIsotope],
            "Ferme":["Ferme",75,50,1,2,Ferme],
            "Capitale":["Capitale",300,5000,10,100,Capitale]}
+
+
