@@ -193,7 +193,7 @@ class Controleur():
         self.actions.append([self.monnom,"avancementTechno",[nomAvance]])
 
     def jouercoup(self):
-        self.actions.append([self.monnom,"jouercoup",[idVaisseau,vaisseauIdEnnenmi]])
+        self.actions.append([self.monnom,"jouercoup",[Vaisseau]])
 
 if __name__=="__main__":
     c=Controleur()
