@@ -140,7 +140,7 @@ class Planete():
         if not self.listeStructure:
             self.viePlanete1=0
         else:
-            for i in listeStructure[i]:
+            for i in self.listeStructure[i]:
                 self.viePlanete1+=self.listeStructure[i].vie
         return self.viePlanete1
 
@@ -203,10 +203,6 @@ class Structure():
         self.x=x
         self.y=y
         self.planete = planete
-
-    def maintenanceStructure(self):
-        for i in self.parent.listeStructure[i]:
-            self.credit-=self.maintenance
 
 class UsineCivile(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
@@ -321,6 +317,7 @@ class Vaisseau():
         self.delai_de_tir=0
         self.velProjectile=0
         self.planetecourante=None
+        self.delai_max=0
 
 
     def avancer(self):
@@ -362,7 +359,7 @@ class Vaisseau():
                         if d < self.range:
                             self.vaisseauCible=x
 
-            for i in self.projectiles:
+            for i in self.projectile:
                 i.etat="rendu"
 
         else:
@@ -371,17 +368,17 @@ class Vaisseau():
 
                 if (distcib >= self.range or self.vaisseauCible.etat=="mort" or self.vaisseauCible=="inconnue"):
                     self.vaisseauCible=None
-                    for i in self.projectiles:
+                    for i in self.projectile:
                         i.etat="rendu"
                 else:
                     if self.delai_de_tir==0:
                         p=Projectile(self.vaisseauCible,self.x,self.y,self.vaisseauCible.x,self.vaisseauCible.y,self.range,self.nomVaisseau)
-                        self.projectiles.append(p)
+                        self.projectile.append(p)
                         self.delai_de_tir=self.delai_max
                     else:
                         self.delai_de_tir-=1
 
-        for i in self.projectiles:
+        for i in self.projectile:
             i.deplacerProjectile()
 
 
@@ -426,11 +423,11 @@ class Vaisseau():
 
     def evaluerprojectiles(self):
         rendu=[]
-        for i in self.projectiles:
+        for i in self.projectile:
             if i.etat=="rendu":
                 rendu.append(i)
         for i in rendu:
-            self.projectiles.remove(i)
+            self.projectile.remove(i)
 class VaisseauCanon(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Canon"):
         super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
@@ -723,16 +720,17 @@ class Joueur():
 
 
     def reclamerplanete(self,idplanete,proprietaire):
-        self.vue.vues["Solaire"].changerProprietaire(idplanete,coul)
+        self.parent.parent.vue.vues["Solaire"].changerProprietaire(idplanete)
 
-    def jouercoup(self):
+    def jouercoup(self,vaisIdEnnemie):
+        self.vaisIdEnnemie=vaisIdEnnemie
         for j in self.parent.joueurs:
             print(j)
             for vais in j.flotteSystemeSolaire:
-                if(vaisIdEnnemi==vais.id):
+                if(vaisIdEnnemie==vais.id):
                     if(vais.etat=="mort"):
                         j.flotteSystemeSolaire.remove(vais)
-        for v in flotteSystemeSolaire:
+        for v in self.parent.joueurs:
             v.jouercoup()
 
 class IA(Joueur):
@@ -841,6 +839,7 @@ class Modele():
     def evaluerjeu(self):
         mort=[]
 
+
         for nom in self.joueurs:
             self.joueurtrouver=self.joueurs[nom]
             for v in self.joueurtrouver.flotteSystemeSolaire:
@@ -906,6 +905,7 @@ class Modele():
 
 
     def prochaineaction(self,cadre):
+        compteur=0
         if cadre in self.actionsafaire:
             for i in self.actionsafaire[cadre]:
                 self.joueurs[i[0]].actions[i[1]](i[2])
@@ -924,13 +924,18 @@ class Modele():
             self.joueurs[i].updaterRessources()
             self.joueurs[i].prochaineaction()
 
-        for j in self.joueurs[i].flotteSystemeSolaire:
-            j.jouercoup()
+            for j in self.joueurs[i].flotteSystemeSolaire:
+                j.jouercoup()
+
+
+
 
         # IA- appelle prochaine action
         for i in self.ias:
             i.prochaineaction()
 
+            for j in i.flotteSystemeSolaire:
+                j.jouercoup()
 
         self.evaluerjeu()
 
