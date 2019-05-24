@@ -52,7 +52,7 @@ class Galaxie():
 class SystemeSolaire():
     def __init__(self,parent,x,y,nom):
         self.id=Id.prochainid()
-        self.bordure = 0
+        self.bordure = 100
         self.parent = parent
         self.nometoile = nom
         self.proprietaire="inconnu"
@@ -64,7 +64,7 @@ class SystemeSolaire():
         self.couleur = "grey80"
         self.listeObjArrierePlan=[]
 
-        for i in range(random.randrange(255)):
+        for i in range(random.randrange(255)+100):
             coord = [random.randrange(800), random.randrange(600)]
             self.listeObjArrierePlan.append(coord)
 
@@ -282,7 +282,7 @@ class Projectile():
         self.etat="mouvement"
         self.nomVaisseau=nomVaisseau
         self.portee=portee
-        self.delai_max=None
+        self.delai_max=1
         self.angle=None
 
     def deplacerProjectile(self):
@@ -320,6 +320,7 @@ class Vaisseau():
         self.etat="vivant"
         self.delai_de_tir=0
         self.velProjectile=0
+        self.planetecourante=None
 
 
     def avancer(self):
@@ -332,12 +333,16 @@ class Vaisseau():
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
                 if type(self.cible).__name__=="Planete":
                     if len(self.cible.listeStructure)==0:
+                        self.planetecourante=self.cible
                         self.cible.proprietaire=self.proprietaire
                         self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                 self.cible=None
                 print("Change cible")
+        elif(self.planetecourante is not None):
+            self.x=self.planetecourante.x
+            self.y=self.planetecourante.y
         else:
-            print("PAS DE CIBLE")
+            print("pas de cible")
 
     def jouercoup(self):
 
@@ -556,6 +561,7 @@ class Joueur():
 
         if self.vais.espaceCourant is not None:
             self.vais.espaceCourant=None
+            self.vais.planetecourante=None
             self.vais.x=self.vais.solaire.x
             self.vais.y=self.vais.solaire.y
             return
@@ -681,8 +687,8 @@ class Joueur():
 
     def prochaineaction(self):
         for i in self.flotteSystemeSolaire:
-            if i.cible:
                 i.avancer()
+
 
 
     def prochaineaction2(self):

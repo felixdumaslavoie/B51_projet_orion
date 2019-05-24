@@ -23,7 +23,7 @@ class Vue():
         self.root.title(os.path.basename(sys.argv[0]))
         self.modele=None
         self.nom=""
-        self.cadreapp=Frame(self.root,width=800,height=600)
+        self.cadreapp=Frame(self.root,width=1000,height=800)
         self.cadreapp.grid(row=1, column=0)
         self.creercadresplash(ip,nom)
         self.creercadrelobby()
@@ -38,7 +38,9 @@ class Vue():
         self.arbretechMilitState = 0
 
         self.cadrepartie=Frame(self.cadreapp)
-        self.cadrejeu=Frame(self.cadrepartie)
+        self.cadrejeu=Canvas(self.cadrepartie,width=800,height=600,scrollregion=(0,0,500,500))
+        
+
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="light cyan")
         self.cadreArbreTechno=Canvas(self.cadreoutils,width=350,height=200, bg = "green2")
@@ -330,9 +332,9 @@ class Vue():
 
         self.afficheMessage(mod)
         self.vues["Galaxie"].afficherpartieGalaxie(mod)
-        self.vues["Solaire"].afficherVaisseau(mod)
-        self.vues["Solaire"].afficherSystemeSolaire(mod,idsolaire)
 
+        self.vues["Solaire"].afficherSystemeSolaire(mod,idsolaire)
+        self.vues["Solaire"].afficherVaisseau(mod)
     def afficheMessage(self,mod):
         for i in mod.joueurs.keys():
             pass
