@@ -48,6 +48,10 @@ class Galaxie():
             nom = self.listeNomEtoile.pop(random.randrange(len(self.listeNomEtoile)-1))
             s = SystemeSolaire(self,x,y,nom)
             self.listeSysSolaire.append(s)
+            
+    def actualiserGalaxie(self):
+        for i in self.listeSysSolaire:
+            i.deplacerPlanetes()
 
 class SystemeSolaire():
     def __init__(self,parent,x,y,nom):
@@ -203,10 +207,6 @@ class Structure():
         self.x=x
         self.y=y
         self.planete = planete
-
-    def maintenanceStructure(self):
-        for i in self.parent.listeStructure[i]:
-            self.credit-=self.maintenance
 
 class UsineCivile(Structure):
     def __init__(self,joueur,idplanete,nomstruct,x,y):
@@ -523,7 +523,8 @@ class Joueur():
                       "changervuevaisseau":self.changerVueVaisseau,
                       "avancementTechno":self.avancementTechno,
                       "reclamerplanete":self.reclamerplanete,
-                      "jouercoup":self.jouercoup}
+                      "jouercoup":self.jouercoup,
+                      "actualiserGalaxie":self.actualiserGalaxie}
 
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
@@ -625,6 +626,10 @@ class Joueur():
 
         else:
             print("Vous n'avez pas assez de crédits pour construire cette structure")
+
+
+    def actualiserGalaxie(self):
+        self.parent.Galaxie.actualiserGalaxie()
 
 
     def updaterRessources(self):
@@ -927,11 +932,7 @@ class Modele():
 
 
         self.evaluerjeu()
-
-        for i in self.Galaxie.listeSysSolaire:
-            i.deplacerPlanetes()
-
-
+        
 
 batiments={"Usine_Civile":["Usine_Civile",100,150,1,0,UsineCivile],
            "Usine_Militaire":["Usine_Militaire",200,225,2,0,UsineMilitaire],
