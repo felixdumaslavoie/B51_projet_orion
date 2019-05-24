@@ -87,11 +87,7 @@ class Vue():
             self.cadreactif.grid_forget()
         self.cadreactif=cadre
         self.cadreactif.grid(row=1, column=0)
-    def changevue(self,vue):
-        if self.vueactif:
-            self.vueactif.grid_forget()
-        self.vueactif=vue
-        self.vueactif.grid(row=1, column=0)
+    
 
 
     def creercadresplash(self,ip,nom):
@@ -317,14 +313,6 @@ class Vue():
             self.tkvar.set("")
 
 
-    def moveCanevas(self,evt):
-        x=evt.x
-        y=evt.y
-        px=self.mod.largeur/x/100
-        py=self.mod.hauteur/y/100
-        self.canevasGalaxie.xview(MOVETO,px)
-        self.canevasGalaxie.yview(MOVETO,py)
-        print("SCROLL",px,py)
 
     def afficherpartie(self,mod,idsolaire):
 
@@ -332,6 +320,11 @@ class Vue():
         self.vues["Galaxie"].afficherpartieGalaxie(mod)
         self.vues["Solaire"].afficherVaisseau(mod)
         self.vues["Solaire"].afficherSystemeSolaire(mod,idsolaire)
+        
+        
+        if self.parent.egoserveur == 1 and self.parent.attente == 0:
+            self.parent.actualiserGalaxie()
+            
 
     def afficheMessage(self,mod):
         for i in mod.joueurs.keys():
@@ -724,7 +717,7 @@ class VueSolaire():
                                 self.canevasSolaire.create_image(j.x,j.y,image=self.vaisTankCan,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
 
-                    for p in j.projectiles:
+                    for p in j.projectile:
                         debutx,debuty=hlp.getAngledPoint(p.angle,15,p.x,p.y)
                         self.canevasSolaire.create_line(p.x,p.y,debutx,debuty,
                                     fill="royalblue",tags=("artefact","projectile",None,None,None,None),width=3)
@@ -1042,16 +1035,6 @@ class VuePlanete():
             t=5
             self.canevasPlanete.create_rectangle(i[0]-t, i[1]-t,  i[0] + t, i[1] + t, fill="red",tags=("emplacement", str(planete.id), str(i[0]),str(i[1])))
 
-
-    def afficheEmplacement2(self,idPlanete,modele):
-        self.id = idPlanete
-        self.modele = modele
-        if len(self.planete.nbEmplacementDispo) > 0:
-            for i in self.planete.nbEmplacementDispo:
-                self.x = i.x
-                self.y = i.y
-                self.diametre = i.taille
-                self.cadrespatial.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill="light goldenrod", tags=("Emplacement",i.proprietaire))
 
     def afficheStructure(self,idplanete):
         self.idplante = idplanete
