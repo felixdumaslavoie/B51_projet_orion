@@ -49,6 +49,10 @@ class Galaxie():
             s = SystemeSolaire(self,x,y,nom)
             self.listeSysSolaire.append(s)
 
+    def actualiserGalaxie(self):
+        for i in self.listeSysSolaire:
+            i.deplacerPlanetes()
+
 class SystemeSolaire():
     def __init__(self,parent,x,y,nom):
         self.id=Id.prochainid()
@@ -102,6 +106,11 @@ class Planete():
         self.hypotenuse = hlp.calcDistance(self.x, self.y,400,300)
         self.angleRad = random.randrange(360)
         self.vitesseOrbite = (random.randrange(25)+1)/100
+        #1 = sense horaire, -1 = anti horaire
+        self.senseRotation = 1
+
+        if random.randrange(2) == 1:
+            self.senseRotation = -1
 
         largeur=self.parent.parent.parent.largeur/2
         hauteur=self.parent.parent.parent.hauteur/2
@@ -159,9 +168,16 @@ class Planete():
         self.x = self.hypotenuse*math.cos(math.radians(self.angleRad)) + 400
         self.y = self.hypotenuse*math.sin(math.radians(self.angleRad)) + 300
 
-        self.angleRad+=self.vitesseOrbite
-        if self.angleRad == 360:
+        if self.senseRotation == 1:
+            self.angleRad+=self.vitesseOrbite
+        elif self.senseRotation == -1:
+            self.angleRad-=self.vitesseOrbite
+
+
+        if self.angleRad == 360 and self.senseRotation == 1:
             self.angleRad = 0
+        elif self.angleRad == 0 and self.senseRotation == -1:
+            self.angleRad = 360
 
 class EmplacementsSurPlanete():
     def __init__(self,x,y,structure):
@@ -356,7 +372,7 @@ class Vaisseau():
             for i in self.parent.parent.ias:
                 for x in i.flotteSystemeSolaire:
                     if x.espaceCourant==self.espaceCourant:
-                        d=hlp.calcDistance(self.x,self.y,x.x,x.y)
+                        d=hlp.calcDistance(self.x,self.y,x.x,x.y) #j remplacé par x
                         if d < self.range:
                             self.vaisseauCible=x
 
@@ -526,7 +542,8 @@ class Joueur():
                       "changervuevaisseau":self.changerVueVaisseau,
                       "avancementTechno":self.avancementTechno,
                       "reclamerplanete":self.reclamerplanete,
-                      "jouercoup":self.jouercoup}
+                      "jouercoup":self.jouercoup,
+                      "actualiserGalaxie":self.actualiserGalaxie}
 
         self.structures={"Usine Civile":UsineCivile,
                          "Usine Militaire":UsineMilitaire,
@@ -629,6 +646,10 @@ class Joueur():
 
         else:
             print("Vous n'avez pas assez de crédits pour construire cette structure")
+
+
+    def actualiserGalaxie(self,uneListe):
+        self.parent.Galaxie.actualiserGalaxie()
 
 
     def updaterRessources(self):
@@ -941,10 +962,6 @@ class Modele():
                 j.jouercoup()
 
         self.evaluerjeu()
-
-        for i in self.Galaxie.listeSysSolaire:
-            i.deplacerPlanetes()
-
 
 
 batiments={"Usine_Civile":["Usine_Civile",100,150,1,0,UsineCivile],

@@ -320,6 +320,13 @@ class Vue():
 
         self.afficheMessage(mod)
         self.vues["Galaxie"].afficherpartieGalaxie(mod)
+        self.vues["Solaire"].afficherVaisseau(mod)
+        self.vues["Solaire"].afficherSystemeSolaire(mod,idsolaire)
+
+
+        if self.parent.egoserveur == 1 and self.parent.attente == 0:
+            self.parent.actualiserGalaxie()
+
 
         self.vues["Solaire"].afficherSystemeSolaire(mod,idsolaire)
         self.vues["Solaire"].afficherVaisseau(mod)
