@@ -106,6 +106,11 @@ class Planete():
         self.hypotenuse = hlp.calcDistance(self.x, self.y,400,300)
         self.angleRad = random.randrange(360)
         self.vitesseOrbite = (random.randrange(25)+1)/100
+        #1 = sense horaire, -1 = anti horaire
+        self.senseRotation = 1
+        
+        if random.randrange(2) == 1:
+            self.senseRotation = -1
 
         largeur=self.parent.parent.parent.largeur/2
         hauteur=self.parent.parent.parent.hauteur/2
@@ -162,10 +167,17 @@ class Planete():
         #self.y=(self.hypotenuse*math.sin(self.angleRad))*2
         self.x = self.hypotenuse*math.cos(math.radians(self.angleRad)) + 400
         self.y = self.hypotenuse*math.sin(math.radians(self.angleRad)) + 300
-
-        self.angleRad+=self.vitesseOrbite
-        if self.angleRad == 360:
+        
+        if self.senseRotation == 1:
+            self.angleRad+=self.vitesseOrbite
+        elif self.senseRotation == -1:
+            self.angleRad-=self.vitesseOrbite
+            
+            
+        if self.angleRad == 360 and self.senseRotation == 1:
             self.angleRad = 0
+        elif self.angleRad == 0 and self.senseRotation == -1:
+            self.angleRad = 360
 
 class EmplacementsSurPlanete():
     def __init__(self,x,y,structure):
