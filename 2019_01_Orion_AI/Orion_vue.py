@@ -13,8 +13,8 @@ class Vue():
     def __init__(self,parent,ip,nom):
         self.parent=parent
         self.root=Tk()
-        self.largeur=640
-        self.hauteur=480
+        self.largeur=800
+        self.hauteur=800
         self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
         self.terrain=[]
         self.vues=None
@@ -38,8 +38,8 @@ class Vue():
         self.arbretechMilitState = 0
 
         self.cadrepartie=Frame(self.cadreapp)
-        self.cadrejeu=Canvas(self.cadrepartie,width=800,height=600,scrollregion=(0,0,500,500))
-        
+        self.cadrejeu=Canvas(self.cadrepartie,width=self.largeur,height=self.hauteur,scrollregion=(0,0,1000,1000))
+
 
         self.cadreoutils=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
         self.cadreinfo=Frame(self.cadreoutils,width=200,height=200,bg="light cyan")
@@ -89,7 +89,7 @@ class Vue():
             self.cadreactif.grid_forget()
         self.cadreactif=cadre
         self.cadreactif.grid(row=1, column=0)
-    
+
 
 
     def creercadresplash(self,ip,nom):
@@ -398,7 +398,6 @@ class Vue():
 
     def actionOngletMilit(self,event):
         self.ongletActif = "Militaire"
-
         self.btnAvac1.config(text = "Vaisseau Canon",command= lambda: self.gridhelper(self.vues["Solaire"].newVais1,17,0))
         self.btnAvac2.config(text = "Vaisseau Eclaireur",command= lambda: self.gridhelper(self.vues["Solaire"].newVais2,17,1))
         self.btnAvac3.config(text = "Vaisseau Tank",command= lambda: self.gridhelper(self.vues["Solaire"].newVais3,17,2))
@@ -549,7 +548,7 @@ class VueSolaire():
         self.parent=parent
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreinfo=Frame(self.parent.cadreoutils)
-        self.canevasSolaire=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
+        self.canevasSolaire=Canvas(self.cadrespatial,width=self.parent.largeur,height=self.parent.hauteur,bg="grey11")
 
         self.canevasSolaire.bind( "<Button-1>", lambda event, canvas = self.canevasSolaire : self.parent.CliqueVueSySsolaire(canvas,self.parent.modele))
         self.canevasSolaire.grid(row = 0, column =1)
@@ -572,11 +571,11 @@ class VueSolaire():
 
         curwd = os.path.dirname(os.path.realpath(__file__))
 
-        self.vaisCanonMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauCanon.png")
-        self.vaisEclaireurMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauEclaireur.png")
-        self.vaisLaserMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauLaser.png")
-        self.vaisSniperMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauSniper.png")
-        self.vaisTankMenu=resizeImage.resizeImage("m",30,curwd+"\\images\\vaisseauTank.png")
+        self.vaisCanonMenu=resizeImage.resizeImage("m",50,curwd+"\\images\\vaisseauCanon.png")
+        self.vaisEclaireurMenu=resizeImage.resizeImage("m",50,curwd+"\\images\\vaisseauEclaireur.png")
+        self.vaisLaserMenu=resizeImage.resizeImage("m",50,curwd+"\\images\\vaisseauLaser.png")
+        self.vaisSniperMenu=resizeImage.resizeImage("m",50,curwd+"\\images\\vaisseauSniper.png")
+        self.vaisTankMenu=resizeImage.resizeImage("m",50,curwd+"\\images\\vaisseauTank.png")
         self.vaisCanonCan=resizeImage.resizeImage("C",30,curwd+"\\images\\vaisseauCanon.png")
         self.vaisEclaireurCan=resizeImage.resizeImage("C",30,curwd+"\\images\\vaisseauEclaireur.png")
         self.vaisLaserCan=resizeImage.resizeImage("C",30,curwd+"\\images\\vaisseauLaser.png")
@@ -638,7 +637,7 @@ class VueSolaire():
           #  y=random.randrange(mod.hauteur)
           #  self.canevasSolaire.create_rectangle(x,y,x+8,y+8, fill="light gray", tags=(None,"asteroide",None,None))
 
-        self._create_circle(self.parent.largeur/1.5,self.parent.hauteur/1.5,75)
+        self._create_circle(self.parent.largeur*0.5,self.parent.hauteur*0.5,75)
 
         #self.parent.CliqueVueSySsolaire(self.canevasSolaire,mod)
 
@@ -788,22 +787,21 @@ class VueSolaire():
 
     def cliqueSolaire(self,evt):
 
-
-
         t=self.canevasSolaire.gettags(CURRENT)
         if t and t[0]==self.parent.nom:
 
             self.maselection=[self.parent.nom,t[1],t[2]]
 
             if "planeteMere" not in t:
-                 self.maselection2=[self.parent.nom,t[1],t[2]]
+                self.maselection2=[self.parent.nom,t[1],t[2]]
             if t[1] == "planete":
                 self.montreplaneteselection()
             elif t[1] == "flotte":
                 pass
 
-        elif "planeteMere" in t and t[0]==self.parent.nom and self.maselection2:
+            elif "planeteMere" in t and t[0]==self.parent.nom and self.maselection2:
                 self.parent.parent.ciblerflotte(self.maselection2[2],t[2])
+          #      self.parent.parent.ciblerflotte(self.maselection2[2],t[2])
                 self.maselection2=None
         elif "planeteMere" in t and t[0]!=self.parent.nom:
                 self.parent.parent.ciblerflotte(self.maselection[2],t[2])
@@ -834,7 +832,7 @@ class VuePlanete():
         self.parent=parent
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreinfo=Frame(self.parent.cadreoutils)
-        self.canevasPlanete=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
+        self.canevasPlanete=Canvas(self.cadrespatial,width=self.parent.largeur,height=self.parent.hauteur,bg="grey11")
         self.canevasPlanete.grid(row = 0, column =1)
         self.cadreStruct = Frame(self.cadreinfo)
 
@@ -1071,7 +1069,7 @@ class VueGalaxie():
         self.parent=parent
         self.cadrespatial=Frame(self.cadrejeu)
         self.cadreinfo=Frame(self.parent.cadreoutils)
-        self.canevasGalaxie=Canvas(self.cadrespatial,width=800,height=600,bg="grey11")
+        self.canevasGalaxie=Canvas(self.cadrespatial,width=self.parent.largeur,height=self.parent.hauteur,bg="grey11")
         self.canevasGalaxie.grid(row = 0, column = 0)
 
         self.canevasGalaxie.bind( "<Button-1>", lambda event, canvas = self.canevasGalaxie : self.parent.CliqueVueGalaxie(canvas,self.parent.modele))

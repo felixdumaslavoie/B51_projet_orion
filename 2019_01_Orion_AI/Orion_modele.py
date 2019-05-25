@@ -65,7 +65,7 @@ class SystemeSolaire():
         self.listeObjArrierePlan=[]
 
         for i in range(random.randrange(255)+100):
-            coord = [random.randrange(800), random.randrange(600)]
+            coord = [random.randrange(self.parent.parent.largeur), random.randrange(self.parent.parent.largeur)]
             self.listeObjArrierePlan.append(coord)
 
         for i in range(self.nbdeplanete):
@@ -316,7 +316,7 @@ class Vaisseau():
         self.etat="vivant"
         self.delai_de_tir=0
         self.velProjectile=0
-        self.planetecourante=None
+        self.planetecourante=self.parent.planetemere
         self.delai_max=0
 
 
@@ -329,10 +329,11 @@ class Vaisseau():
             self.x,self.y=x1,y1
             if hlp.calcDistance(self.x,self.y,x,y) <=self.vitesse:
                 if type(self.cible).__name__=="Planete":
-                    if len(self.cible.listeStructure)==0:
+                    #if len(self.cible.listeStructure)==0:
                         self.planetecourante=self.cible
-                        self.cible.proprietaire=self.proprietaire
-                        self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
+                        if len(self.cible.listeStructure)==0:
+                            self.cible.proprietaire=self.proprietaire
+                            self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                 self.cible=None
                 print("Change cible")
         elif(self.planetecourante is not None):
@@ -355,7 +356,7 @@ class Vaisseau():
             for i in self.parent.parent.ias:
                 for x in i.flotteSystemeSolaire:
                     if x.espaceCourant==self.espaceCourant:
-                        d=hlp.calcDistance(self.x,self.y,j.x,j.y)
+                        d=hlp.calcDistance(self.x,self.y,x.x,x.y)
                         if d < self.range:
                             self.vaisseauCible=x
 
@@ -825,8 +826,8 @@ class IA(Joueur):
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
-        self.largeur=800
-        self.hauteur=600
+        self.largeur=parent.vue.largeur
+        self.hauteur=parent.vue.hauteur
         self.joueurs={}
         self.listeObjCliquable = []
         self.ias=[]
@@ -902,7 +903,9 @@ class Modele():
         couleursia=["orange","green"]
         for i in range(ias):
             self.ias.append(IA(self,"IA_"+str(i),planes.pop(0),couleursia.pop(0)))
-
+            #nomjoueur,nomstruct,idplanete,x,y
+            choixEmplacement = random.choice(self.ias[i].planetemere.emplacementsDispo)
+            self.ias[i].creerStructure([self.ias[i].nom,"Capitale",self.ias[i].planetemere.id,choixEmplacement[0],choixEmplacement[1]])
 
     def prochaineaction(self,cadre):
         compteur=0
