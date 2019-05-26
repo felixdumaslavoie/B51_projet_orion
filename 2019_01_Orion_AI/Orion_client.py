@@ -194,7 +194,7 @@ class Controleur():
         self.actions.append([self.monnom,"avancementTechno",[nomAvance]])
 
     def jouercoup(self):
-        self.actions.append([self.monnom,"jouercoup",[Vaisseau]])
+        self.actions.append([self.monnom,"jouercoup"],[])
         
     def actualiserGalaxie(self):
         self.actions.append([self.monnom,"actualiserGalaxie",[]])

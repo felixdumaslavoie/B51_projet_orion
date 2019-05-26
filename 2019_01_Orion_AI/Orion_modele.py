@@ -542,7 +542,7 @@ class Joueur():
                       "changervuevaisseau":self.changerVueVaisseau,
                       "avancementTechno":self.avancementTechno,
                       "reclamerplanete":self.reclamerplanete,
-                      "jouercoup":self.jouercoup,
+                      #"evaluerjeu":self.evaluerjeu,
                       "actualiserGalaxie":self.actualiserGalaxie}
 
         self.structures={"Usine Civile":UsineCivile,
@@ -570,6 +570,7 @@ class Joueur():
 
     def changerVueVaisseau(self,info):
         idvais,idEspace,idSoleil=info
+        
         for i in self.flotteSystemeSolaire:
             if i.id==int(idvais):
                 self.vais=i
@@ -744,16 +745,16 @@ class Joueur():
     def reclamerplanete(self,idplanete,proprietaire):
         self.parent.parent.vue.vues["Solaire"].changerProprietaire(idplanete)
 
-    def jouercoup(self,vaisIdEnnemie):
-        self.vaisIdEnnemie=vaisIdEnnemie
-        for j in self.parent.joueurs:
-            print(j)
-            for vais in j.flotteSystemeSolaire:
-                if(vaisIdEnnemie==vais.id):
-                    if(vais.etat=="mort"):
-                        j.flotteSystemeSolaire.remove(vais)
-        for v in self.parent.joueurs:
-            v.jouercoup()
+    # def jouercoup(self,vaisIdEnnemie):
+    #     self.vaisIdEnnemie=vaisIdEnnemie
+    #     for j in self.parent.joueurs:
+    #         print(j)
+    #         for vais in j.flotteSystemeSolaire:
+    #             if(vaisIdEnnemie==vais.id):
+    #                 if(vais.etat=="mort"):
+    #                     j.flotteSystemeSolaire.remove(vais)
+    #     for v in self.parent.joueurs:
+    #         v.jouercoup()
 
 class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
@@ -858,35 +859,6 @@ class Modele():
         self.Galaxie = Galaxie(self)
         self.assignerplanetemere(joueurs, 2)
 
-    def evaluerjeu(self):
-        mort=[]
-
-
-        for nom in self.joueurs:
-            self.joueurtrouver=self.joueurs[nom]
-            for v in self.joueurtrouver.flotteSystemeSolaire:
-                if v.etat=="mort":
-                    mort.append(v)
-
-            for i in mort:
-                self.joueurtrouver.flotteSystemeSolaire.remove(i)
-
-            for t in self.joueurtrouver.flotteSystemeSolaire:
-                t.evaluerprojectiles()
-
-            mort=[]
-
-        for i in self.ias:
-            for v in i.flotteSystemeSolaire:
-                if v.etat=="mort":
-                    mort.append(v)
-
-            for v in mort:
-                i.flotteSystemeSolaire.remove(v)
-
-            for ti in i.flotteSystemeSolaire:
-                ti.evaluerprojectiles()
-            mort=[]
 
 
     def creerterrain(self):
@@ -929,7 +901,7 @@ class Modele():
             self.ias[i].creerStructure([self.ias[i].nom,"Capitale",self.ias[i].planetemere.id,choixEmplacement[0],choixEmplacement[1]])
 
     def prochaineaction(self,cadre):
-        compteur=0
+    
         if cadre in self.actionsafaire:
             for i in self.actionsafaire[cadre]:
                 self.joueurs[i[0]].actions[i[1]](i[2])
@@ -962,6 +934,35 @@ class Modele():
                 j.jouercoup()
 
         self.evaluerjeu()
+
+    def evaluerjeu(self):
+        mort=[]
+
+        for nom in self.joueurs:
+            self.joueurtrouver=self.joueurs[nom]
+            for v in self.joueurtrouver.flotteSystemeSolaire:
+                if v.etat=="mort":
+                    mort.append(v)
+
+            for i in mort:
+                self.joueurtrouver.flotteSystemeSolaire.remove(i)
+
+            for t in self.joueurtrouver.flotteSystemeSolaire:
+                t.evaluerprojectiles()
+
+            mort=[]
+
+        for i in self.ias:
+            for v in i.flotteSystemeSolaire:
+                if v.etat=="mort":
+                    mort.append(v)
+
+            for v in mort:
+                i.flotteSystemeSolaire.remove(v)
+
+            for ti in i.flotteSystemeSolaire:
+                ti.evaluerprojectiles()
+            mort=[]
 
 
 batiments={"Usine_Civile":["Usine_Civile",100,150,1,0,UsineCivile],

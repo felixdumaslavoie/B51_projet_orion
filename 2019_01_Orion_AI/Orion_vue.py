@@ -76,6 +76,7 @@ class Vue():
 
     def combinedactions(self):
         self.planete=self.mod.joueurs[self.nom].planetemere
+        self.mod.joueurs[self.nom].bufferSysSolaire = self.planete.parent
         self.vues["Solaire"].afficherInfosSystemSolaire(self.mod,self.planete.parent.id)
 
         self.vues["Solaire"].afficherSystemeSolaire(self.mod,self.planete.parent.id)
