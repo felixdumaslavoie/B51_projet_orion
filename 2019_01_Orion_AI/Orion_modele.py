@@ -21,7 +21,7 @@ class Galaxie():
         self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.listeNomPlanete = self.txtNomPlanete.readlines()
-        self.nbSysSolaire=80
+        self.nbSysSolaire=5
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
@@ -618,9 +618,9 @@ class Joueur():
         if (vaisseau.assezArgentPayerVaisseau()):
             vaisseau=self.vaisseaux[nomvais](self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
             print("Vaisseau", vaisseau.id, vaisseau.nomVaisseau, vaisseau.cargo, vaisseau.energie, vaisseau.vitesse)
-            if self.nom in self.parent.joueurs: 
+            if self.nom in self.parent.joueurs:
                 self.parent.joueurs[self.nom].flotteSystemeSolaire.append(vaisseau)
-     
+
 
     def creerStructure(self,params):
         nomjoueur,nomstruct,idplanete,x,y=params
@@ -775,7 +775,7 @@ class IA(Joueur):
         if self.couleur == "orange":
             self.compteurChoix +=1
 
-            if self.compteurChoix == 750:
+            if self.compteurChoix == 50:
                 self.compteurChoix = 0
                 choice = random.randrange(0,100)
                 self.compteurChangementVue += 1
@@ -801,7 +801,7 @@ class IA(Joueur):
         if self.couleur == "green":
             self.compteurChoix +=1
 
-            if self.compteurChoix == 750:
+            if self.compteurChoix == 70:
                 self.compteurChoix = 0
                 choice = random.randrange(0,100)
                 self.compteurChangementVue += 1
