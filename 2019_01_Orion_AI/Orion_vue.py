@@ -1176,7 +1176,7 @@ class VueGalaxie():
                         y=i.y
                         t=10
                         self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
-                                                 tags=("select","marqueur"))
+                                                 tags=("select","marqueur","artefact"))
             elif self.parent.maselection[1]=="flotte":
                 for i in joueur.flotteSystemeSolaire:
                     if i.id == int(self.parent.maselection[2]):
@@ -1185,7 +1185,7 @@ class VueGalaxie():
                         t=10
 
                         self.canevasGalaxie.create_rectangle((i.x-10)-t,(i.y-10)-t,(i.x-4)+t,(i.y-4)+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
-                                                 tags=("select","marqueur"))
+                                                 tags=("select","marqueur","artefact"))
 
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
