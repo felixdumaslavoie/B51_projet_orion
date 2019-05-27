@@ -180,7 +180,7 @@ class Vue():
         self.labcouttotal=Label(self.cadre,text="Cout Total:",bg=self.couleurinfo, font=self.infofont)
         self.nbcouttotal=Label(self.cadre,text=self.mod.joueurs[self.nom].maintenance ,bg=self.couleurinfo, font=self.infofont)
 
-        self.btnarbretech=Button(self.cadre,text="Arbre Technologique",bg=self.couleurinfo, font=("Helvetica",12,"bold"))
+        self.btnarbretech=Button(self.cadre,text="Tech & Vaisseaux",bg=self.couleurinfo, font=("Helvetica",12,"bold"))
         self.btnarbretech.bind("<Button-1>",self.toggleBtnTechno)
 
         self.labcredit=Label(self.cadre, text="Credit:",bg=self.couleurinfo, font=self.infofont)
@@ -604,7 +604,7 @@ class VueSolaire():
         self.newVais5.bind( "<Button-1>", self.selectvaisseau)
 
 
-        self.versGalaxie = Button(self.cadreinfo,text="Vers la Galaxie",bg="DeepSkyBlue2", command=self.envoyerVersGalaxie)
+        self.versGalaxie = Button(self.cadreinfo,text="Vers la Galaxie",bg="DeepSkyBlue2", command=self.envoyerVersGalaxie, font=("Helvetica",12,"bold"))
         self.maselection2=None
 
     def gridhelper(self, button,arow,acolumn):
@@ -763,29 +763,28 @@ class VueSolaire():
         self.variationDeuterium.set("Diamant : " + str(int(self.planete.diamant)))
         self.variationFertile.set("Fertile : " + str(int(self.planete.fertile)))
 
-
-        self.planeteNom.config( bg="grey", text="Nom: "+ str(self.planete.nom))
-
-        self.planeteId.config( bg="white", text="Id: "+ str(self.planete.id))
-        self.planeteProprio.config( bg="white", text="Propriétaire: "+ self.planete.proprietaire)
-        self.planeteTaille.config( bg="white", text="Taille: "+ str(self.planete.taille))
-        self.planeteCharbon.config( bg="white", textvariable=self.variationCharbon )
-        self.planeteZinc.config( bg="white",textvariable=self.variationZinc)
-        self.planeteDeuterium.config(bg="white",textvariable=self.variationDeuterium)
-        self.planeteFertile.config(bg="white",textvariable=self.variationFertile)
-
-
-        self.planeteNom.grid(row=1, column=0)
-        self.planeteId.grid(row=2, column=0)
-        self.planeteProprio.grid(row=11, column=0)
-        self.planeteTaille.grid(row=12, column=0)
-        self.planeteCharbon.grid(row=13, column=0)
-        self.planeteZinc.grid(row=14, column=0)
-        self.planeteDeuterium.grid(row=15, column=0)
-        self.planeteFertile.grid(row=16, column=0)
+        self.planeteinfofont=font=("Helvetica",10,"bold")
+        self.planeteNom.config( bg="grey", text="Nom: "+ str(self.planete.nom), font=self.planeteinfofont)
+        self.planeteId.config( bg="white", text="Id: "+ str(self.planete.id), font=self.planeteinfofont)
+        self.planeteProprio.config( bg="white", text="Propriétaire: "+ self.planete.proprietaire, font=self.planeteinfofont)
+        self.planeteTaille.config( bg="white", text="Taille: "+ str(self.planete.taille), font=self.planeteinfofont)
+        self.planeteCharbon.config( bg="white", textvariable=self.variationCharbon, font=self.planeteinfofont)
+        self.planeteZinc.config( bg="white",textvariable=self.variationZinc, font=self.planeteinfofont)
+        self.planeteDeuterium.config(bg="white",textvariable=self.variationDeuterium, font=self.planeteinfofont)
+        self.planeteFertile.config(bg="white",textvariable=self.variationFertile, font=self.planeteinfofont)
 
 
-        self.versGalaxie.grid(row=19,column=0)
+        self.planeteNom.grid(row=1, column=0, sticky=W+E)
+        self.planeteId.grid(row=2, column=0, sticky=W+E)
+        self.planeteProprio.grid(row=11, column=0, sticky=W+E)
+        self.planeteTaille.grid(row=12, column=0, sticky=W+E)
+        self.planeteCharbon.grid(row=13, column=0, sticky=W+E)
+        self.planeteZinc.grid(row=14, column=0, sticky=W+E)
+        self.planeteDeuterium.grid(row=15, column=0, sticky=W+E)
+        self.planeteFertile.grid(row=16, column=0, sticky=W+E)
+
+
+        self.versGalaxie.grid(row=19,column=0, sticky=W+E)
 
     def changerProprietaire(self,idplanete,couleur):
 
@@ -828,7 +827,7 @@ class VueSolaire():
     def montreplaneteselection(self):
         self.newVais1.grid(row=7,column=0)
         self.newVais2.grid(row=7,column=1)
-        self.newVais3.grid(row=7,column=2)
+        self.newVais3.grid(row=6,column=2)
         self.newVais4.grid(row=8,column=0)
         self.newVais5.grid(row=8,column=1)
 
