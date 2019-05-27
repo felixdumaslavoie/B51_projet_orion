@@ -180,8 +180,6 @@ class Planete():
                 self.coordIni-=1
                 if self.coordIni < 0:
                     self.coordIni = 359
-                    
-            print((self.listeCoord[self.coordIni])[0],(self.listeCoord[self.coordIni])[1])
             
             self.x = (self.listeCoord[self.coordIni])[0]
             self.y = (self.listeCoord[self.coordIni])[1]
