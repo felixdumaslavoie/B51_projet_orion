@@ -533,6 +533,7 @@ class Joueur():
         self.bufferSysSolaire = self.planetemere.parent
         self.listeStructure = []
         self.profits = 0
+        self.vais=None
 
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte,
@@ -575,17 +576,18 @@ class Joueur():
             if i.id==int(idvais):
                 self.vais=i
 
-        if self.vais.espaceCourant is not None:
-            self.vais.espaceCourant=None
-            self.vais.planetecourante=None
-            self.vais.x=self.vais.solaire.x
-            self.vais.y=self.vais.solaire.y
-            return
-        elif (self.vais.espaceCourant==None):
-            self.vais.espaceCourant=self.vais.solaire
-            self.vais.x=100
-            self.vais.y=100
-            return
+        if self.vais is not None:
+            if self.vais.espaceCourant is not None:
+                self.vais.espaceCourant=None
+                self.vais.planetecourante=None
+                self.vais.x=self.vais.solaire.x
+                self.vais.y=self.vais.solaire.y
+                return
+            elif (self.vais.espaceCourant==None):
+                self.vais.espaceCourant=self.vais.solaire
+                self.vais.x=100
+                self.vais.y=100
+                return
 
 
     def envoyermessage(self, params):
@@ -611,11 +613,14 @@ class Joueur():
 
     def creervaisseau(self,params):
         nomvais=params
+        recherche=0
         vaisseau=self.vaisseaux[nomvais](self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
         if (vaisseau.assezArgentPayerVaisseau()):
             vaisseau=self.vaisseaux[nomvais](self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
             print("Vaisseau", vaisseau.id, vaisseau.nomVaisseau, vaisseau.cargo, vaisseau.energie, vaisseau.vitesse)
-            self.flotteSystemeSolaire.append(vaisseau)
+            if self.nom in self.parent.joueurs: 
+                self.parent.joueurs[self.nom].flotteSystemeSolaire.append(vaisseau)
+     
 
     def creerStructure(self,params):
         nomjoueur,nomstruct,idplanete,x,y=params

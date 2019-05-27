@@ -1190,7 +1190,7 @@ class VueGalaxie():
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
             for j in i.flotteSystemeSolaire:
-                 if(j.espaceCourant==None):
+                if(j.espaceCourant==None):
                     if (j.nomVaisseau=="Vaisseau Canon"):
                              self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisCanonG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
@@ -1207,7 +1207,10 @@ class VueGalaxie():
                              self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisTankG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
 
-
+                for p in j.projectile:
+                        debutx,debuty=hlp.getAngledPoint(p.angle,15,p.x,p.y)
+                        self.canevasGalaxie.create_line(p.x,p.y,debutx,debuty,
+                                    fill="royalblue",tags=("artefact","projectile",None,None,None,None),width=3)
         for i in mod.ias:
             for j in i.flotteSystemeSolaire:
                  if(j.espaceCourant==None):
