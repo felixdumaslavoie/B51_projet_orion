@@ -360,17 +360,18 @@ class Vue():
 
 
     def createElemTech(self):
-        self.btnEco=Button(self.cadreArbreTechno,text="Economie",height=1, width = 14, bg = "light gray")
-        self.btnMilit=Button(self.cadreArbreTechno,text="Militaire",height=1, width = 14, bg = "light gray")
+        self.btnAvacfont=font=("Helvetica",10,"bold")
+        self.btnEco=Button(self.cadreArbreTechno,text="Economie",height=1, width = 14, bg = "light gray", font=self.btnAvacfont)
+        self.btnMilit=Button(self.cadreArbreTechno,text="Militaire",height=1, width = 14, bg = "light gray", font=self.btnAvacfont)
 
         self.cadreArbreTechno.create_window(0, 0, anchor=NW, window=self.btnEco, tags=("onglet", "Eco"))
         self.cadreArbreTechno.create_window(100, 0, anchor=NW, window=self.btnMilit, tags=("onglet", "Milit"))
 
-        self.btnAvac1 = Button(self.cadreArbreTechno, text = "Bonus production", height =1 , width = 14,bg = "azure", state= NORMAL )
-        self.btnAvac2 = Button(self.cadreArbreTechno, text = "Bonus production x 2", height =1 , width = 16,bg = "azure", state= NORMAL )
-        self.btnAvac3 = Button(self.cadreArbreTechno, text = "Couts Reduit", height =1 , width = 16,bg = "azure", state= NORMAL )
-        self.btnAvac4 = Button(self.cadreArbreTechno, text = "Bonus production x 4", height =1 , width = 16,bg = "azure", state= NORMAL )
-        self.btnAvac5 = Button(self.cadreArbreTechno, text = "Couts Reduit x 2", height =1 , width = 16,bg = "azure", state= NORMAL )
+        self.btnAvac1 = Button(self.cadreArbreTechno, text = "Bonus production", font=self.btnAvacfont, height =1 , width = 14,bg = "azure", state= NORMAL )
+        self.btnAvac2 = Button(self.cadreArbreTechno, text = "Bonus production x 2", font=self.btnAvacfont, height =1 , width = 16,bg = "azure", state= NORMAL )
+        self.btnAvac3 = Button(self.cadreArbreTechno, text = "Couts Reduit", font=self.btnAvacfont, height =1 , width = 16,bg = "azure", state= NORMAL )
+        self.btnAvac4 = Button(self.cadreArbreTechno, text = "Bonus production x 4", font=self.btnAvacfont, height =1 , width = 16,bg = "azure", state= NORMAL )
+        self.btnAvac5 = Button(self.cadreArbreTechno, text = "Couts Reduit x 2", font=self.btnAvacfont, height =1 , width = 16,bg = "azure", state= NORMAL )
 
         self.cadreArbreTechno.create_window(60,110,window = self.btnAvac1, tags = "Avac1")
         self.cadreArbreTechno.create_window(130,70,window = self.btnAvac2, tags = "Avac2")
@@ -397,7 +398,6 @@ class Vue():
 
     def actionOngletEco(self,event):
         self.ongletActif = "economie"
-
         self.btnAvac1.config(text = "Bonus production")
         self.btnAvac2.config(text = "Bonus production x 2")
         self.btnAvac3.config(text = "Couts Reduit")
@@ -406,11 +406,12 @@ class Vue():
 
     def actionOngletMilit(self,event):
         self.ongletActif = "Militaire"
-        self.btnAvac1.config(text = "Vaisseau Canon",command= lambda: self.gridhelper(self.vues["Solaire"].newVais1,17,0))
-        self.btnAvac2.config(text = "Vaisseau Eclaireur",command= lambda: self.gridhelper(self.vues["Solaire"].newVais2,17,1))
-        self.btnAvac3.config(text = "Vaisseau Tank",command= lambda: self.gridhelper(self.vues["Solaire"].newVais3,17,2))
-        self.btnAvac4.config(text = "Vaisseau Laser",command= lambda: self.gridhelper(self.vues["Solaire"].newVais4,18,0))
-        self.btnAvac5.config(text = "Vaisseau Sniper",command= lambda: self.gridhelper(self.vues["Solaire"].newVais5,18,1))
+        self.btnVaisfont=font=("Helvetica",10,"bold")
+        self.btnAvac1.config(text = "Vaisseau Canon",font=self.btnVaisfont, command= lambda: self.gridhelper(self.vues["Solaire"].newVais1,17,0))
+        self.btnAvac2.config(text = "Vaisseau Eclaireur",font=self.btnVaisfont,command= lambda: self.gridhelper(self.vues["Solaire"].newVais2,17,1))
+        self.btnAvac3.config(text = "Vaisseau Tank",font=self.btnVaisfont,command= lambda: self.gridhelper(self.vues["Solaire"].newVais3,17,2))
+        self.btnAvac4.config(text = "Vaisseau Laser",font=self.btnVaisfont,command= lambda: self.gridhelper(self.vues["Solaire"].newVais4,18,0))
+        self.btnAvac5.config(text = "Vaisseau Sniper",font=self.btnVaisfont,command= lambda: self.gridhelper(self.vues["Solaire"].newVais5,18,1))
 
         if self.arbretechMilitState == 0:
             self.btnAvac1.config(state = NORMAL,bg = "azure")
