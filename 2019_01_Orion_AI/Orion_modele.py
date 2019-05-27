@@ -370,11 +370,12 @@ class Vaisseau():
                                 self.vaisseauCible=j
 
             for i in self.parent.parent.ias:
-                for x in i.flotteSystemeSolaire:
-                    if x.espaceCourant==self.espaceCourant:
-                        d=hlp.calcDistance(self.x,self.y,x.x,x.y) #j remplacé par x
-                        if d < self.range:
-                            self.vaisseauCible=x
+                for j in i.flotteSystemeSolaire:
+                    if(i is not self.parent):
+                        if j.espaceCourant==self.espaceCourant:
+                            d=hlp.calcDistance(self.x,self.y,j.x,j.y) #j remplacé par x
+                            if d < self.range:
+                                self.vaisseauCible=j
 
             for i in self.projectile:
                 i.etat="rendu"
