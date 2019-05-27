@@ -1085,7 +1085,7 @@ class VueGalaxie():
         self.sysSolaireNom = Label(self.cadreinfo)
         self.mod=parent.mod
         self.sysSolaireNom.grid(row = 0, column =0)
-        self.versSoleil = Button(self.cadreinfo,text="Vers la Soleil",bg="DeepSkyBlue2", command=self.envoyerVersSoleil)
+        self.versSoleil = Button(self.cadreinfo,text="Vers le Soleil",bg="DeepSkyBlue2", command=self.envoyerVersSoleil)
 
         curwd = os.path.dirname(os.path.realpath(__file__))
 
