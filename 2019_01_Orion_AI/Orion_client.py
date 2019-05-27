@@ -109,6 +109,7 @@ class Controleur():
             if self.attente==0:
                 self.modele.prochaineaction(self.cadre)    # mise a jour du modele
                 self.vue.afficherpartie(self.modele,self.modele.joueurs[self.monnom].bufferSysSolaire.id) # mise a jour de la vue #######################################################################################
+                self.modele.Galaxie.actualiserGalaxie()
 
             if self.actions: # si on a des actions a partager
                 rep=self.serveur.faireaction([self.monnom,self.cadre,self.actions]) # on les envoie
