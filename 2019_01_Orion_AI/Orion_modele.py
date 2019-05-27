@@ -370,11 +370,11 @@ class Vaisseau():
                                 self.vaisseauCible=j
 
             for i in self.parent.parent.ias:
-                for x in i.flotteSystemeSolaire:
-                    if x.espaceCourant==self.espaceCourant:
-                        d=hlp.calcDistance(self.x,self.y,x.x,x.y) #j remplacé par x
+                for j in i.flotteSystemeSolaire:
+                    if j.espaceCourant==self.espaceCourant:
+                        d=hlp.calcDistance(self.x,self.y,j.x,j.y) 
                         if d < self.range:
-                            self.vaisseauCible=x
+                            self.vaisseauCible=j
 
             for i in self.projectile:
                 i.etat="rendu"
@@ -753,17 +753,6 @@ class Joueur():
 
     def reclamerplanete(self,idplanete,proprietaire):
         self.parent.parent.vue.vues["Solaire"].changerProprietaire(idplanete)
-
-    # def jouercoup(self,vaisIdEnnemie):
-    #     self.vaisIdEnnemie=vaisIdEnnemie
-    #     for j in self.parent.joueurs:
-    #         print(j)
-    #         for vais in j.flotteSystemeSolaire:
-    #             if(vaisIdEnnemie==vais.id):
-    #                 if(vais.etat=="mort"):
-    #                     j.flotteSystemeSolaire.remove(vais)
-    #     for v in self.parent.joueurs:
-    #         v.jouercoup()
 
 class IA(Joueur):
     def __init__(self,parent,nom,planetemere,couleur):
