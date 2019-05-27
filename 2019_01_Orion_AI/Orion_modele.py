@@ -936,12 +936,12 @@ class Modele():
 
 
         # IA- appelle prochaine action
-        if self.parent.attente == 0:
-            for i in self.ias:
-                i.prochaineaction()
+        #if self.parent.attente == 0:
+        for i in self.ias:
+            i.prochaineaction()
 
-                for j in i.flotteSystemeSolaire:
-                    j.jouercoup()
+            for j in i.flotteSystemeSolaire:
+                j.jouercoup()
 
         self.evaluerjeu()
 
