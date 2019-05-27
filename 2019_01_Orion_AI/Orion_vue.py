@@ -722,9 +722,9 @@ class VueSolaire():
                                 self.canevasSolaire.create_image(j.x,j.y,image=self.vaisTankCan,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
 
-                    for p in j.projectile:
-                        debutx,debuty=hlp.getAngledPoint(p.angle,15,p.x,p.y)
-                        self.canevasSolaire.create_line(p.x,p.y,debutx,debuty,
+                        for p in j.projectile:
+                            debutx,debuty=hlp.getAngledPoint(p.angle,15,p.x,p.y)
+                            self.canevasSolaire.create_line(p.x,p.y,debutx,debuty,
                                     fill="royalblue",tags=("artefact","projectile",None,None,None,None),width=3)
 
         for i in modele.ias:
@@ -734,10 +734,10 @@ class VueSolaire():
                         if(j.etat=="vivant"):
                             self.canevasSolaire.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                         tags=(j.proprietaire,"flotte",str(j.id),"artefact",str(j.espaceCourant.id),str(j.solaire.id)))
-                    for p in j.projectiles:
-                        debutx,debuty=hlp.getAngledPoint(p.angle,15,p.x,p.y)
-                        self.canevasSolaire.create_line(p.x,p.y,debutx,debuty,
-                                    fill="royalblue",tags=("artefact","projectile",None,None,None,None),width=3)
+                        for p in j.projectiles:
+                            debutx,debuty=hlp.getAngledPoint(p.angle,15,p.x,p.y)
+                            self.canevasSolaire.create_line(p.x,p.y,debutx,debuty,
+                                        fill="royalblue",tags=("artefact","projectile",None,None,None,None),width=3)
 
 
     def afficherProjectile(self,modele):
@@ -1207,9 +1207,9 @@ class VueGalaxie():
                              self.canevasGalaxie.create_image(j.x-10,j.y-10,image=self.vaisTankG,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact",None,str(j.solaire.id)))
 
-                for p in j.projectile:
-                        debutx,debuty=hlp.getAngledPoint(p.angle,15,p.x,p.y)
-                        self.canevasGalaxie.create_line(p.x,p.y,debutx,debuty,
+                    for p in j.projectile:
+                            debutx,debuty=hlp.getAngledPoint(p.angle,15,p.x,p.y)
+                            self.canevasGalaxie.create_line(p.x,p.y,debutx,debuty,
                                     fill="royalblue",tags=("artefact","projectile",None,None,None,None),width=3)
         for i in mod.ias:
             for j in i.flotteSystemeSolaire:
