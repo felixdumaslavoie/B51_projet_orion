@@ -21,7 +21,7 @@ class Galaxie():
         self.txtNomPlanete = open(dir_path + "/nom_planetes.txt","r")
         self.listeNomEtoile = self.txtNomEtoile.readlines()
         self.listeNomPlanete = self.txtNomPlanete.readlines()
-        self.nbSysSolaire=2
+        self.nbSysSolaire=80
         self.listeSysSolaire=[]
 
         for i in range(self.parent.largeur-2):
@@ -458,7 +458,7 @@ class VaisseauCanon(Vaisseau):
         self.puissance=10
         self.projectiles=[]
         self.delai_max=0
-        self.velProjectile=3
+        self.velProjectile=20
 class VaisseauEclaireur(Vaisseau):
     def __init__(self,parent,nom,x,y,solaireMere, nomVaisseau="Vaisseau Eclaireur"):
         super().__init__(parent,nom,x,y,solaireMere, nomVaisseau)
@@ -570,7 +570,7 @@ class Joueur():
 
     def changerVueVaisseau(self,info):
         idvais,idEspace,idSoleil=info
-        
+
         for i in self.flotteSystemeSolaire:
             if i.id==int(idvais):
                 self.vais=i
@@ -901,7 +901,7 @@ class Modele():
             self.ias[i].creerStructure([self.ias[i].nom,"Capitale",self.ias[i].planetemere.id,choixEmplacement[0],choixEmplacement[1]])
 
     def prochaineaction(self,cadre):
-    
+
         if cadre in self.actionsafaire:
             for i in self.actionsafaire[cadre]:
                 self.joueurs[i[0]].actions[i[1]](i[2])
@@ -927,11 +927,12 @@ class Modele():
 
 
         # IA- appelle prochaine action
-        for i in self.ias:
-            i.prochaineaction()
+        if self.parent.attente == 0:
+            for i in self.ias:
+                i.prochaineaction()
 
-            for j in i.flotteSystemeSolaire:
-                j.jouercoup()
+                for j in i.flotteSystemeSolaire:
+                    j.jouercoup()
 
         self.evaluerjeu()
 
