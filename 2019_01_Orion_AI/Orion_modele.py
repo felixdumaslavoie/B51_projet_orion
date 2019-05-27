@@ -352,7 +352,7 @@ class Vaisseau():
                             self.parent.parent.parent.reclamerplanete(self.cible.id,self.proprietaire)
                 self.cible=None
                 print("Change cible")
-        elif(self.planetecourante is not None):
+        elif(self.planetecourante is not None and self.espaceCourant is not None):
             self.x=self.planetecourante.x
             self.y=self.planetecourante.y
         else:
@@ -618,9 +618,9 @@ class Joueur():
         if (vaisseau.assezArgentPayerVaisseau()):
             vaisseau=self.vaisseaux[nomvais](self,self.nom,self.planetemere.x+10,self.planetemere.y,self.planetemere.parent)
             print("Vaisseau", vaisseau.id, vaisseau.nomVaisseau, vaisseau.cargo, vaisseau.energie, vaisseau.vitesse)
-            if self.nom in self.parent.joueurs: 
+            if self.nom in self.parent.joueurs:
                 self.parent.joueurs[self.nom].flotteSystemeSolaire.append(vaisseau)
-     
+
 
     def creerStructure(self,params):
         nomjoueur,nomstruct,idplanete,x,y=params
