@@ -104,13 +104,21 @@ class Planete():
         self.tailleAffichage=50*self.taille
         self.orbite = []
         self.hypotenuse = hlp.calcDistance(self.x, self.y,400,300)
-        self.angleRad = random.randrange(360)
-        self.vitesseOrbite = (random.randrange(25)+1)/100
+        #self.angleRad = random.randrange(360)
+        #self.vitesseOrbite = (random.randrange(25)+1)/100
+        self.vitesseOrbite = random.randrange(10)+3
+        self.timer = 0
         #1 = sense horaire, -1 = anti horaire
         self.senseRotation = 1
-
         if random.randrange(2) == 1:
             self.senseRotation = -1
+        self.listeCoord = []
+        self.calcCoord()
+        self.coordIni = random.randrange(360)
+        self.x = (self.listeCoord[self.coordIni])[0]
+        self.y = (self.listeCoord[self.coordIni])[1]
+
+        
 
         largeur=self.parent.parent.parent.largeur/2
         hauteur=self.parent.parent.parent.hauteur/2
@@ -163,6 +171,25 @@ class Planete():
                 break
 
     def deplacer(self):
+        if self.timer == self.vitesseOrbite:
+            if self.senseRotation == 1:
+                self.coordIni+=1
+                if self.coordIni > 359:
+                    self.coordIni = 0
+            elif self.senseRotation == -1:
+                self.coordIni-=1
+                if self.coordIni < 0:
+                    self.coordIni = 359
+                    
+            print((self.listeCoord[self.coordIni])[0],(self.listeCoord[self.coordIni])[1])
+            
+            self.x = (self.listeCoord[self.coordIni])[0]
+            self.y = (self.listeCoord[self.coordIni])[1]
+            self.timer = 0
+        else:
+            self.timer+=1
+    
+    def deplacer1(self):
         #self.x=(self.hypotenuse*math.cos(self.angleRad))*2
         #self.y=(self.hypotenuse*math.sin(self.angleRad))*2
         self.x = math.floor(self.hypotenuse*math.cos(math.radians(self.angleRad))) + 400
@@ -178,6 +205,17 @@ class Planete():
             self.angleRad = 0
         elif self.angleRad == 0 and self.senseRotation == -1:
             self.angleRad = 360
+            
+        print(self.parent.parent.parent.parent.monnom,self.nom[:-1],self.x,self.y,self.parent.parent.parent.parent.cadre)
+        
+    def calcCoord(self):
+        for i in range(360):
+            liste = []
+            x = math.floor(self.hypotenuse*math.cos(math.radians(i))) + 400
+            y = math.floor(self.hypotenuse*math.sin(math.radians(i))) + 300
+            liste.append(x)
+            liste.append(y)
+            self.listeCoord.append(liste)
 
 class EmplacementsSurPlanete():
     def __init__(self,x,y,structure):
@@ -933,15 +971,15 @@ class Modele():
                 j.jouercoup()
 
 
-
+        self.Galaxie.actualiserGalaxie()
 
         # IA- appelle prochaine action
-        if self.parent.attente == 0:
-            for i in self.ias:
-                i.prochaineaction()
+        #if self.parent.attente == 0:
+        for i in self.ias:
+            i.prochaineaction()
 
-                for j in i.flotteSystemeSolaire:
-                    j.jouercoup()
+            for j in i.flotteSystemeSolaire:
+                j.jouercoup()
 
         self.evaluerjeu()
 

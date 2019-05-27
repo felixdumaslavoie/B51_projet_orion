@@ -109,7 +109,6 @@ class Controleur():
             if self.attente==0:
                 self.modele.prochaineaction(self.cadre)    # mise a jour du modele
                 self.vue.afficherpartie(self.modele,self.modele.joueurs[self.monnom].bufferSysSolaire.id) # mise a jour de la vue #######################################################################################
-                self.modele.Galaxie.actualiserGalaxie()
 
             if self.actions: # si on a des actions a partager
                 rep=self.serveur.faireaction([self.monnom,self.cadre,self.actions]) # on les envoie
@@ -135,7 +134,7 @@ class Controleur():
             if rep[1]=="attend": # si jamais rep[0] est vide MAIS que rep[1] == 'attend', on veut alors patienter
                 self.cadre=self.cadre-1  # donc on revient au cadre initial
                 self.attente=1
-                #print("ALERTE EN ATTENTE",self.monnom)
+                print("ALERTE EN ATTENTE",self.monnom)
                 self.attente=0
             self.vue.root.after(20,self.prochaintour)
         else:
