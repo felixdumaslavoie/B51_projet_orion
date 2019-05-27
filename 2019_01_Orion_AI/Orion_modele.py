@@ -165,8 +165,8 @@ class Planete():
     def deplacer(self):
         #self.x=(self.hypotenuse*math.cos(self.angleRad))*2
         #self.y=(self.hypotenuse*math.sin(self.angleRad))*2
-        self.x = self.hypotenuse*math.cos(math.radians(self.angleRad)) + 400
-        self.y = self.hypotenuse*math.sin(math.radians(self.angleRad)) + 300
+        self.x = math.floor(self.hypotenuse*math.cos(math.radians(self.angleRad))) + 400
+        self.y = math.floor(self.hypotenuse*math.sin(math.radians(self.angleRad))) + 300
 
         if self.senseRotation == 1:
             self.angleRad+=self.vitesseOrbite
