@@ -1041,31 +1041,31 @@ class VuePlanete():
 
 
     def afficheStructure(self,idplanete):
-        self.idplante = idplanete
+        self.idplanete = idplanete
         for i in (self.modele.Galaxie.listeSysSolaire):
             for j in (i.listePlanete):
-                if (j.id == self.idplante):
+                if (j.id == self.idplanete):
                     self.planete=j
-
-        if len(self.planete.listeStructure) > 0:
-            for i in self.planete.listeStructure:
-                self.x = i.x - 5
-                self.y = i.y - 5
-                self.diametre =10
-                if(i.nomStructure=="Raffinerie (Charbon)"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieCharbonCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Raffinerie (Diamant)"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieDiamantCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Raffinerie (Isotope)"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieIsotopeCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Usine Militaire"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.usineMilitaireCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Usine Civile"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.usineCivileCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Capitale"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.capitaleCanvas, tags=("batiment_construit"))
-                elif(i.nomStructure=="Ferme"):
-                    self.canevasPlanete.create_image(self.x,self.y,image= self.fermeCanvas, tags=("batiment_construit"))
+        if self.planete.proprietaire==self.parent.nom:
+            if len(self.planete.listeStructure) > 0:
+                for i in self.planete.listeStructure:
+                    self.x = i.x - 5
+                    self.y = i.y - 5
+                    self.diametre =10
+                    if(i.nomStructure=="Raffinerie (Charbon)"):
+                        self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieCharbonCanvas, tags=("batiment_construit"))
+                    elif(i.nomStructure=="Raffinerie (Diamant)"):
+                        self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieDiamantCanvas, tags=("batiment_construit"))
+                    elif(i.nomStructure=="Raffinerie (Isotope)"):
+                        self.canevasPlanete.create_image(self.x,self.y,image= self.raffinerieIsotopeCanvas, tags=("batiment_construit"))
+                    elif(i.nomStructure=="Usine Militaire"):
+                        self.canevasPlanete.create_image(self.x,self.y,image= self.usineMilitaireCanvas, tags=("batiment_construit"))
+                    elif(i.nomStructure=="Usine Civile"):
+                        self.canevasPlanete.create_image(self.x,self.y,image= self.usineCivileCanvas, tags=("batiment_construit"))
+                    elif(i.nomStructure=="Capitale"):
+                        self.canevasPlanete.create_image(self.x,self.y,image= self.capitaleCanvas, tags=("batiment_construit"))
+                    elif(i.nomStructure=="Ferme"):
+                        self.canevasPlanete.create_image(self.x,self.y,image= self.fermeCanvas, tags=("batiment_construit"))
 
                 #self.canevasPlanete.create_rectangle(self.x, self.y, self.x + self.diametre, self.y + self.diametre, fill=i.couleur, tags=("batiment_construit"))
 
@@ -1176,7 +1176,7 @@ class VueGalaxie():
                         y=i.y
                         t=10
                         self.canevasGalaxie.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
-                                                 tags=("select","marqueur"))
+                                                 tags=("select","marqueur","artefact"))
             elif self.parent.maselection[1]=="flotte":
                 for i in joueur.flotteSystemeSolaire:
                     if i.id == int(self.parent.maselection[2]):
@@ -1185,7 +1185,7 @@ class VueGalaxie():
                         t=10
 
                         self.canevasGalaxie.create_rectangle((i.x-10)-t,(i.y-10)-t,(i.x-4)+t,(i.y-4)+t,dash=(2,2),outline=mod.joueurs[self.parent.nom].couleur,
-                                                 tags=("select","marqueur"))
+                                                 tags=("select","marqueur","artefact"))
 
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
