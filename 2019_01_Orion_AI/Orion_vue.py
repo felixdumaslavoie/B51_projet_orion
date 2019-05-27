@@ -1082,10 +1082,10 @@ class VueGalaxie():
         self.canevasGalaxie.grid(row = 0, column = 0)
 
         self.canevasGalaxie.bind( "<Button-1>", lambda event, canvas = self.canevasGalaxie : self.parent.CliqueVueGalaxie(canvas,self.parent.modele))
-        self.sysSolaireNom = Label(self.cadreinfo)
+        self.sysSolaireNom = Label(self.cadreinfo, font=("Helvetica",12,"bold"))
         self.mod=parent.mod
         self.sysSolaireNom.grid(row = 0, column =0)
-        self.versSoleil = Button(self.cadreinfo,text="Vers le Soleil",bg="DeepSkyBlue2", command=self.envoyerVersSoleil)
+        self.versSoleil = Button(self.cadreinfo,text="Vers le Soleil", font=("Helvetica", 13, "bold"), bg="DeepSkyBlue2", command=self.envoyerVersSoleil)
 
         curwd = os.path.dirname(os.path.realpath(__file__))
 
@@ -1125,7 +1125,7 @@ class VueGalaxie():
         self.variationNomSysSolaire = StringVar()
         self.variationNomSysSolaire.set("Système : " + str(self.systeme.nometoile))
         self.sysSolaireNom.config(bg="white", textvariable=self.variationNomSysSolaire)
-        self.versSoleil.grid(row=1,column=0)
+        self.versSoleil.grid(row=1,column=0, sticky=W+E)
 
 
 
