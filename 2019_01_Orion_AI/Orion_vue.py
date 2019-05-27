@@ -592,10 +592,15 @@ class VueSolaire():
         self.vaisTankCan=resizeImage.resizeImage("C",30,curwd+"\\images\\vaisseauTank.png")
 
         self.newVais1 = Button(self.cadreinfo,image=self.vaisCanonMenu,text="Vaisseau Canon",bg="DeepSkyBlue2")
+        self.prixNewVais1 = Label(self.cadreinfo,text="cout : 100 cr")
         self.newVais2 = Button(self.cadreinfo,image=self.vaisEclaireurMenu,text="Vaisseau Eclaireur",bg="DeepSkyBlue2" )
+        self.prixNewVais2 = Label(self.cadreinfo,text="cout : 300 cr")
         self.newVais3 = Button(self.cadreinfo,image=self.vaisTankMenu,text="Vaisseau Tank",bg="DeepSkyBlue2")
+        self.prixNewVais3 = Label(self.cadreinfo,text="cout : 300 cr")
         self.newVais4 = Button(self.cadreinfo,image=self.vaisLaserMenu,text="Vaisseau Laser",bg="DeepSkyBlue2")
+        self.prixNewVais4 = Label(self.cadreinfo,text="cout : 200 cr")
         self.newVais5 = Button(self.cadreinfo,image=self.vaisSniperMenu,text="Vaisseau Sniper",bg="DeepSkyBlue2")
+        self.prixNewVais5 = Label(self.cadreinfo,text="cout : 200 cr")
 
 
         self.newVais1.bind( "<Button-1>", self.selectvaisseau)
@@ -827,10 +832,15 @@ class VueSolaire():
 
     def montreplaneteselection(self):
         self.newVais1.grid(row=7,column=0)
+        self.prixNewVais1.grid(row =8,column=0)
         self.newVais2.grid(row=7,column=1)
-        self.newVais3.grid(row=6,column=2)
-        self.newVais4.grid(row=8,column=0)
-        self.newVais5.grid(row=8,column=1)
+        self.prixNewVais2.grid(row =8,column=1)
+        self.newVais3.grid(row=7,column=2)
+        self.prixNewVais2.grid(row =8,column=2)
+        self.newVais4.grid(row=9,column=0)
+        self.prixNewVais2.grid(row =10,column=0)
+        self.newVais5.grid(row=9,column=1)
+        self.prixNewVais2.grid(row =10,column=0)
 
 
 
